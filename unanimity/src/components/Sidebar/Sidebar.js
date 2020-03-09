@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-
+import React from "react";
+import styles from './Sidebar.module.css';
 
 const sidebar = (props) => {
     let sql = null;
@@ -24,9 +24,11 @@ const sidebar = (props) => {
 */
 
     return(
-        <Fragment>
-            {sidebarDisplay}
-        </Fragment>
+        
+            <div className={styles.sidebarContainer}>
+                {sidebarDisplay}
+            </div>
+        
     );
 }
 export default sidebar;

@@ -1,0 +1,14 @@
+.layout{
+    
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 20vw 80vw;
+}
+.sidebarGrid{
+    grid-column-start: 1;
+    grid-column-end: 1;
+}
+.mainContentGrid{
+    grid-column-start: 2;
+    grid-column-end: 2;
+}
