@@ -1,0 +1,30 @@
+.navContainer ul{
+   list-style-type: none;
+   text-align: center;
+}
+.hamburger{
+   position: relative;
+   left: 0;
+   padding-left: 1rem;
+}
+.line1 {
+   background-color: #007ea7ff;
+   width: 45px;
+   height: 5px;
+   margin-top: 5px;
+   margin-bottom: 5px;
+}
+.line2 {
+   background-color: #007ea7ff;
+   width: 45px;
+   height: 5px;
+   margin-top: 5px;
+   margin-bottom: 5px;
+}
+.line3 {
+   background-color: #007ea7ff;
+   width: 45px;
+   height: 5px;
+   margin-top: 5px;
+   margin-bottom: 5px;
+}

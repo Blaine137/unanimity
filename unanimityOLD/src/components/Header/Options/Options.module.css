@@ -1,0 +1,30 @@
+.options{
+    padding-right: 1rem;
+    position: absolute;
+    right: 0;
+    display: inline;
+}
+.topCircle{
+    background-color: #007ea7ff;
+    height: .5rem;
+    width: .5rem;
+    border-radius: 50%;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+}
+.middleCircle{
+    background-color: #007ea7ff;
+    height: .5rem;
+    width: .5rem;
+    border-radius: 50%;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+}
+.bottomCircle{
+    background-color: #007ea7ff;
+    height: .5rem;
+    width: .5rem;
+    border-radius: 50%;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+}

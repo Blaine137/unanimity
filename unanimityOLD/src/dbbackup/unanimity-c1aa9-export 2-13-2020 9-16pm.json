@@ -1,0 +1,23 @@
+{
+  "messages" : {
+    "user1" : {
+      "chat1and2" : {
+        "m1" : [ "Hello", "World" ],
+        "m2" : [ "programmer", "life" ],
+        "userID" : [ 1, 2 ]
+      }
+    }
+  },
+  "users" : {
+    "user1" : {
+      "id" : 1,
+      "password" : "password",
+      "username" : "bob smith"
+    },
+    "user2" : {
+      "id" : 2,
+      "passoword" : "password",
+      "username" : "Ashley Hill"
+    }
+  }
+}
