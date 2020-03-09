@@ -1,0 +1,19 @@
+.inputContainer{
+    background-image: url('../../../images/unanimityfooter.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    /*width minius padding to span entire area*/
+    width: calc(80vw - 2rem);
+    height: 17vh;
+    padding: 1rem;
+    position: absolute;
+    bottom: 0;
+}
+.input {
+    width: 40vw;
+    height: 5vh;
+    position: relative;
+    /*left: 20vw;*/
+    top: 50%;
+
+}

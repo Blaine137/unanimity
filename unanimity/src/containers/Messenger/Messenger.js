@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import MainContent from '../../components/MainContent/MainContent';
-//custom axios instance with DB base Url added
-import axios from '../../axios';
+import axios from '../../axios'; //custom axios instance with DB base Url added
+import styles from './Messenger.module.css';
 
 //i is for testing setCurrentChatRoomName. delete once fixed
 //let i = 1;
@@ -178,13 +178,17 @@ class Messenger extends Component {
         //end of test block for setCurrentChatRoom and setCurrentChatRoomName
         return(
 
-            <Fragment>
+            <div className={styles.layout}>
 
-                <Sidebar usersChatRoomsID = {this.state.usersChatRoomsID} userID={this.state.userID} getUserNameByID={this.getUserNameByID} setCurrentChatRoomID={this.setCurrentChatRoomID} />
+                <div className={styles.sidebarGrid}>
+                    <Sidebar usersChatRoomsID = {this.state.usersChatRoomsID} userID={this.state.userID} getUserNameByID={this.getUserNameByID} setCurrentChatRoomID={this.setCurrentChatRoomID} />
+                </div>
                 
-                <MainContent getUserNameByID={this.getUserNameByID} newMessage={this.newMessage} currentChatRoom={this.state.currentChatRoom} currentChatRoomName={this.state.currentChatRoomName} /> 
+                <div className={styles.mainContentGrid}>
+                    <MainContent getUserNameByID={this.getUserNameByID} newMessage={this.newMessage} currentChatRoom={this.state.currentChatRoom} currentChatRoomName={this.state.currentChatRoomName} />
+                </div> 
             
-            </Fragment>
+            </div>
 
         );
         
