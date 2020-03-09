@@ -1,0 +1,9 @@
+.sidebarContainer{
+    width: calc(20vw - 2rem);
+height: calc(100vh - 2rem);
+
+background-size: 100% 100%;
+background-repeat: no-repeat;
+background-image: url('../../images/unanimitysidebar.png');
+padding: 1rem;
+}

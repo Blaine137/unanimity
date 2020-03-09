@@ -1,0 +1,12 @@
+.username p{
+text-align: center;
+position: relative;
+top: 2vh;
+}
+.picture {
+    
+}
+.list {
+    position: relative;
+    top: 20vh;
+}
