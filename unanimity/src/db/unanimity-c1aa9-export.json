@@ -1,0 +1,46 @@
+{
+  "chatRooms" : {
+    "12345678" : {
+      "nextMsgNum" : 4,
+      "u1" : [ "hello", "world" ],
+      "u2" : [ null, null, "pinansdkf", "hello, daf sadf i sakjf sdfkjn ijfieh lkdnf ioejf sdf dksfj  oafjei9" ]
+    },
+    "12345679" : {
+      "nextMsgNum" : 4,
+      "u1" : [ "what", null, null, "life" ],
+      "u2" : [ null, "Hello", "girl" ]
+    }
+  },
+  "chatRoomsUsers" : {
+    "cru12345678" : {
+      "chatRoomID" : 12345678,
+      "users" : [ 1, 2 ]
+    },
+    "cru12345679" : {
+      "chatRoomID" : 12345679,
+      "users" : [ 1, 2 ]
+    }
+  },
+  "users" : {
+    "u1" : {
+      "password" : "password",
+      "userID" : 1,
+      "userName" : "blaine"
+    },
+    "u2" : {
+      "password" : "password",
+      "userID" : 2,
+      "userName" : "Jacob"
+    }
+  },
+  "usersChatRooms" : {
+    "ucr1" : {
+      "chatRooms" : [ 12345678, 12345679 ],
+      "userID" : 1
+    },
+    "ucr2" : {
+      "chatRooms" : [ 12345678, 12345679 ],
+      "userID" : 2
+    }
+  }
+}
