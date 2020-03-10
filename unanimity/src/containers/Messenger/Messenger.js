@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
@@ -76,7 +76,7 @@ class Messenger extends Component {
 
     }
 
-    getUserNameByID( getUserID ) {
+    getUsernameByID( getUserID ) {
 
       //add userID validation such as if not null an integer
       //if we have a userID
@@ -84,8 +84,8 @@ class Messenger extends Component {
 
         axios.get( 'users/u' + getUserID + '/userName.json' ).then(
             ( e ) => {
-                console.log(e.data);  
-                //return e.data;
+                //console.log(e.data);  
+                return e.data;
                           
             }
         );
@@ -181,11 +181,21 @@ class Messenger extends Component {
             <div className={styles.layout}>
 
                 <div className={styles.sidebarGrid}>
-                    <Sidebar usersChatRoomsID = {this.state.usersChatRoomsID} userID={this.state.userID} getUserNameByID={this.getUserNameByID} setCurrentChatRoomID={this.setCurrentChatRoomID} />
+
+                    <Sidebar usersChatRoomsID = {this.state.usersChatRoomsID} 
+                             userID={this.state.userID} 
+                             getUsernameByID={this.getUsernameByID} 
+                             setCurrentChatRoomID={this.setCurrentChatRoomID} />
+
                 </div>
                 
                 <div className={styles.mainContentGrid}>
-                    <MainContent getUserNameByID={this.getUserNameByID} newMessage={this.newMessage} currentChatRoom={this.state.currentChatRoom} currentChatRoomName={this.state.currentChatRoomName} />
+
+                    <MainContent getUserNameByID={this.getUserNameByID} 
+                                 newMessage={this.newMessage} 
+                                 currentChatRoom={this.state.currentChatRoom} 
+                                 currentChatRoomName={this.state.currentChatRoomName} />
+
                 </div> 
             
             </div>
