@@ -12,7 +12,7 @@ class Messenger extends Component {
     state = {
 
         authenticated: null,
-        userID: null,
+        userID: this.props.userID,
         usersChatRoomsID: [],
         currentChatRoom: {},
         currentChatRoomID: null,
@@ -22,10 +22,10 @@ class Messenger extends Component {
     }
   
     componentDidMount( ) {
-        
+
 
         this.setAuthentication( );
-
+        
         this.checkAuthentication( );
 
         if(this.state.userID){
@@ -52,7 +52,7 @@ class Messenger extends Component {
         this.props.userID ? this.setState( { userID: this.props.userID } ) : this.setState( { userID: null } )
 
         this.props.username ? this.setState( {username: this.props.username} ) : this.setState( { username: null } )
-
+        
     }
     
     checkAuthentication( ) {
@@ -84,8 +84,8 @@ class Messenger extends Component {
 
         axios.get( 'users/u' + getUserID + '/userName.json' ).then(
             ( e ) => {
-                //console.log(e.data);  
-                return e.data;
+                console.log(e.data);  
+                //return e.data;
                           
             }
         );
