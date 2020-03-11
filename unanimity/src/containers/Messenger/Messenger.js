@@ -5,14 +5,14 @@ import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.css';
 
 //i is for testing setCurrentChatRoomName. delete once fixed
-//let i = 1;
+let i = 1;
 
 class Messenger extends Component {
 
     state = {
 
         authenticated: null,
-        userID: this.props.userID,
+        userID: null,
         usersChatRoomsID: [],
         currentChatRoom: {},
         currentChatRoomID: null,
@@ -21,7 +21,7 @@ class Messenger extends Component {
 
     }
   
-    componentDidMount( ) {
+    componentDidMount = ( ) => {
 
 
         this.setAuthentication( );
@@ -34,7 +34,7 @@ class Messenger extends Component {
 
     }
     
-    componentDidUpdate( prevProps, prevState ) {
+    componentDidUpdate = ( prevProps, prevState ) => {
 
         this.checkAuthentication( );
         //if the userID in the state is not the same.
@@ -45,7 +45,7 @@ class Messenger extends Component {
 
     }
     
-    setAuthentication( ) {
+    setAuthentication = ( ) => {
 
         this.props.authenticated ? this.setState( { authenticated: this.props.authenticated } ) : this.setState( { authenticated: false } )
 
@@ -55,7 +55,7 @@ class Messenger extends Component {
         
     }
     
-    checkAuthentication( ) {
+    checkAuthentication = ( ) => {
 
         if ( !this.state.authenticated ){
             //redirect to authentication
@@ -64,7 +64,7 @@ class Messenger extends Component {
     }
     
     //gets array of chatRoomsID that the user is in and sets userChatRoomsID in state. called by mount and update
-    setUsersChatRoomsID( ) {
+    setUsersChatRoomsID = ( )  =>{
 
         //ucr stands for user Chat Room.
         axios.get( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json' ).then(
@@ -76,7 +76,7 @@ class Messenger extends Component {
 
     }
 
-    getUsernameByID( getUserID ) {
+    getUsernameByID = ( getUserID ) => {
 
       //add userID validation such as if not null an integer
       //if we have a userID
@@ -101,19 +101,8 @@ class Messenger extends Component {
 
     }
    
-    /**
-     * setCurrentChatRoomName is not Complete!!
-     * 
-     * asyncornise js takes time to exicute. 
-     * getUsernameByID contains a db fectch(async)
-     * we Need to wait for getUserNamebyID to finish before running setState currentChatRoomName
-     * Logic is there just am unsure of how to wait until the getUserNameByID is done
-     * cannot use .then() or wait until() becuase getUserNameByID is not asyn it just dose asyn task
-     * 
-     */
     //called by setCurrentChatRoom
-    setCurrentChatRoomName( ChatRoomIDForName ) {
-        let setChatRoomName = "";
+    setCurrentChatRoomName = ( ChatRoomIDForName ) => {
         //for chatRoom get users in the chatRoom
         axios.get( 'chatRoomsUsers/cru' + ChatRoomIDForName + '/users.json' ).then(
             ( e ) => {
@@ -123,60 +112,64 @@ class Messenger extends Component {
 
                 //for recipents in the array set them as chatRoom name
                 e.data.forEach( ( singleUserID ) => { 
-
-                    setChatRoomName += this.getUserNameByID( singleUserID )
+                    //get username by id. the function wont work beacuse i need a specifc .then action
+                     axios.get( 'users/u' + singleUserID + '/userName.json' ).then((e) => {
+                        this.setState( { currentChatRoomName: e.data } )
+                        
+                    })
                     
                 } );
 
-                //set state
-                this.setState( { currentChatRoomName: setChatRoomName } )
-               
-
+                
             }
         );    
     }
     //called by sidebar on click of a chatroom
-    setCurrentChatRoom( setChatRoomID ) {
+    setCurrentChatRoom = ( setChatRoomID ) => {
 
         //set currentchatRoomID
-        this.setState( {currentChatRoomID: setChatRoomID } );
+      
 
         //set currentChatRoom to object with messages and everything about that chatRoom
         axios.get( 'chatRooms/' + setChatRoomID + '/.json' ).then(
             ( e ) => { 
-
-                    this.setState( { currentChatRoom: e.data } )
+                    
+                    this.setState( { currentChatRoom: e.data, currentChatRoomID: setChatRoomID } )
             
                 }
             );
 
         //call functiont to set chatRoom name
-        this.setCurrentChatRoomName( setChatRoomID );
+        this.setCurrentChatRoomName( setChatRoomID )
 
     }
+
+    /*
+    fininsh newMessage once we can select in sidebar and set current chatroom
+    */
     //called by input once user enters a new message
-    newMessage( message ) {
+    newMessage = ( message ) => {
 
         //validate the message.
         //set maximum allowed message length
-        //add message to currnetChatRoom in DB. for the current user 
-        //make sure that it keeps the order in the arrays. make it the nextMsgNum postion in the array. array[nextMsgNum]
-        //increment nextMsgNum by 1 on the database
+        if( message.length > 0 && message.length < 200 ){
+
+            //get current messages
+            //add new message to to current message
+            //add message to currnetChatRoom in DB. for the current user 
+            console.log( this.state.currentChatRoom );
+            console.log( )
+            //axios.put("chatRooms/" + this.state.currentChatRoomID +"/u" + this.state.userID + ".json", {  });
+            //make sure that it keeps the order in the arrays. make it the nextMsgNum postion in the array. array[nextMsgNum]
+            //increment nextMsgNum by 1 on the database
+
+        }
+        
         
     }
     
     render( ) {
-        //temp delete once setCurrentChatRoomName is fixed
-                //use to test setCurrentChatRoom and setCurrcentChatRoomName
-                //setCurretnChatRoom call setCurrentChatRoomName
-                //to use uncomment varible i in top of document
-                //if statement prevents infiante loop
-                /*if (i === 1){
-                    i++
-                    this.setCurrentChatRoom( 12345678 )
-                }*/
-                //console.log(this.state.currentChatRoomName);
-        //end of test block for setCurrentChatRoom and setCurrentChatRoomName
+        //this.newMessage("testing testing testing")
         return(
 
             <div className={styles.layout}>
@@ -186,7 +179,7 @@ class Messenger extends Component {
                     <Sidebar usersChatRoomsID = {this.state.usersChatRoomsID} 
                              userID={this.state.userID} 
                              getUsernameByID={this.getUsernameByID} 
-                             setCurrentChatRoomID={this.setCurrentChatRoomID} />
+                             setCurrentChatRoomID={this.setCurrentChatRoom} />
 
                 </div>
                 
