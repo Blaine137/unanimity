@@ -81,13 +81,14 @@ class Messenger extends Component {
       //add userID validation such as if not null an integer
       //if we have a userID
       if( getUserID ) {
-
-        axios.get( 'users/u' + getUserID + '/userName.json' ).then(
+         axios.get( 'users/u' + getUserID + '/userName.json' ).then(
             ( e ) => {
                 //console.log(e.data);  
                 return e.data;
+               
                           
             }
+
         );
 
       } 
