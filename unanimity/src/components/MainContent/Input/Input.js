@@ -1,15 +1,22 @@
 import React from 'react';
 import styles from './Input.module.css';
 
-const input = (props) => {
+const input = ( props ) => {
     return(
         
         <div className={styles.inputContainer}>
             <input type="text" placeholder="Press Enter to send Message" 
-                onKeyDown={ (e) => {
+                onKeyDown={ ( e ) => {
+
                     let userInput = e.target.value;
-                    props.newMessage(userInput);
-                }} className={styles.input}
+
+                    if( e.key === 'Enter' ){
+
+                        props.newMessage( userInput );
+
+                    }
+                    
+                } } className={ styles.input }
             />
         </div>
 

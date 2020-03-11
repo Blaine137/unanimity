@@ -3,6 +3,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.css';
+import message from '../../components/MainContent/Chatroom/Message/Message';
 
 //i is for testing setCurrentChatRoomName. delete once fixed
 let i = 1;
@@ -23,13 +24,14 @@ class Messenger extends Component {
   
     componentDidMount = ( ) => {
 
-
         this.setAuthentication( );
         
         this.checkAuthentication( );
 
-        if(this.state.userID){
+        if( this.state.userID ) {
+
             this.setUsersChatRoomsID( );
+
         }
 
     }
@@ -37,10 +39,13 @@ class Messenger extends Component {
     componentDidUpdate = ( prevProps, prevState ) => {
 
         this.checkAuthentication( );
+
         //if the userID in the state is not the same.
         //prevents infinate loop
-        if(prevState.userID != this.state.userID){
+        if( prevState.userID != this.state.userID ) {
+
             this.setUsersChatRoomsID( );
+
         }
 
     }
@@ -55,10 +60,13 @@ class Messenger extends Component {
         
     }
     
+    //TODO: complete checkAuthentication --------------------------------------------------------------------------------------------------------------------------------------------
     checkAuthentication = ( ) => {
 
         if ( !this.state.authenticated ){
+
             //redirect to authentication
+
         }
 
     }
@@ -67,10 +75,12 @@ class Messenger extends Component {
     setUsersChatRoomsID = ( )  =>{
 
         //ucr stands for user Chat Room.
+        //get array that contains all the chatRoomIDs that the user is a part of
         axios.get( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json' ).then(
             ( e ) => {
+
                 this.setState( { usersChatRoomsID: e.data } );
-                //console.log(this.state.usersChatRoomsID);            
+            
             }
         );
 
@@ -78,117 +88,184 @@ class Messenger extends Component {
 
     getUsernameByID = ( getUserID ) => {
 
-      //add userID validation such as if not null an integer
-      //if we have a userID
-      if( getUserID ) {
+      //if we have a userID and is Integer
+      if( getUserID && getUserID.isInteger() ) {
+
+        //axios get Username By ID
          axios.get( 'users/u' + getUserID + '/userName.json' ).then(
             ( e ) => {
-                //console.log(e.data);  
+
+                //e.data is the userName
                 return e.data;
-               
-                          
+                                  
             }
 
-        );
+        );//axios get Username By ID
 
-      } 
+      }//validation if. (has else bellow)
       //no ID return name of nobody
       else {
 
           return 'nobody';
 
-      }
+      }//end of validation else state
 
     }
    
     //called by setCurrentChatRoom
     setCurrentChatRoomName = ( ChatRoomIDForName ) => {
-        //for chatRoom get users in the chatRoom
+
+     if( ChatRoomIDForName ) {
+
+            //for chatRoom get users in the chatRoom
         axios.get( 'chatRoomsUsers/cru' + ChatRoomIDForName + '/users.json' ).then(
             ( e ) => {
  
-                //remove ourselfs from the chatroomID array
-                e.data.splice(0 , this.state.userID);
+                if( e.data ){
 
-                //for recipents in the array set them as chatRoom name
-                e.data.forEach( ( singleUserID ) => { 
-                    //get username by id. the function wont work beacuse i need a specifc .then action
-                     axios.get( 'users/u' + singleUserID + '/userName.json' ).then((e) => {
-                        this.setState( { currentChatRoomName: e.data } )
-                        
-                    })
-                    
-                } );
+                    //remove ourselfs from the chatroomID array
+                    e.data.splice(0 , this.state.userID);
 
-                
-            }
-        );    
+                    //for recipents in the array set them as chatRoom name
+                    e.data.forEach( ( singleUserID ) => { 
+
+                        //get username by id. the function wont work beacuse i need a specifc .then action
+                         axios.get( 'users/u' + singleUserID + '/userName.json' ).then((e) => {
+
+                            this.setState( { currentChatRoomName: e.data } )
+                            
+                        })                      
+                    } );//e.data.foreach
+
+                }//if e.data  
+
+            }//axios get get users in the chatRoom .then function
+
+        );//axios get get users in the chatRoom
+
+     }//if chatRoomIdForName
+
     }
-    //called by sidebar on click of a chatroom
-    setCurrentChatRoom = ( setChatRoomID ) => {
 
-        //set currentchatRoomID
-      
+    //called by sidebar on click of a chatroom
+    //sets currentChatRoom and currentChatRoomID
+    setCurrentChatRoom = ( setChatRoomID ) => {
 
         //set currentChatRoom to object with messages and everything about that chatRoom
         axios.get( 'chatRooms/' + setChatRoomID + '/.json' ).then(
+
             ( e ) => { 
                     
                     this.setState( { currentChatRoom: e.data, currentChatRoomID: setChatRoomID } )
             
-                }
-            );
+                }//.then function
+
+        );//axios get currentChatRoom
 
         //call functiont to set chatRoom name
         this.setCurrentChatRoomName( setChatRoomID )
 
     }
 
-    /*
-    fininsh newMessage once we can select in sidebar and set current chatroom
-    */
     //called by input once user enters a new message
-    newMessage = ( message ) => {
+    newMessage = ( newMessage ) => {
 
-        //validate the message.
-        //set maximum allowed message length
-        if( message.length > 0 && message.length < 200 ){
+        let messageChatRoom = Object.entries(this.state.currentChatRoom);
+        let authenticaedUserMessageOld = [];
+        let authenticaedUserMessageCombined = [];
+        let nextMsgNum = null;
 
-            //get current messages
-            //add new message to to current message
-            //add message to currnetChatRoom in DB. for the current user 
-            console.log( this.state.currentChatRoom );
-            console.log( )
-            //axios.put("chatRooms/" + this.state.currentChatRoomID +"/u" + this.state.userID + ".json", {  });
+        //set maximum allowed message length. make sure we have a message. and make sure a chatRoom is selected
+        if( newMessage.length > 0 && newMessage.length < 200 && this.state.currentChatRoom != null){
+
+            //set authenticaedUserMessageOld and nextMSg number from this.state.currentChatRoom
+            Object.entries( this.state.currentChatRoom).forEach( ( user ) => {
+
+                //user[0] is the name of the property indise of the chatroom (u +userID, nextMsgNum)
+                //if this the current authenticaed user messages
+                if( user[ 0 ] == ( "u" + this.state.userID )) {
+
+                    //get the messages and set a vaible
+                    //console.log(user[1]);
+                    authenticaedUserMessageOld = user[ 1 ];
+
+                }else if( user[ 0 ] === "nextMsgNum" ) {
+
+                    //user[1] the value of nextMsgNum
+                    nextMsgNum = user[ 1 ];
+
+                }
+
+            })//end of foreach that sets old authenticaedUserMessageOld and nextMSg
+
+            //add new message to to old messages
+            authenticaedUserMessageCombined = [...authenticaedUserMessageOld];
             //make sure that it keeps the order in the arrays. make it the nextMsgNum postion in the array. array[nextMsgNum]
-            //increment nextMsgNum by 1 on the database
+            authenticaedUserMessageCombined[ nextMsgNum ] = newMessage;
 
-        }
-        
-        
+            //increment nextMsgNum by 1
+            if( nextMsgNum ) {
+
+                nextMsgNum++;
+
+            }
+
+            //set messageChatRoom to all the new data
+            //messageChatRoom Contains the other user messages. This is required so that when we put the data on the db that the other user messages are not removed
+            messageChatRoom.forEach( ( property ) => {
+
+                //property[0] is the name of the property 
+                //if this the current authenticaed user messages
+                if( property[ 0 ] == ( "u" + this.state.userID )) {
+
+                    //set our current user messages to combined messages new and old.
+                    //property[ 1 ] is the array of out user messages
+                    property[ 1 ] = authenticaedUserMessageCombined;
+
+                } else if ( property[ 0 ] === "nextMsgNum" ) {
+
+                    //property[ 1 ] is the old nextMsgNum before the increment of 1.
+                    property[ 1 ] = nextMsgNum;
+
+                }
+
+            } )//foreach that sets messageChatRoom to new data values
+            //convert our finished data from an array back to object to match the DB structure
+            messageChatRoom = Object.fromEntries( messageChatRoom );
+
+            //update the DB with all the new data. 
+            axios.put( "chatRooms/" + this.state.currentChatRoomID  + ".json",  messageChatRoom );
+
+            //update state to the db 
+            this.setCurrentChatRoom( this.state.currentChatRoomID );
+
+        }//end of newMessage validation if
+            
     }
     
     render( ) {
-        //this.newMessage("testing testing testing")
+
         return(
 
-            <div className={styles.layout}>
+            <div className = { styles.layout } >
 
-                <div className={styles.sidebarGrid}>
+                <div className = { styles.sidebarGrid } >
 
-                    <Sidebar usersChatRoomsID = {this.state.usersChatRoomsID} 
-                             userID={this.state.userID} 
-                             getUsernameByID={this.getUsernameByID} 
-                             setCurrentChatRoomID={this.setCurrentChatRoom} />
+                    <Sidebar usersChatRoomsID = { this.state.usersChatRoomsID } 
+                             userID = { this.state.userID } 
+                             getUsernameByID = { this.getUsernameByID } 
+                             setCurrentChatRoomID = { this.setCurrentChatRoom } 
+                    />
 
                 </div>
                 
-                <div className={styles.mainContentGrid}>
+                <div className = { styles.mainContentGrid } >
 
-                    <MainContent getUserNameByID={this.getUserNameByID} 
-                                 newMessage={this.newMessage} 
-                                 currentChatRoom={this.state.currentChatRoom} 
-                                 currentChatRoomName={this.state.currentChatRoomName} />
+                    <MainContent getUserNameByID = { this.getUserNameByID } 
+                                 newMessage = { this.newMessage } 
+                                 currentChatRoom = { this.state.currentChatRoom } 
+                                 currentChatRoomName = { this.state.currentChatRoomName } 
+                    />
 
                 </div> 
             
