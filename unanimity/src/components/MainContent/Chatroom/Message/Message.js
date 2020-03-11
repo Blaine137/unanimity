@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import styles from './Message.module.css';
 const message = (props) => {
     return(
-        <Fragment>
+        <div className={styles.message}>
             <h4>{ props.currentMessageUsername }</h4>
             <p>{ props.currentMessage }</p>
-        </Fragment>
+        </div>
     );
 }
 export default message;
