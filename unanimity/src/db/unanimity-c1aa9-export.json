@@ -21,11 +21,15 @@
       "users" : [ 1, 2 ]
     }
   },
+  "userIDByUsername" : {
+    "Blaine" : 1,
+    "Jacob" : 2
+  },
   "users" : {
     "u1" : {
       "password" : "password",
       "userID" : 1,
-      "userName" : "blaine"
+      "userName" : "Blaine"
     },
     "u2" : {
       "password" : "password",
