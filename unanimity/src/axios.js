@@ -1,16 +1,15 @@
 import Axios from 'axios';
-const token = {
-
-    user: "iKyUinRauGTi1n9roPQ4NFFo79Z2",
-    password: "Un@n1m1tyDB"
-
-};
+ const token = {
+     "uid": "ee8b580c09f3-408a-b054"
+     
+ };
 const instance = Axios.create ( {
     baseURL: 'https://unanimity-c1aa9.firebaseio.com/'
    
 } );
-console.log(Axios.defaults.headers.common)
-Axios.defaults.headers.common['Authorization'] = token;
+// console.log('before: ', instance.defaults.headers.common)
+// instance.defaults.headers.common['auth'] = token; 
+// console.log('after: ', instance.defaults.headers.common['auth'].uid)
 // Add a request interceptor
 /*Axios.interceptors.request.use(function (config) {
 
