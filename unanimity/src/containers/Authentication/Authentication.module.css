@@ -1,8 +1,64 @@
-.form{
-    display: block;
-    margin: 0 auto;
+/*
+dark blue #05386B
+off white #EDF5E1
+green #5CDB95
+white: white
+*/
+html {
+    background-color: #5CDB95;
+    color:  #EDF5E1;
+    font-weight: bold;
+    font-size: 1.25rem;
 }
 
-.input{
+.form {
+    position: relative;
+    top: 10vh;
+    display: block;
+    text-align: left;
+    margin: auto;
+    padding: 3rem;;
+    background-color:#EDF5E1;
+    width: 80vw;
+    max-width: 500px;
+    height: 50vh;
+    color: #05386B ;
+    font-weight: 700;
+    letter-spacing: .1rem;
+    border-radius: 1rem;
+}
+fieldset{
+    border: none;
+}
+legend{
+    padding-bottom: 3rem;
+    text-align: left;
+}
+
+.input {
+    font-size: 1.25rem;
+    background-color: #EDF5E1;
+    display: block;
+    width: 100%;
+    color: #05386B;
+    border: none;
+    border-bottom: 2px solid #05386B;
+    margin-bottom: 3rem;
     
+
+}
+label {
+    display: block;
+    margin-bottom: 1rem;;
+}
+.submit {
+    background-color: #05386B;
+    color: #EDF5E1;
+    border: none;
+    position: relative;
+    left: 70%;
+    height: 3rem;
+    width: 6rem;
+    border-radius: 3rem;
+    font-weight: 700;
 }
