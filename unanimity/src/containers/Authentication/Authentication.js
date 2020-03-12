@@ -8,8 +8,8 @@ class Authentication extends Component {
     state = {
 
         authenticated: true,
-        userID: 1,
-        username: 'Blaine'
+        userID: 2,
+        username: "Jacob"
         
     }
 /*

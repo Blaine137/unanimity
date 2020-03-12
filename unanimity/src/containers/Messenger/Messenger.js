@@ -24,6 +24,9 @@ class Messenger extends Component {
   
     componentDidMount = ( ) => {
 
+        //every second update the current chatroom. this make sure we can see if the other messenger sent a message
+        this.interval = setInterval(() => {if(this.state.currentChatRoomID){this.setCurrentChatRoom(this.state.currentChatRoomID)}}, 1000);
+
         this.setAuthentication( );
         
 
@@ -32,7 +35,7 @@ class Messenger extends Component {
             this.setUsersChatRoomsID( );
 
         }
-
+        
     }
     
     componentDidUpdate = ( prevProps, prevState ) => {
@@ -44,8 +47,11 @@ class Messenger extends Component {
             this.setUsersChatRoomsID( );
 
         }
-
+        
     }
+    componentWillUnmount() {
+        clearInterval(this.interval);
+      }
     
     setAuthentication = ( ) => {
 
@@ -112,14 +118,13 @@ class Messenger extends Component {
     //called by sidebar on click of a chatroom
     //sets currentChatRoom and currentChatRoomID
     setCurrentChatRoom = ( setChatRoomID ) => {
-
+      
         //set currentChatRoom to object with messages and everything about that chatRoom
         axios.get( 'chatRooms/' + setChatRoomID + '/.json' ).then(
 
             ( e ) => { 
                     
                     this.setState( { currentChatRoom: e.data, currentChatRoomID: setChatRoomID } )
-            
                 }//.then function
 
         );//axios get currentChatRoom
@@ -197,16 +202,15 @@ class Messenger extends Component {
 
             //update the DB with all the new data. 
             axios.put( "chatRooms/" + this.state.currentChatRoomID  + ".json",  messageChatRoom );
-
-            //update state to the db 
-            this.setCurrentChatRoom( this.state.currentChatRoomID );
+            //upadate our current chatRoom
+            this.setState({currentChatRoom: messageChatRoom});
 
         }//end of newMessage validation if
             
     }
     
     render( ) {
-
+      
         return(
 
             <div className = { styles.layout } >

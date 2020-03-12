@@ -17,34 +17,35 @@ const chatroom = ( props ) => {
 
        //user[0] is property name such as u + userID or nextMsgNum
        //if it is the messages and not the message counter
-       if( user[ 0 ] != "nextMsgNum" ) {
-        //getuserID
-        let userID = user[ 0 ];
+        if( user[ 0 ] != "nextMsgNum" ) {
+            //getuserID
+            let userID = user[ 0 ];
 
-        //getUsername by Id
-        axios.get('users/u' + userID + "/userName.json").then(
-            ( e ) => {
+            //getUsername by Id
+            //userID includes u
+            axios.get('users/' + userID + "/userName.json").then(
+                ( e ) => {
+                
+                    username = e.data;
+                   
+                }
+            )
 
-                username = e.data;
+            //foreach user looping through the messages
+            user[ 1 ].forEach( ( msg, index) => {
+            
+                //if msg is not null set display message of that msg index to a message component 
+                if( msg != null ) {
 
-            }
-        )
+                displayedMessages[index] = ( <Message currentMessageUsername={username} currentMessage={ msg } ></Message> );
 
-        //foreach user looping through the messages
-        user[ 1 ].forEach( ( msg, index) => {
+                }
+
+            });//foreach looping though messages
         
-            //if msg is not null set display message of that msg index to a message component 
-            if( msg != null ) {
+        }//if it is the messages and not the message counter
 
-               displayedMessages[index] = ( <Message currentMessageUsername={username} currentMessage={ msg } ></Message> );
-
-            }
-
-        });
-        
-       }
-
-   });
+   });//foreach user
 
     return(
         <div className = { styles.container } >
