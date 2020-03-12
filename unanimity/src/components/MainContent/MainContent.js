@@ -6,7 +6,7 @@ const mainContent = (props) => {
     return(
        <Fragment>
             <Header currentChatRoomName={ props.currentChatRoomName } />
-            <ChatRoom currentChatRoom={ props.currentChatRoom } getUsernameByID={ props.getUsernameByID } />
+            <ChatRoom currentChatRoom={ props.currentChatRoom } />
             <Input newMessage={ props.newMessage } /> 
        </Fragment>
     );

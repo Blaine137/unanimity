@@ -26,7 +26,6 @@ class Messenger extends Component {
 
         this.setAuthentication( );
         
-        this.checkAuthentication( );
 
         if( this.state.userID ) {
 
@@ -37,8 +36,6 @@ class Messenger extends Component {
     }
     
     componentDidUpdate = ( prevProps, prevState ) => {
-
-        this.checkAuthentication( );
 
         //if the userID in the state is not the same.
         //prevents infinate loop
@@ -60,16 +57,7 @@ class Messenger extends Component {
         
     }
     
-    //TODO: complete checkAuthentication --------------------------------------------------------------------------------------------------------------------------------------------
-    checkAuthentication = ( ) => {
-
-        if ( !this.state.authenticated ){
-
-            //redirect to authentication
-
-        }
-
-    }
+    
     
     //gets array of chatRoomsID that the user is in and sets userChatRoomsID in state. called by mount and update
     setUsersChatRoomsID = ( )  =>{
@@ -86,32 +74,6 @@ class Messenger extends Component {
 
     }
 
-    getUsernameByID = ( getUserID ) => {
-
-      //if we have a userID and is Integer
-      if( getUserID && getUserID.isInteger() ) {
-
-        //axios get Username By ID
-         axios.get( 'users/u' + getUserID + '/userName.json' ).then(
-            ( e ) => {
-
-                //e.data is the userName
-                return e.data;
-                                  
-            }
-
-        );//axios get Username By ID
-
-      }//validation if. (has else bellow)
-      //no ID return name of nobody
-      else {
-
-          return 'nobody';
-
-      }//end of validation else state
-
-    }
-   
     //called by setCurrentChatRoom
     setCurrentChatRoomName = ( ChatRoomIDForName ) => {
 
@@ -253,7 +215,6 @@ class Messenger extends Component {
 
                     <Sidebar usersChatRoomsID = { this.state.usersChatRoomsID } 
                              userID = { this.state.userID } 
-                             getUsernameByID = { this.getUsernameByID } 
                              setCurrentChatRoomID = { this.setCurrentChatRoom } 
                     />
 
@@ -261,8 +222,7 @@ class Messenger extends Component {
                 
                 <div className = { styles.mainContentGrid } >
 
-                    <MainContent getUserNameByID = { this.getUserNameByID } 
-                                 newMessage = { this.newMessage } 
+                    <MainContent newMessage = { this.newMessage } 
                                  currentChatRoom = { this.state.currentChatRoom } 
                                  currentChatRoomName = { this.state.currentChatRoomName } 
                     />

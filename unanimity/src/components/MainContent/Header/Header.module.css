@@ -1,11 +1,15 @@
 .header{
-    background-image: url('../../../images/unanimityheader.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+   
     /*width minius padding to span entire area*/
     width: calc(80vw - 2rem);
     height: 10vh;
     padding: 1rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    color: black;
+    text-align: center;
+}
+
+.h3{
+    margin: 0 auto;
 }

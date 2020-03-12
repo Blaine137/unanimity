@@ -1,19 +1,54 @@
 import React from 'react';
 import Message from './Message/Message';
+import styles from './Chatroom.module.css';
+import axios from '../../../axios';
+
 const chatroom = ( props ) => {
     let displayedMessages = [];
     let displayedMessagesArray = [];
     let currentMessageUsername = "nobody";
     let messages = null;
+    let username = "nobody";
+
    //takes in current chatroom object of arrays and get uset by id function.
-   let chatRoom = props.currentChatRoom;
-   console.log(chatRoom)
-   //display messages should be an array of message objects.
-   //for each message in the chatRoom object call message componet and send message componet props of props.currentMessageUsername props.currentMessage
-   //use getUsernamebyID to get name. the array in chatRoom obect r abrevuated by u and followed by userID
+   let chatRoomUsers = Object.entries( props.currentChatRoom );
+   
+   chatRoomUsers.forEach( ( user ) => {
+
+       //user[0] is property name such as u + userID or nextMsgNum
+       //if it is the messages and not the message counter
+       if( user[ 0 ] != "nextMsgNum" ) {
+        //getuserID
+        let userID = user[ 0 ];
+
+        //getUsername by Id
+        axios.get('users/u' + userID + "/userName.json").then(
+            ( e ) => {
+
+                username = e.data;
+
+            }
+        )
+
+        //foreach user looping through the messages
+        user[ 1 ].forEach( ( msg, index) => {
+        
+            //if msg is not null set display message of that msg index to a message component 
+            if( msg != null ) {
+
+               displayedMessages[index] = ( <Message currentMessageUsername={username} currentMessage={ msg } ></Message> );
+
+            }
+
+        });
+        
+       }
+
+   });
+
     return(
-        <div>
-            {displayedMessages}
+        <div className = { styles.container } >
+            { displayedMessages }
         </div>
     );
 }
