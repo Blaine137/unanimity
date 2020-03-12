@@ -4,7 +4,9 @@ import styles from './Header.module.css';
 const header = (props) => {
     return(
         <header className={styles.header}>
-            <h3>{props.currentChatRoomName}</h3>
+            <h3 className={styles.h3}>
+                {props.currentChatRoomName}
+            </h3>
         </header>
     );
 }
