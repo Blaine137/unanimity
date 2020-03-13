@@ -13,7 +13,7 @@ const input = ( props ) => {
                     if( e.key === 'Enter' ){
 
                         props.newMessage( userInput );
-                        e.target.value = '';
+                        e.target.value = ''; //makes the input box empty once newMessage gets the input
                     }
                     
                 } } className={ styles.input }

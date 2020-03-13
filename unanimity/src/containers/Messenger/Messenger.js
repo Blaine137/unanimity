@@ -212,10 +212,7 @@ class Messenger extends Component {
     
     render( ) {
 
-        var inlineStyle = {
-            'transform:':'translateX(0)'
-        };
-        console.log(this.state.showSidebar);
+        
         return(
 
             <div className = { styles.layout } >
