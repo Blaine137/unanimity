@@ -36,11 +36,6 @@
       "password" : "password",
       "userID" : 2,
       "userName" : "Jacob"
-    },
-    "u3" : {
-      "password" : "password",
-      "userID" : 3,
-      "userName" : "lainey"
     }
   },
   "usersChatRooms" : {
