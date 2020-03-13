@@ -7,19 +7,67 @@ class Authentication extends Component {
 
     state = {
 
-        authenticated: true,
+        authenticated: false,
         userID: 1,
         username: "Blaine"
         
     }
 /*
 TODO: add password hashing!
-*/
-    checkName = ( authValues, userNameElement, passwordElement ) => {
+*/  checkForNewUser = ( event, newUser, newPassword ) => {
 
+        let newUserValue = newUser.value;
+        let newPasswordValue = newPassword.value;
+        
+        //prevent reload of page due to form submission
+        event.preventDefault( );
+        //not null
+        if( newUserValue && newPasswordValue ){
+
+            //a valid length
+            if( newUser.length > 15 || newPassword.length > 20 ){
+
+                alert('username must be less than 15 characters and password must be less that 20.');
+
+            }//if valid length
+
+            //try to get the username they are wanting to register as
+            axios.get( 'userIDByUsername/' + newUser + '.json' ).catch( ( error ) => {
+
+                let newUserID = 3;
+                this.setNewUser( newUserValue, newPasswordValue, newUserID );    
+                return 300;
+
+            } );//axios get username they are wanting to register as
+
+        }//if newUser and newPassword not null
+
+    }
+
+    setNewUser = ( newUser, newPassword, newUserID ) => {
+
+        let newCompleteUser = {
+
+            newUserID: {
+                password: newPassword,
+                userID: newUserID,
+                userName: newUser
+            }
+
+        }
+        //get all the data for the users tabel
+        //add new complete user to that data
+        //the axios put that combinded data
+        axios.put( 'users.json' , newCompleteUser );   
+
+    }
+    
+    checkName = ( authValues, userNameElement, passwordElement ) => {
+       
         let username = userNameElement.value;
         let password = passwordElement.value;
         let userID = null;
+
         //prevents page from reloading. forms by default cause pages to reload.
         authValues.preventDefault();
         //if username was provided
@@ -101,7 +149,7 @@ TODO: add password hashing!
                     <p>This Project Database is public so that people can see how the project works! Do not use passwords that you use anywhere else! password currently arent hashed in DB.</p>
                     <p>Username and password are both case sensitive</p>
                      
-                    <form className = { styles.form } onSubmit = {  ( e ) => { this.checkName( e ,document.getElementById('userNameID'),   document.getElementById('passwordID')) }   } >
+                    <form className = { styles.form }  >
                         <fieldset>
                             <legend>Unanimity Messenger Login</legend>
                             <label for="username" >Username</label>
@@ -110,8 +158,8 @@ TODO: add password hashing!
                             <label for="password" >Password</label>
                             <input type="text" id="passwordID" name="password" className={styles.input}/>
 
-                            <input type="submit" value="Register" className={styles.register} />
-                            <input type="submit" value="Log in" className={styles.submit} />
+                            <input type="submit" value="Register" className={styles.register} onClick = { ( e ) => {this.checkForNewUser(e, document.getElementById("userNameID"), document.getElementById("passwordID"))}}/>
+                            <input type="submit" value="Log in" className={styles.submit} onClick = {  ( e ) => { this.checkName( e ,document.getElementById('userNameID'),   document.getElementById('passwordID')) }   }/>
                         </fieldset>
                         
                         
