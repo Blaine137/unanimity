@@ -167,10 +167,10 @@ TODO: add password hashing!
                     <form className = { styles.form }  >
                         <fieldset>
                             <legend>Unanimity Messenger Login</legend>
-                            <label for="username" >Username</label>
+                            <label htmlFor="username" >Username</label>
                             <input type="text" id="userNameID" name="username" className={styles.input} />
                             
-                            <label for="password" >Password</label>
+                            <label htmlFor="password" >Password</label>
                             <input type="password" id="passwordID" name="password" className={styles.input}/>
 
                             <input type="submit" value="Register" className={styles.register} onClick = { ( e ) => {this.checkForNewUser(e, document.getElementById("userNameID"), document.getElementById("passwordID"))}}/>
