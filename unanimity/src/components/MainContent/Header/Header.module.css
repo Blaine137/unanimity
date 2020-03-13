@@ -45,10 +45,10 @@
     position: absolute;
     top: 14%;
     animation-name: rubberBand;
-    animation-duration: 2s;
+    animation-duration: 3s;
     animation-iteration-count: 1;
     animation-direction: normal;
-    animation-delay: 1.5s;
+    animation-delay: 2s;
     
 }
 

@@ -6,8 +6,8 @@ import axios from '../../axios';
 class Authentication extends Component {
 
     state = {
-
-        authenticated: false,
+        
+        authenticated: true,
         userID: 1,
         username: "Blaine"
         
@@ -18,48 +18,63 @@ TODO: add password hashing!
 
         let newUserValue = newUser.value;
         let newPasswordValue = newPassword.value;
-        
+        let newUserID = null;
+
         //prevent reload of page due to form submission
         event.preventDefault( );
-        //not null
-        if( newUserValue && newPasswordValue ){
 
-            //a valid length
-            if( newUser.length > 15 || newPassword.length > 20 ){
+        //getnextuserID
+        axios.get( 'userIDByUsername/nextUserID.json' ).then( ( e ) => {
+            newUserID = e.data
+                    //not null
+            if( newUserValue && newPasswordValue ){
 
-                alert('username must be less than 15 characters and password must be less that 20.');
+                //a valid length
+                if( newUser.length > 15 || newPassword.length > 20 ){
 
-            }//if valid length
+                    alert('username must be less than 15 characters and password must be less that 20.');
 
-            //try to get the username they are wanting to register as
-            axios.get( 'userIDByUsername/' + newUser + '.json' ).catch( ( error ) => {
+                }//if valid length
 
-                let newUserID = 3;
-                this.setNewUser( newUserValue, newPasswordValue, newUserID );    
-                return 300;
+                //try to get the username they are wanting to register as
+                axios.get( 'userIDByUsername/' + newUser + '.json' ).catch( ( error ) => {
 
-            } );//axios get username they are wanting to register as
+                    this.setNewUser( newUserValue, newPasswordValue, newUserID ); 
+                    
+                    return 300;
 
-        }//if newUser and newPassword not null
+                } );//axios get username they are wanting to register as
+
+            }//if newUser and newPassword not null
+        } );
+
+       
+ 
 
     }
 
     setNewUser = ( newUser, newPassword, newUserID ) => {
-
+        
         let newCompleteUser = {
 
-            newUserID: {
+            
                 password: newPassword,
                 userID: newUserID,
                 userName: newUser
-            }
+            
 
-        }
+        };
         //get all the data for the users tabel
         //add new complete user to that data
         //the axios put that combinded data
-        axios.put( 'users.json' , newCompleteUser );   
+        
+        axios.put( 'users/u' + newUserID + '.json' , newCompleteUser );   
 
+        //convert string of int to actually integer so incrementing works
+        let updatedNextUserID = parseInt(newUserID);
+        updatedNextUserID++;
+        //update the nextUserID
+        axios.put( 'userIDByUsername/nextUserID.json', updatedNextUserID );
     }
     
     checkName = ( authValues, userNameElement, passwordElement ) => {
