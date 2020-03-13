@@ -13,7 +13,7 @@ const input = ( props ) => {
                     if( e.key === 'Enter' ){
 
                         props.newMessage( userInput );
-
+                        e.target.value = '';
                     }
                     
                 } } className={ styles.input }
