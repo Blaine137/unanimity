@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Message from './Message/Message';
 import styles from './Chatroom.module.css';
-import axios from '../../../axios';
 
-const Chatroom = (props) => {
+const Chatroom = ( props ) => {
   
-    let currentMessageUsername = "nobody";
-    let messages = null; 
-    let usernames = [];
-    let displayedMessages = ["select a Chatroom"];
+    let displayedMessages = [ "select a Chatroom" ];
 
    //takes in current chatroom object of arrays and get uset by id function.
    let chatRoomUsers = Object.entries( props.currentChatRoom );
@@ -16,7 +12,7 @@ const Chatroom = (props) => {
     chatRoomUsers.forEach( ( nextuser ) => {
                                                     
         //foreach user looping through the messages
-        if(nextuser[0] !== "nextMsgNum"){
+        if( nextuser[ 0 ] !== "nextMsgNum" ) {
 
 
             nextuser[ 1 ].forEach( ( msg, index) => {
@@ -24,7 +20,7 @@ const Chatroom = (props) => {
                 //if msg is not null set display message of that msg index to a message component 
                 if( msg !== null ) { 
 
-                    displayedMessages[index] = ( <Message  currentMessage={ msg } key={index}></Message> );
+                    displayedMessages[ index ] = ( <Message  currentMessage = { msg } key = { index } ></Message> );
                     
                 }
 

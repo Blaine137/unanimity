@@ -5,21 +5,17 @@ import axios from '../../axios';
 class Sidebar extends Component {
 
     state = {
+
         chatRoomName: 'none'
+
     }
     
-  
     render( ){
 
-        let sql = null;
-        let chatRoomUsers = null;
-        let chatRoomName = null;
         let sidebarDisplay = [ ];
         let chatRoomIDs = null;
         let i = 0;
         let sidebar = null;
-        
-        
         
         if( this.props.usersChatRoomsID ){
 
@@ -40,11 +36,11 @@ class Sidebar extends Component {
                                     //if current chatRoomuserID == current userID logged in                                                                                                                                 
                                         //console.log(chatRoomUserID);
                                         //gets the data for that current chatRoomUserID
-                                        if( chatRoomUserID != this.props.userID ) {
+                                        if( chatRoomUserID !== this.props.userID ) {
                                      axios.get( 'users/u' + chatRoomUserID + '/userName.json' ).then(
                                         ( e ) => {
                                                     //this if prevents a infinite loop.
-                                            if( this.state.chatRoomName != e.data ){
+                                            if( this.state.chatRoomName !== e.data ){
 
                                                 //remove our userId chatRoomUserID
 
@@ -62,7 +58,7 @@ class Sidebar extends Component {
                     
                         } ).catch( ( error ) => { console.log( error ) } );
                         i++;
-                        sidebarDisplay.push( ( <div onClick={ ( ) => { this.props.setCurrentChatRoomID( singleChatRoomID ) } } key={i} className={styles.users}>
+                        sidebarDisplay.push( ( <div onClick={ ( ) => { this.props.setCurrentChatRoomID( singleChatRoomID ) } } key = { i}  className = { styles.users } >
                                                         <h3>{ this.state.chatRoomName }</h3>
                                         </div>)); 
 
@@ -72,7 +68,7 @@ class Sidebar extends Component {
         /* check is menu button is clicked, show or hide the sidebar */
         if(this.props.showSidebar){
 
-        sidebar = <div className={ styles.sidebarContainer } style={ {transform: 'translateX(0)'} }>
+        sidebar = <div className = { styles.sidebarContainer } style = { {transform: 'translateX(0%)'} }>
 
                 { sidebarDisplay }
 
@@ -80,7 +76,7 @@ class Sidebar extends Component {
 
         }else{
 
-            sidebar = <div className={ styles.sidebarContainer } style={ {transform: 'translateX(-100%)'} }>
+            sidebar = <div className = { styles.sidebarContainer } style = { { transform: 'translateX(-100%)' } }>
 
             { sidebarDisplay }
 
@@ -89,8 +85,8 @@ class Sidebar extends Component {
         }
 
         return(
-        <div>
-            {sidebar}
+            <div>
+                { sidebar }
             </div>
         );
 
