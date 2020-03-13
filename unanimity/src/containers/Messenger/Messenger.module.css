@@ -1,5 +1,5 @@
 .layout{
-    
+    position: relative;
     height: 100vh;
     display: grid;
     grid-template-columns: 20vw 80vw;
@@ -12,3 +12,43 @@
     grid-column-start: 2;
     grid-column-end: 2;
 }
+
+.burger{
+    position: absolute;
+    top: 7%;
+    left: 25%;
+    z-index: 1;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.burgerTop{
+    height: 5px;
+    width: auto;
+    background-color: #05386B;
+    margin-bottom: 5px;
+    /* transform: rotate(50deg);   */
+    transform: skew(14deg);
+}
+
+.burgerBottom{
+    height: 5px;
+    width: auto;
+    background-color: #05386B;
+    /* transform: rotate(-60deg);   */
+}
+
+/* .burgerTop:Active{
+    transform: rotate(40deg);
+    
+}
+
+.burgerBottom:Active{
+    transform: rotate(-40deg);
+} */
+
+
+
+

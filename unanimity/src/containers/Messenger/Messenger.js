@@ -18,7 +18,8 @@ class Messenger extends Component {
         currentChatRoom: {},
         currentChatRoomID: null,
         currentChatRoomName: null,
-        username: null
+        username: null,
+        showSidebar: true
 
     }
   
@@ -210,16 +211,31 @@ class Messenger extends Component {
     }
     
     render( ) {
-      
+
+        var inlineStyle = {
+            'transform:':'translateX(0)'
+        };
+        console.log(this.state.showSidebar);
         return(
 
             <div className = { styles.layout } >
 
-                <div className = { styles.sidebarGrid } >
-
+                <div className = { styles.sidebarGrid }>
+                    <div className={styles.burger} onClick={()=>{
+                        if(this.state.showSidebar){
+                            this.setState({showSidebar: false});
+                        }else{
+                            this.setState({showSidebar: true});
+                        }
+                    }}>
+                        <div className={styles.burgerTop}></div>
+                        <div className={styles.burgerBottom}></div>
+                        
+                    </div>
                     <Sidebar usersChatRoomsID = { this.state.usersChatRoomsID } 
                              userID = { this.state.userID } 
-                             setCurrentChatRoomID = { this.setCurrentChatRoom } 
+                             setCurrentChatRoomID = { this.setCurrentChatRoom }
+                             showSidebar={this.state.showSidebar}        
                     />
 
                 </div>

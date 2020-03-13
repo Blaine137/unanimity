@@ -1,10 +1,14 @@
 .inputContainer{
-    background-image: url('../../../images/unanimityfooter.png');
+    /* background-image: url('../../../images/unanimityfooter.png');
     background-size: 100% 100%;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
     /*width minius padding to span entire area*/
+    border-top:  2px solid #05386B;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 3rem;
+    background-color: white;
     width: calc(80vw - 2rem);
-    height: 17vh;
+    height: 10vh;
     padding: 1rem;
     position: absolute;
     bottom: 0;
@@ -14,6 +18,10 @@
     height: 5vh;
     position: relative;
     /*left: 20vw;*/
-    top: 50%;
+    top: 25%;
 
+}
+
+.input:hover{
+    cursor: pointer;
 }

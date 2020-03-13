@@ -17,6 +17,10 @@ class Sidebar extends Component {
         let sidebarDisplay = [ ];
         let chatRoomIDs = null;
         let i = 0;
+        let sidebar = null;
+        
+        
+        
         if( this.props.usersChatRoomsID ){
 
                     chatRoomIDs = this.props.usersChatRoomsID; // All the chat rooms that the current authenticated user is in.
@@ -46,7 +50,7 @@ class Sidebar extends Component {
 
                                                 this.setState( { chatRoomName: e.data} );
                                                 
-                                            }
+                                            } 
                                                                                                                                                                               
                                         }
                             
@@ -58,22 +62,37 @@ class Sidebar extends Component {
                     
                         } ).catch( ( error ) => { console.log( error ) } );
                         i++;
-                        sidebarDisplay.push( ( <div onClick={ ( ) => { this.props.setCurrentChatRoomID( singleChatRoomID ) } } key={i}>
+                        sidebarDisplay.push( ( <div onClick={ ( ) => { this.props.setCurrentChatRoomID( singleChatRoomID ) } } key={i} className={styles.users}>
                                                         <h3>{ this.state.chatRoomName }</h3>
                                         </div>)); 
 
                     });                  
         }
 
-        return(
-        
-            <div className={ styles.sidebarContainer } >
+        /* check is menu button is clicked, show or hide the sidebar */
+        if(this.props.showSidebar){
+
+        sidebar = <div className={ styles.sidebarContainer } style={ {transform: 'translateX(0)'} }>
 
                 { sidebarDisplay }
 
+            </div>;
+
+        }else{
+
+            sidebar = <div className={ styles.sidebarContainer } style={ {transform: 'translateX(-100%)'} }>
+
+            { sidebarDisplay }
+
+            </div>;
+
+        }
+
+        return(
+        <div>
+            {sidebar}
             </div>
-        
-    );
+        );
 
     }
     
