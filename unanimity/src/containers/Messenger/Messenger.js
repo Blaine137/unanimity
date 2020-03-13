@@ -19,7 +19,8 @@ class Messenger extends Component {
         currentChatRoomID: null,
         currentChatRoomName: null,
         username: null,
-        showSidebar: true
+        showSidebar: true,
+        sidebarInlineStyles: { display: 'block'}
 
     }
   
@@ -38,7 +39,7 @@ class Messenger extends Component {
         }
         
     }
-    
+
     componentDidUpdate = ( prevProps, prevState ) => {
 
         //if the userID in the state is not the same.
@@ -48,7 +49,7 @@ class Messenger extends Component {
             this.setUsersChatRoomsID( );
 
         }
-        
+           
     }
     componentWillUnmount() {
         clearInterval(this.interval);
@@ -209,26 +210,67 @@ class Messenger extends Component {
         }//end of newMessage validation if
             
     }
-    
+
+    //called onClick of the hamburger in the maincontent/header.js
+    setShowSidebar = ( ) => {
+
+        //if sidebar was showing and we click hamburger. close the sidebar
+        if( this.state.showSidebar ){
+
+            this.setState( { showSidebar: false } );
+
+        } 
+        //if sidebar was closed and we clicked the hamburger open the sidebar
+        else {
+
+            this.setState( { showSidebar: true } );
+
+        }
+
+    }
+
     render( ) {
 
+        let sidebarInlineStyles = { };
+        let mainContentInlineStyles = { };
+
+        //if sidebar is not showing 
+        if( !this.state.showSidebar ) {
+           
+          //make maincontent span entire width
+            mainContentInlineStyles = {
         
+                gridColumnStart: '1',
+                width: '100vw'
+        
+            };
+                
+            //wait for animation to complete then set sidebar to display none so that ut dosent take up space on the screen
+            /*
+                setTimeout( ( ) => {
+                this.setState( {sidebarInlineStyles: {display: 'none' } } );
+                }, 800)
+            */
+       
+        } else {
+
+            //reset the sidebar. side bar is now open so set the display to block
+            /*
+            console.log(this.state.sidebarInlineStyles)
+            
+            //Problem is that this runs infiantly causing the app to error out do to the loop
+            //couldent figure out the conditional 
+                this.setState( {sidebarInlineStyles: {display: 'block' } } );
+            */
+                
+        }
+
         return(
 
             <div className = { styles.layout } >
 
-                <div className = { styles.sidebarGrid }>
-                    <div className={styles.burger} onClick={()=>{
-                        if(this.state.showSidebar){
-                            this.setState({showSidebar: false});
-                        }else{
-                            this.setState({showSidebar: true});
-                        }
-                    }}>
-                        <div className={styles.burgerTop}></div>
-                        <div className={styles.burgerBottom}></div>
-                        
-                    </div>
+                <div className = { styles.sidebarGrid } style = { this.state.sidebarInlineStyles } >
+                
                     <Sidebar usersChatRoomsID = { this.state.usersChatRoomsID } 
                              userID = { this.state.userID } 
                              setCurrentChatRoomID = { this.setCurrentChatRoom }
@@ -237,11 +279,12 @@ class Messenger extends Component {
 
                 </div>
                 
-                <div className = { styles.mainContentGrid } >
+                <div className = { styles.mainContentGrid } style = { mainContentInlineStyles } >
 
                     <MainContent newMessage = { this.newMessage } 
                                  currentChatRoom = { this.state.currentChatRoom } 
-                                 currentChatRoomName = { this.state.currentChatRoomName } 
+                                 currentChatRoomName = { this.state.currentChatRoomName }
+                                 toggleSidebar = { this.setShowSidebar } 
                     />
 
                 </div> 

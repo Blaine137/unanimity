@@ -3,9 +3,10 @@ import Header from './Header/Header';
 import ChatRoom from './Chatroom/Chatroom';
 import Input from './Input/Input';
 const mainContent = (props) => {
+    
     return(
        <Fragment>
-            <Header currentChatRoomName={ props.currentChatRoomName } />
+            <Header currentChatRoomName={ props.currentChatRoomName } showSidebar = { props.toggleSidebar } />
             <ChatRoom currentChatRoom={ props.currentChatRoom } />
             <Input newMessage={ props.newMessage } /> 
        </Fragment>

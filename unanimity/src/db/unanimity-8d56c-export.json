@@ -23,7 +23,8 @@
   },
   "userIDByUsername" : {
     "Blaine" : 1,
-    "Jacob" : 2
+    "Jacob" : 2,
+    "nextUserID" : 3
   },
   "users" : {
     "u1" : {
@@ -35,6 +36,11 @@
       "password" : "password",
       "userID" : 2,
       "userName" : "Jacob"
+    },
+    "u3" : {
+      "password" : "password",
+      "userID" : 3,
+      "userName" : "lainey"
     }
   },
   "usersChatRooms" : {
