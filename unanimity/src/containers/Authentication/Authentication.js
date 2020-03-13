@@ -7,7 +7,7 @@ class Authentication extends Component {
 
     state = {
         
-        authenticated: true,
+        authenticated: false,
         userID: 1,
         username: "Blaine"
         
@@ -160,7 +160,7 @@ TODO: add password hashing!
 
             messenger = (
 
-                <Fragment>
+                <div className = { styles.wrapper }>
                     <p>This Project Database is public so that people can see how the project works! Do not use passwords that you use anywhere else! password currently arent hashed in DB.</p>
                     <p>Username and password are both case sensitive</p>
                      
@@ -171,7 +171,7 @@ TODO: add password hashing!
                             <input type="text" id="userNameID" name="username" className={styles.input} />
                             
                             <label for="password" >Password</label>
-                            <input type="text" id="passwordID" name="password" className={styles.input}/>
+                            <input type="password" id="passwordID" name="password" className={styles.input}/>
 
                             <input type="submit" value="Register" className={styles.register} onClick = { ( e ) => {this.checkForNewUser(e, document.getElementById("userNameID"), document.getElementById("passwordID"))}}/>
                             <input type="submit" value="Log in" className={styles.submit} onClick = {  ( e ) => { this.checkName( e ,document.getElementById('userNameID'),   document.getElementById('passwordID')) }   }/>
@@ -182,7 +182,7 @@ TODO: add password hashing!
                     </form>
                   
 
-                </Fragment>
+                </div>
                 
             );//varible messenger
                

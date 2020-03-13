@@ -3,10 +3,9 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.css';
-import message from '../../components/MainContent/Chatroom/Message/Message';
 
-//i is for testing setCurrentChatRoomName. delete once fixed
-let i = 1;
+
+
 
 class Messenger extends Component {
 
@@ -44,7 +43,7 @@ class Messenger extends Component {
 
         //if the userID in the state is not the same.
         //prevents infinate loop
-        if( prevState.userID != this.state.userID ) {
+        if( prevState.userID !== this.state.userID ) {
 
             this.setUsersChatRoomsID( );
 
@@ -152,7 +151,7 @@ class Messenger extends Component {
 
                 //user[0] is the name of the property indise of the chatroom (u +userID, nextMsgNum)
                 //if this the current authenticaed user messages
-                if( user[ 0 ] == ( "u" + this.state.userID )) {
+                if( user[ 0 ] === ( "u" + this.state.userID )) {
 
                     //get the messages and set a vaible
                     //console.log(user[1]);
@@ -185,7 +184,7 @@ class Messenger extends Component {
 
                 //property[0] is the name of the property 
                 //if this the current authenticaed user messages
-                if( property[ 0 ] == ( "u" + this.state.userID )) {
+                if( property[ 0 ] === ( "u" + this.state.userID )) {
 
                     //set our current user messages to combined messages new and old.
                     //property[ 1 ] is the array of out user messages
@@ -205,7 +204,7 @@ class Messenger extends Component {
             //update the DB with all the new data. 
             axios.put( "chatRooms/" + this.state.currentChatRoomID  + ".json",  messageChatRoom );
             //upadate our current chatRoom
-            this.setState({currentChatRoom: messageChatRoom});
+            this.setState( {currentChatRoom: messageChatRoom} );
 
         }//end of newMessage validation if
             
@@ -236,29 +235,25 @@ class Messenger extends Component {
 
                 this.setState( { showSidebar: true} );
 
-            }, 1 );
+            }, 150 );
             
         }
 
     }
 
     render( ) {
-        console.log(this.state.sidebarInlineStyles)
-        // let sidebarInlineStyles = { };
+
        let mainContentInlineStyles = { };
-        // console.log(this.state.sidebarInlineStyles)
         // //if sidebar is not showing 
         if( !this.state.showSidebar ) {
            
           //make maincontent span entire width
             mainContentInlineStyles = {
-        
-                
-                gridColumnStart: '1',
+                   
+                transform: 'translateX(-20vw)',
                 width: '100vw',
                 height: '100vh',
-                
-        
+                       
             };
                           
         }

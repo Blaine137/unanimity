@@ -1,26 +1,24 @@
 .sidebarContainer{
     width: calc(20vw - 2.1rem);
     height: calc(100vh - 2rem);
-    background-color: #EDF5E1;
+    background-color: #F6F6F6;
     border-right: 2px solid #05386B;
     border-top-right-radius: 3rem;
     border-bottom-right-radius: 3rem; 
     padding: 1rem;
     position: relative;
-    transition: transform 1s ease-in-out;
+    transition: all 1s ease-in-out;
     
 }
 
 .activeSidebar{
    position: absolute;
-   transform: translateX(0);
+   transform: translateX(0%);
     
 }
 
 .hideSidebar{
     transform: translateX(-100%);
-  
-    
 }
 
 .users{
