@@ -216,53 +216,51 @@ class Messenger extends Component {
 
         //if sidebar was showing and we click hamburger. close the sidebar
         if( this.state.showSidebar ){
-
+   
             this.setState( { showSidebar: false } );
+            
+            setTimeout( ( ) => {
 
+                this.setState( { sidebarInlineStyles: {display: 'none'}  } );
+                
+            }, 1000 );
+                
+            
         } 
         //if sidebar was closed and we clicked the hamburger open the sidebar
         else {
+            
+            this.setState( { sidebarInlineStyles: {display: 'block'} } );
+           
+            setTimeout( ( ) => {
 
-            this.setState( { showSidebar: true } );
+                this.setState( { showSidebar: true} );
 
+            }, 1 );
+            
         }
 
     }
 
     render( ) {
-
-        let sidebarInlineStyles = { };
-        let mainContentInlineStyles = { };
-
-        //if sidebar is not showing 
+        console.log(this.state.sidebarInlineStyles)
+        // let sidebarInlineStyles = { };
+       let mainContentInlineStyles = { };
+        // console.log(this.state.sidebarInlineStyles)
+        // //if sidebar is not showing 
         if( !this.state.showSidebar ) {
            
           //make maincontent span entire width
             mainContentInlineStyles = {
         
+                
                 gridColumnStart: '1',
-                width: '100vw'
+                width: '100vw',
+                height: '100vh',
+                
         
             };
-                
-            //wait for animation to complete then set sidebar to display none so that ut dosent take up space on the screen
-            /*
-                setTimeout( ( ) => {
-                this.setState( {sidebarInlineStyles: {display: 'none' } } );
-                }, 800)
-            */
-       
-        } else {
-
-            //reset the sidebar. side bar is now open so set the display to block
-            /*
-            console.log(this.state.sidebarInlineStyles)
-            
-            //Problem is that this runs infiantly causing the app to error out do to the loop
-            //couldent figure out the conditional 
-                this.setState( {sidebarInlineStyles: {display: 'block' } } );
-            */
-                
+                          
         }
 
         return(
@@ -274,12 +272,13 @@ class Messenger extends Component {
                     <Sidebar usersChatRoomsID = { this.state.usersChatRoomsID } 
                              userID = { this.state.userID } 
                              setCurrentChatRoomID = { this.setCurrentChatRoom }
-                             showSidebar={this.state.showSidebar}        
+                             showSidebar={this.state.showSidebar} 
+                             style={{transition: 'transform 3s ease-in-out'}}    
                     />
 
                 </div>
                 
-                <div className = { styles.mainContentGrid } style = { mainContentInlineStyles } >
+                <div className = { styles.mainContentGrid }  style={mainContentInlineStyles}>
 
                     <MainContent newMessage = { this.newMessage } 
                                  currentChatRoom = { this.state.currentChatRoom } 

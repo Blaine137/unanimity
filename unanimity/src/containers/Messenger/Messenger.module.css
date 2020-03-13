@@ -9,9 +9,17 @@
     grid-column-end: 1;
 }
 .mainContentGrid{
+    
+    height: 100vh; 
     grid-column-start: 2;
     grid-column-end: 2;
     z-index: 0;
+    width: 80vw;
+    transition: all 2s ease-in-out;
+}
+
+.animateSidebar{
+    transition: transform 4s ease-in-out;
 }
 
 
