@@ -8,8 +8,8 @@ class Authentication extends Component {
     state = {
 
         authenticated: true,
-        userID: 2,
-        username: "Jacob"
+        userID: 1,
+        username: "Blaine"
         
     }
 /*
@@ -110,6 +110,7 @@ TODO: add password hashing!
                             <label for="password" >Password</label>
                             <input type="text" id="passwordID" name="password" className={styles.input}/>
 
+                            <input type="submit" value="Register" className={styles.register} />
                             <input type="submit" value="Log in" className={styles.submit} />
                         </fieldset>
                         

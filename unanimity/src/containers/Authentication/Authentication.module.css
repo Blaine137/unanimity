@@ -5,8 +5,8 @@ green #5CDB95
 white: white
 */
 html {
-    background-color: #5CDB95;
-    color:  #EDF5E1;
+    
+    /* color:  #EDF5E1; */
     font-weight: bold;
     font-size: 1.25rem;
 }
@@ -21,7 +21,7 @@ html {
     background-color:#EDF5E1;
     width: 80vw;
     max-width: 500px;
-    height: 50vh;
+    height: 65vh;
     color: #05386B ;
     font-weight: 700;
     letter-spacing: .1rem;
@@ -56,9 +56,31 @@ label {
     color: #EDF5E1;
     border: none;
     position: relative;
-    left: 70%;
+    left: 60%;
     height: 3rem;
     width: 6rem;
     border-radius: 3rem;
     font-weight: 700;
+}
+
+.submit:hover{
+    color: #05386B;
+    background-color: #5CDB95;    
+}
+
+.register{
+    background-color: #05386B;
+    color: #EDF5E1;
+    border: none;
+    position: relative;
+    left: -10%;
+    height: 3rem;
+    width: 6rem;
+    border-radius: 3rem;
+    font-weight: 700;
+}
+
+.register:hover{
+    color: #05386B;
+    background-color: #5CDB95;
 }
