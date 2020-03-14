@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
 import styles from './Authentication.module.css';
 import axios from '../../axios';
+//import npm pass https://www.npmjs.com/package/password-hash
+import * as passwordHash from 'password-hash';
 
 class Authentication extends Component {
 
@@ -12,10 +14,12 @@ class Authentication extends Component {
         username: null
         
     }
+    
 /*
 TODO: add password hashing!
 */  checkForNewUser = ( event, newUser, newPassword ) => {
-
+       
+        
         let newUserValue = newUser.value;
         let newPasswordValue = newPassword.value;
         let newUserID = null;
@@ -59,15 +63,21 @@ TODO: add password hashing!
 
     //sets users in db
     setNewUser = ( newUser, newPassword, newUserID ) => {
-        //add user to Users in db
+         
+         
+        
 
+        //add user to Users in db
+        
             let newCompleteUser = {
         
-                    password: newPassword,
+                    password: passwordHash.generate(newPassword),
                     userID: newUserID,
                     userName: newUser
         
             };
+
+            console.log(newCompleteUser)
             
             //sets new users in users
             axios.put( 'users/u' + newUserID + '.json' , newCompleteUser );   
@@ -163,13 +173,14 @@ TODO: add password hashing!
 
     }
     checkPwdForUserID = ( checkUsername, checkUserID, checkPassword ) => {
-
+        
         //axios get password for a given user
         axios.get( 'users/u' + checkUserID + '/password.json' ).then(
             ( e ) => {
 
                 //if pwd is correct
-                if ( e.data === checkPassword ) {
+                // e.data is the 
+                if ( passwordHash.verify( checkPassword, e.data) ) {
 
                     //set username userid and authentication in state
                     this.setState( { authenticated: true, userID: checkUserID, username: checkUsername } );
