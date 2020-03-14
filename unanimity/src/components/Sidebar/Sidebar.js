@@ -17,10 +17,11 @@ class Sidebar extends Component {
         let i = 0;
         let sidebar = null;
         
+            //if usersChatRoomID is NOT null
         if( this.props.usersChatRoomsID ){
 
                     chatRoomIDs = this.props.usersChatRoomsID; // All the chat rooms that the current authenticated user is in.
-                    //console.log(chatRoomIDs)
+                    
                     //for each chatRoomID as singleChatRoomID
                     chatRoomIDs.forEach( ( singleChatRoomID ) => {
                                                          
@@ -79,6 +80,10 @@ class Sidebar extends Component {
             //set css to show the sidebar
             sidebar = <div className = { styles.sidebarContainer } style = { {transform: 'translateX(0%)'} } >
 
+                        <div className={styles.addContainer}>
+                            <div className={styles.addButton}></div>
+                        </div>
+
                         { sidebarDisplay }
 
                     </div>;
@@ -89,6 +94,10 @@ class Sidebar extends Component {
 
             //set the css to hide the sidebar by moving it left 100%
             sidebar = <div className = { styles.sidebarContainer } style = { { transform: 'translateX(-100%)' } } >
+
+                        <div className={styles.addContainer}>
+                            <div className={styles.addButton}></div>
+                        </div>
 
                         { sidebarDisplay }
 
