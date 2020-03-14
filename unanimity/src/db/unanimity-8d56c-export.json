@@ -1,13 +1,13 @@
 {
   "chatRooms" : {
     "12345678" : {
-      "nextMsgNum" : 4,
-      "u1" : [ "hello", "world" ],
+      "nextMsgNum" : 5,
+      "u1" : [ "hello", "world", null, null, "come on jacob stay up late with me" ],
       "u2" : [ null, null, "pinansdkf", "hello, daf sadf i sakjf sdfkjn ijfieh lkdnf ioejf sdf dksfj  oafjei9" ]
     },
     "12345679" : {
-      "nextMsgNum" : 4,
-      "u1" : [ "what", null, null, "life" ],
+      "nextMsgNum" : 5,
+      "u1" : [ "what", null, null, "life", "lol" ],
       "u2" : [ null, "Hello", "girl" ]
     }
   },
@@ -27,13 +27,16 @@
     "nextUserID" : 3
   },
   "users" : {
+    "dummy" : {
+      "dummy" : "dummy"
+    },
     "u1" : {
-      "password" : "password",
+      "password" : "sha1$70eecfe8$1$0f200348764085e65243a994066231d25c6fff7e",
       "userID" : 1,
       "userName" : "Blaine"
     },
     "u2" : {
-      "password" : "password",
+      "password" : "sha1$bf9b2ea2$1$447d2d9bf4c39e2b4b4f5e26179f9e8db300d7b8",
       "userID" : 2,
       "userName" : "Jacob"
     }

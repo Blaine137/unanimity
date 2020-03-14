@@ -7,34 +7,40 @@ white: white
 html {
     font-weight: bold;
     font-size: 1.25rem;
-   
+    box-sizing: border-box;
 }
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 .wrapper {
     overflow: auto;
     height: 100vh;
 }
+
+.wrapper p { 
+    font-size: .75rem;
+}
+
 .form {
     
-    position: relative;
-    top: 10vh;
     display: block;
     text-align: left;
-    margin: 3rem auto;
-    padding: 3rem;;
+    margin: auto;
+    padding: 1rem;
     background-color:#F6F6F6;
     width: 80vw;
-    max-width: 500px;
-    max-height: 500px;
-    height: 65vh;
+    max-width: 90vw;
     color: #05386B ;
     font-weight: 700;
     letter-spacing: .1rem;
     border-radius: 1rem;
-    
 }
+
 fieldset{
     border: none;
 }
+
 legend{
     padding-bottom: 3rem;
     text-align: left;
@@ -49,23 +55,24 @@ legend{
     border: none;
     border-bottom: 2px solid #05386B;
     margin-bottom: 3rem;
-    
-
 }
 label {
     display: block;
     margin-bottom: 1rem;;
 }
+
 .submit {
-    background-color: #05386B;
-    color: #EDF5E1;
-    border: none;
     position: relative;
-    left: 60%;
+    left: 25%;
+    background-color: #05386B;
+    color:#F6F6F6;
+    border: none;  
     height: 3rem;
-    width: 6rem;
+    width: 50%;
+    min-width: 3.5rem;
     border-radius: 3rem;
     font-weight: 700;
+    margin-bottom: 2rem;
 }
 
 .submit:hover{
@@ -75,13 +82,15 @@ label {
 }
 
 .register{
-    background-color: #05386B;
-    color: #EDF5E1;
-    border: none;
     position: relative;
-    left: -10%;
+    left: 25%;
+    background-color: #05386B;
+    color:  #F6F6F6;
+    border: none;
+    display: block;
     height: 3rem;
-    width: 6rem;
+    width: 50%;
+    min-width: 3.5rem;
     border-radius: 3rem;
     font-weight: 700;
 }
@@ -90,4 +99,29 @@ label {
     color: #05386B;
     background-color: #5CDB95;
     transition: all .5s; 
+}
+/* phablet and up */
+@media only screen and (min-width: 600px){
+    .form{
+        padding: 3rem;
+    }
+    .register{
+        left: 0;
+        width: 40%;
+        float: right;
+    }
+    .submit{
+        width: 40%;
+        left: 0;
+    }
+}
+/*tablets and larger*/
+@media only screen and (min-width: 700px){
+.form {
+    padding: 3rem;
+    position: relative;
+    top: 10vh;
+    max-width: 500px;
+    max-height: 550px;
+}
 }

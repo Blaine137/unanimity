@@ -14,8 +14,8 @@ const Chatroom = ( props ) => {
         //foreach user looping through the messages
         if( nextuser[ 0 ] !== "nextMsgNum" ) {
 
-
-            nextuser[ 1 ].forEach( ( msg, index) => {
+            let nextUser = Object.values(nextuser[ 1 ]);
+            nextUser.forEach( ( msg, index) => {
             
                 //if msg is not null set display message of that msg index to a message component 
                 if( msg !== null ) { 
