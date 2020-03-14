@@ -1,27 +1,77 @@
-.burger{
 
-  
+.burger{
+  position: relative;
+  top: 0;
   z-index: 1;
   height: 50px;
   width: 50px;
   cursor: pointer;
   padding: 0;
+  
+}
+
+.close{
+  position: relative;
+  top: -10px;
+  z-index: 1;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  padding: 0;
+  
+}
+
+.closeTop{
+  height: 5px;
+  width: auto;
+  background-color: #05386B;
+  position: relative;
+  top: 25px;
+  transform: rotate(60deg);
+  transition: transform 1s ease-in-out;
+}
+
+.closeMiddle{
+  height: 5px;
+  width: auto;
+  background-color: #05386B;
+  opacity: 0;
+}
+
+.closeBottom{
+  position: relative;
+  top: 15px;
+  height: 5px;
+  width: auto;
+  background-color: #05386B;
+  transform: rotate(-60deg);
+  transition: transform 1s ease-in-out;
 }
 
 .burgerTop{
   height: 5px;
+  
   width: auto;
   background-color: #05386B;
   margin-bottom: 5px;
+  
   /* transform: rotate(50deg);   */
+}
+
+.burgerMiddle{
+  height: 5px;
+  width: auto;
+  background-color: #05386B;
   
-  
+  margin-bottom: 5px;
+  /* transform: rotate(50deg);   */
 }
 
 .burgerBottom{
   height: 5px;
   width: auto;
   background-color: #05386B;
+  
   /* transform: rotate(-60deg);   */
 }
 
@@ -37,93 +87,16 @@
     background-color: white;
     position: relative;
     
+    
 }
 
 .header3{
     width: 100%;
     color: #05386B;
     position: absolute;
-    top: 14%;
-    animation-name: rubberBand;
-    animation-duration: 3s;
-    animation-iteration-count: 1;
-    animation-direction: normal;
-    animation-delay: 2s;
-    
+    top: 14%;  
 }
 
-@keyframes rubberBand {
-    from {
-      -webkit-transform: scale3d(1, 1, 1);
-      transform: scale3d(1, 1, 1);
-    }
-  
-    30% {
-      -webkit-transform: scale3d(1.25, 0.75, 1);
-      transform: scale3d(1.25, 0.75, 1);
-    }
-  
-    40% {
-      -webkit-transform: scale3d(0.75, 1.25, 1);
-      transform: scale3d(0.75, 1.25, 1);
-    }
-  
-    50% {
-      -webkit-transform: scale3d(1.15, 0.85, 1);
-      transform: scale3d(1.15, 0.85, 1);
-    }
-  
-    65% {
-      -webkit-transform: scale3d(0.95, 1.05, 1);
-      transform: scale3d(0.95, 1.05, 1);
-    }
-  
-    75% {
-      -webkit-transform: scale3d(1.05, 0.95, 1);
-      transform: scale3d(1.05, 0.95, 1);
-    }
-  
-    to {
-      -webkit-transform: scale3d(1, 1, 1);
-      transform: scale3d(1, 1, 1);
-    }
-  }
 
-  -webkit-@keyframes rubberBand {
-    from {
-      -webkit-transform: scale3d(1, 1, 1);
-      transform: scale3d(1, 1, 1);
-    }
-  
-    30% {
-      -webkit-transform: scale3d(1.25, 0.75, 1);
-      transform: scale3d(1.25, 0.75, 1);
-    }
-  
-    40% {
-      -webkit-transform: scale3d(0.75, 1.25, 1);
-      transform: scale3d(0.75, 1.25, 1);
-    }
-  
-    50% {
-      -webkit-transform: scale3d(1.15, 0.85, 1);
-      transform: scale3d(1.15, 0.85, 1);
-    }
-  
-    65% {
-      -webkit-transform: scale3d(0.95, 1.05, 1);
-      transform: scale3d(0.95, 1.05, 1);
-    }
-  
-    75% {
-      -webkit-transform: scale3d(1.05, 0.95, 1);
-      transform: scale3d(1.05, 0.95, 1);
-    }
-  
-    to {
-      -webkit-transform: scale3d(1, 1, 1);
-      transform: scale3d(1, 1, 1);
-    }
-  }
 
 
