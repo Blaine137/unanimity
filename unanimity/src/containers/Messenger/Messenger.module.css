@@ -3,6 +3,7 @@
     height: 100vh;
     display: grid;
     grid-template-columns: 20vw 80vw;
+    background-color: #f5f5f5;
     /* overflow: hidden; */
 }
 .sidebarGrid{
@@ -11,6 +12,7 @@
     z-index: 1;
     width: 20vw;
     transition: all 1s ease-in-out;
+    
 }
 .mainContentGrid{
     height: 100vh; 

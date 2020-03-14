@@ -80,6 +80,8 @@
 }
 
 .header{
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
     z-index: -1;
     /*width minius padding to span entire area*/
     width: inherit;
@@ -88,13 +90,15 @@
     border-bottom:  2px solid #05386B;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 3rem;
-    background-color: white;
+    background-color: #f5f5f5;
     position: relative;
+    
 }
 
 .header3{
     width: 100%;
     color: #05386B;
     position: absolute;
-    top: 14%;  
+    top: 14%; 
+    font-family: 'Raleway', sans-serif; 
 }

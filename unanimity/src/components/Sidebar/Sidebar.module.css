@@ -1,14 +1,14 @@
 .sidebarContainer{
     width: 20.5vw ;
     height: 100vh;
-    background-color: #F6F6F6;
+    background-color: #e8e8e8;
     border-right: 2px solid #05386B;
     border-top-right-radius: 3rem;
     border-bottom-right-radius: 3rem; 
     padding: 1rem;
     position: relative;
     transition: all 1s ease-in-out;
-    
+    font-family: 'Raleway', sans-serif;
 }
 
 .addContainer{
@@ -38,7 +38,10 @@
     background-color: green;
     display: block;
 }
-
+.popUpContainer {
+    z-index: 100;
+    background-color: black;
+}
 .users{
     color:#05386B;
 }
