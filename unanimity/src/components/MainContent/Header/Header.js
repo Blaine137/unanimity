@@ -9,7 +9,7 @@ const header = ( props ) => {
             if( props.showSidebar ) {
 
                     //make the burger button a X
-                burger = <div onClick = { ( ) => { props.toggleSidebar( ) } } className = { styles.close }  >
+                burger = <div onClick = { ( ) => { props.toggleSidebar( ) } } className = { styles.burger }  >
 
                                 <div className = { styles.closeTop } ></div>
                                 <div className = { styles.closeMiddle } ></div>
@@ -21,9 +21,9 @@ const header = ( props ) => {
                         //if false then make the burger button 
                 burger = <div onClick={ ( ) => { props.toggleSidebar( ) } } className = { styles.burger }  >
 
-                            <div className = { styles.burgerTop } ></div>
-                            <div className = { styles.burgerMiddle } ></div>
-                            <div className = { styles.burgerBottom } ></div>
+                            <div className = { styles.openTop } ></div>
+                            <div className = { styles.openMiddle } ></div>
+                            <div className = { styles.openBottom } ></div>
                 
                         </div>;
 

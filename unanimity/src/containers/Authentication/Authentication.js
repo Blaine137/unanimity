@@ -45,7 +45,7 @@ TODO: add password hashing!
                     if(!e.data){
                         this.setNewUser( newUserValue, newPasswordValue, newUserID ); 
                     }else{
-                        alert('Username is allready tooken!');
+                        alert('Username is already taken!');
                     }
 
                 } ).catch( ( error ) => {
@@ -229,8 +229,8 @@ TODO: add password hashing!
                             <label htmlFor="password" >Password</label>
                             <input type="password" id="passwordID" name="password" className={styles.input}/>
 
-                            <input type="submit" value="Register" className={styles.register} onClick = { ( e ) => { this.checkForNewUser( e, document.getElementById("userNameID"), document.getElementById("passwordID") ) } } />
                             <input type="submit" value="Log in" className={styles.submit} onClick = {  ( e ) => { this.checkName( e ,document.getElementById('userNameID'),   document.getElementById('passwordID')) }   }/>
+                            <input type="submit" value="Register" className={styles.register} onClick = { ( e ) => { this.checkForNewUser( e, document.getElementById("userNameID"), document.getElementById("passwordID") ) } } /> 
                         </fieldset>
                         
                     </form>

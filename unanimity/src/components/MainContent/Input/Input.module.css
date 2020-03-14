@@ -1,25 +1,30 @@
+html {
+    font-weight: bold;
+    font-size: 1.25rem;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 .inputContainer{
-    /* background-image: url('../../../images/unanimityfooter.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat; */
     /*width minius padding to span entire area*/
     border-top:  2px solid #05386B;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 3rem;
+    border-radius: 1rem 3rem 0 0;
     background-color: white;
-    width: calc(100% - 2rem);
-    height: 10vh;
+    width: inherit;
+    height: 20vh;
     padding: 1rem;
     position: absolute;
     bottom: 0;
 }
 .input {
-    width: 40vw;
-    height: 5vh;
-    position: relative;
-    /*left: 20vw;*/
-    top: 25%;
-
+    background-color: #F6F6F6;
+    border: none;
+    border-radius: 1rem;
+    width: 80%;
+    max-width: 1200px;
+    height: 90%;
 }
 
 .input:hover{

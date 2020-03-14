@@ -158,7 +158,6 @@ class Messenger extends Component {
                 if( user[ 0 ] === ( "u" + this.state.userID )) {
 
                     //get the messages and set a vaible
-                    //console.log(user[1]);
                     authenticaedUserMessageOld = user[ 1 ];
 
                 }else if( user[ 0 ] === "nextMsgNum" ) {
@@ -171,7 +170,7 @@ class Messenger extends Component {
             })//end of foreach that sets old authenticaedUserMessageOld and nextMSg
 
             //add new message to to old messages
-            authenticaedUserMessageCombined = [...authenticaedUserMessageOld];
+            authenticaedUserMessageCombined = [...Object.values(authenticaedUserMessageOld)];
             //make sure that it keeps the order in the arrays. make it the nextMsgNum postion in the array. array[nextMsgNum]
             authenticaedUserMessageCombined[ nextMsgNum ] = newMessage;
 
@@ -272,7 +271,6 @@ class Messenger extends Component {
                              userID = { this.state.userID } 
                              setCurrentChatRoomID = { this.setCurrentChatRoom }
                              showSidebar={this.state.showSidebar} 
-                             style={{transition: 'transform 3s ease-in-out'}}    
                     />
 
                 </div>
