@@ -8,8 +8,8 @@ class Authentication extends Component {
     state = {
         
         authenticated: false,
-        userID: 1,
-        username: "Blaine"
+        userID:null,
+        username: null
         
     }
 /*
@@ -26,20 +26,27 @@ TODO: add password hashing!
         //getnextuserID
         axios.get( 'userIDByUsername/nextUserID.json' ).then( ( e ) => {
             newUserID = e.data
-                    //not null
+            //not null
             if( newUserValue && newPasswordValue ){
 
                 //a valid length
-                if( newUser.length > 15 || newPassword.length > 20 ){
+                if( newUserValue.length > 15 || newPasswordValue.length > 20 ){
 
                     alert('username must be less than 15 characters and password must be less that 20.');
 
                 }//if valid length
-
                 //try to get the username they are wanting to register as
-                axios.get( 'userIDByUsername/' + newUser + '.json' ).catch( ( error ) => {
+                axios.get( 'userIDByUsername/' + newUserValue + '.json' ).then( ( e ) => {
+                    
+                    if(!e.data){
+                        this.setNewUser( newUserValue, newPasswordValue, newUserID ); 
+                    }else{
+                        alert('Username is allready tooken!');
+                    }
 
-                    this.setNewUser( newUserValue, newPasswordValue, newUserID ); 
+                } ).catch( ( error ) => {
+
+                    
                     
                     return 300;
 
@@ -53,38 +60,81 @@ TODO: add password hashing!
 
     }
 
+    //sets users in db
     setNewUser = ( newUser, newPassword, newUserID ) => {
+        //add user to Users in db
+
+            let newCompleteUser = {
         
-        let newCompleteUser = {
-
-            
-                password: newPassword,
-                userID: newUserID,
-                userName: newUser
-            
-
-        };
-        //get all the data for the users tabel
-        //add new complete user to that data
-        //the axios put that combinded data
+                    password: newPassword,
+                    userID: newUserID,
+                    userName: newUser
         
-        axios.put( 'users/u' + newUserID + '.json' , newCompleteUser );   
+            };
+            
+            //sets new users in users
+            axios.put( 'users/u' + newUserID + '.json' , newCompleteUser );   
 
-        //convert string of int to actually integer so incrementing works
-        let updatedNextUserID = parseInt(newUserID);
-        updatedNextUserID++;
-        //update the nextUserID
-        axios.put( 'userIDByUsername/nextUserID.json', updatedNextUserID );
+        //end of add user to Users in db
+
+        // adds user to userIDByUsername
+
+            //create object
+            let userIDByUsername = {};
+            //set property of object name to newUser and then set the value of the property to newUserID
+            userIDByUsername[ newUser ] = newUserID;
+
+            //axios get old usernames and ID
+            axios.get( 'userIDByUsername.json' ).then(
+                (e) => {
+
+                    //set old data(not including new user)
+                    let oldUserIDByUsername = e.data;
+                    //combine new user and old users
+                    let combinedUserIDByUsername = { ...oldUserIDByUsername, ...userIDByUsername };
+                    //convert string of int to actually integer so incrementing works
+                    let updatedNextUserID = parseInt( newUserID );
+                    updatedNextUserID++;
+                    //sets nextUserId to correct ID
+                    combinedUserIDByUsername.nextUserID = updatedNextUserID;
+
+                    //update db to latest version
+                    axios.put( 'userIDByUsername.json',  combinedUserIDByUsername);
+
+                }
+            );//axios get old usernames and iD
+
+        // end of adds user to userIDByUsername
+
+        //add to usersChatRooms in DB
+                
+                //ucr stands for UserChatRoom
+                let newUCR = {
+
+                    chatRooms: [  ],
+                    userID: newUserID
+
+                }
+                axios.put( 'usersChatRooms/ucr' + newUserID + '.json', newUCR );
+
+        //end of add to usersChatRooms in DB
+        
+        //inform user that account was created
+        alert( "Your account has been created!" );
+
+
     }
     
     checkName = ( authValues, userNameElement, passwordElement ) => {
        
-        let username = userNameElement.value;
-        let password = passwordElement.value;
+        let username = userNameElement.value || userNameElement;
+        let password = passwordElement.value || passwordElement;
         let userID = null;
 
         //prevents page from reloading. forms by default cause pages to reload.
-        authValues.preventDefault();
+        if(authValues){
+            authValues.preventDefault();
+        }
         //if username was provided
         if( username ) {
 
@@ -147,7 +197,6 @@ TODO: add password hashing!
 
     render( ) {
         
-
         let messenger = null;
         //if authenticed go to messenger
         if( this.state.authenticated ) {
@@ -173,22 +222,18 @@ TODO: add password hashing!
                             <label htmlFor="password" >Password</label>
                             <input type="password" id="passwordID" name="password" className={styles.input}/>
 
-                            <input type="submit" value="Register" className={styles.register} onClick = { ( e ) => {this.checkForNewUser(e, document.getElementById("userNameID"), document.getElementById("passwordID"))}}/>
+                            <input type="submit" value="Register" className={styles.register} onClick = { ( e ) => { this.checkForNewUser( e, document.getElementById("userNameID"), document.getElementById("passwordID") ) } } />
                             <input type="submit" value="Log in" className={styles.submit} onClick = {  ( e ) => { this.checkName( e ,document.getElementById('userNameID'),   document.getElementById('passwordID')) }   }/>
                         </fieldset>
                         
-                        
-
                     </form>
-                  
-
+                
                 </div>
                 
             );//varible messenger
                
         }//if state authenticated
-        
-               
+                 
         return(
 
             <Fragment>
@@ -197,8 +242,8 @@ TODO: add password hashing!
 
             </Fragment>
 
-        );
-    }
+        );//return()
+    }//render()
 }
 
 export default Authentication;
