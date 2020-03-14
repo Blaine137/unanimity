@@ -11,7 +11,7 @@ class Authentication extends Component {
         
         authenticated: true,
         userID: 1,
-        username: 'blaine'
+        username: 'blaine' 
         
     }
     
@@ -36,16 +36,20 @@ TODO: add password hashing!
                 //a valid length
                 if( newUserValue.length > 15 || newPasswordValue.length > 20 ){
 
-                    alert('username must be less than 15 characters and password must be less that 20.');
+                    alert( 'username must be less than 15 characters and password must be less that 20.' );
 
                 }//if valid length
                 //try to get the username they are wanting to register as
                 axios.get( 'userIDByUsername/' + newUserValue + '.json' ).then( ( e ) => {
                     
-                    if(!e.data){
+                    if(  !e.data ) {
+
                         this.setNewUser( newUserValue, newPasswordValue, newUserID ); 
-                    }else{
-                        alert('Username is already taken!');
+
+                    } else {
+
+                        alert( 'Username is already taken!' );
+
                     }
 
                 } ).catch( ( error ) => {
@@ -87,13 +91,13 @@ TODO: add password hashing!
         // adds user to userIDByUsername
 
             //create object
-            let userIDByUsername = {};
+            let userIDByUsername = { };
             //set property of object name to newUser and then set the value of the property to newUserID
             userIDByUsername[ newUser ] = newUserID;
 
             //axios get old usernames and ID
             axios.get( 'userIDByUsername.json' ).then(
-                (e) => {
+                ( e ) => {
 
                     //set old data(not including new user)
                     let oldUserIDByUsername = e.data;
@@ -113,7 +117,7 @@ TODO: add password hashing!
 
         // end of adds user to userIDByUsername
 
-        //add to usersChatRooms in DB
+        //start add to usersChatRooms in DB
                 
                 //ucr stands for UserChatRoom
                 let newUCR = {
@@ -223,14 +227,14 @@ TODO: add password hashing!
                     <form className = { styles.form }  >
                         <fieldset>
                             <legend>Unanimity Messenger Login</legend>
-                            <label htmlFor="username" >Username</label>
-                            <input type="text" id="userNameID" name="username" className={styles.input} />
+                            <label htmlFor = "username" >Username</label>
+                            <input type = "text" id = "userNameID" name = "username" className = { styles.input } />
                             
-                            <label htmlFor="password" >Password</label>
-                            <input type="password" id="passwordID" name="password" className={styles.input}/>
+                            <label htmlFor = "password" >Password</label>
+                            <input type = "password" id = "passwordID" name = "password" className = { styles.input } />
 
-                            <input type="submit" value="Log in" className={styles.submit} onClick = {  ( e ) => { this.checkName( e ,document.getElementById('userNameID'),   document.getElementById('passwordID')) }   }/>
-                            <input type="submit" value="Register" className={styles.register} onClick = { ( e ) => { this.checkForNewUser( e, document.getElementById("userNameID"), document.getElementById("passwordID") ) } } /> 
+                            <input type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ),   document.getElementById( 'passwordID' ) ) }   } />
+                            <input type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , document.getElementById( "userNameID" ), document.getElementById( "passwordID" ) ) } } /> 
                         </fieldset>
                         
                     </form>

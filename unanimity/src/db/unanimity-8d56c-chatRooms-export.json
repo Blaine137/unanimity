@@ -1,15 +1,16 @@
 {
   "chatRooms" : {
     "12345678" : {
-      "nextMsgNum" : 5,
-      "u1" : [ "hello", "world", null, null, "come on jacob stay up late with me" ],
-      "u2" : [ null, null, "pinansdkf", "hello, daf sadf i sakjf sdfkjn ijfieh lkdnf ioejf sdf dksfj  oafjei9" ]
+      "nextMsgNum" : 7,
+      "u1" : [ "hello", "world", null, null, "come on jacob stay up late with me", null, "you only can if you stay up late" ],
+      "u2" : [ null, null, "pinansdkf", "hello, daf sadf i sakjf sdfkjn ijfieh lkdnf ioejf sdf dksfj  oafjei9", null, "can i send a message" ]
     },
     "12345679" : {
-      "nextMsgNum" : 5,
-      "u1" : [ "what", null, null, "life", "lol" ],
+      "nextMsgNum" : 6,
+      "u1" : [ "what", null, null, "life", "lol", "hey rik" ],
       "u2" : [ null, "Hello", "girl" ]
-    }
+    },
+    "nextChatRoomID" : "10000001"
   },
   "chatRoomsUsers" : {
     "cru12345678" : {
@@ -27,9 +28,6 @@
     "nextUserID" : 3
   },
   "users" : {
-    "dummy" : {
-      "dummy" : "dummy"
-    },
     "u1" : {
       "password" : "sha1$70eecfe8$1$0f200348764085e65243a994066231d25c6fff7e",
       "userID" : 1,
