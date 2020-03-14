@@ -6,7 +6,7 @@ const mainContent = (props) => {
     
     return(
        <Fragment>
-            <Header currentChatRoomName={ props.currentChatRoomName } showSidebar = { props.toggleSidebar } />
+            <Header currentChatRoomName={ props.currentChatRoomName } toggleSidebar = { props.toggleSidebar } showSidebar = { props.showSidebar } />
             <ChatRoom currentChatRoom={ props.currentChatRoom } />
             <Input newMessage={ props.newMessage } /> 
        </Fragment>

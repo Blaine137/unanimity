@@ -19,7 +19,8 @@ class Messenger extends Component {
         currentChatRoomName: null,
         username: null,
         showSidebar: true,
-        sidebarInlineStyles: { display: 'block'}
+        sidebarInlineStyles: { display: 'block'},
+        renderHeader: false
 
     }
   
@@ -279,6 +280,7 @@ class Messenger extends Component {
                                  currentChatRoom = { this.state.currentChatRoom } 
                                  currentChatRoomName = { this.state.currentChatRoomName }
                                  toggleSidebar = { this.setShowSidebar } 
+                                 showSidebar={ this.state.showSidebar }
                     />
 
                 </div> 

@@ -7,9 +7,9 @@ class Authentication extends Component {
 
     state = {
         
-        authenticated: false,
-        userID:null,
-        username: null
+        authenticated: true,
+        userID:1,
+        username: 'Blaine'
         
     }
 /*
@@ -54,9 +54,6 @@ TODO: add password hashing!
 
             }//if newUser and newPassword not null
         } );
-
-       
- 
 
     }
 
@@ -121,8 +118,7 @@ TODO: add password hashing!
         
         //inform user that account was created
         alert( "Your account has been created!" );
-
-
+        
     }
     
     checkName = ( authValues, userNameElement, passwordElement ) => {
