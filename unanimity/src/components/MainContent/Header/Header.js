@@ -28,7 +28,7 @@ const header = ( props ) => {
                         </div>;
 
             }
-    
+           
         return(
 
             <header className = { styles.header } >
@@ -36,7 +36,7 @@ const header = ( props ) => {
                 { burger }
 
                 <h3 className = { styles.header3 } >
-
+                    
                     { props.currentChatRoomName } 
 
                 </h3>

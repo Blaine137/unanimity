@@ -84,18 +84,21 @@ class Messenger extends Component {
 
     //called by setCurrentChatRoom
     setCurrentChatRoomName = ( ChatRoomIDForName ) => {
-
+    
      if( ChatRoomIDForName ) {
-
-            //for chatRoom get users in the chatRoom
+        
+        //for chatRoom get users in the chatRoom
         axios.get( 'chatRoomsUsers/cru' + ChatRoomIDForName + '/users.json' ).then(
             ( e ) => {
- 
+                
                 if( e.data ){
 
-                    //remove ourselfs from the chatroomID array
-                    e.data.splice(0 , this.state.userID);
-
+                    //find index of our id
+                    let userIndex = e.data.indexOf(this.state.userID);
+                    
+                    //remove ourself form the array
+                    e.data.splice(userIndex, this.state.userID);
+                    
                     //for recipents in the array set them as chatRoom name
                     e.data.forEach( ( singleUserID ) => { 
 

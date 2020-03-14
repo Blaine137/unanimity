@@ -7,9 +7,9 @@ class Authentication extends Component {
 
     state = {
         
-        authenticated: true,
-        userID:1,
-        username: 'Blaine'
+        authenticated: false,
+        userID: null,
+        username: null
         
     }
 /*
