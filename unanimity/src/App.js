@@ -1,15 +1,19 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import Authentication from './containers/Authentication/Authentication';
 
-function App() {
+function App( ) {
+
   return (
-    <div className="App">
+
+    <div className = "App">
       
         <Authentication />
 
     </div>
+
   );
+
 }
 
 export default App;
