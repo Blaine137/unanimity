@@ -8,26 +8,28 @@ html {
   box-sizing: inherit;
 }
 .inputContainer{
-    /*width minius padding to span entire area*/
-    border-top:  2px solid #05386B;
-    border-radius: 1rem 3rem 0 0;
-    background-color: white;
     width: inherit;
     height: 20vh;
     padding: 1rem;
     position: absolute;
     bottom: 0;
     background-color: #e8e8e8;
+    
 }
 .input {
-    background-color: #F6F6F6;
+    background-color: #f4f4f4;
+    color: #05386B;
     border: none;
     border-radius: 1rem;
     width: 80%;
     max-width: 1200px;
     height: 90%;
+        &::placeholder{
+            color: #05386B;
+        }
+        &:hover{
+            cursor: pointer;
+        }
 }
 
-.input:hover{
-    cursor: pointer;
-}
+

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
-import styles from './Authentication.module.css';
+import styles from './Authentication.module.scss';
 import axios from '../../axios';
 //import npm pass https://www.npmjs.com/package/password-hash
 import * as passwordHash from 'password-hash';
@@ -9,9 +9,9 @@ class Authentication extends Component {
 
     state = {
         
-        authenticated: true,
-        userID: 1,
-        username: 'blaine' 
+        authenticated: false,
+        userID: null,
+        username: null 
         
     }
     
@@ -81,7 +81,6 @@ TODO: add password hashing!
         
             };
 
-            console.log(newCompleteUser)
             
             //sets new users in users
             axios.put( 'users/u' + newUserID + '.json' , newCompleteUser );   

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
-import styles from './Messenger.module.css';
+import styles from './Messenger.module.scss';
 
 
 
@@ -27,7 +27,7 @@ class Messenger extends Component {
     componentDidMount = ( ) => {
 
         //every second update the current chatroom. this make sure we can see if the other messenger sent a message
-        this.interval = setInterval(() => {if(this.state.currentChatRoomID){this.setCurrentChatRoom(this.state.currentChatRoomID)}}, 1000);
+        this.interval = setInterval( ( ) => {if( this.state.currentChatRoomID ) { this.setCurrentChatRoom(this.state.currentChatRoomID ) } }, 1000);
 
         this.setAuthentication( );
         
@@ -178,14 +178,14 @@ class Messenger extends Component {
         let nextMsgNum = null;
 
         //set maximum allowed message length. make sure we have a message. and make sure a chatRoom is selected
-        if( newMessage.length > 0 && newMessage.length < 200 && this.state.currentChatRoom != null){
+        if( newMessage.length > 0 && newMessage.length < 200 && this.state.currentChatRoom != null ) {
 
             //set authenticaedUserMessageOld and nextMSg number from this.state.currentChatRoom
-            Object.entries( this.state.currentChatRoom).forEach( ( user ) => {
+            Object.entries( this.state.currentChatRoom ).forEach( ( user ) => {
 
                 //user[0] is the name of the property indise of the chatroom (u +userID, nextMsgNum)
                 //if this the current authenticaed user messages
-                if( user[ 0 ] === ( "u" + this.state.userID )) {
+                if( user[ 0 ] === ( "u" + this.state.userID ) ) {
 
                     //get the messages and set a vaible
                     authenticaedUserMessageOld = user[ 1 ];
@@ -248,14 +248,18 @@ class Messenger extends Component {
         
         //id of the person we are sending to
         let recipentID = null;
+
         //the chatroom id that will be used for the createion of the new chatroom
         let newChatRoomID = null;
+
         //chatRoomID after our new chatroom. used for upadating db after we add our newchatroom
         let updatedChatRoomID = null;
         let newChatRoomObject = { };
+
         //will be the new updated userChatRooms/ucr+userID/chatRooms.json for the authenticated user. will equal array of chatRoomsID that the user is apart of
         let updatedAuthUserChatRoomsID = [];
         let updatedRecipientUserChatRoomsID = [];
+
         //object that will be inserted in the newly created ChatRoomUsers/newchatRoomid.json.
         let newChatRoomUsersObject = {};
 
@@ -267,9 +271,11 @@ class Messenger extends Component {
         }
 
 
-        //--------- start check if recipents name exzist. set recipentsId if it exzist ---------
+        //--------- start check if recipents name exists. set recipentsId if it exzist ---------
 
-            //axios get userIDbyName for recipent
+            if( recipentName !== null ) {
+
+                //axios get userIDbyName for recipent
             axios.get( 'userIDByUsername/' + recipentName + '.json' ).then(
                 ( response ) => {
 
@@ -289,7 +295,6 @@ class Messenger extends Component {
                         //if userID was set. username was found
                         if( recipentID !== null ) {
                             
-
                                 //sets newChatRoomObject. object will be added to db as a new chatroom
                                 newChatRoomObject = {
 
@@ -298,8 +303,8 @@ class Messenger extends Component {
                                 };
     
                                 //adds u+userid to the chatroom object with u+userID as the property name. then sets the value to an array.
-                                newChatRoomObject[ "u" + this.state.userID ]  =  [ ( this.state.username + " has joined!" ) ] ;
-                                newChatRoomObject[ "u" + recipentID ] = [ null,  ( recipentName + " has joined!" ) ];
+                                newChatRoomObject[ "u" + this.state.userID ]  =  [ ( this.state.username + " has joined the chat!" ) ] ;
+                                newChatRoomObject[ "u" + recipentID ] = [ null,  ( recipentName + " has joined the chat!" ) ];
 
                                 //gets next avaible chatRoomID
                                 axios.get( 'chatRooms/nextChatRoomID.json' ).then(
@@ -325,9 +330,10 @@ class Messenger extends Component {
                                                 //find the chatRoomID that comes after our newChatRoomID
                                                 //sometimes it is a string so make sure its a int
                                                 updatedChatRoomID = parseInt( newChatRoomID );
+                                                
                                                 //increment the ID to find the Id after newID
                                                 updatedChatRoomID++;
-                                    
+                                                
                                                 //set the db nextChatRoomID to the updatedChatRoomID
                                                 axios.put( 'chatRooms/nextChatRoomID.json', updatedChatRoomID ).catch(
                                                     ( error ) => {
@@ -351,7 +357,15 @@ class Messenger extends Component {
                                             //start update for Authenticated user
                                             
                                                 //copy by value value not referance
-                                                updatedAuthUserChatRoomsID = [ ...this.state.usersChatRoomsID ];
+                                                if( this.state.usersChatRoomsID ){
+
+                                                    updatedAuthUserChatRoomsID = [ ...this.state.usersChatRoomsID ];
+
+                                                } else {
+
+                                                    updatedAuthUserChatRoomsID = [];
+
+                                                }
                                                 //add the newChatRoomID to the authenticated user chatRoomsID
                                                 updatedAuthUserChatRoomsID.push( newChatRoomID );
 
@@ -371,11 +385,17 @@ class Messenger extends Component {
                                                 //get the recipents current/old(without the newchatroom)chatRooms from usersChatRooms
                                                 axios.get( 'usersChatRooms/ucr' + recipentID + '/chatRooms.json').then(
                                                     ( e ) => {
-                                                        
-                                                         updatedRecipientUserChatRoomsID = e.data;
+                                                            
+                                                            //if e.data is not null
+                                                         if(e.data){
+                                                            updatedRecipientUserChatRoomsID = e.data; //set URUCR-ID to the data 
+                                                            console.log('updatedr: ', updatedRecipientUserChatRoomsID)
+                                                         }else{
+                                                            updatedRecipientUserChatRoomsID = [];
+                                                         }
                                                          //add newChatRoomID to the recipents Chatrooms
                                                          updatedRecipientUserChatRoomsID.push( newChatRoomID );
-                                                        
+                                                         console.log('urucrID: ', updatedRecipientUserChatRoomsID)
 
                                                          //add the updated IDs to the DB
                                                          axios.put( 'usersChatRooms/ucr' + recipentID + '/chatRooms.json', updatedRecipientUserChatRoomsID ).then( 
@@ -429,13 +449,12 @@ class Messenger extends Component {
                                     ( error ) => {
 
                                     alert( "Error occurred while trying to set ChatRoomID. Please try agin. " , error );
-
+                                        console.log(error)
                                     } 
 
                                 );//axios get nextchatRoomID
                                                                           
-
-                        }//if userID set
+                        }//if recipentID set
 
                     //--------- end create the chatroom and referances ---------
 
@@ -450,6 +469,11 @@ class Messenger extends Component {
                 }
                 
             );//axios get userIDbyName for recipent
+            } 
+            //ussername cannot be null
+            else {
+               alert( 'Recipent\'s name is required!' );
+            }
 
         // --------- end of check recipent name ---------
         

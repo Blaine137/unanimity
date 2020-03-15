@@ -1,60 +1,48 @@
 .burger{
   position: relative;
-  /* top: -10px; */
-  z-index: 1;
-  height: 50px;
+  left: -40%;
   width: 50px;
   cursor: pointer;
   padding: 0;
   margin-top: auto;
   margin-bottom: auto;
-  /* border: 2px solid black; */
+  display: inline-block;
 }
 
 .close{
-  position: relative;
-  top: -10px;
   z-index: 1;
-  height: 50px;
-  width: 50px;
   cursor: pointer;
   padding: 0;
-  
 }
 
 .closeTop{
   height: 5px;
-  width: auto;
+  width: 50px;
   background-color: #05386B;
-  position: relative;
-  top: 15px;
-  transform: rotate(60deg);
+  transform: rotate(45deg);
   transition: transform .5s ease-in-out;
 }
 
 .closeMiddle{
   height: 5px;
-  width: auto;
+  width: 50px;
   background-color: #05386B;
-  transform: translateX(-400%);
-  opacity: 0;
+  display: none;
   transition: transform .5s ease-in-out;
-  /* opacity: 0; */
 }
 
 .closeBottom{
-  position: relative;
-  top: 5px;
   height: 5px;
-  width: auto;
-  background-color: #05386B;
-  transform: rotate(-60deg);
+  width: 50px;
+  background-color: #365F88;
+  transform-origin: 40% 0;
+  transform: rotate(-45deg);
   transition: transform .5s ease-in-out;
 }
 
 .openTop{
   height: 5px;
-  width: auto;
+  width: 50px;
   background-color: #05386B;
   margin-bottom: 5px;
   transform: rotate(0deg);
@@ -63,17 +51,15 @@
 
 .openMiddle{
   height: 5px;
-  width: auto;
-  background-color: #05386B;
+  width: 50px;
   margin-bottom: 5px;
-  transform: translateX(0);
-  /* opacity: 1; */
+  background-color: #05386B;
   transition: transform .5s ease-in;
 }
 
 .openBottom{
   height: 5px;
-  width: auto;
+  width: 50px;
   background-color: #05386B;
   transform: rotate(0deg);
   transition: transform .5s ease-in-out;  
@@ -82,23 +68,14 @@
 .header{
     font-family: 'Raleway', sans-serif;
     font-weight: bold;
-    z-index: -1;
-    /*width minius padding to span entire area*/
     width: inherit;
-    height: 10vh;
     padding: 1rem;
-    border-bottom:  2px solid #05386B;
-    border-bottom-left-radius: 1rem;
-    border-bottom-right-radius: 3rem;
-    background-color: #f5f5f5;
     position: relative;
-    
+    background-color: #e8e8e8;     
 }
 
 .header3{
-    width: 100%;
     color: #05386B;
-    position: absolute;
-    top: 14%; 
-    font-family: 'Raleway', sans-serif; 
+    display: inline;
+    font-family: 'Source Sans Pro', sans-serif; 
 }
