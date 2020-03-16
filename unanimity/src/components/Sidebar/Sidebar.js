@@ -6,12 +6,22 @@ class Sidebar extends Component {
 
     state = {
 
-        chatRoomName: 'none',
+        chatRoomName: [],
         addChatRoomPopUp: null
 
     }
 
-    
+    /*shouldComponentUpdate( nextProps, nextState ) {
+        if(nextState.chatRoomName === this.state.chatRoomName && this.state.chatRoomName !== [] && this.props === nextProps) {
+
+            return false;
+        
+        }   else {
+
+            return true;
+
+        }
+    }*/
     popUp = ( ) => {
         
         //show pop up by setting addChatRoomPopUp to pop up
@@ -33,19 +43,20 @@ class Sidebar extends Component {
     
         let sidebarDisplay = [ ];
         let chatRoomIDs = null;
-        let i = 1;
+        let i = 0;
         let sidebar = null;
+        let chatRoomNameIndex = 0;
         
 
         //if usersChatRoomID is NOT null
         if( this.props.usersChatRoomsID ){
-                
+           
                     chatRoomIDs = {
                         ...this.props.usersChatRoomsID
                     }; // All the chat rooms that the current authenticated user is in.
                     let chatRoomsIDsArray = Object.entries(chatRoomIDs);
                     //for each chatRoomID as singleChatRoomID
-                    
+                  
                     chatRoomsIDsArray.forEach( ( singleChatRoomID ) => {
                         
                         //get alls usersID that are in the singleChatRoomID
@@ -54,15 +65,14 @@ class Sidebar extends Component {
                                 
                                 //if we have the data. do stuff with the data. if there is no data the .catch() wil handle it
                                 if( res.data !== null ){
-
+                                    
                                     let chatRoomUsersArray = Object.entries( res.data ); //converts the data into an array
                                     
                                     //[1][1] navigates to userID in the array.
                                     // for each userID as chatRoomUserID
-                                    //BY console.log('chatRoomUsersArray[1][1]: ',chatRoomUsersArray)
-                                    chatRoomUsersArray.forEach( ( chatRoomUserID ) => {
-        /* --------------------------------------------------- WBY LEFT OFF HERE TRYING TO MAKE SIDEBAR NAMES NOT SPAM --------------------------------------------- */
-                                           console.log('chatroomusersarray: ', chatRoomUserID)                                                                                                                         
+                                     //console.log('chatRoomUsersArray[1][1]: ', chatRoomUsersArray)
+                                    chatRoomUsersArray[ 1 ][ 1 ].forEach( ( chatRoomUserID ) => {
+                                                                                                                            
                                         
                                         //gets the data for that current chatRoomUserID
                                         //if current chatRoomuserID === current userID logged in  
@@ -71,14 +81,29 @@ class Sidebar extends Component {
                                             //axios get username for the current chatRoom user
                                             axios.get( 'users/u' + chatRoomUserID + '/userName.json' ).then(
                                                 ( e ) => {
-                                                        console.log(e.data)
-                                                    //this if prevents a infinite loop.
-                                                    if( this.state.chatRoomName !== e.data ){
+                                                         
+                                               
+                                                        let newChatRoomName = []; 
+                                                        //gets chatRoomName from previouse runs though the for loop. if there is any
+                                                        if(this.state.chatRoomName !== null){
 
+                                                            newChatRoomName = [...this.state.chatRoomName];
+                                                            
+                                                        }
+                                                       //adds the new/current chatroom name to the arrays
+                                                        newChatRoomName[chatRoomNameIndex] = e.data;                                                   
                                                         //set chatRoomName to username of the recipent in the chatroom
-                                                        this.setState( { chatRoomName: e.data} );
+                                                        //if there is more chatroom in the array
+                                                        if( this.state.chatRoomName.length !== newChatRoomName.length ){
+
+                                                            this.setState( { chatRoomName: newChatRoomName } );
+                                                            chatRoomNameIndex++;
+                                                            
+                                                        }
+                                                        //this.setState( { chatRoomName: newChatRoomName } );
                                                         
-                                                    }//prevent infinateloop if
+                                                        
+                                                   
                                                                                                                                                                                     
                                             });//axios get username for the current chatRoom user
 
@@ -96,10 +121,12 @@ class Sidebar extends Component {
 
                             } 
                         );//get alls usersID that are in the singleChatRoomID
-                        i++;
-                        sidebarDisplay.push( ( <div onClick = { ( ) => { this.props.setCurrentChatRoomID( singleChatRoomID ) } } key = { i }  className = { styles.users } >
-                                                        <h3> { this.state.chatRoomName } </h3>
+                        
+                      
+                        sidebarDisplay.push( ( <div onClick = { ( ) => { this.props.setCurrentChatRoomID( singleChatRoomID[ 1 ] ) } } key = { i }  className = { styles.users } >
+                                                        <h3> { this.state.chatRoomName[ i ] } </h3>
                                         </div>)); 
+                        i++;
 
                     }); //for each chatRoomID as singleChatRoomID                
         }
@@ -139,6 +166,7 @@ class Sidebar extends Component {
                     </div>;
 
         }
+       
         
         return(
 
