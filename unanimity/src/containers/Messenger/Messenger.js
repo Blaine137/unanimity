@@ -480,10 +480,137 @@ class Messenger extends Component {
     
     }
 
+    removeChatRoom = ( removeChatRoomID ) => {
+        
+        //will equal all the users ID that are in the chatroom and need the chatroom id removed from userChatRooms
+        let removeChatRoomUsers = [];
+        //index of the chatRoom we need to remove from userChatRoom(ucr)
+        let ucrIndex = null;
+        //used for deleting the data. set the data to null(empty object) and firebase removes it completely
+        let empty = {};
+
+        //if chatRoomID is not null
+        if( removeChatRoomID !== null ){
+            
+            //get the chatRoomUsers ID so that we can use it to remove the chatRoom from usersChatRoom.
+            axios.get( 'chatRoomsUsers/cru' + removeChatRoomID + '/users.json' ).then(
+                ( e ) => {
+                    
+                    //if there is no data then .catch() should inform the user something went wrong
+                    //also if there is e.data then the chatroom exzisted
+                    if( e.data !== null ) {
+
+                        removeChatRoomUsers = e.data;
+                        
+                        // -------- start remove the chatRoom from the ChatRoomUsers --------
+
+                            
+                            //deletes data by setting it equal to an empty object. firebase then automattically removes empty objects
+                            axios.put( 'chatRoomsUsers/cru' + removeChatRoomID + '.json' , empty ).catch( ( e ) => { console.log( "error overiding/deleting chatRoomUsers for " + removeChatRoomID + "axios error: " + e ) } );
+
+                        // -------- end of remove the chatRoom from the chatRoomUsers --------
+
+
+                        // -------- start of remove the chatRoom from usersChatRooms for the ID of removeChatRoomUsers --------
+
+                            //if we have users to remove
+                            
+                            if( removeChatRoomUsers ) {
+                                
+                                //for each user that we need to remove the chatoom from
+                                removeChatRoomUsers.forEach( (user) => {
+
+                                    //get all of the users chatrooms for a specifc user
+                                    axios.get( 'usersChatRooms/ucr' + user + '/chatRooms.json' ).then(
+                                        ( e ) => {
+                                            
+                                            //confirm that it is an array
+                                            e.data = Object.values(e.data);
+                                            //reset  the index from previouse loops
+                                            ucrIndex = null;
+                                            
+                                            //find the index of the chatRoomID we need to remove
+                                            ucrIndex = e.data.indexOf(removeChatRoomID);
+
+                                            //if we have an index to remove. 
+                                            if( ucrIndex ){
+
+                                                e.data.splice(ucrIndex);
+                                            
+                                                ///if e.data only contained one chatroom and we removed that chatroom then it would equal null
+                                                if( e.data === null ) {
+
+                                                    //update the userChatRooms to the empty object which just deltes the enrie object.
+                                                    //if we used e.data which is just null it dosent work. it requires an object to be passed in for the DB restraints
+
+                                                     //in if ucrIndex because if we dont remove anything no need to update the db
+                                                    //update users chatrooms in BD
+                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', empty ).catch(
+                                                        ( error ) => {
+                                                            console.log( error );
+                                                        }
+                                                    );
+
+                                                } 
+                                                //removed the chatroom and they still have other chatrooms
+                                                else {
+
+                                                     //in if ucrIndex because if we dont remove anything no need to update the db
+                                                    //update users chatrooms in BD
+                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', e.data ).catch(
+                                                        ( error ) => {
+                                                            console.log( error );
+                                                        }
+                                                    );
+
+                                                }
+                                                
+
+                                            }//if ucrIndex is not null
+
+
+                                        }//axios then()
+                                    ).catch( ( e ) => { console.log( e ) } );//axios get userChatRooms for user
+
+                                });//foreach chatRoomUsers
+
+                            }//if have users to remove
+
+                        // -------- end of remove the chatRoom from usersChatRooms for the ID of removeChatRoomUsers --------
+
+
+                        // -------- start of remove chatRoom from chatRooms -------- 
+
+                            //deltes data by setting it to null. then firebase removes it completly
+                            axios.put( 'chatRooms/' + removeChatRoomID + '.json', empty );
+                            
+                        // -------- end of remove chatRoom from chatRooms -------- 
+
+                    }//if e.data is not null
+                    
+                }
+            ).catch(
+                ( error ) => {
+
+                    alert( "Could not find Chatroom that you requested to be removed. ", error );
+
+                }
+            );//axios get chatRoomUsers
+
+        }//if ChatroomID is not null 
+        //chatRoomID Is null
+        else {
+
+            console.log( "removeChatRoomID was null in removeChatRoom function. function was canceled." );
+
+        }//if chatroomID is not null
+
+    }
+
     render( ) {
 
        let mainContentInlineStyles = { };
-        // //if sidebar is not showing 
+        //if sidebar is not showing 
         if( !this.state.showSidebar ) {
            
           //make maincontent span entire width

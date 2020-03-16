@@ -9,6 +9,7 @@ class Authentication extends Component {
 
     state = {
         
+        //this sets the default authentication to false.
         authenticated: false,
         userID: null,
         username: null 
@@ -67,21 +68,18 @@ TODO: add password hashing!
 
     //sets users in db
     setNewUser = ( newUser, newPassword, newUserID ) => {
-         
-         
-        
-
+               
         //add user to Users in db
         
             let newCompleteUser = {
-        
+
+                    //passwordHash is a npm install. gernerate by default has 8 salts and strong one way encryption.
                     password: passwordHash.generate(newPassword),
                     userID: newUserID,
                     userName: newUser
         
             };
-
-            
+    
             //sets new users in users
             axios.put( 'users/u' + newUserID + '.json' , newCompleteUser );   
 
