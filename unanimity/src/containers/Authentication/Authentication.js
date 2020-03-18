@@ -10,9 +10,9 @@ class Authentication extends Component {
     state = {
         
         //this sets the default authentication to false.
-        authenticated: false,
-        userID: null,
-        username: null 
+        authenticated: true, 
+        userID: 1,
+        username: "Blaine" 
         
     }
     

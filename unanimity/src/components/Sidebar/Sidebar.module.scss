@@ -14,21 +14,22 @@
     left: 75%;
     height: 30px;
     width: 25px;
-}
-
-.addContainer:hover{
-    cursor: pointer;
+        &:hover{
+            cursor: pointer;
+        }
 }
 
 .addButton{
     height: 6px;
     width: 100%;
     background: green;
+    border: none;
         &::after{
             content: '';
             height: 6px;
             width: 100%;
             transform: rotate(90deg);
+            border: 1px solid green;
             background-color: green;
             display: block;
         }
