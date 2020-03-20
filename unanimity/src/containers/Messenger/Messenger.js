@@ -244,7 +244,7 @@ class Messenger extends Component {
     }
 
     //add onSubmission of popUp for addChatRoom in sidebar component
-    newChatRoom = ( event, recipentName ) => {
+    newChatRoom = ( event, recipentName, resetSidbebarDisplay ) => {
         
         //id of the person we are sending to
         let recipentID = null;
@@ -387,25 +387,25 @@ class Messenger extends Component {
                                                     ( e ) => {
                                                             
                                                             //if e.data is not null
-                                                         if(e.data){
+                                                         if( e.data ){
+
                                                             updatedRecipientUserChatRoomsID = e.data; //set URUCR-ID to the data 
-                                                            console.log('updatedr: ', updatedRecipientUserChatRoomsID)
-                                                         }else{
-                                                            updatedRecipientUserChatRoomsID = [];
+
+                                                         } else {
+                                                            updatedRecipientUserChatRoomsID = [ ];
                                                          }
                                                          //add newChatRoomID to the recipents Chatrooms
                                                          updatedRecipientUserChatRoomsID.push( newChatRoomID );
-                                                         console.log('urucrID: ', updatedRecipientUserChatRoomsID)
 
                                                          //add the updated IDs to the DB
                                                          axios.put( 'usersChatRooms/ucr' + recipentID + '/chatRooms.json', updatedRecipientUserChatRoomsID ).then( 
-                                                            () => {
+                                                            ( ) => {
                                                                 // --------- start update Sidebar with new ChatRoom ---------
 
                                                                     //once the userChatRooms has been updated
                                                                     //updates the state for usersChatRoomsID which sidebar uses to load all the chatrooms for auth user.    
                                                                     this.setUsersChatRoomsID( );
-
+                                                                    
                                                                 // --------- end update Sidebar with new ChatRoom ---------
                                                             } 
                                                          ).catch(
@@ -433,7 +433,14 @@ class Messenger extends Component {
                                                 users:  [ this.state.userID, recipentID ] 
 
                                             }
-                                            axios.put( 'chatRoomsUsers/cru' + newChatRoomID + '.json', newChatRoomUsersObject ).catch(
+                                            axios.put( 'chatRoomsUsers/cru' + newChatRoomID + '.json', newChatRoomUsersObject ).then(
+                                                () => {
+
+                                                    //settimout ensures that all the axios statements have finished. then it resert the sidebar so that it displays the proper chatRoomNames
+                                                    setTimeout( ( ) => { resetSidbebarDisplay( ); }, 500 );
+                                                }
+
+                                            ).catch(
                                                 ( error ) => {
 
                                                     alert("Error. Failed to add ChatRoom to ChatRoomUsers ", error);
@@ -457,7 +464,7 @@ class Messenger extends Component {
                         }//if recipentID set
 
                     //--------- end create the chatroom and referances ---------
-
+                    
                 }//axios get userIDbyName for recipent .then()
             ).catch(
 
@@ -477,7 +484,7 @@ class Messenger extends Component {
 
         // --------- end of check recipent name ---------
         
-    
+            
     }
 
     removeChatRoom = ( removeChatRoomID ) => {
