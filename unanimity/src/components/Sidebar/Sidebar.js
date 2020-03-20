@@ -6,11 +6,9 @@ class Sidebar extends Component {
 
     state = {
 
-        chatRoomName: [],
         addChatRoomPopUp: null,
-   
+        sidebarDisplay: [ ]
         
-
     }
 
     /*shouldComponentUpdate( nextProps, nextState ) {
@@ -42,12 +40,11 @@ class Sidebar extends Component {
 
     }
     render( ){
+        //i is used as a key prop to allow react to keep up with things
         let i = 0;
-        let sidebarDisplay = [ ];
+        //chatRoomIDs is the id of the chatrom that the user is apart of
         let chatRoomIDs = null;
         let sidebar = null;
-        let chatRoomNameIndex = 0;
-        let stateChatRoomName =[];
 
           //if usersChatRoomID is NOT null
           if( this.props.usersChatRoomsID ){
@@ -56,15 +53,12 @@ class Sidebar extends Component {
                 ...this.props.usersChatRoomsID
             }; // All the chat rooms that the current authenticated user is in.
             let chatRoomsArray = Object.entries(chatRoomIDs);
-            
-            
-            
-            
+              
             //for each chatRoomID as singleChatRoomID
             chatRoomsArray.forEach( ( singleChatRoomID ) => {
                 
                 //get alls usersID that are in the singleChatRoomID
-                axios.get( 'chatRoomsUsers/cru' + singleChatRoomID[1] + '.json' ).then( 
+                axios.get( 'chatRoomsUsers/cru' + singleChatRoomID[ 1 ] + '.json' ).then( 
                     ( res ) => {
                         
                         //if we have the data. do stuff with the data. if there is no data the .catch() wil handle it
@@ -82,33 +76,30 @@ class Sidebar extends Component {
                                 //if current chatRoomuserID === current userID logged in  
                                 if( chatRoomUserID !== this.props.userID ) {
                                     
+                                    let currentChatRoomID = singleChatRoomID[1];
                                     //axios get username for the current chatRoom user
                                     axios.get( 'users/u' + chatRoomUserID + '/userName.json' ).then(
                                         ( e ) => {
-                                                 
-                                       
-                                                let newChatRoomName = []; 
-                                                //gets chatRoomName from previouse runs though the for loop. if there is any
-                                                if(this.state.chatRoomName !== null){
+                                                                                                                                                                        
+                                                let newDisplay = [ ...this.state.sidebarDisplay ];
 
-                                                    newChatRoomName = [...this.state.chatRoomName];
-                                                    
-                                                }
-                                               //adds the new/current chatroom name to the arrays
-                                                newChatRoomName[chatRoomNameIndex] = e.data;                                                   
-                                                //set chatRoomName to username of the recipent in the chatroom
-                                                //if there is more chatroom in the array
-                                                if( this.state.chatRoomName.length !== newChatRoomName.length ){
+                                                newDisplay.push( (
 
-                                                    this.setState( { chatRoomName: newChatRoomName } );
-                                                    chatRoomNameIndex++;
-                                                    
-                                                }
-                                                //this.setState( { chatRoomName: newChatRoomName } );
+                                                     <div onClick = { ( ) => { this.props.setCurrentChatRoomID( currentChatRoomID ) } } key = { i }  className = { styles.users } >
+
+                                                        <h3> { e.data } </h3>
+
+                                                    </div>
+
+                                                ) );//newDisplay .push()
+                                                //i is used for the key  value wich allows react to keep up with the order of things 
+                                                i++;
                                                 
-                                                
-                                           
-                                                                                                                                                                            
+                                                if( chatRoomsArray.length > this.state.sidebarDisplay.length ) {
+
+                                                    this.setState( { sidebarDisplay: newDisplay } );
+
+                                                }                                                                                                                                                                                                                                                                                            
                                     });//axios get username for the current chatRoom user
 
                                 }//if current chatRoomuserID === current userID logged in 
@@ -127,10 +118,7 @@ class Sidebar extends Component {
                 );//get alls usersID that are in the singleChatRoomID
                 
               
-                sidebarDisplay.push( ( <div onClick = { ( ) => { this.props.setCurrentChatRoomID( singleChatRoomID[ 1 ] ) } } key = { i }  className = { styles.users } >
-                                                <h3> { this.state.chatRoomName[ i ] } </h3>
-                                </div>)); 
-                i++;
+             
 
             }); //for each chatRoomID as singleChatRoomID  
 
@@ -148,7 +136,7 @@ class Sidebar extends Component {
 
                         </div>
 
-                        { sidebarDisplay }
+                        { this.state.sidebarDisplay }
 
                     </div>;
 
@@ -165,7 +153,7 @@ class Sidebar extends Component {
 
                         </div>
 
-                        { sidebarDisplay }
+                        { this.state.sidebarDisplay }
 
                     </div>;
 
