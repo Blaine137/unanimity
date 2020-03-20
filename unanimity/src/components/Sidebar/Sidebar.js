@@ -40,10 +40,11 @@ class Sidebar extends Component {
 
     }
     render( ){
+        //i is used as a key prop to allow react to keep up with things
         let i = 0;
+        //chatRoomIDs is the id of the chatrom that the user is apart of
         let chatRoomIDs = null;
         let sidebar = null;
-        let chatRoomNameIndex = 0;
 
           //if usersChatRoomID is NOT null
           if( this.props.usersChatRoomsID ){
@@ -79,42 +80,26 @@ class Sidebar extends Component {
                                     //axios get username for the current chatRoom user
                                     axios.get( 'users/u' + chatRoomUserID + '/userName.json' ).then(
                                         ( e ) => {
-                                      
-                                       
-                                                let newChatRoomName = [ ]; 
-                                                //gets chatRoomName from previouse runs though the for loop. if there is any
-                                                if( this.state.chatRoomName !== null ){
+                                                                                                                                                                        
+                                                let newDisplay = [ ...this.state.sidebarDisplay ];
 
-                                                    newChatRoomName = [ ...this.state.chatRoomName ];
-                                                    
-                                                }
-                                               //adds the new/current chatroom name to the arrays
-                                                newChatRoomName[chatRoomNameIndex] = e.data;                                                   
-                                                //set chatRoomName to username of the recipent in the chatroom
-                                                //if there is more chatroom in the array
-                                               
-                                                if( this.state.chatRoomName.length !== newChatRoomName.length ){
-                                                    
-                                                    this.setState( { chatRoomName: newChatRoomName } );
-                                                    chatRoomNameIndex++;
-                                                    
-                                                }
-                                                //this.setState( { chatRoomName: newChatRoomName } );
-                                                let newDisplay = [...this.state.sidebarDisplay];
+                                                newDisplay.push( (
 
-                                                newDisplay.push( ( <div onClick = { ( ) => { this.props.setCurrentChatRoomID( currentChatRoomID ) } } key = { i }  className = { styles.users } >
-                                                <h3> { e.data } </h3>
-                                                </div>)); 
+                                                     <div onClick = { ( ) => { this.props.setCurrentChatRoomID( currentChatRoomID ) } } key = { i }  className = { styles.users } >
+
+                                                        <h3> { e.data } </h3>
+
+                                                    </div>
+
+                                                ) );//newDisplay .push()
+                                                //i is used for the key  value wich allows react to keep up with the order of things 
                                                 i++;
                                                 
-                                                if(chatRoomsArray.length > this.state.sidebarDisplay.length ){
+                                                if( chatRoomsArray.length > this.state.sidebarDisplay.length ) {
+
                                                     this.setState( { sidebarDisplay: newDisplay } );
-                                                }
-                                                
-                                        
-                                                
-                                           
-                                                                                                                                                                            
+
+                                                }                                                                                                                                                                                                                                                                                            
                                     });//axios get username for the current chatRoom user
 
                                 }//if current chatRoomuserID === current userID logged in 
