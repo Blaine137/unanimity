@@ -94,16 +94,17 @@ class Messenger extends Component {
 
                     //find index of our id
                     let userIndex = e.data.indexOf(this.state.userID);
+
                     
                     //remove ourself form the array
-                    e.data.splice(userIndex, this.state.userID);
+                    e.data.splice(userIndex, 1);
                     
                     //for recipents in the array set them as chatRoom name
                     e.data.forEach( ( singleUserID ) => { 
 
                         //get username by id. the function wont work beacuse i need a specifc .then action
                          axios.get( 'users/u' + singleUserID + '/userName.json' ).then((e) => {
-
+                            
                             this.setState( { currentChatRoomName: e.data } )
                             
                         })                      

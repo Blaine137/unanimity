@@ -73,12 +73,11 @@ label {
     border-radius: 3rem;
     font-weight: 700;
     margin-bottom: 2rem;
-}
-
-.submit:hover{
-    color: #05386B;
-    background-color: #5CDB95; 
-    transition: all .5s;   
+        &:hover{
+            color: #05386B;
+            background-color: #5CDB95; 
+            transition: all .5s;   
+        }
 }
 
 .register{
@@ -93,13 +92,14 @@ label {
     min-width: 3.5rem;
     border-radius: 3rem;
     font-weight: 700;
+        &:hover{
+            color: #05386B;
+            background-color: #5CDB95;
+            transition: all .5s; 
+        }
 }
 
-.register:hover{
-    color: #05386B;
-    background-color: #5CDB95;
-    transition: all .5s; 
-}
+
 /* phablet and up */
 @media only screen and (min-width: 600px){
     .form{
