@@ -14,19 +14,52 @@ class Sidebar extends Component {
         
     }
    
-    resetSidebarDisplay = () => {
-        console.log("reset");
+    resetSidebarDisplay = ( ) => {
+  
         this.setState( { sidebarDisplay: [ ] } );
+
     }
     popUp = ( ) => {
         //show pop up by setting addChatRoomPopUp to pop up
         this.setState( { addChatRoomPopUp:  
-                                    <div className = { styles.popUpContainer } >
+                                    <div className = { styles.popUpContainer } /* onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } */ >
 
-                                        <form onSubmit = { ( e ) => { this.props.addChatRoom( e , document.getElementById( 'newChatRoomName' ).value , this.resetSidebarDisplay );  } } >
+                                      
 
-                                            <label htmlFor = "newChatRoomName"  >Recipent's Name</label>
-                                            <input type = "text" id = "newChatRoomName" name = "newChatRoomName" ></input>
+                                        <form onSubmit = {
+                                             ( e ) => {
+
+                                                    //calls function that adds chatroom
+                                                    this.props.addChatRoom( e , document.getElementById( 'newChatRoomName' ).value , this.resetSidebarDisplay ) 
+
+                                                    //on submit of popup close the popup
+                                                    this.setState( { addChatRoomPopUp: null } )
+
+                                                } }//end of onSubmitt
+                                            className = { styles.form } >
+
+                                            
+                                            <div className = { styles.burger } onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } >
+
+                                                <div className = { styles.closeTop } ></div>
+                                                <div className = { styles.closeMiddle } ></div>
+                                                <div className = { styles.closeBottom } ></div>
+
+                                            </div>
+
+                                            <legend>Add a Chatroom.</legend>
+
+                                            <fieldset>
+
+                                                <label htmlFor = "newChatRoomName">Recipient's Username</label>
+                                                <input type = "text" id = "newChatRoomName" 
+                                                        name = "newChatRoomName" 
+                                                        className={styles.input}
+                                                        placeholder="Press enter to submit!"></input>
+
+                                               <input type = "submit" value = "Add Chatroom" className = { styles.submit}></input>
+
+                                            </fieldset>
 
                                         </form>
 

@@ -36,8 +36,11 @@
 }
 
 .popUpContainer {
-    z-index: 100;
-    background-color:  #05386B;
+    position: relative;
+    z-index: 0;
+    background-color: rgba(96, 96, 96, .2);
+    width: 100vw;
+    height: 100vh;
 }
 .users{
     color:#05386B;
@@ -49,3 +52,125 @@
         
 }
 
+.burger{
+    float: right;
+    width: 50px;
+    cursor: pointer;
+    padding: 1rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: inline-block;
+  }
+  
+  .closeTop{
+    height: 5px;
+    width: 50px;
+    background-color: #05386B;
+    transform: rotate(45deg);
+    transition: transform .5s ease-in-out;
+  }
+  
+  .closeMiddle{
+    height: 5px;
+    width: 50px;
+    background-color: #05386B;
+    display: none;
+    transition: transform .5s ease-in-out;
+  }
+  
+  .closeBottom{
+    height: 5px;
+    width: 50px;
+    background-color: #365F88;
+    transform-origin: 40% 0;
+    transform: rotate(-45deg);
+    transition: transform .5s ease-in-out;
+  }
+
+.form {
+    position: relative;
+    z-index: 10;
+    display: block;
+    text-align: left;
+    margin: auto;
+    padding: 1rem;
+    background-color:#F6F6F6;
+    width: 80vw;
+    max-width: 90vw;
+    color: #05386B ;
+    font-weight: 700;
+    letter-spacing: .1rem;
+    border-radius: 1rem;
+}
+fieldset{
+    border: none;
+}
+
+legend{
+    padding-bottom: 3rem;
+    text-align: left;
+}
+
+.input {
+    font-size: 1.25rem;
+    background-color: #F6F6F6;
+    display: block;
+    width: 100%;
+    color: #05386B;
+    border: none;
+    border-bottom: 2px solid #05386B;
+    margin-bottom: 3rem;
+}
+label {
+    display: block;
+    margin-bottom: 1rem;;
+}
+.submit {
+    position: relative;
+    left: 25%;
+    background-color: #05386B;
+    color:#F6F6F6;
+    border: none;  
+    height: 3rem;
+    width: 50%;
+    min-width: 6rem;
+    border-radius: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+        &:hover{
+            color: #05386B;
+            background-color: #5CDB95; 
+            transition: all .5s;   
+        }
+}
+
+/* phablet and up */
+@media only screen and ( min-width: 600px ) {
+
+    .form{
+        padding: 3rem;
+    }
+    .register{
+        left: 0;
+        width: 40%;
+        float: right;
+    }
+    .submit{
+        width: 40%;
+        left: 0;
+    }
+
+}
+
+/*tablets and larger*/
+@media only screen and ( min-width: 700px ) {
+
+    .form {
+        padding: 3rem;
+        position: relative;
+        top: 10vh;
+        max-width: 500px;
+        max-height: 550px;
+    }
+
+}
