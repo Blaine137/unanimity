@@ -42,7 +42,6 @@ class Sidebar extends Component {
                                             <div className = { styles.burger } onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } >
 
                                                 <div className = { styles.closeTop } ></div>
-                                                <div className = { styles.closeMiddle } ></div>
                                                 <div className = { styles.closeBottom } ></div>
 
                                             </div>
@@ -114,11 +113,26 @@ class Sidebar extends Component {
 
                                                      <div onClick = { ( ) => { this.props.setCurrentChatRoomID( currentChatRoomID ) } } key = { i }  className = { styles.users } >
 
+                                                        <div className = { styles.deleteContainer } onClick = { 
+                                                                ( ) => { 
+
+                                                                    this.props.deleteChatRoom( currentChatRoomID, this.resetSidebarDisplay );
+
+                                                                }//anonymous function 
+                                                            }//onclick
+                                                        >
+
+                                                            <div className = { styles.deleteTop } ></div>
+                                                            <div className = { styles.deleteBottom } ></div>
+
+                                                        </div>
+
                                                         <h3> { e.data } </h3>
 
                                                     </div>
 
                                                 ) );//newDisplay .push()
+
                                                 //i is used for the key  value wich allows react to keep up with the order of things 
                                                 i++;
                                                 
@@ -187,6 +201,7 @@ class Sidebar extends Component {
         return (
 
           <Fragment>
+
             { this.state.addChatRoomPopUp }
             { sidebar }
 
