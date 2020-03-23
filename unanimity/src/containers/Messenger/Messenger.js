@@ -110,7 +110,11 @@ class Messenger extends Component {
                         })                      
                     } );//e.data.foreach
 
-                }//if e.data  
+                }//if e.data
+                else {
+                    //no chatRoom so name ChatRoomName
+                    this.setState( { currentChatRoomName: null } )
+                }  
 
             }//axios get get users in the chatRoom .then function
 
@@ -488,7 +492,7 @@ class Messenger extends Component {
             
     }
 
-    removeChatRoom = ( removeChatRoomID ) => {
+    removeChatRoom = ( removeChatRoomID, resetSidebarDisplay ) => {
         
         //will equal all the users ID that are in the chatroom and need the chatroom id removed from userChatRooms
         let removeChatRoomUsers = [];
@@ -514,7 +518,11 @@ class Messenger extends Component {
 
                             
                             //deletes data by setting it equal to an empty object. firebase then automattically removes empty objects
-                            axios.put( 'chatRoomsUsers/cru' + removeChatRoomID + '.json' , empty ).catch( ( e ) => { console.log( "error overiding/deleting chatRoomUsers for " + removeChatRoomID + "axios error: " + e ) } );
+                            axios.put( 'chatRoomsUsers/cru' + removeChatRoomID + '.json' , empty ).catch(
+                                 ( e ) => {
+                                      console.log( "error overiding/deleting chatRoomUsers for " + removeChatRoomID + "axios error: " + e ) 
+                                    } 
+                                );
 
                         // -------- end of remove the chatRoom from the chatRoomUsers --------
 
@@ -538,22 +546,28 @@ class Messenger extends Component {
                                             ucrIndex = null;
                                             
                                             //find the index of the chatRoomID we need to remove
-                                            ucrIndex = e.data.indexOf(removeChatRoomID);
-
-                                            //if we have an index to remove. 
-                                            if( ucrIndex ){
-
+                                            ucrIndex = e.data.indexOf(removeChatRoomID);                                      
+                                            //if we have an index to remove.
+                                            //0 is a valid index but zero equals false by default 
+                                            if( ucrIndex || ucrIndex === 0){
+         
                                                 e.data.splice(ucrIndex);
-                                            
+                                                
                                                 ///if e.data only contained one chatroom and we removed that chatroom then it would equal null
                                                 if( e.data === null ) {
+
 
                                                     //update the userChatRooms to the empty object which just deltes the enrie object.
                                                     //if we used e.data which is just null it dosent work. it requires an object to be passed in for the DB restraints
 
                                                      //in if ucrIndex because if we dont remove anything no need to update the db
                                                     //update users chatrooms in BD
-                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', empty ).catch(
+                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', empty ).then(
+                                                        () => {
+                                                            //causes sidebar to update
+                                                            resetSidebarDisplay();
+                                                        }
+                                                    ).catch(
                                                         ( error ) => {
                                                             console.log( error );
                                                         }
@@ -562,10 +576,15 @@ class Messenger extends Component {
                                                 } 
                                                 //removed the chatroom and they still have other chatrooms
                                                 else {
-
-                                                     //in if ucrIndex because if we dont remove anything no need to update the db
+                                                   
+                                                    //in if ucrIndex because if we dont remove anything no need to update the db
                                                     //update users chatrooms in BD
-                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', e.data ).catch(
+                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', e.data ).then(
+                                                        () => {
+                                                           //causes sidebar to update
+                                                           resetSidebarDisplay(); 
+                                                        }
+                                                    ).catch(
                                                         ( error ) => {
                                                             console.log( error );
                                                         }
@@ -616,7 +635,7 @@ class Messenger extends Component {
     }
 
     render( ) {
-
+        console.log(this.state.currentChatRoomName);
        let mainContentInlineStyles = { };
         //if sidebar is not showing 
         if( !this.state.showSidebar ) {
@@ -643,6 +662,7 @@ class Messenger extends Component {
                              setCurrentChatRoomID = { this.setCurrentChatRoom }
                              showSidebar = { this.state.showSidebar }
                              addChatRoom = { this.newChatRoom } 
+                             deleteChatRoom = { this.removeChatRoom }
                     />
 
                 </div>
