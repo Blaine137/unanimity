@@ -275,7 +275,7 @@ class Messenger extends Component {
 
             if( recipentName !== null ) {
 
-                //axios get userIDbyName for recipent
+            //axios get userIDbyName for recipent
             axios.get( 'userIDByUsername/' + recipentName + '.json' ).then(
                 ( response ) => {
 
@@ -357,26 +357,49 @@ class Messenger extends Component {
                                             //start update for Authenticated user
                                             
                                                 //copy by value value not referance
-                                                if( this.state.usersChatRoomsID ){
+                                                if ( this.state.usersChatRoomsID ) {
 
-                                                    updatedAuthUserChatRoomsID = [ ...this.state.usersChatRoomsID ];
+                                                    //gets the latest data. this step prevents form add chatroom adding chatroom referances to deleted chatroom
+                                                    axios.get( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json' ).then(
+                                                        ( e ) => {
+
+                                                            
+                                                            this.setState( { usersChatRoomsID: e.data } );
+                                                            updatedAuthUserChatRoomsID = [ e.data ];
+
+                                                            //add the newChatRoomID to the authenticated user chatRoomsID
+                                                            updatedAuthUserChatRoomsID.push( newChatRoomID );
+
+                                                            //update the db for the Auth user with the updatedAuthUserChatRoomsID in usersChatRooms
+                                                            axios.put( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json', updatedAuthUserChatRoomsID ).catch(
+                                                                ( error ) => {
+
+                                                                    alert( "Error. failed to update Authenticated usersChatRooms " + error );
+
+                                                                }
+                                                            );//axios put updates Auth user in userChatRooms
+                                
+                                                        }
+                                                    );//axios get() chatRoomIDs
+                                                    
 
                                                 } else {
 
-                                                    updatedAuthUserChatRoomsID = [];
+                                                    updatedAuthUserChatRoomsID = [ ];
+                                                    //add the newChatRoomID to the authenticated user chatRoomsID
+                                                     updatedAuthUserChatRoomsID.push( newChatRoomID );
+
+                                                    //update the db for the Auth user with the updatedAuthUserChatRoomsID in usersChatRooms
+                                                    axios.put( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json', updatedAuthUserChatRoomsID ).catch(
+                                                        ( error ) => {
+
+                                                            alert( "Error. failed to update Authenticated usersChatRooms " + error );
+
+                                                        }
+                                                     );//axios put updates Auth user in userChatRooms
 
                                                 }
-                                                //add the newChatRoomID to the authenticated user chatRoomsID
-                                                updatedAuthUserChatRoomsID.push( newChatRoomID );
-
-                                                //update the db for the Auth user with the updatedAuthUserChatRoomsID in usersChatRooms
-                                                axios.put( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json', updatedAuthUserChatRoomsID ).catch(
-                                                    ( error ) => {
-
-                                                        alert( "Error. failed to update Authenticated usersChatRooms " + error );
-
-                                                    }
-                                                );//axios put updates Auth user in userChatRooms
+                                             
 
                                             //end update for Authenticated user
 
