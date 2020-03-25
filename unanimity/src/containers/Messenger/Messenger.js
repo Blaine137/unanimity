@@ -27,7 +27,8 @@ class Messenger extends Component {
     componentDidMount = ( ) => {
 
         //every second update the current chatroom. this make sure we can see if the other messenger sent a message
-        this.interval = setInterval( ( ) => {if( this.state.currentChatRoomID ) { this.setCurrentChatRoom(this.state.currentChatRoomID ) } }, 1000);
+        this.interval = setInterval( ( ) => { if( this.state.currentChatRoomID ) { this.setCurrentChatRoom(this.state.currentChatRoomID ) } }, 1000);
+   
 
         this.setAuthentication( );
         
@@ -533,15 +534,23 @@ class Messenger extends Component {
                                             
                                             //confirm that it is an array
                                             e.data = Object.values(e.data);
-                                            //reset  the index from previouse loops
-                                            ucrIndex = null;
-                                            
+                                                  
                                             //find the index of the chatRoomID we need to remove
+<<<<<<< Updated upstream
                                             ucrIndex = e.data.indexOf(removeChatRoomID);
 
                                             //if we have an index to remove. 
                                             if( ucrIndex ){
 
+=======
+                                            ucrIndex = e.data.indexOf(removeChatRoomID);  
+
+                                            //if we have an index to remove.
+                                            //0 is a valid index but zero equals false by default 
+                                            if( ucrIndex || ucrIndex === 0){
+         
+                                                //removes the chatroom from the usersChatRooms
+>>>>>>> Stashed changes
                                                 e.data.splice(ucrIndex);
                                             
                                                 ///if e.data only contained one chatroom and we removed that chatroom then it would equal null
@@ -552,7 +561,20 @@ class Messenger extends Component {
 
                                                      //in if ucrIndex because if we dont remove anything no need to update the db
                                                     //update users chatrooms in BD
+<<<<<<< Updated upstream
                                                     axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', empty ).catch(
+=======
+                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', empty ).then(
+                                                        () => {
+
+                                                            //causes sidebar to update
+                                                            this.setUsersChatRoomsID();
+                                                            //wait for the setUserChatRoomsID to finsih then update the sidebar
+                                                            setTimeout(() => {resetSidebarDisplay(); }, 500);
+                                                            
+                                                        }
+                                                    ).catch(
+>>>>>>> Stashed changes
                                                         ( error ) => {
                                                             console.log( error );
                                                         }
@@ -564,13 +586,26 @@ class Messenger extends Component {
 
                                                      //in if ucrIndex because if we dont remove anything no need to update the db
                                                     //update users chatrooms in BD
+<<<<<<< Updated upstream
                                                     axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', e.data ).catch(
+=======
+                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', e.data ).then(
+                                                        () => {
+
+                                                           //causes sidebar to update
+                                                           this.setUsersChatRoomsID();
+                                                           //wait for the setUserChatRoomsID to finsih then update the sidebar
+                                                           setTimeout(() => {resetSidebarDisplay(); }, 500);
+
+                                                        }
+                                                    ).catch(
+>>>>>>> Stashed changes
                                                         ( error ) => {
                                                             console.log( error );
                                                         }
                                                     );
 
-                                                }
+                                                }//else of if(e.data === null)
                                                 
 
                                             }//if ucrIndex is not null

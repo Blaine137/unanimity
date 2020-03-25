@@ -14,10 +14,20 @@ class Sidebar extends Component {
         
     }
    
+<<<<<<< Updated upstream
     resetSidebarDisplay = () => {
         console.log("reset");
+=======
+    resetSidebarDisplay = ( ) => {
+  
+        /*
+            causes the component to update and resets the sidebar. the resest is required so that when it loops through the
+            chatRoomsArray.length and this.state.sidebarDisplay.length are both starting at 0. 
+        */
+>>>>>>> Stashed changes
         this.setState( { sidebarDisplay: [ ] } );
     }
+
     popUp = ( ) => {
         //show pop up by setting addChatRoomPopUp to pop up
         this.setState( { addChatRoomPopUp:  
@@ -89,6 +99,7 @@ class Sidebar extends Component {
                                                 //i is used for the key  value wich allows react to keep up with the order of things 
                                                 i++;
                                                 
+                                                //prevents from it adding the same chatroom twice and infinate loop
                                                 if( chatRoomsArray.length > this.state.sidebarDisplay.length ) {
 
                                                     this.setState( { sidebarDisplay: newDisplay } );
@@ -155,6 +166,7 @@ class Sidebar extends Component {
 
           <Fragment>
             { this.state.addChatRoomPopUp }
+
             { sidebar }
 
           </Fragment>
@@ -165,4 +177,5 @@ class Sidebar extends Component {
     }//render()
     
 }
+
 export default Sidebar;
