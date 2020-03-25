@@ -14,29 +14,56 @@ class Sidebar extends Component {
         
     }
    
-<<<<<<< Updated upstream
-    resetSidebarDisplay = () => {
-        console.log("reset");
-=======
     resetSidebarDisplay = ( ) => {
   
         /*
             causes the component to update and resets the sidebar. the resest is required so that when it loops through the
             chatRoomsArray.length and this.state.sidebarDisplay.length are both starting at 0. 
         */
->>>>>>> Stashed changes
         this.setState( { sidebarDisplay: [ ] } );
+
     }
 
     popUp = ( ) => {
         //show pop up by setting addChatRoomPopUp to pop up
         this.setState( { addChatRoomPopUp:  
-                                    <div className = { styles.popUpContainer } >
+                                    <div className = { styles.popUpContainer } /* onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } */ >
 
-                                        <form onSubmit = { ( e ) => { this.props.addChatRoom( e , document.getElementById( 'newChatRoomName' ).value , this.resetSidebarDisplay );  } } >
+                                      
 
-                                            <label htmlFor = "newChatRoomName"  >Recipent's Name</label>
-                                            <input type = "text" id = "newChatRoomName" name = "newChatRoomName" ></input>
+                                        <form onSubmit = {
+                                             ( e ) => {
+
+                                                    //calls function that adds chatroom
+                                                    this.props.addChatRoom( e , document.getElementById( 'newChatRoomName' ).value , this.resetSidebarDisplay ) 
+
+                                                    //on submit of popup close the popup
+                                                    this.setState( { addChatRoomPopUp: null } )
+
+                                                } }//end of onSubmitt
+                                            className = { styles.form } >
+
+                                            
+                                            <div className = { styles.burger } onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } >
+
+                                                <div className = { styles.closeTop } ></div>
+                                                <div className = { styles.closeBottom } ></div>
+
+                                            </div>
+
+                                            <legend>Add a Chatroom.</legend>
+
+                                            <fieldset>
+
+                                                <label htmlFor = "newChatRoomName">Recipient's Username</label>
+                                                <input type = "text" id = "newChatRoomName" 
+                                                        name = "newChatRoomName" 
+                                                        className={styles.input}
+                                                        placeholder="Press enter to submit!"></input>
+
+                                               <input type = "submit" value = "Add Chatroom" className = { styles.submit}></input>
+
+                                            </fieldset>
 
                                         </form>
 
@@ -91,11 +118,26 @@ class Sidebar extends Component {
 
                                                      <div onClick = { ( ) => { this.props.setCurrentChatRoomID( currentChatRoomID ) } } key = { i }  className = { styles.users } >
 
+                                                        <div className = { styles.deleteContainer } onClick = { 
+                                                                ( ) => { 
+
+                                                                    this.props.deleteChatRoom( currentChatRoomID, this.resetSidebarDisplay );
+
+                                                                }//anonymous function 
+                                                            }//onclick
+                                                        >
+
+                                                            <div className = { styles.deleteTop } ></div>
+                                                            <div className = { styles.deleteBottom } ></div>
+
+                                                        </div>
+
                                                         <h3> { e.data } </h3>
 
                                                     </div>
 
                                                 ) );//newDisplay .push()
+
                                                 //i is used for the key  value wich allows react to keep up with the order of things 
                                                 i++;
                                                 
@@ -165,6 +207,7 @@ class Sidebar extends Component {
         return (
 
           <Fragment>
+
             { this.state.addChatRoomPopUp }
 
             { sidebar }
