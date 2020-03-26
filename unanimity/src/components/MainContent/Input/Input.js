@@ -7,7 +7,7 @@ const input = ( props ) => {
         
         <div className = { styles.inputContainer } >
 
-            <input type = "text" placeholder = "Press Enter to send Message" 
+            <input type = "text" spellCheck="true" placeholder = "Press Enter to send Message" 
                 onKeyDown = { ( e ) => {
 
                     let userInput = e.target.value;
