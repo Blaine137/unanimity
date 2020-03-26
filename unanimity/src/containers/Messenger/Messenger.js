@@ -670,7 +670,7 @@ class Messenger extends Component {
     }
 
     render( ) {
-        console.log(this.state.currentChatRoomName);
+       
        let mainContentInlineStyles = { };
         //if sidebar is not showing 
         if( !this.state.showSidebar ) {
