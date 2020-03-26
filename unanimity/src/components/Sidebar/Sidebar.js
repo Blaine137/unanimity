@@ -14,6 +14,7 @@ class Sidebar extends Component {
         
     }
    
+    
     resetSidebarDisplay = ( ) => {
   
         /*

@@ -27,8 +27,18 @@ class Messenger extends Component {
     componentDidMount = ( ) => {
 
         //every second update the current chatroom. this make sure we can see if the other messenger sent a message
-        this.interval = setInterval( ( ) => { if( this.state.currentChatRoomID ) { this.setCurrentChatRoom(this.state.currentChatRoomID ) } }, 1000);
-   
+        this.interval = setInterval( ( ) => { 
+            if( this.state.currentChatRoomID ) { 
+                
+                this.setCurrentChatRoom(this.state.currentChatRoomID ); 
+
+            } 
+
+                this.setUsersChatRoomsID( );
+     
+        }, 1000);
+
+        
 
         this.setAuthentication( );
         
@@ -50,6 +60,7 @@ class Messenger extends Component {
             this.setUsersChatRoomsID( );
 
         }
+
            
     }
 
@@ -362,7 +373,7 @@ class Messenger extends Component {
                                             
                                             //start update for Authenticated user
                                             
-                                                //copy by value value not referance
+                                                
                                                 if ( this.state.usersChatRoomsID ) {
 
                                                     //gets the latest data. this step prevents form add chatroom adding chatroom referances to deleted chatroom
@@ -371,13 +382,14 @@ class Messenger extends Component {
 
                                                             
                                                             this.setState( { usersChatRoomsID: e.data } );
-                                                            updatedAuthUserChatRoomsID = [ e.data ];
-
+                                                            updatedAuthUserChatRoomsID =  e.data ;
+                                                           
                                                             //add the newChatRoomID to the authenticated user chatRoomsID
                                                             updatedAuthUserChatRoomsID.push( newChatRoomID );
-
+                                                            
+                                                            let chatRooms = updatedAuthUserChatRoomsID;
                                                             //update the db for the Auth user with the updatedAuthUserChatRoomsID in usersChatRooms
-                                                            axios.put( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json', updatedAuthUserChatRoomsID ).catch(
+                                                            axios.put( 'usersChatRooms/ucr' + this.state.userID + '.json', { chatRooms } ).catch(
                                                                 ( error ) => {
 
                                                                     alert( "Error. failed to update Authenticated usersChatRooms " + error );
@@ -390,13 +402,14 @@ class Messenger extends Component {
                                                     
 
                                                 } else {
-
+                                                    
                                                     updatedAuthUserChatRoomsID = [ ];
                                                     //add the newChatRoomID to the authenticated user chatRoomsID
                                                      updatedAuthUserChatRoomsID.push( newChatRoomID );
 
+                                                     let chatRooms = updatedAuthUserChatRoomsID;
                                                     //update the db for the Auth user with the updatedAuthUserChatRoomsID in usersChatRooms
-                                                    axios.put( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json', updatedAuthUserChatRoomsID ).catch(
+                                                    axios.put( 'usersChatRooms/ucr' + this.state.userID + '.json', { chatRooms } ).catch(
                                                         ( error ) => {
 
                                                             alert( "Error. failed to update Authenticated usersChatRooms " + error );
@@ -426,8 +439,9 @@ class Messenger extends Component {
                                                          //add newChatRoomID to the recipents Chatrooms
                                                          updatedRecipientUserChatRoomsID.push( newChatRoomID );
 
+                                                        let chatRooms = updatedRecipientUserChatRoomsID;
                                                          //add the updated IDs to the DB
-                                                         axios.put( 'usersChatRooms/ucr' + recipentID + '/chatRooms.json', updatedRecipientUserChatRoomsID ).then( 
+                                                         axios.put( 'usersChatRooms/ucr' + recipentID + '.json', { chatRooms } ).then( 
                                                             ( ) => {
                                                                 // --------- start update Sidebar with new ChatRoom ---------
 
@@ -466,7 +480,7 @@ class Messenger extends Component {
                                                 () => {
 
                                                     //settimout ensures that all the axios statements have finished. then it resert the sidebar so that it displays the proper chatRoomNames
-                                                    setTimeout( ( ) => { resetSidbebarDisplay( ); }, 500 );
+                                                    setTimeout( ( ) => { resetSidbebarDisplay( ); }, 1000 );
                                                 }
 
                                             ).catch(
@@ -595,7 +609,7 @@ class Messenger extends Component {
                                                             //causes sidebar to update
                                                             this.setUsersChatRoomsID();
                                                             //wait for the setUserChatRoomsID to finsih then update the sidebar
-                                                            setTimeout(() => {resetSidebarDisplay(); }, 500);
+                                                            setTimeout(() => {resetSidebarDisplay(); }, 1000);
                                                             
                                                         }
                                                     ).catch(
@@ -607,16 +621,16 @@ class Messenger extends Component {
                                                 } 
                                                 //removed the chatroom and they still have other chatrooms
                                                 else {
-                                                   
+                                                    let chatRooms = e.data;
                                                     //in if ucrIndex because if we dont remove anything no need to update the db
                                                     //update users chatrooms in BD
-                                                    axios.put( 'usersChatRooms/ucr' + user + '/chatRooms.json', e.data ).then(
+                                                    axios.put( 'usersChatRooms/ucr' + user + '.json', {chatRooms} ).then(
                                                         () => {
 
                                                            //causes sidebar to update
                                                            this.setUsersChatRoomsID();
                                                            //wait for the setUserChatRoomsID to finsih then update the sidebar
-                                                           setTimeout(() => {resetSidebarDisplay(); }, 500);
+                                                           setTimeout(() => {resetSidebarDisplay(); }, 1000);
 
                                                         }
                                                     ).catch(
