@@ -9,19 +9,24 @@ const Chatroom = ( props ) => {
    if( props.currentChatRoom ){
 
        //takes in current chatroom object of arrays and get user by id function.
-       console.log(props.currentChatRoom);
+    //    console.log(props.currentChatRoom);
         let chatRoomUsers = Object.entries( props.currentChatRoom );
         
         chatRoomUsers.forEach( ( nextuser ) => {
                                                         
             //foreach user looping through the messages
             if( nextuser[ 0 ] !== "nextMsgNum" ) {
-                
-                console.log("old", nextuser[1]);
-                let nextUser = Object.values(nextuser[ 1 ]);
-                console.log(nextUser);
+           
+                let nextUser = [ ];
+                //if object converts to array by setting the property name(integer) as the index(key) of the array. 
+                for( let [ key, value ] of Object.entries( nextuser[ 1 ] ) ){           
+
+                    nextUser[ key ] = value;
+
+                }
+           
                 nextUser.forEach( ( msg, index) => {
-                
+                    
                     //if msg is not null set display message of that msg index to a message component 
                     if( msg !== null ) { 
 

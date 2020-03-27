@@ -18,15 +18,15 @@ const input = ( props ) => {
                         //if null
                         if( oldTime === null ) {
                             
-                            console.log("reset old Time")
+                            
                             oldTime =  Date.now();
                             oldTime -= 50000;
                             
                         }
                     
                         let currentTime = Date.now();
-                        console.log(currentTime - oldTime );
-                        if( currentTime >= ( oldTime + 1000 ) ){
+                        
+                        if( currentTime >= ( oldTime + 2000 ) ){
                             
                                 oldTime = currentTime;
                             

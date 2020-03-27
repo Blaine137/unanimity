@@ -250,7 +250,7 @@ class Messenger extends Component {
             } )//foreach that sets messageChatRoom to new data values
             //convert our finished data from an array back to object to match the DB structure
             messageChatRoom = Object.fromEntries( messageChatRoom );
-
+            
             //update the DB with all the new data. 
             axios.put( "chatRooms/" + this.state.currentChatRoomID  + ".json",  messageChatRoom );
             //upadate our current chatRoom
