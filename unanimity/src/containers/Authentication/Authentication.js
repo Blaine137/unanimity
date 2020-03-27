@@ -11,8 +11,8 @@ class Authentication extends Component {
         
         //this sets the default authentication to false.
         authenticated:  false, 
-        userID: null,
-        username: null
+        userID: 2,
+        username: "Jacob"
         
     }
     
@@ -218,8 +218,8 @@ TODO: add password hashing!
             messenger = (
 
                 <div className = { styles.wrapper }>
-                    <p>This Project Database is public so that people can see how the project works! Do not use passwords that you use anywhere else! password currently arent hashed in DB.</p>
-                    <p>Username and password are both case sensitive</p>
+                    <p>This Project Database is public so that people can see how the project works!</p>
+                    <p>Username and password are both case sensitive.</p>
                      
                     <form className = { styles.form }  >
                         <fieldset>

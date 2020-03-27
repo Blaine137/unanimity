@@ -36,7 +36,7 @@ class Messenger extends Component {
 
                 this.setUsersChatRoomsID( );
      
-        }, 1000);
+        }, 500);
 
         
 
@@ -290,7 +290,7 @@ class Messenger extends Component {
 
         //--------- start check if recipents name exists. set recipentsId if it exzist ---------
 
-            if( recipentName !== null ) {
+            if( recipentName !== null && recipentName !== this.state.username ) {
 
             //axios get userIDbyName for recipent
             axios.get( 'userIDByUsername/' + recipentName + '.json' ).then(
@@ -520,9 +520,11 @@ class Messenger extends Component {
                 
             );//axios get userIDbyName for recipent
             } 
-            //ussername cannot be null
+            //ussername cannot be null and not ours
             else {
-               alert( 'Recipent\'s name is required!' );
+
+               alert( 'Recipent\'s name is required and can\'t be your own name! ');
+
             }
 
         // --------- end of check recipent name ---------
@@ -584,7 +586,8 @@ class Messenger extends Component {
                                             //find the index of the chatRoomID we need to remove
 
                                             ucrIndex = e.data.indexOf(removeChatRoomID);
-                            
+                                            console.log(e.data)
+
                                             //if we have an index to remove.
                                             //0 is a valid index but zero equals false by default 
                                             if( ucrIndex || ucrIndex === 0){
@@ -593,9 +596,9 @@ class Messenger extends Component {
                                                 e.data.splice(ucrIndex);
                                                 
                                                 ///if e.data only contained one chatroom and we removed that chatroom then it would equal null
-                                                if( e.data === null ) {
+                                                if( Object.values(e.data).length === 0 ) {
 
-
+                                                  
                                                     //update the userChatRooms to the empty object which just deltes the enrie object.
                                                     //if we used e.data which is just null it dosent work. it requires an object to be passed in for the DB restraints
 
@@ -621,6 +624,7 @@ class Messenger extends Component {
                                                 } 
                                                 //removed the chatroom and they still have other chatrooms
                                                 else {
+                                              
                                                     let chatRooms = e.data;
                                                     //in if ucrIndex because if we dont remove anything no need to update the db
                                                     //update users chatrooms in BD
