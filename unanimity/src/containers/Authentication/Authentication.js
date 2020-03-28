@@ -11,8 +11,8 @@ class Authentication extends Component {
         
         //this sets the default authentication to false.
         authenticated:  false, 
-        userID: 1,
-        username: "Blaine"
+        userID: null,
+        username: null
         
     }
     

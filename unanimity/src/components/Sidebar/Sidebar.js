@@ -14,7 +14,30 @@ class Sidebar extends Component {
         
     }
    
-    
+    shouldComponentUpdate( nextProps, nextState ){
+
+        //see if the prop uesrCHatRoomsID has changed
+        if ( nextProps.usersChatRoomsID.length !== this.props.usersChatRoomsID.length ) {
+            
+            //if it has changed the resetTheSideBarDisplay
+            this.resetSidebarDisplay();
+            return true;
+
+        }
+        //noraml render
+        else if( nextState !== this.state || nextProps !== this.props ) {
+
+            return true;
+
+        } 
+        //normal dont rerender if nothing has changed
+        else {
+
+            return false;
+
+        }
+
+    }
     resetSidebarDisplay = ( ) => {
   
         /*
@@ -78,7 +101,7 @@ class Sidebar extends Component {
         //chatRoomIDs is the id of the chatrom that the user is apart of
         let chatRoomIDs = null;
         let sidebar = null;
-      
+  
           //if usersChatRoomID is NOT null
           if( this.props.usersChatRoomsID ){
 
