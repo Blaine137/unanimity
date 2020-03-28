@@ -4,9 +4,6 @@ import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
 
-
-
-
 class Messenger extends Component {
 
     state = {
@@ -86,8 +83,13 @@ class Messenger extends Component {
         axios.get( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json' ).then(
             ( e ) => {
 
-                this.setState( { usersChatRoomsID: e.data } );
-            
+                //if the data has changed update it.
+                if(e.data !== this.state.userCHatRoomsID){
+
+                    this.setState( { usersChatRoomsID: e.data } );
+                  
+                }
+   
             }
         );
 
@@ -480,7 +482,7 @@ class Messenger extends Component {
                                                 () => {
 
                                                     //settimout ensures that all the axios statements have finished. then it resert the sidebar so that it displays the proper chatRoomNames
-                                                    setTimeout( ( ) => { resetSidbebarDisplay( ); }, 1000 );
+                                                    //setTimeout( ( ) => { resetSidbebarDisplay( ); }, 1000 );
                                                 }
 
                                             ).catch(
@@ -586,7 +588,6 @@ class Messenger extends Component {
                                             //find the index of the chatRoomID we need to remove
 
                                             ucrIndex = e.data.indexOf(removeChatRoomID);
-                                            console.log(e.data)
 
                                             //if we have an index to remove.
                                             //0 is a valid index but zero equals false by default 
@@ -612,7 +613,7 @@ class Messenger extends Component {
                                                             //causes sidebar to update
                                                             this.setUsersChatRoomsID();
                                                             //wait for the setUserChatRoomsID to finsih then update the sidebar
-                                                            setTimeout(() => {resetSidebarDisplay(); }, 1000);
+                                                            //setTimeout(() => {resetSidebarDisplay(); }, 1000);
                                                             
                                                         }
                                                     ).catch(
@@ -634,7 +635,7 @@ class Messenger extends Component {
                                                            //causes sidebar to update
                                                            this.setUsersChatRoomsID();
                                                            //wait for the setUserChatRoomsID to finsih then update the sidebar
-                                                           setTimeout(() => {resetSidebarDisplay(); }, 1000);
+                                                           //setTimeout(() => {resetSidebarDisplay(); }, 1000);
 
                                                         }
                                                     ).catch(
@@ -704,13 +705,25 @@ class Messenger extends Component {
                           
         }
 
+        //prevents sidebar from erroring out by returning an empty array instead of null or undefined.
+        let sidebarusersChatRoomsID;
+        if( this.state.usersChatRoomsID !== null ){ 
+
+            sidebarusersChatRoomsID = this.state.usersChatRoomsID;
+
+         } else {
+
+             sidebarusersChatRoomsID = [ ];
+        
+        }
+
         return(
 
             <div className = { styles.layout } >
 
                 <div className = { styles.sidebarGrid } style = { this.state.sidebarInlineStyles } >
                 
-                    <Sidebar usersChatRoomsID = { this.state.usersChatRoomsID } 
+                    <Sidebar usersChatRoomsID = {sidebarusersChatRoomsID} 
                              userID = { this.state.userID } 
                              setCurrentChatRoomID = { this.setCurrentChatRoom }
                              showSidebar = { this.state.showSidebar }

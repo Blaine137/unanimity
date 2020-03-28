@@ -3,7 +3,6 @@
   left: -40%;
   width: 50px;
   cursor: pointer;
-  padding: .75rem;
   margin-top: auto;
   margin-bottom: auto;
   display: inline-block;
@@ -69,6 +68,7 @@
     font-family: 'Raleway', sans-serif;
     font-weight: bold;
     width: inherit;
+    max-height: 3rem;
     padding: 1rem;
     position: relative;
     background-color: #e8e8e8;     
