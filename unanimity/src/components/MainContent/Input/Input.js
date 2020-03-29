@@ -15,31 +15,40 @@ const input = ( props ) => {
                     
                     if( e.key === 'Enter' ) {
                        
-                        //if null
-                        if( oldTime === null ) {
-                            
-                            
-                            oldTime =  Date.now();
-                            oldTime -= 50000;
-                            
-                        }
-                    
-                        let currentTime = Date.now();
+                        if(props.currentChatRoomName){
+
+                                //if null
+                            if( oldTime === null ) {
+                                
+                                
+                                oldTime =  Date.now();
+                                oldTime -= 50000;
+                                
+                            }
                         
-                        if( currentTime >= ( oldTime + 2000 ) ){
+                            let currentTime = Date.now();
                             
-                                oldTime = currentTime;
+                            if( currentTime >= ( oldTime + 2000 ) ){
+                                
+                                    oldTime = currentTime;
+                                
+        
+                                    props.newMessage( userInput );
+                                    e.target.value = ''; //makes the input box empty once newMessage gets the input
+                                
+
+                            } else {
+
+                                alert( "Please wait one second before sending another message!" );
+
+                            }
+
+                        }else{
+
+                            alert('Please select a chatroom before sending a message!');
                             
-    
-                                props.newMessage( userInput );
-                                e.target.value = ''; //makes the input box empty once newMessage gets the input
-                            
-
-                        } else {
-
-                            alert( "Please wait one second before sending another message!" );
-
                         }
+
                     }
 
                 } } className = { styles.input }
