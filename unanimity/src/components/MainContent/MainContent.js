@@ -12,7 +12,7 @@ const mainContent = ( props ) => {
 
             <Header currentChatRoomName = { props.currentChatRoomName } toggleSidebar = { props.toggleSidebar } showSidebar = { props.showSidebar } />
             <ChatRoom currentChatRoom = { props.currentChatRoom } />
-            <Input newMessage = { props.newMessage } /> 
+            <Input newMessage = { props.newMessage } currentChatRoomName = { props.currentChatRoomName }/> 
             
        </Fragment>
 
