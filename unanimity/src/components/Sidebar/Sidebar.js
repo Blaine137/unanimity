@@ -4,6 +4,7 @@ import axios from '../../axios';
 //set at this scope so that no two keys would equl the same value
 //i is used as a key prop to allow react to keep up with things
 let i = 0;
+let addedChatRoomsName = [];
 
 class Sidebar extends Component {
 
@@ -20,7 +21,8 @@ class Sidebar extends Component {
         if ( nextProps.usersChatRoomsID.length !== this.props.usersChatRoomsID.length ) {
             
             //if it has changed the resetTheSideBarDisplay
-            this.resetSidebarDisplay();
+            console.log("reset");
+            this.resetSidebarDisplay( );
             return true;
 
         }
@@ -38,6 +40,7 @@ class Sidebar extends Component {
         }
 
     }
+
     resetSidebarDisplay = ( ) => {
   
         /*
@@ -45,13 +48,14 @@ class Sidebar extends Component {
             chatRoomsArray.length and this.state.sidebarDisplay.length are both starting at 0. 
         */
         this.setState( { sidebarDisplay: [ ] } );
+        addedChatRoomsName = [ ];
 
     }
 
     popUp = ( ) => {
         //show pop up by setting addChatRoomPopUp to pop up
         this.setState( { addChatRoomPopUp:  
-                                    <div className = { styles.popUpContainer } /* onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } */ >
+                                    <div className = { styles.popUpContainer } >
 
                                       
 
@@ -59,12 +63,14 @@ class Sidebar extends Component {
                                              ( e ) => {
 
                                                     //calls function that adds chatroom
-                                                    this.props.addChatRoom( e , document.getElementById( 'newChatRoomName' ).value , this.resetSidebarDisplay ) 
+                                                    this.props.addChatRoom( e , document.getElementById( 'newChatRoomName' ).value ) 
 
                                                     //on submit of popup close the popup
                                                     this.setState( { addChatRoomPopUp: null } )
 
-                                                } }//end of onSubmitt
+                                                }
+                                            }//end of onSubmitt
+
                                             className = { styles.form } >
 
                                             
@@ -95,7 +101,8 @@ class Sidebar extends Component {
         } );//end of setState for addChatRoomPopUp
 
     }
-    render( ) {
+
+    render ( ) {
 
       
         //chatRoomIDs is the id of the chatrom that the user is apart of
@@ -108,6 +115,7 @@ class Sidebar extends Component {
             chatRoomIDs = {
                 ...this.props.usersChatRoomsID
             }; // All the chat rooms that the current authenticated user is in. 
+
             let chatRoomsArray = Object.entries(chatRoomIDs);
           
             //for each chatRoomID as singleChatRoomID
@@ -165,13 +173,19 @@ class Sidebar extends Component {
                                                 //i is used for the key  value wich allows react to keep up with the order of things 
                                                 i++;
                                                 
-                                                //prevents from it adding the same chatroom twice and infinate loop
-                                                if( chatRoomsArray.length > this.state.sidebarDisplay.length ) {
+                                                //prevents from  infinate loop
+                                                if( chatRoomsArray.length > this.state.sidebarDisplay.length ) {       
+                                                    
+                                                    //if addedchatRoomsName dose not have the new chatroom name then add it.(e.data is chatroom name their trying to add)
+                                                    if( !addedChatRoomsName.includes( e.data ) ){
 
-                                                    this.setState( { sidebarDisplay: newDisplay } );
+                                                        addedChatRoomsName.push( e.data ) ;
+                                                        this.setState( { sidebarDisplay: newDisplay } );
 
-                                                }         
-
+                                                    }
+                                                    
+                                                }//if prevents from  infinate loop   
+   
                                     });//axios get username for the current chatRoom user
 
                                 }//if current chatRoomuserID === current userID logged in 

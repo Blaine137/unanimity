@@ -30,7 +30,6 @@ class Messenger extends Component {
                 this.setCurrentChatRoom(this.state.currentChatRoomID ); 
 
             } 
-
                 this.setUsersChatRoomsID( );
      
         }, 500);
@@ -263,7 +262,7 @@ class Messenger extends Component {
     }
 
     //add onSubmission of popUp for addChatRoom in sidebar component
-    newChatRoom = ( event, recipentName, resetSidbebarDisplay ) => {
+    newChatRoom = ( event, recipentName  ) => {
         
         //id of the person we are sending to
         let recipentID = null;
@@ -306,8 +305,10 @@ class Messenger extends Component {
 
                         alert( "User not found!" );
 
-                    }//if no recipentID
+                        //set to null so that it dose not continue trying to add the user
+                        recipentID = null;
 
+                    }//if no recipentID
 
                     // --------- start create the chatroom and add chatroom to all tabels for referance ---------
 
@@ -534,7 +535,7 @@ class Messenger extends Component {
             
     }
 
-    removeChatRoom = ( removeChatRoomID, resetSidebarDisplay ) => {
+    removeChatRoom = ( removeChatRoomID ) => {
         
         //will equal all the users ID that are in the chatroom and need the chatroom id removed from userChatRooms
         let removeChatRoomUsers = [];
@@ -612,8 +613,7 @@ class Messenger extends Component {
 
                                                             //causes sidebar to update
                                                             this.setUsersChatRoomsID();
-                                                            //wait for the setUserChatRoomsID to finsih then update the sidebar
-                                                            //setTimeout(() => {resetSidebarDisplay(); }, 1000);
+                                                        
                                                             
                                                         }
                                                     ).catch(
@@ -634,8 +634,6 @@ class Messenger extends Component {
 
                                                            //causes sidebar to update
                                                            this.setUsersChatRoomsID();
-                                                           //wait for the setUserChatRoomsID to finsih then update the sidebar
-                                                           //setTimeout(() => {resetSidebarDisplay(); }, 1000);
 
                                                         }
                                                     ).catch(
