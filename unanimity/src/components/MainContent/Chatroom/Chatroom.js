@@ -9,7 +9,6 @@ const Chatroom = ( props ) => {
    if( props.currentChatRoom ){
 
        //takes in current chatroom object of arrays and get user by id function.
-    //    console.log(props.currentChatRoom);
         let chatRoomUsers = Object.entries( props.currentChatRoom );
         
         chatRoomUsers.forEach( ( nextuser ) => {
