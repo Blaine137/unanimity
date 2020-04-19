@@ -310,6 +310,49 @@ class Messenger extends Component {
 
                     }//if no recipentID
 
+
+
+
+                    // --------- Check to see if auth user allready has a chatroom with recipent ---------
+                    // if we have a valid recipent
+                    if ( recipentID !== null ) {
+                        
+                        //for each auth userChatroom. check to see if the recipent is in one of those chatrooms
+                        
+                        this.state.usersChatRoomsID.forEach( (chatRoomID ) => { 
+                              
+                                //for the current chatRoom get the users in that chatroom
+                                axios.get( 'chatRoomsUsers/cru' + chatRoomID + '.json' ).then(
+                                    ( result ) => {
+
+                                        if( result ) { 
+                                      
+                                            //for every user in the chatroom
+                                            result.data.users.forEach(
+                                                ( userID ) => {
+
+                                                    // see if the user they are trying to add is in this chatroom
+                                                    if ( recipentID === userID ){
+
+                                                        //cancel the chatRoom adding
+                                                        alert( ' You allready have a chatroom with this user. ' );
+                                                        recipentID = null;
+                                                        
+                                                    }//if recipentID === userID
+                            
+                                                } );//result foreach
+
+                                        }//if result
+                                      
+                                    } );//axios get chatRoomUsers for chatRoomID
+                                
+                            } );//foreach userChatRoomID
+
+                    }// if we have a username
+
+
+
+                    
                     // --------- start create the chatroom and add chatroom to all tabels for referance ---------
 
                         //if userID was set. username was found
