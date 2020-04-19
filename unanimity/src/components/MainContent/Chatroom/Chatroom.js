@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Message from './Message/Message';
 import styles from './Chatroom.module.scss';
 
 const Chatroom = ( props ) => {
-  
+
+ 
     let displayedMessages = [ "Please select a chatroom." ];
 
    if( props.currentChatRoom ){
@@ -41,10 +42,12 @@ const Chatroom = ( props ) => {
 
    }//if props.currentchatRoom
 
-    return(
+    return (
 
         <div className = { styles.container } >
+
             { displayedMessages }
+            
         </div>
 
     );
