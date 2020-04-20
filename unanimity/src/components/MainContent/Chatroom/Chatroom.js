@@ -1,10 +1,22 @@
 import React, {useEffect} from 'react';
 import Message from './Message/Message';
 import styles from './Chatroom.module.scss';
-
+let prevHeight;
 const Chatroom = ( props ) => {
+    
+    //auto scrolls down the div. dose it on every reload of the component
+    useEffect( ( ) => {
+        
+        let handle = document.getElementById( 'scrolldown' );
+        if(handle.scrollTop === 0 || (handle.offsetHeight + handle.scrollTop)  === prevHeight){
+            
+            prevHeight = handle.scrollHeight;
+            handle.scrollTop = handle.scrollHeight;
 
- 
+        }
+       
+    } );
+
     let displayedMessages = [ "Please select a chatroom." ];
 
    if( props.currentChatRoom ){
@@ -44,10 +56,14 @@ const Chatroom = ( props ) => {
 
     return (
 
-        <div className = { styles.container } >
+        <div className = { styles.container } id = 'scrolldown'>
 
             { displayedMessages }
-            
+          
+                
+                  
+                
+          
         </div>
 
     );
