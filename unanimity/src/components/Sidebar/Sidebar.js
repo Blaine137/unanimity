@@ -21,7 +21,6 @@ class Sidebar extends Component {
         if ( nextProps.usersChatRoomsID.length !== this.props.usersChatRoomsID.length ) {
             
             //if it has changed the resetTheSideBarDisplay
-            console.log("reset");
             this.resetSidebarDisplay( );
             return true;
 
