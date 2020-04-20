@@ -6,6 +6,7 @@
     position: relative;
     transition: all 1s ease-in-out;
     font-family: 'Raleway', sans-serif;
+    
 }
 
 .addContainer{
@@ -34,14 +35,25 @@
             display: block;
         }
 }
+@keyframes fadein {
+    0%{width: 0; height: 0; background-color: rgba(96, 96, 96, 0);}
 
+    70%{background-color: rgba(96, 96, 96, 0); }
+    100% {width: 100vw;
+        height: 100vh;
+        background-color: rgba(96, 96, 96, .8);
+    }
+  }
 .popUpContainer {
     position: relative;
     z-index: 0;
     background-color: rgba(96, 96, 96, .8);
     width: 100vw;
     height: 100vh;
+    animation-name: fadein;
+    animation-duration: .5s;
 }
+
 .users{
     color: rgba(5,56,107,0.7);
         &:hover{

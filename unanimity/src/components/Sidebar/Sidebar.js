@@ -206,7 +206,7 @@ class Sidebar extends Component {
 
     } //end if this.props.usersChatRoomsID is not null
         
-            //if sidebar is open
+        //if sidebar is open
         if( this.props.showSidebar ) {
             
             //set css to show the sidebar

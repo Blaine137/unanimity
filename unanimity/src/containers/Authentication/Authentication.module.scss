@@ -55,6 +55,13 @@ legend{
     border: none;
     border-bottom: 2px solid #05386B;
     margin-bottom: 3rem;
+    transition: all .1s ease-in-out;
+        &:focus{
+            outline: none;
+            border: 1px solid #05386B;
+            border-bottom: 2px solid #05386B;
+            transform: scale(1.1);
+        }
 }
 label {
     display: block;
