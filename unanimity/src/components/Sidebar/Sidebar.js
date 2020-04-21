@@ -211,6 +211,14 @@ class Sidebar extends Component {
             
             //set css to show the sidebar
             sidebar = <div className = { styles.sidebarContainer } style = { { transform: 'translateX( 0% )' } } >
+                
+                        <div onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
+
+                            <div className = { styles.closeTop } ></div>
+                            <div className = { styles.closeMiddle } ></div>
+                            <div className = { styles.closeBottom } ></div>
+
+                        </div>
 
                         <div className = { styles.addContainer } onClick = { ( ) => { this.popUp( ) } } >
 

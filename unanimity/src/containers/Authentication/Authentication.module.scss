@@ -8,25 +8,28 @@ html {
     font-weight: bold;
     font-size: 1.25rem;
     box-sizing: border-box;
+    overflow-y: scroll;
 }
 *, *:before, *:after {
   box-sizing: inherit;
 }
 
 .wrapper {
-    overflow: auto;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 1rem;
+   
 }
 
 .wrapper p { 
     font-size: .75rem;
+    margin: auto;
 }
 
 .form {
     
     display: block;
     text-align: left;
-    margin: auto;
+    margin: 1rem auto;
     padding: 1rem;
     background-color:#F6F6F6;
     width: 80vw;
