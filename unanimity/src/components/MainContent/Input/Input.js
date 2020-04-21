@@ -8,7 +8,7 @@ const input = ( props ) => {
         
         <div className = { styles.inputContainer } >
 
-            <textarea spellCheck="true" placeholder = "Press Enter to send Message" 
+            <textarea spellCheck="true" placeholder = "Press Enter to send Message" maxLength = "1999"
                 onKeyDown = { ( e ) => {
 
                     let userInput = e.target.value;

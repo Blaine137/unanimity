@@ -192,7 +192,9 @@ label {
 
 /*tablets and larger*/
 @media only screen and ( min-width: 700px ) {
-
+    .sidebarContainer{
+        width: 20.5vw ;
+    }
     .form {
         padding: 3rem;
         position: relative;
