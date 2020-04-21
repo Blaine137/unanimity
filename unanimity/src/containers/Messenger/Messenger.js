@@ -233,7 +233,7 @@ class Messenger extends Component {
         let nextMsgNum = null;
 
         //set maximum allowed message length. make sure we have a message. and make sure a chatRoom is selected
-        if (newMessage.length > 0 && newMessage.length < 200 && this.state.currentChatRoom != null) {
+        if (newMessage.length > 0 && newMessage.length < 2000 && this.state.currentChatRoom != null) {
 
             //set authenticaedUserMessageOld and nextMSg number from this.state.currentChatRoom
             Object.entries(this.state.currentChatRoom).forEach((user) => {

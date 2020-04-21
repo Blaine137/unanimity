@@ -3,5 +3,10 @@
     display: flex;
     align-items: center;
     color: #05386B;
+    max-width: 75vw;
+}
+p{ 
+    max-width: 75vw;
+    word-wrap: break-word;
 }
 
