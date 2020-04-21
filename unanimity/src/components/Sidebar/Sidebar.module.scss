@@ -1,5 +1,5 @@
 .sidebarContainer{
-    width: 20.5vw ;
+    width: 100vw;
     height: 100vh;
     background-color: #f4f4f4;
     padding: 1rem;
@@ -12,7 +12,7 @@
 .addContainer{
     position: absolute;
     top: 20px;
-    left: 75%;
+    left: 5%;
     height: 30px;
     width: 25px;
         &:hover{
@@ -64,8 +64,12 @@
        
 }
 
+/*burger is the closing x for mobile that is located in the sidebar. on mobile the sidebar is wider.*/
 .burger{
-    float: right;
+    position: absolute;
+    top: 10px;
+    /* 80 percent over minus the width of the x. this prevents from half the x being cut off the screen */
+    left: calc(80% - 50px);
     width: 50px;
     cursor: pointer;
     padding: 1rem;
@@ -90,7 +94,7 @@
     transform: rotate(-45deg);
     transition: transform .5s ease-in-out;
   }
-  
+  /* delete stuff is the x that allows you to delete a chatroom in the sidebar*/
   .deleteContainer{
     padding-top: .5rem;
     float: left;
@@ -115,6 +119,7 @@
     transform: rotate(-45deg);
     transition: transform .5s ease-in-out;
   }
+  /* All the form stuff is used for the pop up that opens when you add a new chatroom */
 .form {
     position: relative;
     z-index: 10;
@@ -192,9 +197,7 @@ label {
 
 /*tablets and larger*/
 @media only screen and ( min-width: 700px ) {
-    .sidebarContainer{
-        width: 20.5vw ;
-    }
+   
     .form {
         padding: 3rem;
         position: relative;
@@ -203,4 +206,14 @@ label {
         max-height: 550px;
     }
 
+}
+
+/*For desktop*/
+@media only screen and ( min-width: 900px ) {
+    .burger{
+        display: none;
+    }
+    .sidebarContainer{
+        width: 20.5vw ;
+    }
 }

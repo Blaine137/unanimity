@@ -825,74 +825,33 @@ class Messenger extends Component {
 
         return (
 
-            <
-            div className = {
-                styles.layout
-            } >
+            <div className = { styles.layout } >
 
-            <
-            div className = {
-                styles.sidebarGrid
-            }
-            style = {
-                this.state.sidebarInlineStyles
-            } >
+                <div className = { styles.sidebarGrid } style = { this.state.sidebarInlineStyles } >
 
-            <
-            Sidebar usersChatRoomsID = {
-                sidebarusersChatRoomsID
-            }
-            userID = {
-                this.state.userID
-            }
-            setCurrentChatRoomID = {
-                this.setCurrentChatRoom
-            }
-            showSidebar = {
-                this.state.showSidebar
-            }
-            addChatRoom = {
-                this.newChatRoom
-            }
-            deleteChatRoom = {
-                this.removeChatRoom
-            }
-            />
+                <Sidebar usersChatRoomsID = { sidebarusersChatRoomsID }
+                    userID = { this.state.userID }
+                    setCurrentChatRoomID = { this.setCurrentChatRoom }
+                    showSidebar = { this.state.showSidebar }
+                    addChatRoom = { this.newChatRoom }
+                    deleteChatRoom = { this.removeChatRoom }
+                    toggleSidebar = { this.setShowSidebar }
+                />
 
-            <
-            /div>
+                </div>
 
-            <
-            div className = {
-                styles.mainContentGrid
-            }
-            style = {
-                mainContentInlineStyles
-            } >
+                <div className = { styles.mainContentGrid } style = { mainContentInlineStyles } >
 
-            <
-            MainContent newMessage = {
-                this.newMessage
-            }
-            currentChatRoom = {
-                this.state.currentChatRoom
-            }
-            currentChatRoomName = {
-                this.state.currentChatRoomName
-            }
-            toggleSidebar = {
-                this.setShowSidebar
-            }
-            showSidebar = {
-                this.state.showSidebar
-            }
-            />
+                    <MainContent newMessage = { this.newMessage }
+                    currentChatRoom = { this.state.currentChatRoom }
+                    currentChatRoomName = { this.state.currentChatRoomName }
+                    toggleSidebar = { this.setShowSidebar }
+                    showSidebar = { this.state.showSidebar  }
+                    />
 
-            <
-            /div> 
+                </div> 
 
-            <
-            /div>
+            </div>
 
         );
 
