@@ -73,7 +73,7 @@ class Sidebar extends Component {
                                             className = { styles.form } >
 
                                             
-                                            <div className = { styles.burger } onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } >
+                                            <div className = { styles.closeBurger } onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } >
 
                                                 <div className = { styles.closeTop } ></div>
                                                 <div className = { styles.closeBottom } ></div>
@@ -147,7 +147,7 @@ class Sidebar extends Component {
 
                                                 newDisplay.push( (
 
-                                                     <div onClick = { ( ) => { this.props.setCurrentChatRoomID( currentChatRoomID ) } } key = { i }  className = { styles.users } >
+                                                     <div onClick = { ( ) => { this.props.toggleSidebar(); this.props.setCurrentChatRoomID( currentChatRoomID ) } }key = { i }  className = { styles.users } >
 
                                                         <div className = { styles.deleteContainer } onClick = { 
                                                                 ( ) => { 

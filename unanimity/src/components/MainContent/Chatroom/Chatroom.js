@@ -17,7 +17,7 @@ const Chatroom = ( props ) => {
        
     } );
 
-    let displayedMessages = [ "Please select a chatroom." ];
+    let displayedMessages = [ <p className={styles.introMsg}> Please select a chatroom. </p> ];
 
    if( props.currentChatRoom ){
 
@@ -59,10 +59,6 @@ const Chatroom = ( props ) => {
         <div className = { styles.container } id = 'scrolldown'>
 
             { displayedMessages }
-          
-                
-                  
-                
           
         </div>
 
