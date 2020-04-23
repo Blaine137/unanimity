@@ -65,7 +65,7 @@
 }
 
 /*burger is the closing x for mobile that is located in the sidebar. on mobile the sidebar is wider.*/
-.burger{
+.burger, .closeBurger{
     position: absolute;
     top: 10px;
     /* 80 percent over minus the width of the x. this prevents from half the x being cut off the screen */

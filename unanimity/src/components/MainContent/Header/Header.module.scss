@@ -1,6 +1,6 @@
 .burger{
   position: relative;
-  left: -40%;
+  left: -30%;
   width: 50px;
   cursor: pointer;
   margin-top: auto;
@@ -78,4 +78,10 @@
     color: #05386B;
     display: inline;
     font-family: 'Source Sans Pro', sans-serif; 
+}
+
+@media only screen and (min-width: 500px){
+  .burger{
+    left: -40%;;
+  }
 }
