@@ -122,6 +122,7 @@ class Sidebar extends Component {
                 
                 //get alls usersID that are in the singleChatRoomID
                 axios.get( 'chatRoomsUsers/cru' + singleChatRoomID[ 1 ] + '.json' ).then( 
+                    
                     ( res ) => {
                         
                         //if we have the data. do stuff with the data. if there is no data the .catch() wil handle it
@@ -139,15 +140,26 @@ class Sidebar extends Component {
                                 if( chatRoomUserID !== this.props.userID ) {
                                     
                                     let currentChatRoomID = singleChatRoomID[1];
+                                    
                                     //axios get username for the current chatRoom user
                                     axios.get( 'users/u' + chatRoomUserID + '/userName.json' ).then(
                                         ( e ) => {
-                                                                                                                                                                
+                                                                                                                                                           
                                                 let newDisplay = [ ...this.state.sidebarDisplay ];
 
                                                 newDisplay.push( (
 
-                                                     <div onClick = { ( ) => { this.props.toggleSidebar(); this.props.setCurrentChatRoomID( currentChatRoomID ) } }key = { i }  className = { styles.users } >
+                                                     <div 
+                                                        onClick = { ( ) => { 
+
+
+                                                            this.props.toggleSidebar(true);
+                                                            this.props.setCurrentChatRoomID( currentChatRoomID ) } 
+
+                                                        }
+                                                        key = { i } 
+                                                        className = { styles.users } 
+                                                      >
 
                                                         <div className = { styles.deleteContainer } onClick = { 
                                                                 ( ) => { 

@@ -30,10 +30,24 @@ class Messenger extends Component {
         //every second update the current chatroom. this make sure we can see if the other messenger sent a message
         this.interval = setInterval(() => {
             if (this.state.currentChatRoomID) {
+               
+                let oldID = this.state.currentChatRoomID;
+                //get the messages for the current chatroom
 
-                this.setCurrentChatRoom(this.state.currentChatRoomID);
+                axios.get( 'chatRooms/' + oldID + '.json' ).then( ( res ) => {
 
-            }
+                    //if the current chatroom has not changes since we started and there is new messages update the state
+                    if( this.state.currentChatRoom !== res.data && oldID === this.state.currentChatRoomID ){
+
+                        this.setState( { currentChatRoom: res.data } );
+
+                    }//if new messages and same chatroom
+
+                } );//axios get messages
+
+            }//if a chatroom is selected
+
+            //check for new chatrooms from db
             this.setUsersChatRoomsID();
 
         }, 500);
@@ -113,15 +127,15 @@ class Messenger extends Component {
     }
 
     //called by setCurrentChatRoom
-    setCurrentChatRoomName = (ChatRoomIDForName) => {
+    setCurrentChatRoomName = ( ChatRoomIDForName ) => {
 
-        if (ChatRoomIDForName) {
+        if ( ChatRoomIDForName ) {
 
             //for chatRoom get users in the chatRoom
             axios.get('chatRoomsUsers/cru' + ChatRoomIDForName + '/users.json').then(
                 (e) => {
 
-                    if (e.data) {
+                    if ( e.data ) {
 
                         //find index of our id
                         let userIndex = e.data.indexOf(this.state.userID);
@@ -162,7 +176,8 @@ class Messenger extends Component {
     //called by sidebar on click of a chatroom
     //sets currentChatRoom and currentChatRoomID
     setCurrentChatRoom = (setChatRoomID) => {
-
+        console.log(setChatRoomID);
+        this.setCurrentChatRoomName(setChatRoomID);
         //set currentChatRoom to object with messages and everything about that chatRoom
         axios.get('chatRooms/' + setChatRoomID + '/.json').then(
 
@@ -177,15 +192,14 @@ class Messenger extends Component {
         ); //axios get currentChatRoom
 
         //call functiont to set chatRoom name
-        this.setCurrentChatRoomName(setChatRoomID)
+        
 
     }
 
     //called onClick of the hamburger in the maincontent/header.js
-    setShowSidebar = () => {
+    setShowSidebar = (closeOnly) => {
 
-        //if sidebar was showing and we click hamburger. close the sidebar
-        if (this.state.showSidebar) {
+        if( closeOnly === true ){
 
             this.setState({
                 showSidebar: false
@@ -201,28 +215,49 @@ class Messenger extends Component {
 
             }, 1000);
 
+        } else {
 
-        }
-        //if sidebar was closed and we clicked the hamburger open the sidebar
-        else {
+                //if sidebar was showing and we click hamburger. close the sidebar
+                if (this.state.showSidebar) {
 
-            this.setState({
-                sidebarInlineStyles: {
-                    display: 'block'
+                    this.setState({
+                        showSidebar: false
+                    });
+        
+                    setTimeout(() => {
+        
+                        this.setState({
+                            sidebarInlineStyles: {
+                                display: 'none'
+                            }
+                        });
+        
+                    }, 1000);
+        
+        
                 }
-            });
+                //if sidebar was closed and we clicked the hamburger open the sidebar
+                else {
+        
+                    this.setState({
+                        sidebarInlineStyles: {
+                            display: 'block'
+                        }
+                    });
+        
+                    setTimeout(() => {
+        
+                        this.setState({
+                            showSidebar: true
+                        });
+        
+                    }, 150);
+        
+                }
 
-            setTimeout(() => {
+        }//else closeonly
 
-                this.setState({
-                    showSidebar: true
-                });
-
-            }, 150);
-
-        }
-
-    }
+    }//setShowSidebar
 
     //called by input once user enters a new message
     newMessage = (newMessage) => {
@@ -650,7 +685,7 @@ class Messenger extends Component {
 
         //if chatRoomID is not null
         if (removeChatRoomID !== null) {
-
+        
             //get the chatRoomUsers ID so that we can use it to remove the chatRoom from usersChatRoom.
             axios.get('chatRoomsUsers/cru' + removeChatRoomID + '/users.json').then(
                 (e) => {

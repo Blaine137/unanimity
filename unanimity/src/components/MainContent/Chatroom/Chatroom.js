@@ -17,11 +17,13 @@ const Chatroom = ( props ) => {
        
     } );
 
-    let displayedMessages = [ <p className={styles.introMsg}> Please select a chatroom. </p> ];
+    let displayedMessages = [  <p className = { styles.introMsg } key = "-10"> Please select a chatroom. </p> ];
 
    if( props.currentChatRoom ){
 
-       //takes in current chatroom object of arrays and get user by id function.
+       
+
+                   //takes in current chatroom object of arrays and get user by id function.
         let chatRoomUsers = Object.entries( props.currentChatRoom );
         
         chatRoomUsers.forEach( ( nextuser ) => {
@@ -51,6 +53,11 @@ const Chatroom = ( props ) => {
             } //end if props.currentChatroom
 
         }); //end of chatRoomUsers forEach
+            
+       
+
+            
+
 
    }//if props.currentchatRoom
 
