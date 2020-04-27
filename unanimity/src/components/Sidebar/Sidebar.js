@@ -149,12 +149,7 @@ class Sidebar extends Component {
 
                                                 newDisplay.push( (
 
-                                                     <div 
-                                                        onClick = { ( ) => { 
-
-                                                            this.props.setCurrentChatRoomID( currentChatRoomID ) } 
-
-                                                        }
+                                                     <div                                                        
                                                         key = { i } 
                                                         className = { styles.users } 
                                                       >
@@ -162,7 +157,7 @@ class Sidebar extends Component {
                                                         <div className = { styles.deleteContainer } onClick = { 
                                                                 ( ) => { 
 
-                                                                    this.props.deleteChatRoom( currentChatRoomID, this.resetSidebarDisplay );
+                                                                    this.props.deleteChatRoom( currentChatRoomID );
 
                                                                 }//anonymous function 
                                                             }//onclick
@@ -173,7 +168,7 @@ class Sidebar extends Component {
 
                                                         </div>
 
-                                                        <h3 onClick={( ) => { this.props.toggleSidebar(true) }}> { e.data } </h3>
+                                                        <h3 onClick={ ( ) => { this.props.toggleSidebar(true); this.props.setCurrentChatRoomID( currentChatRoomID );  } }> { e.data } </h3>
 
                                                     </div>
 
