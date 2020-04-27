@@ -152,8 +152,6 @@ class Sidebar extends Component {
                                                      <div 
                                                         onClick = { ( ) => { 
 
-
-                                                            this.props.toggleSidebar(true);
                                                             this.props.setCurrentChatRoomID( currentChatRoomID ) } 
 
                                                         }
@@ -175,7 +173,7 @@ class Sidebar extends Component {
 
                                                         </div>
 
-                                                        <h3> { e.data } </h3>
+                                                        <h3 onClick={( ) => { this.props.toggleSidebar(true) }}> { e.data } </h3>
 
                                                     </div>
 
