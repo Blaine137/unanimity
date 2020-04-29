@@ -694,7 +694,11 @@ class Messenger extends Component {
                         //deletes data by setting it equal to an empty object. firebase then automatically removes empty objects
                         axios.put( 'chatRoomsUsers/cru' + removeChatRoomID + '.json', empty ).then(( ) => {
 
-                            this.setState( {currentChatRoomName: null} ); //reset the chatroom name to null
+                            if(this.state.currentChatRoomID == removeChatRoomID){
+
+                                this.setState( {currentChatRoomName: null} ); //reset the chatroom name to null
+
+                            }
 
                         }).catch(
                             ( e ) => {
