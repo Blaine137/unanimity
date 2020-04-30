@@ -242,6 +242,14 @@ class Sidebar extends Component {
             //set the css to hide the sidebar by moving it left 100%
             sidebar = <div className = { styles.sidebarContainer } style = { { transform: 'translateX(-100%)' } } >
 
+                        <div onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
+
+                            <div className = { styles.closeTop } ></div>
+                            <div className = { styles.closeMiddle } ></div>
+                            <div className = { styles.closeBottom } ></div>
+
+                        </div>
+
                         <div className = { styles.addContainer } onClick = { () => { this.popUp( ) } } >
 
                             <div className = { styles.addButton } ></div>
