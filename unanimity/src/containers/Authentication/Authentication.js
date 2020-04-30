@@ -218,8 +218,8 @@ TODO: add password hashing!
             messenger = (
 
                 <div className = { styles.wrapper }>
-                    <p>This Project Database is public so that people can see how the project works!</p>
-                    <p>Username and password are both case sensitive.</p>
+
+                    <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. "/>
                      
                     <form className = { styles.form }  >
                         <fieldset>
@@ -238,7 +238,8 @@ TODO: add password hashing!
                         </fieldset>
                         
                     </form>
-                
+                    <p>This Project Database is public so that people can see how the project works!</p>
+                    <p>Username and password are both case sensitive.</p>
                 </div>
                 
             );//variable messenger
