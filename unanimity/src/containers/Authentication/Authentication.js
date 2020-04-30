@@ -10,9 +10,9 @@ class Authentication extends Component {
     state = {
         
         //this sets the default authentication to false.
-        authenticated: false, 
-        userID: null,
-        username: null
+        authenticated: true, 
+        userID: 1,
+        username: "Blaine"
         
     }
     
@@ -206,13 +206,13 @@ TODO: add password hashing!
     render( ) {
         
         let messenger = null;
-        //if authenticed go to messenger
+        //if authenticated go to messenger
         if( this.state.authenticated ) {
 
             messenger = <Messenger authenticated = { this.state.authenticated } userID = { this.state.userID } username = { this.state.username } />;
 
         } 
-        //else not authenticaed stay on login page to login in
+        //else not authenticated stay on login page to login in
         else {
 
             messenger = (
@@ -223,22 +223,25 @@ TODO: add password hashing!
                      
                     <form className = { styles.form }  >
                         <fieldset>
-                            <legend>Unanimity Messenger Login</legend>
-                            <label htmlFor = "username" >Username</label>
-                            <input type = "text" id = "userNameID" name = "username" className = { styles.input } />
-                            
-                            <label htmlFor = "password" >Password</label>
-                            <input type = "password" id = "passwordID" name = "password" className = { styles.input } />
 
-                            <input type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ),   document.getElementById( 'passwordID' ) ) }   } />
-                            <input type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , document.getElementById( "userNameID" ), document.getElementById( "passwordID" ) ) } } /> 
+                            <legend>Unanimity Messenger Login</legend>
+                            <label htmlFor = "userNameID" >Username</label>
+                            <input  type = "text" id = "userNameID" name = "userNameID" className = { styles.input } aria-label ="User Name Text Input" />
+                            
+                            <label htmlFor = "passwordID" >Password</label>
+                            <input aria-label = "Password Text input" type = "password" id = "passwordID" name = "passwordID" className = { styles.input } />
+
+                            <input aria-label = "Submit Login information" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ),   document.getElementById( 'passwordID' ) ) }   } />
+
+                            <input aria-label = "Register For Account" type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , document.getElementById( "userNameID" ), document.getElementById( "passwordID" ) ) } }  /> 
+
                         </fieldset>
                         
                     </form>
                 
                 </div>
                 
-            );//varible messenger
+            );//variable messenger
                
         }//if state authenticated
                  

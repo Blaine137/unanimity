@@ -3,8 +3,7 @@
     height: 100vh;
     display: grid;
     grid-template-columns: 20vw 80vw;
-    /* background-color: #f5f5f5; */
-    /* overflow: hidden; */
+     overflow: hidden; 
 }
 .sidebarGrid{
     grid-column-start: 1;
