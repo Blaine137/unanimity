@@ -83,7 +83,7 @@ label {
     border-radius: 3rem;
     font-weight: 700;
     margin-bottom: 2rem;
-        &:hover{
+        &:focus, &:hover{
             color: #05386B;
             background-color: #5CDB95; 
             transition: all .5s;   
@@ -102,7 +102,7 @@ label {
     min-width: 3.5rem;
     border-radius: 3rem;
     font-weight: 700;
-        &:hover{
+        &:hover, &:focus{
             color: #05386B;
             background-color: #5CDB95;
             transition: all .5s; 

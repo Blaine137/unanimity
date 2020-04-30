@@ -28,6 +28,8 @@ html {
     height: 90%;
     padding: 1rem;
     transition: all .1s ease-in-out;
+    /*slightly smaller so that once you click on the input and the input scales up. the font size is not super huge*/
+    font-size: .9rem;
         &::placeholder{
             color: #05386B;
         }
