@@ -80,7 +80,7 @@
     font-family: 'Source Sans Pro', sans-serif; 
 }
 
-.optionContainer{
+.optionsButtonContainer{
   /*background: red;*/
   width: 25px;
   height: 50px;
@@ -102,13 +102,19 @@
   
 }
 
-.options{
-  width: 50vw;
-  height: 100px;
-  background-color: red;
-  position: absolute;
-  right: 0;
+.optionsContainer{
+  background-color: rgba(96, 96, 96, .8);
+  position: inherit;
   z-index: 1;
+}
+
+.options{
+  width: 25vw;
+  height: 50vw;
+  
+  
+  margin: 0 auto;
+  
 }
 
 @media only screen and (min-width: 500px){
