@@ -5,8 +5,18 @@ import styles from './Header.module.scss';
 class Header extends Component{
 
         state = {
-            openOptions: true,
+            openOptions: false,
             options: null
+        }
+
+        toggleOptions = () => {
+
+            if(this.state.openOptions === true){
+                this.setState( {openOptions: false} );
+            }else if(this.state.openOptions === false){
+                this.setState( {openOptions: true} );
+            }
+
         }
 
         showOptions = () => {
@@ -14,8 +24,10 @@ class Header extends Component{
             if(this.state.openOptions === true){
                 
                 this.setState( {options: 
-                    <div className={styles.options}>
-                        <span>Logout</span>
+                    <div className={styles.optionsContainer}>
+                        <div className={styles.options}>
+                            <span>Logout</span>
+                        </div>
                     </div>
                 } ); //end of setState
 
@@ -65,7 +77,7 @@ class Header extends Component{
     
                     </h3>
     
-                    <div className={styles.optionContainer} onClick={ ( ) => { this.showOptions( ) } }>
+                    <div className={styles.optionsButtonContainer} onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }>
                         <div className={styles.circle1}></div>
                         <div className={styles.circle2}></div>
                         <div className={styles.circle3}></div>
