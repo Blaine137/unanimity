@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
 import styles from './Authentication.module.scss';
 import axios from '../../axios';
+import DOMPurify from 'dompurify';
 //import npm pass https://www.npmjs.com/package/password-hash
 import * as passwordHash from 'password-hash';
 
@@ -231,14 +232,14 @@ TODO: add password hashing!
                             <label htmlFor = "passwordID" >Password</label>
                             <input aria-label = "Password Text input" type = "password" id = "passwordID" name = "passwordID" className = { styles.input } />
 
-                            <input aria-label = "Submit Login information" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ),   document.getElementById( 'passwordID' ) ) }   } />
+                            <input aria-label = "Submit Login information" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , DOMPurify.sanitize(document.getElementById( 'userNameID'  )), DOMPurify.sanitize(document.getElementById( 'passwordID' )) ) }   } />
 
-                            <input aria-label = "Register For Account" type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , document.getElementById( "userNameID" ), document.getElementById( "passwordID" ) ) } }  /> 
+                            <input aria-label = "Register For Account" type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , DOMPurify.sanitize(document.getElementById( 'userNameID'  )), DOMPurify.sanitize(document.getElementById( 'passwordID' )) ) } }  /> 
 
                         </fieldset>
                         
                     </form>
-                    <p>This Project Database is public so that people can see how the project works!</p>
+                    <p>This Project's Database is public so that people can see how the project works!</p>
                     <p>Username and password are both case sensitive.</p>
                 </div>
                 

@@ -5,6 +5,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
+import DOMPurify from 'dompurify';
 
 class Messenger extends Component {
 
@@ -291,7 +292,7 @@ class Messenger extends Component {
             //add new message to to old messages
             authenticaedUserMessageCombined = [ ...Object.values( authenticaedUserMessageOld ) ];
             //make sure that it keeps the order in the arrays. make it the nextMsgNum position in the array. array[nextMsgNum]
-            authenticaedUserMessageCombined[ nextMsgNum ] = newMessage;
+            authenticaedUserMessageCombined[ nextMsgNum ] = DOMPurify.sanitize(newMessage);
 
             //increment nextMsgNum by 1
             if ( nextMsgNum ) {
