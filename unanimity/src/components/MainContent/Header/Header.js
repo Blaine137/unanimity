@@ -1,15 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styles from './Header.module.scss';
+// import { render } from 'node-sass';
 
-const header = ( props ) => {
- 
+class Header extends Component{
+
+        state = {
+            openOptions: true,
+            options: null
+        }
+
+        showOptions = () => {
+
+            if(this.state.openOptions === true){
+                
+                this.setState( {options: 
+                    <div className={styles.options}>
+                        <span>Logout</span>
+                    </div>
+                } ); //end of setState
+
+            }else{
+              this.setState( { options: null } );  
+            }
+
+        }
+           
+        render(){
+
             let burger = null;
 
                     //if props.showSidebar is true
-            if( props.showSidebar ) {
+            if( this.props.showSidebar ) {
 
                     //make the burger button a X
-                burger = <div onClick = { ( ) => { props.toggleSidebar( ) } } className = { styles.burger }  >
+                burger = <div onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
 
                                 <div className = { styles.closeTop } ></div>
                                 <div className = { styles.closeMiddle } ></div>
@@ -19,7 +43,7 @@ const header = ( props ) => {
 
             } else {
                         //if false then make the burger button 
-                burger = <div onClick={ ( ) => { props.toggleSidebar( ) } } className = { styles.burger }  >
+                burger = <div onClick={ ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
 
                             <div className = { styles.openTop } ></div>
                             <div className = { styles.openMiddle } ></div>
@@ -28,23 +52,33 @@ const header = ( props ) => {
                         </div>;
 
             }
-           
-        return(
 
-            <header className = { styles.header } >
-                
-                { burger }
+            return(
 
-                <h3 className = { styles.header3 } >
+                <header className = { styles.header } >
                     
-                    { props.currentChatRoomName } 
+                    { burger }
+    
+                    <h3 className = { styles.header3 } >
+                        
+                        { this.props.currentChatRoomName } 
+    
+                    </h3>
+    
+                    <div className={styles.optionContainer} onClick={ ( ) => { this.showOptions( ) } }>
+                        <div className={styles.circle1}></div>
+                        <div className={styles.circle2}></div>
+                        <div className={styles.circle3}></div>
+                    </div>
 
-                </h3>
+                    {this.state.options}
+                    
+                </header>
+                
+            );//return
 
-            </header>
-
-        );//return
+        }//render
 
 }
 
-export default header;
+export default Header;
