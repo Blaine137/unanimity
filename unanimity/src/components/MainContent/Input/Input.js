@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './Input.module.scss';
+import DOMPurify from 'dompurify';
+
 let oldTime = null;
 
 const input = ( props ) => {
@@ -11,7 +13,7 @@ const input = ( props ) => {
             <textarea aria-label = "Type a messages and press enter to send." spellCheck="true" placeholder = "Press Enter to send Message" maxLength = "1999"
                 onKeyDown = { ( e ) => {
 
-                    let userInput = e.target.value;
+                    let userInput = DOMPurify.sanitize(e.target.value);
                     
                     if( e.key === 'Enter' ) {
                        

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styles from './Sidebar.module.scss';
 import axios from '../../axios';
+import DOMPurify from 'dompurify';
 //set at this scope so that no two keys would equl the same value
 //i is used as a key prop to allow react to keep up with things
 let i = 0;
@@ -62,7 +63,7 @@ class Sidebar extends Component {
                                              ( e ) => {
 
                                                     //calls function that adds chatroom
-                                                    this.props.addChatRoom( e , document.getElementById( 'newChatRoomName' ).value ) 
+                                                    this.props.addChatRoom( e , DOMPurify.sanitize(document.getElementById( 'newChatRoomName' ).value) ) 
 
                                                     //on submit of popup close the popup
                                                     this.setState( { addChatRoomPopUp: null } )
