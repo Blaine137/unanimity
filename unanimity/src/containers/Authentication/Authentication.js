@@ -11,20 +11,22 @@ class Authentication extends Component {
     state = {
         
         //this sets the default authentication to false.
-        authenticated: true, 
-        userID: 1,
-        username: "Blaine"
+        authenticated: false, 
+        userID: null,
+        username: null
         
     }
     
-/*
-TODO: add password hashing!
-*/  checkForNewUser = ( event, newUser, newPassword ) => {
+  checkForNewUser = ( event, newUser, newPassword ) => {
        
         
         let newUserValue = newUser.value;
         let newPasswordValue = newPassword.value;
         let newUserID = null;
+
+        newUserValue = DOMPurify.sanitize( newUserValue );
+        newPasswordValue = DOMPurify.sanitize( newPasswordValue );
+        newUserID = DOMPurify.sanitize( newUserID );
 
         //prevent reload of page due to form submission
         event.preventDefault( );
@@ -69,7 +71,12 @@ TODO: add password hashing!
 
     //sets users in db
     setNewUser = ( newUser, newPassword, newUserID ) => {
-               
+
+        newUser = DOMPurify.sanitize( newUser );
+        newPassword = DOMPurify.sanitize( newPassword );
+        newUserID = DOMPurify.sanitize( newUserID );       
+
+
         //add user to Users in db
         
             let newCompleteUser = {
@@ -134,18 +141,20 @@ TODO: add password hashing!
     }
     
     checkName = ( authValues, userNameElement, passwordElement ) => {
-       
+    
         let username = userNameElement.value || userNameElement;
         let password = passwordElement.value || passwordElement;
         let userID = null;
-
+        username = DOMPurify.sanitize(username);
+        password = DOMPurify.sanitize(password);
+        userID = DOMPurify.sanitize(userID);
         //prevents page from reloading. forms by default cause pages to reload.
         if(authValues){
             authValues.preventDefault();
         }
         //if username was provided
         if( username ) {
-
+          
             //get userId by username 
             axios.get( 'userIDByUsername/' + username + '.json' ).then( ( e ) => {
 
@@ -175,7 +184,9 @@ TODO: add password hashing!
 
     }
     checkPwdForUserID = ( checkUsername, checkUserID, checkPassword ) => {
-        
+       checkUsername = DOMPurify.sanitize( checkUsername );
+       checkUserID = DOMPurify.sanitize( checkUserID );
+       checkPassword = DOMPurify.sanitize( checkPassword );
         //axios get password for a given user
         axios.get( 'users/u' + checkUserID + '/password.json' ).then(
             ( e ) => {
@@ -203,14 +214,16 @@ TODO: add password hashing!
         )//axios get password for user
 
     }
-
+    logout = ( ) => {
+        this.setState( { authenticated: false, userID: null, userName: null } );
+    }
     render( ) {
         
         let messenger = null;
         //if authenticated go to messenger
         if( this.state.authenticated ) {
 
-            messenger = <Messenger authenticated = { this.state.authenticated } userID = { this.state.userID } username = { this.state.username } />;
+            messenger = <Messenger authenticated = { this.state.authenticated } userID = { this.state.userID } username = { this.state.username } authLogout = { this.logout }/>;
 
         } 
         //else not authenticated stay on login page to login in
@@ -232,9 +245,9 @@ TODO: add password hashing!
                             <label htmlFor = "passwordID" >Password</label>
                             <input aria-label = "Password Text input" type = "password" id = "passwordID" name = "passwordID" className = { styles.input } />
 
-                            <input aria-label = "Submit Login information" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , DOMPurify.sanitize(document.getElementById( 'userNameID'  )), DOMPurify.sanitize(document.getElementById( 'passwordID' )) ) }   } />
+                            <input aria-label = "Submit Login information" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) }   } />
 
-                            <input aria-label = "Register For Account" type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , DOMPurify.sanitize(document.getElementById( 'userNameID'  )), DOMPurify.sanitize(document.getElementById( 'passwordID' )) ) } }  /> 
+                            <input aria-label = "Register For Account" type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) } }  /> 
 
                         </fieldset>
                         

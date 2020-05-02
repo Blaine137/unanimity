@@ -89,11 +89,45 @@
   border-radius: 50%;
   
 }
-
+/*three dot options opener*/
 .options{
+
   float: right;
   cursor: pointer;
   padding: 0 1rem;
+}
+.optionsMenu {
+  animation: optionMenuFade;
+  animation-duration: .25s;
+  width: 250px;
+  max-width: 90vw;
+  background-color: #f4f4f4;
+  border: 1px solid #e8e8e8; 
+  border-radius: .5rem;
+  z-index: 1;
+  position: absolute;
+  /*height of header*/
+  top: 3.25rem;
+  right: 0;
+  margin: 0;
+  padding: .25rem;
+  list-style-type: none;
+}
+.optionsMenu li {
+  width: 80%;
+  margin: .25rem auto;
+  padding: .25rem;
+  border-bottom: 2px solid #e8e8e8;;
+  color: #05386B; 
+  cursor: pointer;
+}
+@keyframes optionMenuFade {
+  from{
+    opacity: .05;
+  }
+  to{
+    opacity: 1;
+  }
 }
 
 @media only screen and (min-width: 500px){

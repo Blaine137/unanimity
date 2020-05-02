@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styles from './Header.module.scss';
 // import { render } from 'node-sass';
 
@@ -18,17 +18,20 @@ class Header extends Component{
             }
 
         }
-
+        //options menu once open
         showOptions = () => {
 
             if(this.state.openOptions === true){
                 
                 this.setState( {options: 
-                    <div className={styles.optionsContainer}>
-                        <div className={styles.options}>
-                            <span>Logout</span>
-                        </div>
-                    </div>
+                    
+                        <ul className = { styles.optionsMenu } >
+                            <li style = { { color: 'red' } } onClick = { () => { this.props.logout( true ) }  }>Logout</li>
+                            <li>Test</li>
+                            <li>Settings</li>
+                            <li>Help Me</li>
+                        </ul>
+                 
                 } ); //end of setState
 
             }else{
@@ -64,14 +67,11 @@ class Header extends Component{
                         </div>;
 
             }
-            let options = <div className={styles.options} onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }>
-                                <div className={styles.circle1}></div>
-                                <div className={styles.circle2}></div>
-                                <div className={styles.circle3}></div>
-                          </div>;
+            
             return(
 
-                <header className = { styles.header } >
+           <Fragment>
+                    <header className = { styles.header } >
                     
                     { burger }
     
@@ -80,12 +80,16 @@ class Header extends Component{
                         { this.props.currentChatRoomName } 
     
                     </h3>
-    
-                    { options }
 
-                    {this.state.options}
+                    <div className={styles.options} onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }>
+                            <div className={styles.circle1}></div>
+                            <div className={styles.circle2}></div>
+                            <div className={styles.circle3}></div>
+                    </div>
                     
                 </header>
+                {this.state.options}
+           </Fragment>
                 
             );//return
 
