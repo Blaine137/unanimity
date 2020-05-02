@@ -84,27 +84,40 @@ class Messenger extends Component {
         clearInterval( this.interval );
     }
 
-    setAuthentication = ( ) => {
+    /* handles logging in and out */
+    setAuthentication = ( logout ) => {
+        console.log(logout)
+        //login
+        if(logout === null || logout === undefined) {
 
-        this.props.authenticated ? this.setState( {
-            authenticated: this.props.authenticated
-        } ) : this.setState( {
-            authenticated: false
-        } )
+            this.props.authenticated ? this.setState( {
+                authenticated: this.props.authenticated
+            } ) : this.setState( {
+                authenticated: false
+            } )
 
-        this.props.userID ? this.setState( {
-            userID: this.props.userID
-        } ) : this.setState( {
-            userID: null
-        } )
+            this.props.userID ? this.setState( {
+                userID: this.props.userID
+            } ) : this.setState( {
+                userID: null
+            } )
 
-        this.props.username ? this.setState( {
-            username: this.props.username
-        } ) : this.setState( {
-            username: null
-        } )
+            this.props.username ? this.setState( {
+                username: this.props.username
+            } ) : this.setState( {
+                username: null
+            } )
 
-    }
+        } else /* Logout */  {
+            this.setState ({
+                authenticated: false,
+                userID: this.props.userID,
+                username: null
+            })
+            this.props.authLogout();
+        }//login/logout if
+
+    }//set auth
 
     //gets array of chatRoomsID that the user is in and sets userChatRoomsID in state. called by mount and update
     setUsersChatRoomsID = () => {
@@ -255,7 +268,7 @@ class Messenger extends Component {
         
                 }
 
-        }//else closeonly
+        }//else close only
 
     }//setShowSidebar
 
@@ -884,6 +897,7 @@ class Messenger extends Component {
                     currentChatRoomName = { this.state.currentChatRoomName }
                     toggleSidebar = { this.setShowSidebar }
                     showSidebar = { this.state.showSidebar  }
+                    setAuth = { this.setAuthentication }
                     />
 
                 </div> 
