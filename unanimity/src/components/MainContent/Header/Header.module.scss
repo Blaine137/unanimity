@@ -1,17 +1,17 @@
 .burger{
-  position: relative;
-  left: -30%;
   width: 50px;
   cursor: pointer;
   margin-top: auto;
   margin-bottom: auto;
   display: inline-block;
+  float: left;
 }
 
 .close{
   z-index: 1;
   cursor: pointer;
   padding: 0;
+  float: left;
 }
 
 .closeTop{
@@ -68,7 +68,8 @@
     font-family: 'Raleway', sans-serif;
     font-weight: bold;
     width: inherit;
-    max-height: 3rem;
+    height: 3.25rem;
+    max-height: 3.25rem;
     padding: 1rem;
     position: relative;
     background-color: #e8e8e8;     
@@ -80,41 +81,19 @@
     font-family: 'Source Sans Pro', sans-serif; 
 }
 
-.optionsButtonContainer{
-  /*background: red;*/
-  width: 25px;
-  height: 50px;
-  position: absolute;
-  right: 7%;
-  bottom: 0;
-  cursor: pointer;
-}
-
 .circle1, .circle2, .circle3{
-  margin-top: 5px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 3px;
   background-color: #05386B;
-  width: 15px;
-  height: 10px;
-  border: 2px solid black;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   
 }
 
-.optionsContainer{
-  background-color: rgba(96, 96, 96, .8);
-  position: inherit;
-  z-index: 1;
-}
-
 .options{
-  width: 25vw;
-  height: 50vw;
-  
-  
-  margin: 0 auto;
-  
+  float: right;
+  cursor: pointer;
+  padding: 0 1rem;
 }
 
 @media only screen and (min-width: 500px){
