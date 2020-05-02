@@ -64,7 +64,11 @@ class Header extends Component{
                         </div>;
 
             }
-
+            let options = <div className={styles.options} onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }>
+                                <div className={styles.circle1}></div>
+                                <div className={styles.circle2}></div>
+                                <div className={styles.circle3}></div>
+                          </div>;
             return(
 
                 <header className = { styles.header } >
@@ -77,11 +81,7 @@ class Header extends Component{
     
                     </h3>
     
-                    <div className={styles.optionsButtonContainer} onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }>
-                        <div className={styles.circle1}></div>
-                        <div className={styles.circle2}></div>
-                        <div className={styles.circle3}></div>
-                    </div>
+                    { options }
 
                     {this.state.options}
                     
