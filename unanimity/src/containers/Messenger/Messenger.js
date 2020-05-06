@@ -306,7 +306,7 @@ class Messenger extends Component {
             authenticaedUserMessageCombined = [ ...Object.values( authenticaedUserMessageOld ) ];
             //make sure that it keeps the order in the arrays. make it the nextMsgNum position in the array. array[nextMsgNum]
             authenticaedUserMessageCombined[ nextMsgNum ] = DOMPurify.sanitize(newMessage);
-            authenticaedUserMessageCombined[ nextMsgNum ] =  authenticaedUserMessageCombined[ nextMsgNum ].replace(/[^\w\^!?$]/g,'');
+            authenticaedUserMessageCombined[ nextMsgNum ] =  authenticaedUserMessageCombined[ nextMsgNum ].replace(/[^\w\s!?$]/g,'');
             //increment nextMsgNum by 1
             if ( nextMsgNum ) {
 
