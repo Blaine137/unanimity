@@ -86,7 +86,7 @@ class Messenger extends Component {
 
     /* handles logging in and out */
     setAuthentication = ( logout ) => {
-        console.log(logout)
+        
         //login
         if(logout === null || logout === undefined) {
 
@@ -306,7 +306,7 @@ class Messenger extends Component {
             authenticaedUserMessageCombined = [ ...Object.values( authenticaedUserMessageOld ) ];
             //make sure that it keeps the order in the arrays. make it the nextMsgNum position in the array. array[nextMsgNum]
             authenticaedUserMessageCombined[ nextMsgNum ] = DOMPurify.sanitize(newMessage);
-
+            authenticaedUserMessageCombined[ nextMsgNum ] =  authenticaedUserMessageCombined[ nextMsgNum ].replace(/[^\w\^!?$]/g,'');
             //increment nextMsgNum by 1
             if ( nextMsgNum ) {
 
@@ -350,6 +350,12 @@ class Messenger extends Component {
 
     //add onSubmission of popUp for addChatRoom in sidebar component
     newChatRoom = ( event, recipentName ) => {
+
+        //sanitize data 
+        recipentName = DOMPurify.sanitize( recipentName );
+        recipentName = recipentName.replace(/[^\w\^!?$]/g,'');
+        recipentName = recipentName.toLowerCase();
+
 
         //id of the person we are sending to
         let recipentID = null;
