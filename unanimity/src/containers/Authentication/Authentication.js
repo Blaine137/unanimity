@@ -25,47 +25,63 @@ class Authentication extends Component {
         let newUserID = null;
 
         newUserValue = DOMPurify.sanitize( newUserValue );
+        newUserValue = newUserValue.replace(/[^\w\^!?$]/g,'');
+        newUserValue = newUserValue.toLowerCase();
+
         newPasswordValue = DOMPurify.sanitize( newPasswordValue );
+        newPasswordValue = newPasswordValue.replace(/[^\w\^!?$]/g,'');
+
         newUserID = DOMPurify.sanitize( newUserID );
+        newUserID = newUserID.replace(/[^\w\^!?$]/g,'');
 
         //prevent reload of page due to form submission
         event.preventDefault( );
 
-        //getnextuserID
-        axios.get( 'userIDByUsername/nextUserID.json' ).then( ( e ) => {
-            newUserID = e.data
-            //not null
-            if( newUserValue && newPasswordValue ){
+        //a valid length
+        if( newUserValue.length > 10 || newPasswordValue.length > 20 ){
 
-                //a valid length
-                if( newUserValue.length > 15 || newPasswordValue.length > 20 ){
+            alert( 'Username must be less than 10 characters and password must be less than 20.' );
 
-                    alert( 'username must be less than 15 characters and password must be less that 20.' );
+         }//if valid length
+         //if newUser and newPassword not null
+         else if ( !newUserValue ||  !newPasswordValue  || newUserValue < 5 || newPasswordValue < 5 ) {
 
-                }//if valid length
-                //try to get the username they are wanting to register as
-                axios.get( 'userIDByUsername/' + newUserValue + '.json' ).then( ( e ) => {
-                    
-                    if(  !e.data ) {
+            alert( 'Username and password must be 5 characters long and only contain alphabetical and numerical values.')
 
-                        this.setNewUser( newUserValue, newPasswordValue, newUserID ); 
+         } else {
 
-                    } else {
+            //getnextuserID
+            axios.get( 'userIDByUsername/nextUserID.json' ).then( ( e ) => {
+                newUserID = e.data
+                //not null
+                if ( newUserID ) {
 
-                        alert( 'Username is already taken!' );
+                    //try to get the username they are wanting to register as
+                    axios.get( 'userIDByUsername/' + newUserValue + '.json' ).then( ( e ) => {
+                            
+                        if(  !e.data ) {
 
-                    }
+                            this.setNewUser( newUserValue, newPasswordValue, newUserID ); 
 
-                } ).catch( ( error ) => {
+                        } else {
 
-                    
-                    
-                    return 300;
+                            alert( 'Username is already taken!' );
 
-                } );//axios get username they are wanting to register as
+                        }
 
-            }//if newUser and newPassword not null
-        } );
+                    } ).catch( ( error ) => {
+
+                        
+                        
+                        return 300;
+
+                    } );//axios get username they are wanting to register as
+
+                }
+            
+            } );
+
+         }
 
     }
 
@@ -73,8 +89,13 @@ class Authentication extends Component {
     setNewUser = ( newUser, newPassword, newUserID ) => {
 
         newUser = DOMPurify.sanitize( newUser );
+        newUser = newUser.replace(/[^\w\^!?$]/g,'');
+
         newPassword = DOMPurify.sanitize( newPassword );
-        newUserID = DOMPurify.sanitize( newUserID );       
+        newPassword = newPassword.replace(/[^\w\^!?$]/g,'');
+
+        newUserID = DOMPurify.sanitize( newUserID ); 
+        newUserID = newUserID.replace(/[^\w\^!?$]/g,'');      
 
 
         //add user to Users in db
@@ -145,9 +166,18 @@ class Authentication extends Component {
         let username = userNameElement.value || userNameElement;
         let password = passwordElement.value || passwordElement;
         let userID = null;
+        //make usernames non-caseSensitive
+        username = username.toLowerCase();
+
         username = DOMPurify.sanitize(username);
+        username = username.replace(/[^\w\^!?$]/g,'');
+
         password = DOMPurify.sanitize(password);
+        password = password.replace(/[^\w\^!?$]/g,'');
+
         userID = DOMPurify.sanitize(userID);
+        userID = userID.replace(/[^\w\^!?$]/g,'');
+
         //prevents page from reloading. forms by default cause pages to reload.
         if(authValues){
             authValues.preventDefault();
@@ -184,9 +214,16 @@ class Authentication extends Component {
 
     }
     checkPwdForUserID = ( checkUsername, checkUserID, checkPassword ) => {
+
        checkUsername = DOMPurify.sanitize( checkUsername );
+       checkUsername = checkUsername.replace(/[^\w\^!?$]/g,'');
+
        checkUserID = DOMPurify.sanitize( checkUserID );
+       checkUserID = checkUserID.replace(/[^\w\^!?$]/g,'');
+
        checkPassword = DOMPurify.sanitize( checkPassword );
+       checkPassword = checkPassword.replace(/[^\w\^!?$]/g,'');
+
         //axios get password for a given user
         axios.get( 'users/u' + checkUserID + '/password.json' ).then(
             ( e ) => {
@@ -252,8 +289,9 @@ class Authentication extends Component {
                         </fieldset>
                         
                     </form>
+
                     <p>This Project's Database is public so that people can see how the project works!</p>
-                    <p>Username and password are both case sensitive.</p>
+                    
                 </div>
                 
             );//variable messenger
