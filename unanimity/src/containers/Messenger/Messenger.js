@@ -16,7 +16,7 @@ class Messenger extends Component {
         usersChatRoomsID: [],
         currentChatRoom: {},
         currentChatRoomID: null,
-        currentChatRoomName: null,
+        currentChatRoomName: 'Unanimity',
         username: null,
         showSidebar: true,
         sidebarInlineStyles: {
@@ -176,7 +176,7 @@ class Messenger extends Component {
                     else {
                         //no chatRoom so name ChatRoomName
                         this.setState( {
-                            currentChatRoomName: null
+                            currentChatRoomName: 'Unanimity'
                         } )
                     }
 
@@ -717,7 +717,7 @@ class Messenger extends Component {
                                 //only set the chatroomname to null if chatroom deleted is selected
                             if(this.state.currentChatRoomID === removeChatRoomID){
 
-                                this.setState( {currentChatRoomName: null} ); //reset the chatroom name to null
+                                this.setState( {currentChatRoomName: 'Unanimity'} ); //reset the chatroom name to null
 
                             }
 

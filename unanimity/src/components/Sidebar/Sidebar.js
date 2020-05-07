@@ -74,7 +74,12 @@ class Sidebar extends Component {
                                             className = { styles.form } >
 
                                             
-                                            <div className = { styles.closeBurger } onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ) } } >
+                                            <div tabIndex = " 0 " aria-label = "Close Add ChatRoom pop up button."   className = { styles.closeBurger }
+
+                                                onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ); } } 
+                                                onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.setState( { addChatRoomPopUp: null } );  } } }
+
+                                            >
 
                                                 <div className = { styles.closeTop } ></div>
                                                 <div className = { styles.closeBottom } ></div>
@@ -155,13 +160,25 @@ class Sidebar extends Component {
                                                         className = { styles.users } 
                                                       >
 
-                                                        <div className = { styles.deleteContainer } onClick = { 
+                                                        <div tabIndex = "0" className = { styles.deleteContainer } 
+
+                                                            onClick = { 
                                                                 ( ) => { 
 
                                                                     this.props.deleteChatRoom( currentChatRoomID );
 
                                                                 }//anonymous function 
                                                             }//onclick
+                                                            onKeyDown = {
+                                                                ( e ) => {
+                                                                    if( e.key === 'Enter' ){
+
+                                                                        this.props.deleteChatRoom( currentChatRoomID );
+
+                                                                    }
+                                                                }
+                                                            }//onkeydown
+
                                                         >
 
                                                             <div className = { styles.deleteTop } ></div>
@@ -169,7 +186,27 @@ class Sidebar extends Component {
 
                                                         </div>
 
-                                                        <h3 onClick={ ( ) => { this.props.toggleSidebar(true); this.props.setCurrentChatRoomID( currentChatRoomID );  } }> { e.data } </h3>
+                                                        <h3 tabIndex =  "0"  
+
+                                                            onClick = { ( ) => {
+
+                                                                    this.props.toggleSidebar(true); 
+                                                                    this.props.setCurrentChatRoomID( currentChatRoomID );  
+
+                                                                } }//onClick
+                                                            onKeyDown = {
+                                                                ( e ) => {
+                                                                    if ( e.key === 'Enter' ) {
+                                                                       
+                                                                        this.props.toggleSidebar(true); 
+                                                                        this.props.setCurrentChatRoomID( currentChatRoomID );  
+
+                                                                    }
+                                                                }
+                                                            }//onKeyDown
+                                                        > 
+                                                            { e.data } 
+                                                        </h3>
 
                                                     </div>
 
@@ -218,21 +255,47 @@ class Sidebar extends Component {
             //set css to show the sidebar
             sidebar = <div className = { styles.sidebarContainer } style = { { transform: 'translateX( 0% )' } } >
                 
-                        <div onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
+                        <div 
+
+                            tabindex="0" 
+                            className = { styles.addContainer } 
+                            onClick = { ( ) => { this.popUp( ) } } 
+                            onKeyDown = { ( e ) => { if ( e.key === 'Enter') { this.popUp( ); } } }
+                            aria-label = "Add a chatroom button"
+
+                        >
+
+                            <div className = { styles.addButton } ></div>
+
+                        </div>
+
+                        <div tabindex="0" 
+
+                            onClick = { 
+                                    ( ) => {
+                                        this.props.toggleSidebar( ) 
+                                    } 
+                                }//onClick
+                            onKeyDown = { ( e ) => { 
+                                if ( e.key === 'Enter' ) {
+                                    this.props.toggleSidebar( )   
+                                }
+                            } }//onKeyDown
+
+                            className = { styles.burger }
+                            aria-label = "Close sidebar button."  
+
+                        >
 
                             <div className = { styles.closeTop } ></div>
                             <div className = { styles.closeMiddle } ></div>
                             <div className = { styles.closeBottom } ></div>
 
                         </div>
-
-                        <div className = { styles.addContainer } onClick = { ( ) => { this.popUp( ) } } >
-
-                            <div className = { styles.addButton } ></div>
-
+               
+                        <div className = { styles.usersContainer } >
+                            { this.state.sidebarDisplay }
                         </div>
-
-                        { this.state.sidebarDisplay }
 
                     </div>;
 
@@ -243,20 +306,20 @@ class Sidebar extends Component {
             //set the css to hide the sidebar by moving it left 100%
             sidebar = <div className = { styles.sidebarContainer } style = { { transform: 'translateX(-100%)' } } >
 
-                        <div onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
+                        <div aria-label = "Add a chatroom button" className = { styles.addContainer } onClick = { () => { this.popUp( ) } } >
+
+                            <div className = { styles.addButton } ></div>
+
+                        </div>
+
+                        <div aria-label = "Close sidebar button."  onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
 
                             <div className = { styles.closeTop } ></div>
                             <div className = { styles.closeMiddle } ></div>
                             <div className = { styles.closeBottom } ></div>
 
                         </div>
-
-                        <div className = { styles.addContainer } onClick = { () => { this.popUp( ) } } >
-
-                            <div className = { styles.addButton } ></div>
-
-                        </div>
-
+                      
                         { this.state.sidebarDisplay }
 
                     </div>;

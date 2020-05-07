@@ -25,14 +25,14 @@ class Authentication extends Component {
         let newUserID = null;
 
         newUserValue = DOMPurify.sanitize( newUserValue );
-        newUserValue = newUserValue.replace(/[^\w\^!?$]/g,'');
+        newUserValue = newUserValue.replace(/[^\w]/g,'');
         newUserValue = newUserValue.toLowerCase();
 
         newPasswordValue = DOMPurify.sanitize( newPasswordValue );
         newPasswordValue = newPasswordValue.replace(/[^\w\^!?$]/g,'');
 
         newUserID = DOMPurify.sanitize( newUserID );
-        newUserID = newUserID.replace(/[^\w\^!?$]/g,'');
+        newUserID = newUserID.replace(/[^\w]/g,'');
 
         //prevent reload of page due to form submission
         event.preventDefault( );
@@ -89,7 +89,7 @@ class Authentication extends Component {
     setNewUser = ( newUser, newPassword, newUserID ) => {
 
         newUser = DOMPurify.sanitize( newUser );
-        newUser = newUser.replace(/[^\w\^!?$]/g,'');
+        newUser = newUser.replace(/[^\w]/g,'');
 
         newPassword = DOMPurify.sanitize( newPassword );
         newPassword = newPassword.replace(/[^\w\^!?$]/g,'');
@@ -157,7 +157,7 @@ class Authentication extends Component {
         //end of add to usersChatRooms in DB
         
         //inform user that account was created
-        alert( "Your account has been created!" );
+        alert( "Your account has been created! Username: '" + newUser + "'" );
         
     }
     
@@ -170,7 +170,7 @@ class Authentication extends Component {
         username = username.toLowerCase();
 
         username = DOMPurify.sanitize(username);
-        username = username.replace(/[^\w\^!?$]/g,'');
+        username = username.replace(/[^\w]/g,'');
 
         password = DOMPurify.sanitize(password);
         password = password.replace(/[^\w\^!?$]/g,'');
@@ -216,10 +216,10 @@ class Authentication extends Component {
     checkPwdForUserID = ( checkUsername, checkUserID, checkPassword ) => {
 
        checkUsername = DOMPurify.sanitize( checkUsername );
-       checkUsername = checkUsername.replace(/[^\w\^!?$]/g,'');
+       checkUsername = checkUsername.replace(/[^\w]/g,'');
 
        checkUserID = DOMPurify.sanitize( checkUserID );
-       checkUserID = checkUserID.replace(/[^\w\^!?$]/g,'');
+       checkUserID = checkUserID.replace(/[^\w]/g,'');
 
        checkPassword = DOMPurify.sanitize( checkPassword );
        checkPassword = checkPassword.replace(/[^\w\^!?$]/g,'');

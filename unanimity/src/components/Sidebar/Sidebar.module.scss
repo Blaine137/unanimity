@@ -52,15 +52,16 @@
     animation-name: fadein;
     animation-duration: .5s;
 }
-
+.usersContainer {
+    margin: 2rem 0 0 0;
+}
 .users{
     color: rgba(5,56,107,0.7);
         &:hover{
             color:#05386B;
             font-weight: bold;
             cursor: grab;
-        }
-       
+        }       
 }
 
 /*burger is the closing x for mobile that is located in the sidebar. on mobile the sidebar is wider.*/
