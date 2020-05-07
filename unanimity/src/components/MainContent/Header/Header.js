@@ -26,10 +26,7 @@ class Header extends Component{
                 this.setState( {options: 
                     
                         <ul className = { styles.optionsMenu } >
-                            <li style = { { color: 'red' } } onClick = { () => { this.props.logout( true ) }  }>Logout</li>
-                            <li>Test</li>
-                            <li>Settings</li>
-                            <li>Help Me</li>
+                            <li tabindex = " 0 " style = { { color: 'red' } } onClick = { () => { this.props.logout( true ) }  } onKeyDown = { ( e ) => { if ( e.key === 'Enter') { this.props.logout( true ); } } }>Logout</li>                       
                         </ul>
                  
                 } ); //end of setState
@@ -48,7 +45,14 @@ class Header extends Component{
             if( this.props.showSidebar ) {
 
                     //make the burger button a X
-                burger = <div onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
+                burger = <div 
+                            tabindex = " 0 " 
+                            onClick = { ( ) => { this.props.toggleSidebar( ); } } 
+                            onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
+                            className = { styles.burger }
+                            aria-label = " Close Sidebar button"  
+                        
+                        >
 
                                 <div className = { styles.closeTop } ></div>
                                 <div className = { styles.closeMiddle } ></div>
@@ -58,7 +62,13 @@ class Header extends Component{
 
             } else {
                         //if false then make the burger button 
-                burger = <div onClick={ ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
+                burger = <div 
+                            tabIndex = " 0 "
+                            onClick={ ( ) => { this.props.toggleSidebar( ); } } 
+                            onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
+                            className = { styles.burger }  
+                            aria-label = "Open Sidebar button"
+                         >
 
                             <div className = { styles.openTop } ></div>
                             <div className = { styles.openMiddle } ></div>
@@ -81,10 +91,18 @@ class Header extends Component{
     
                     </h3>
 
-                    <div className={styles.options} onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }>
+                    <div 
+                        tabindex = "0" 
+                        className={styles.options} 
+                        onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }
+                        onKeyDown = { ( e ) => {if ( e.key === 'Enter' ) { this.toggleOptions( ); this.showOptions( ); } } }
+                        aria-label = "Open options menu button"
+                    >
+
                             <div className={styles.circle1}></div>
                             <div className={styles.circle2}></div>
                             <div className={styles.circle3}></div>
+
                     </div>
                     
                 </header>
