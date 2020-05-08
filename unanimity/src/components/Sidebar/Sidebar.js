@@ -75,7 +75,7 @@ class Sidebar extends Component {
 
                                             
                                             <div tabIndex = " 0 " aria-label = "Close Add ChatRoom pop up button."   className = { styles.closeBurger }
-
+                                                role = "button"
                                                 onClick = { ( ) => { this.setState( { addChatRoomPopUp: null } ); } } 
                                                 onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.setState( { addChatRoomPopUp: null } );  } } }
 
@@ -178,7 +178,8 @@ class Sidebar extends Component {
                                                                     }
                                                                 }
                                                             }//onkeydown
-
+                                                            role = "button"
+                                                            aria-label = "Delete Chatroom Button"
                                                         >
 
                                                             <div className = { styles.deleteTop } ></div>
@@ -257,11 +258,12 @@ class Sidebar extends Component {
                 
                         <div 
 
-                            tabindex="0" 
+                            tabIndex="0" 
                             className = { styles.addContainer } 
                             onClick = { ( ) => { this.popUp( ) } } 
                             onKeyDown = { ( e ) => { if ( e.key === 'Enter') { this.popUp( ); } } }
                             aria-label = "Add a chatroom button"
+                            role = "button"
 
                         >
 
@@ -269,7 +271,7 @@ class Sidebar extends Component {
 
                         </div>
 
-                        <div tabindex="0" 
+                        <div tabIndex="0" 
 
                             onClick = { 
                                     ( ) => {
@@ -283,7 +285,8 @@ class Sidebar extends Component {
                             } }//onKeyDown
 
                             className = { styles.burger }
-                            aria-label = "Close sidebar button."  
+                            aria-label = "Close sidebar button." 
+                            role = "button" 
 
                         >
 
@@ -306,13 +309,13 @@ class Sidebar extends Component {
             //set the css to hide the sidebar by moving it left 100%
             sidebar = <div className = { styles.sidebarContainer } style = { { transform: 'translateX(-100%)' } } >
 
-                        <div aria-label = "Add a chatroom button" className = { styles.addContainer } onClick = { () => { this.popUp( ) } } >
+                        <div aria-label = "Add a chatroom button" role = "button" className = { styles.addContainer } onClick = { () => { this.popUp( ) } } >
 
                             <div className = { styles.addButton } ></div>
 
                         </div>
 
-                        <div aria-label = "Close sidebar button."  onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
+                        <div aria-label = "Close sidebar button." role = "button"  onClick = { ( ) => { this.props.toggleSidebar( ) } } className = { styles.burger }  >
 
                             <div className = { styles.closeTop } ></div>
                             <div className = { styles.closeMiddle } ></div>

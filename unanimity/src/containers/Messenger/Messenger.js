@@ -1,11 +1,10 @@
-import React, {
-    Component
-} from 'react';
+import React, { Component, Fragment } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
 import DOMPurify from 'dompurify';
+import Alert from '../../components/Alert/Alert';
 
 class Messenger extends Component {
 
@@ -22,7 +21,8 @@ class Messenger extends Component {
         sidebarInlineStyles: {
             display: 'block'
         },
-        renderHeader: false
+        renderHeader: false,
+        notification: null
 
     }
 
@@ -31,11 +31,11 @@ class Messenger extends Component {
         //every second update the current chatroom. this make sure we can see if the other messenger sent a message
         this.interval = setInterval( ( ) => {
 
-            if ( this.state.currentChatRoomID ) {
+            if ( this.state.currentChatRoomID && this.state.currentChatRoom !== 'Unanimity' ) {
                
                 let oldID = this.state.currentChatRoomID;
                 //get the messages for the current chatroom
-
+                
                 axios.get( 'chatRooms/' + oldID + '.json' ).then( ( res ) => {
 
                     //if the current chatroom has not changes since we started and there is new messages update the state
@@ -83,7 +83,21 @@ class Messenger extends Component {
     componentWillUnmount( ) {
         clearInterval( this.interval );
     }
+    closeNotification = ( ) => {
 
+        this.setState( { notification: null } );
+        
+    }
+    setNotification = ( message ) => {
+
+        let sanitizedMessage = DOMPurify.sanitize( message );
+        sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
+
+        
+        let alertComponent = <Alert alertMessage = { sanitizedMessage } alertClose = { this.closeNotification } />;
+        this.setState( { notification: alertComponent } );
+
+    }
     /* handles logging in and out */
     setAuthentication = ( logout ) => {
         
@@ -121,23 +135,28 @@ class Messenger extends Component {
 
     //gets array of chatRoomsID that the user is in and sets userChatRoomsID in state. called by mount and update
     setUsersChatRoomsID = () => {
-
+      
         //ucr stands for user Chat Room.
         //get array that contains all the chatRoomIDs that the user is a part of
-        axios.get( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json' ).then(
-            ( e ) => {
-               
-                //if the data has changed update it.
-                if ( e.data !== this.state.usersChatRoomsID ) {
+        if ( this.state.userID ) {
 
-                    this.setState( {
-                        usersChatRoomsID: e.data
-                    } );
-
+            axios.get( 'usersChatRooms/ucr' + this.state.userID + '/chatRooms.json' ).then(
+                ( e ) => {
+            
+                    //if the data has changed update it.
+                    if ( e.data !== this.state.usersChatRoomsID ) {
+    
+                        this.setState( {
+                            usersChatRoomsID: e.data
+                        } );
+    
+                    }
+    
                 }
+            );
 
-            }
-        );
+        }
+       
 
     }
 
@@ -170,6 +189,7 @@ class Messenger extends Component {
                                 } )
 
                             } )
+
                         } ); //e.data.foreach
 
                     } //if e.data
@@ -353,9 +373,8 @@ class Messenger extends Component {
 
         //sanitize data 
         recipentName = DOMPurify.sanitize( recipentName );
-        recipentName = recipentName.replace(/[^\w\^!?$]/g,'');
+        recipentName = recipentName.replace(/[^\w^!?$]/g,'');
         recipentName = recipentName.toLowerCase();
-
 
         //id of the person we are sending to
         let recipentID = null;
@@ -409,7 +428,8 @@ class Messenger extends Component {
                                 ( error ) => {
 
                                     //failed to add the chatroom to the db
-                                    alert( "failed to add chat room. Please try agin." );
+                                  
+                                    this.setState( { notification: [<Alert alertMessage = "failed to add chat room. Please try agin." alertClose = { this.closeNotification } />] } );
 
                                 }
                             ); //axios put newChatRoomObject
@@ -433,8 +453,8 @@ class Messenger extends Component {
                         } //if we have newChatRoomID 
                         //else we dont have a newChatRoomID
                         else {
-
-                            alert( "Could not determine the chat room id. Please try agin." );
+                        
+                            this.setState( { notification: [<Alert alertMessage = "Could not determine the chat room id. Please try agin." alertClose = { this.closeNotification } />] } );
 
                         } //if we have a newChatRoomID
                         //--------- end create the chatroom in chatRooms ---------
@@ -466,7 +486,9 @@ class Messenger extends Component {
                                     } ).catch(
                                         ( error ) => {
 
-                                            alert( "Error. failed to update Authenticated usersChatRooms " + error );
+                                            let errorMessage = "Error. failed to update Authenticated usersChatRooms " + DOMPurify.sanitize( error ) ;
+                                            this.setState( { notification: [<Alert alertMessage = { errorMessage } alertClose = { this.closeNotification } />] } );
+
 
                                         }
                                     ); //axios put updates Auth user in userChatRooms
@@ -488,7 +510,9 @@ class Messenger extends Component {
                             } ).catch(
                                 ( error ) => {
 
-                                    alert( "Error. failed to update Authenticated usersChatRooms " + error );
+                                    
+                                    let errorMessage = "Error. failed to update Authenticated usersChatRooms " + DOMPurify.sanitize( error ); 
+                                    this.setState( { notification: [<Alert alertMessage = { errorMessage } alertClose = { this.closeNotification } />] } );
 
                                 }
                             ); //axios put updates Auth user in userChatRooms
@@ -532,7 +556,9 @@ class Messenger extends Component {
                                 ).catch(
                                     (error) => {
 
-                                        alert("Error. failed to update Recipient usersChatRooms " + error);
+                                      
+                                        let errorMessage = "Error. failed to update Recipient usersChatRooms " + DOMPurify.sanitize( error ); 
+                                        this.setState( { notification: [<Alert alertMessage = { errorMessage } alertClose = { this.closeNotification } />] } );
 
                                     }
                                 ); //axios put of updated chatroomID
@@ -557,7 +583,10 @@ class Messenger extends Component {
                         axios.put( 'chatRoomsUsers/cru' + newChatRoomID + '.json', newChatRoomUsersObject ).catch(
                             ( error ) => {
 
-                                alert( "Error. Failed to add ChatRoom to ChatRoomUsers ", error );
+                               
+                                let errorMessage = "Error. Failed to add ChatRoom to ChatRoomUsers " + DOMPurify.sanitize(error ); 
+                                this.setState( { notification: [<Alert alertMessage = { errorMessage } alertClose = { this.closeNotification } />] } );
+
 
                             }
                         );
@@ -569,7 +598,10 @@ class Messenger extends Component {
                     //if error occurred in axios get nextChatRoomID from chatRooms/nextChatRoomID.json
                     (error) => {
 
-                        alert("Error occurred while trying to set ChatRoomID. Please try agin. ", error);
+                        
+                        let errorMessage = "Error occurred while trying to set ChatRoomID. Please try agin. " + DOMPurify.sanitize( error ); 
+                        this.setState( { notification: [<Alert alertMessage = { errorMessage } alertClose = { this.closeNotification } />] } );
+
 
                     }
 
@@ -590,8 +622,8 @@ class Messenger extends Component {
 
 
         //--------- start check if recipients name exists. set recipientsId if it exists ---------
-
-        if ( recipentName !== null && recipentName !== this.state.username ) {
+      
+        if ( recipentName !== null && recipentName !== this.state.username && recipentName ) {
 
             //axios get userIDbyName for recipent
             axios.get( 'userIDByUsername/' + recipentName + '.json' ).then(
@@ -602,9 +634,8 @@ class Messenger extends Component {
 
                     //if no recipentID
                     if ( recipentID === null ) {
-
-                        alert( "User not found! 308" );
-
+                       
+                        this.setState( { notification: [<Alert alertMessage = "User not found! 308" alertClose = { this.closeNotification } />] } );
 
 
                     } //if no recipentID
@@ -631,8 +662,9 @@ class Messenger extends Component {
                                                 let userID = result.data.users[ i ];
 
                                                 if ( recipentID === userID ) {
+                                              
+                                                    this.setState( { notification: [<Alert alertMessage = "You already have a chatroom with this user." alertClose = { this.closeNotification } />] } );
 
-                                                    alert( 'You already have a chatroom with this user.' );
                                                     hasChatRoomWithRecipent = true;
                                                     break;
 
@@ -669,7 +701,9 @@ class Messenger extends Component {
                 ( error ) => {
 
                     //no username found alert user
-                    alert( "User not found! 585" );
+                    this.setState( { notification: [<Alert alertMessage = "User not found! 685" alertClose = { this.closeNotification } />] } );
+
+                    
 
                 }
 
@@ -678,7 +712,8 @@ class Messenger extends Component {
         //username cannot be null and not ours
         else {
 
-            alert( 'Recipent\'s name is required and can\'t be your own name! ' );
+            this.setState( { notification: <Alert alertMessage = "Recipent\'s name is required and can\'t be your own name!" alertClose = { this.closeNotification } /> } );
+
 
         } //else ( recipentName !== null && recipentName !== this.state.username )
 
@@ -835,7 +870,7 @@ class Messenger extends Component {
             ).catch(
                 ( error ) => {
 
-                    alert( "Could not find Chatroom that you requested to be removed. ", error );
+                    this.setState( { notification: [<Alert alertMessage = "Could not find Chatroom that you requested to be removed." alertClose = { this.closeNotification } />] } );
 
                 }
             ); //axios get chatRoomUsers
@@ -881,7 +916,11 @@ class Messenger extends Component {
 
         return (
 
-            <div className = { styles.layout } >
+            <Fragment>
+
+                { this.state.notification }
+
+                <div className = { styles.layout } >
 
                 <div className = { styles.sidebarGrid } style = { this.state.sidebarInlineStyles } >
 
@@ -898,17 +937,22 @@ class Messenger extends Component {
 
                 <div className = { styles.mainContentGrid } style = { mainContentInlineStyles } >
 
-                    <MainContent newMessage = { this.newMessage }
-                    currentChatRoom = { this.state.currentChatRoom }
-                    currentChatRoomName = { this.state.currentChatRoomName }
-                    toggleSidebar = { this.setShowSidebar }
-                    showSidebar = { this.state.showSidebar  }
-                    setAuth = { this.setAuthentication }
+                    <MainContent 
+                        newMessage = { this.newMessage }
+                        currentChatRoom = { this.state.currentChatRoom }
+                        currentChatRoomName = { this.state.currentChatRoomName }
+                        toggleSidebar = { this.setShowSidebar }
+                        showSidebar = { this.state.showSidebar  }
+                        setAuth = { this.setAuthentication }
+                        showAlert = { this.setNotification }
                     />
 
                 </div> 
 
-            </div>
+                </div>
+
+            </Fragment>
+         
 
         );
 
