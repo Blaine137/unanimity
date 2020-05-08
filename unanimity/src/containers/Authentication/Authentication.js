@@ -3,21 +3,24 @@ import Messenger from '../Messenger/Messenger';
 import styles from './Authentication.module.scss';
 import axios from '../../axios';
 import DOMPurify from 'dompurify';
+import Alert from '../../components/Alert/Alert';
 //import npm pass https://www.npmjs.com/package/password-hash
 import * as passwordHash from 'password-hash';
+import alert from '../../components/Alert/Alert';
 
 class Authentication extends Component {
-
+    
     state = {
         
         //this sets the default authentication to false.
-        authenticated: false, 
-        userID: null,
-        username: null
+        authenticated: true, 
+        userID: 2,
+        username: 'jacob',
+        notification: null
         
     }
     
-  checkForNewUser = ( event, newUser, newPassword ) => {
+    checkForNewUser = ( event, newUser, newPassword ) => {
        
         
         let newUserValue = newUser.value;
@@ -40,13 +43,13 @@ class Authentication extends Component {
         //a valid length
         if( newUserValue.length > 10 || newPasswordValue.length > 20 ){
 
-            alert( 'Username must be less than 10 characters and password must be less than 20.' );
+            this.setState( { notification: [<Alert alertMessage = "Username must be less than 10 characters and password must be less than 20." alertClose = { this.closeNotification } />] } );
 
          }//if valid length
          //if newUser and newPassword not null
          else if ( !newUserValue ||  !newPasswordValue  || newUserValue < 5 || newPasswordValue < 5 ) {
 
-            alert( 'Username and password must be 5 characters long and only contain alphabetical and numerical values.')
+            this.setState( { notification: [<Alert alertMessage = "Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose = { this.closeNotification } />] } );
 
          } else {
 
@@ -65,7 +68,7 @@ class Authentication extends Component {
 
                         } else {
 
-                            alert( 'Username is already taken!' );
+                            this.setState( { notification: [<Alert alertMessage = "Username is already taken!" alertClose = { this.closeNotification } />] } );
 
                         }
 
@@ -157,7 +160,9 @@ class Authentication extends Component {
         //end of add to usersChatRooms in DB
         
         //inform user that account was created
-        alert( "Your account has been created! Username: '" + newUser + "'" );
+        let accountMessage = DOMPurify.sanitize("Your account has been created! Username: '" + newUser + "'");
+        accountMessage = accountMessage.replace(/[^\w\s!?$]/g,'');
+        this.setState( { notification: [<Alert alertMessage = { accountMessage } alertClose = { this.closeNotification } />] } );
         
     }
     
@@ -179,8 +184,8 @@ class Authentication extends Component {
         userID = userID.replace(/[^\w\^!?$]/g,'');
 
         //prevents page from reloading. forms by default cause pages to reload.
-        if(authValues){
-            authValues.preventDefault();
+        if ( authValues ) {
+            authValues.preventDefault( );
         }
         //if username was provided
         if( username ) {
@@ -191,8 +196,7 @@ class Authentication extends Component {
                 //if username was not found
                 if( !e.data ) {
 
-                    //dont tell them that the username wasent found for security reason say one was wrong
-                    alert( "incorrect username or password" );
+                    this.setState( { notification: [<Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } />] } );
 
                 } else {
 
@@ -213,6 +217,7 @@ class Authentication extends Component {
         }//if username was provided
 
     }
+
     checkPwdForUserID = ( checkUsername, checkUserID, checkPassword ) => {
 
        checkUsername = DOMPurify.sanitize( checkUsername );
@@ -242,7 +247,8 @@ class Authentication extends Component {
                     //pwd was wrong so set authenticed to false to make sure it failed. and set username and userID to null
                     this.setState( { authenticated: false, userID: null, username: null } );
                     //tell the user that credientals were incorrect
-                    alert( "incorrect username or password" );
+                    this.setState( { notification: [<Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } />] } );
+
 
                 }//if pwd was correct
 
@@ -251,11 +257,19 @@ class Authentication extends Component {
         )//axios get password for user
 
     }
+
     logout = ( ) => {
         this.setState( { authenticated: false, userID: null, userName: null } );
     }
+
+    closeNotification = ( ) => {
+       
+        this.setState( { notification: null } );
+    }
+
     render( ) {
-        
+
+        let notification = null;
         let messenger = null;
         //if authenticated go to messenger
         if( this.state.authenticated ) {
@@ -297,17 +311,23 @@ class Authentication extends Component {
             );//variable messenger
                
         }//if state authenticated
-                 
+       
+        
+         
         return(
 
             <Fragment>
 
+                { this.state.notification }
+                
                 { messenger }
 
             </Fragment>
 
         );//return()
+
     }//render()
+
 }
 
 export default Authentication;
