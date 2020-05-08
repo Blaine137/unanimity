@@ -26,7 +26,7 @@ class Header extends Component{
                 this.setState( {options: 
                     
                         <ul className = { styles.optionsMenu } >
-                            <li tabindex = " 0 " style = { { color: 'red' } } onClick = { () => { this.props.logout( true ) }  } onKeyDown = { ( e ) => { if ( e.key === 'Enter') { this.props.logout( true ); } } }>Logout</li>                       
+                            <li tabindex = " 0 " style = { { color: '#f44336' } } onClick = { () => { this.props.logout( true ) }  } onKeyDown = { ( e ) => { if ( e.key === 'Enter') { this.props.logout( true ); } } }>Logout</li>                       
                         </ul>
                  
                 } ); //end of setState
