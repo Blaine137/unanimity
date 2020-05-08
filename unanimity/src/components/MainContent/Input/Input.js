@@ -17,7 +17,7 @@ const input = ( props ) => {
                     
                     if( e.key === 'Enter' ) {
                        
-                        if(props.currentChatRoomName){
+                        if( props.currentChatRoomName && props.currentChatRoomName !== 'Unanimity' ){
 
                                 //if null
                             if( oldTime === null ) {
@@ -41,13 +41,12 @@ const input = ( props ) => {
 
                             } else {
 
-                                alert( "Please wait one second before sending another message!" );
-
+                                props.showAlert( " Please wait two seconds before sending another message! "  );
                             }
 
                         }else{
 
-                            alert('Please select a chatroom before sending a message!');
+                            props.showAlert(  ' Please select a chatroom before sending a message! ' );
                             
                         }
 

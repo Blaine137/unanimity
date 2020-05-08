@@ -46,11 +46,12 @@ class Header extends Component{
 
                     //make the burger button a X
                 burger = <div 
-                            tabindex = " 0 " 
+                            tabIndex = " 0 " 
                             onClick = { ( ) => { this.props.toggleSidebar( ); } } 
                             onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
                             className = { styles.burger }
-                            aria-label = " Close Sidebar button"  
+                            aria-label = " Close Sidebar button"
+                            role = "button"  
                         
                         >
 
@@ -68,6 +69,7 @@ class Header extends Component{
                             onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
                             className = { styles.burger }  
                             aria-label = "Open Sidebar button"
+                            role = "button"
                          >
 
                             <div className = { styles.openTop } ></div>
@@ -92,11 +94,12 @@ class Header extends Component{
                     </h3>
 
                     <div 
-                        tabindex = "0" 
+                        tabIndex = "0" 
                         className={styles.options} 
                         onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }
                         onKeyDown = { ( e ) => {if ( e.key === 'Enter' ) { this.toggleOptions( ); this.showOptions( ); } } }
                         aria-label = "Open options menu button"
+                        role = "button"
                     >
 
                             <div className={styles.circle1}></div>

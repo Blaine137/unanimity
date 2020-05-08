@@ -6,7 +6,6 @@ import DOMPurify from 'dompurify';
 import Alert from '../../components/Alert/Alert';
 //import npm pass https://www.npmjs.com/package/password-hash
 import * as passwordHash from 'password-hash';
-import alert from '../../components/Alert/Alert';
 
 class Authentication extends Component {
     
@@ -32,7 +31,7 @@ class Authentication extends Component {
         newUserValue = newUserValue.toLowerCase();
 
         newPasswordValue = DOMPurify.sanitize( newPasswordValue );
-        newPasswordValue = newPasswordValue.replace(/[^\w\^!?$]/g,'');
+        newPasswordValue = newPasswordValue.replace(/[^\w^!?$]/g,'');
 
         newUserID = DOMPurify.sanitize( newUserID );
         newUserID = newUserID.replace(/[^\w]/g,'');
@@ -95,10 +94,10 @@ class Authentication extends Component {
         newUser = newUser.replace(/[^\w]/g,'');
 
         newPassword = DOMPurify.sanitize( newPassword );
-        newPassword = newPassword.replace(/[^\w\^!?$]/g,'');
+        newPassword = newPassword.replace(/[^\w^!?$]/g,'');
 
         newUserID = DOMPurify.sanitize( newUserID ); 
-        newUserID = newUserID.replace(/[^\w\^!?$]/g,'');      
+        newUserID = newUserID.replace(/[^\w!?$]/g,'');      
 
 
         //add user to Users in db
@@ -178,10 +177,10 @@ class Authentication extends Component {
         username = username.replace(/[^\w]/g,'');
 
         password = DOMPurify.sanitize(password);
-        password = password.replace(/[^\w\^!?$]/g,'');
+        password = password.replace(/[^\w^!?$]/g,'');
 
         userID = DOMPurify.sanitize(userID);
-        userID = userID.replace(/[^\w\^!?$]/g,'');
+        userID = userID.replace(/[^\w^!?$]/g,'');
 
         //prevents page from reloading. forms by default cause pages to reload.
         if ( authValues ) {
@@ -227,7 +226,7 @@ class Authentication extends Component {
        checkUserID = checkUserID.replace(/[^\w]/g,'');
 
        checkPassword = DOMPurify.sanitize( checkPassword );
-       checkPassword = checkPassword.replace(/[^\w\^!?$]/g,'');
+       checkPassword = checkPassword.replace(/[^\w^!?$]/g,'');
 
         //axios get password for a given user
         axios.get( 'users/u' + checkUserID + '/password.json' ).then(
@@ -268,8 +267,7 @@ class Authentication extends Component {
     }
 
     render( ) {
-
-        let notification = null;
+       
         let messenger = null;
         //if authenticated go to messenger
         if( this.state.authenticated ) {
