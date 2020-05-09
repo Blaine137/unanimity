@@ -12,9 +12,9 @@ class Authentication extends Component {
     state = {
         
         //this sets the default authentication to false.
-        authenticated: true, 
-        userID: 2,
-        username: 'jacob',
+        authenticated: null, 
+        userID: null,
+        username: null,
         notification: null
         
     }
@@ -42,13 +42,13 @@ class Authentication extends Component {
         //a valid length
         if( newUserValue.length > 10 || newPasswordValue.length > 20 ){
 
-            this.setState( { notification: [<Alert alertMessage = "Username must be less than 10 characters and password must be less than 20." alertClose = { this.closeNotification } />] } );
+            this.setState( { notification: <Alert alertMessage = "Username must be less than 10 characters and password must be less than 20." alertClose = { this.closeNotification } /> } );
 
          }//if valid length
          //if newUser and newPassword not null
          else if ( !newUserValue ||  !newPasswordValue  || newUserValue < 5 || newPasswordValue < 5 ) {
 
-            this.setState( { notification: [<Alert alertMessage = "Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose = { this.closeNotification } />] } );
+            this.setState( { notification: <Alert alertMessage = "Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose = { this.closeNotification } /> } );
 
          } else {
 
@@ -67,7 +67,7 @@ class Authentication extends Component {
 
                         } else {
 
-                            this.setState( { notification: [<Alert alertMessage = "Username is already taken!" alertClose = { this.closeNotification } />] } );
+                            this.setState( { notification: <Alert alertMessage = "Username is already taken!" alertClose = { this.closeNotification } /> } );
 
                         }
 
@@ -161,7 +161,7 @@ class Authentication extends Component {
         //inform user that account was created
         let accountMessage = DOMPurify.sanitize("Your account has been created! Username: '" + newUser + "'");
         accountMessage = accountMessage.replace(/[^\w\s!?$]/g,'');
-        this.setState( { notification: [<Alert alertMessage = { accountMessage } alertClose = { this.closeNotification } />] } );
+        this.setState( { notification: <Alert alertMessage = { accountMessage } alertClose = { this.closeNotification } /> } );
         
     }
     
@@ -195,7 +195,7 @@ class Authentication extends Component {
                 //if username was not found
                 if( !e.data ) {
 
-                    this.setState( { notification: [<Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } />] } );
+                    this.setState( { notification: <Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } /> } );
 
                 } else {
 
@@ -246,7 +246,7 @@ class Authentication extends Component {
                     //pwd was wrong so set authenticed to false to make sure it failed. and set username and userID to null
                     this.setState( { authenticated: false, userID: null, username: null } );
                     //tell the user that credientals were incorrect
-                    this.setState( { notification: [<Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } />] } );
+                    this.setState( { notification: <Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } /> } );
 
 
                 }//if pwd was correct
