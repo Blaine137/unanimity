@@ -8,10 +8,15 @@ const Chatroom = ( props ) => {
     useEffect( ( ) => {
         
         let handle = document.getElementById( 'scrolldown' );
-        if(handle.scrollTop === 0 || (handle.offsetHeight + handle.scrollTop)  === prevHeight){
+        
+        if( handle.scrollTop === 0 || (handle.offsetHeight + handle.scrollTop)  === prevHeight ) {
             
             prevHeight = handle.scrollHeight;
             handle.scrollTop = handle.scrollHeight;
+
+        } else {
+
+            prevHeight = handle.scrollHeight;
 
         }
        
