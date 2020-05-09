@@ -7,6 +7,7 @@ import Alert from '../../components/Alert/Alert';
 //import npm pass https://www.npmjs.com/package/password-hash
 import * as passwordHash from 'password-hash';
 
+
 class Authentication extends Component {
     
     state = {
