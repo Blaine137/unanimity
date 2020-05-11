@@ -49,7 +49,7 @@ class Header extends Component{
                             tabIndex = " 0 " 
                             onClick = { ( ) => { this.props.toggleSidebar( ); } } 
                             onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
-                            className = { styles.burger }
+                            className = { styles.close }
                             aria-label = " Close Sidebar button"
                             role = "button"  
                         
@@ -87,7 +87,7 @@ class Header extends Component{
                     
                     { burger }
     
-                    <h3 className = { styles.header3 } >
+                    <h3 >
                         
                         { this.props.currentChatRoomName } 
     
