@@ -1,17 +1,14 @@
 .burger{
-  width: 50px;
   cursor: pointer;
-  margin-top: auto;
-  margin-bottom: auto;
-  display: inline-block;
   float: left;
+  transform: scale(.8);
+  //using scale so that we dont have to mess with the x sizing
 }
 
-.close{
-  z-index: 1;
-  cursor: pointer;
-  padding: 0;
+.close {
   float: left;
+  margin-top: .5rem;
+  transform: scale(.8);
 }
 
 .closeTop{
@@ -71,25 +68,23 @@
     max-height: 3.25rem;
     padding: 1rem;
     position: relative;
-    background-color: #e8e8e8;     
-}
-
-.header3 {
-    color: #05386B;
-    display: inline;
+    background-color: #e8e8e8;    
+    h3 {
+      color: #05386B;
+      display: inline;
+    } 
 }
 
 .circle1, .circle2, .circle3{
   margin-top: 3px;
   background-color: #05386B;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   
 }
 /*three dot options opener*/
 .options{
-
   float: right;
   cursor: pointer;
   padding: 0 1rem;
@@ -110,26 +105,21 @@
   margin: 0;
   padding: .25rem;
   list-style-type: none;
+  li {
+    width: 80%;
+    margin: .25rem auto;
+    padding: .25rem;
+    border-bottom: 2px solid #e8e8e8;;
+    color: #05386B; 
+    cursor: pointer;
+  }
 }
-.optionsMenu li {
-  width: 80%;
-  margin: .25rem auto;
-  padding: .25rem;
-  border-bottom: 2px solid #e8e8e8;;
-  color: #05386B; 
-  cursor: pointer;
-}
+
 @keyframes optionMenuFade {
   from{
     opacity: .05;
   }
   to{
     opacity: 1;
-  }
-}
-
-@media only screen and (min-width: 500px){
-  .burger{
-    left: -40%;
   }
 }
