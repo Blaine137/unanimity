@@ -9,6 +9,11 @@
   float: left;
   margin-top: .5rem;
   transform: scale(.8);
+ 
+  &:hover{
+    cursor: pointer;
+  }
+  
 }
 
 .closeTop{
