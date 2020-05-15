@@ -508,7 +508,8 @@ class Messenger extends Component {
 
                                     this.setState( {
                                         usersChatRoomsID: e.data
-                                    } );
+                                    } ); //adds all chatrooms that authenticated user is in
+
                                     updatedAuthUserChatRoomsID = e.data;
 
                                     //add the newChatRoomID to the authenticated user chatRoomsID
