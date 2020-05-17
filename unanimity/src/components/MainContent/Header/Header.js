@@ -9,6 +9,7 @@ class Header extends Component{
             options: null
         }
 
+            //switches options to open or close
         toggleOptions = () => {
 
             if(this.state.openOptions === true){
