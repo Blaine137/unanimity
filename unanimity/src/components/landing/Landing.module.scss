@@ -1,0 +1,41 @@
+main {
+    min-height: 100vh;
+    max-height: 100vw;
+    background-repeat: no-repeat;
+    background-size: 95vw;
+    background-attachment: fixed;
+    background-position: 50% 98%;
+    
+}
+.landinglogo {
+    max-height: 10vh;
+    margin: 10vh 0 15vh 0;
+}
+.header {
+    margin-top: 0;
+    height: 10vh;
+    font-size: 2.5rem;
+}
+.subtext {
+    color: 	#313639;
+    width: 30vw;
+    margin: auto;
+    height: 10vh;
+    
+}
+.chatButton {
+    margin: 15vh 0 10vh 0;
+    background-color: #05386B;
+    color: white;
+    padding: 0 3rem;
+    max-width: 600px;
+    height: 7vh;
+    border-radius: 1rem;
+    border: none;
+    font-size: 1rem;
+    &:focus, &:hover {
+        transform: scale(1.2);
+        transition: all ease-in-out .25s;
+    }
+}
+

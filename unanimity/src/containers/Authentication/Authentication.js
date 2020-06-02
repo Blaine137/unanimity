@@ -283,7 +283,7 @@ class Authentication extends Component {
 
                 <div className = { styles.wrapper }>
 
-                    <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. "/>
+                    <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
                      
                     <form className = { styles.form }  >
                         <fieldset>
