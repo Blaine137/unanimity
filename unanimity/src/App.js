@@ -7,47 +7,47 @@ import Landing from './components/landing/Landing';
 
 class App extends Component {
 
-state = {
+  state = {
 
-  landing: true
+    landing: true
 
-}
+  }
 
-goToAuth = () => {
+  goToAuth = ( ) => {
 
-  this.setState( { landing: false } );
-  
-}
+    this.setState( { landing: false } );
+    
+  }
 
-render () {
+  render ( ) {
+
+    let display;
+
+    //if landing is true show landing page
+    if ( this.state.landing ) {
+
+      display = <Landing goToAuth = { this.goToAuth } />;
+
+    } else {
+
+      //landing is false show auth page
+      display = <Authentication />;
+
+    }
+
+    return (
+
+      <div className = " App " >
+          
+        { display }
+
+      </div>
+
+    );//return
+
+  }//render
 
 
-
-let display;
-
-if ( this.state.landing ) {
-
-  display = <Landing goToAuth = { this.goToAuth } />;
-
-} else {
-
-  display = <Authentication />;
-
-}
-
-return (
-
-  <div className = "App">
-      
-    { display }
-
-  </div>
-
-);
-
-}
-
-
-}
+}//app class
 
 export default App;
