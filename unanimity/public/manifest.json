@@ -51,10 +51,6 @@
       "src": "/mstile-310x310.png",
       "sizes": "310x310",
       "type": "image/png"
-    },
-    {
-      "src": "/safari-pinned-tab.svg",
-      "type": "image/svg"
     }
   ],
   "start_url": ".",
