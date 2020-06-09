@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Nav.scss';
 
-const nav = () => {
+const nav = ( props ) => {
 
     return(
 
@@ -9,10 +9,12 @@ const nav = () => {
 
             <ul>
                 
-                <li>
+                <li onClick={ () => {
+                    props.goToAuth()
+                } }>
                     Login/Register
                 </li>
-                <li class="navli"> 
+                <li> 
                     Contact
                 </li>
 
