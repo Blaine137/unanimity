@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import styles from './Landing.module.scss';
+import Nav from '../Nav/Nav.js';
 
 function Landing( props ) {
 
@@ -7,6 +8,8 @@ function Landing( props ) {
     return (
         
         <Fragment>
+
+            <Nav/>
 
             <main  >
 
