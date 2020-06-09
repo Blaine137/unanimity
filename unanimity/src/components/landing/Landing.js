@@ -9,7 +9,7 @@ function Landing( props ) {
         
         <Fragment>
 
-            <Nav/>
+            <Nav goToAuth={ props.goToAuth }/>
 
             <main  >
 
