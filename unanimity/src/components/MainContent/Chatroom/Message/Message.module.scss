@@ -1,12 +1,13 @@
 .message{
     display: block;
-    display: flex;
-    align-items: center;
     color: #05386B;
     max-width: 75vw;
+    text-align: left;
 }
 p{ 
     max-width: 75vw;
     word-wrap: break-word;
 }
-
+.senderName {
+    text-transform: capitalize;
+}
