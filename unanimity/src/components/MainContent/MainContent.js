@@ -11,7 +11,7 @@ const mainContent = ( props ) => {
        <Fragment>
 
             <Header currentChatRoomName = { props.currentChatRoomName } toggleSidebar = { props.toggleSidebar } showSidebar = { props.showSidebar } logout = {props.setAuth }/>
-            <ChatRoom currentChatRoom = { props.currentChatRoom } />
+            <ChatRoom currentChatRoom = { props.currentChatRoom } recipientName = { props.currentChatRoomName } authUsername = { props.authUsername} authUID = { props.authUID }/>
             <Input newMessage = { props.newMessage } currentChatRoomName = { props.currentChatRoomName } showAlert = { props.showAlert }/> 
             
        </Fragment>

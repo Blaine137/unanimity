@@ -977,6 +977,8 @@ class Messenger extends Component {
                         newMessage = { this.newMessage }
                         currentChatRoom = { this.state.currentChatRoom }
                         currentChatRoomName = { this.state.currentChatRoomName }
+                        authUsername = { this.state.username }
+                        authUID = { this.state.userID }
                         toggleSidebar = { this.setShowSidebar }
                         showSidebar = { this.state.showSidebar  }
                         setAuth = { this.setAuthentication }
