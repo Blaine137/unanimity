@@ -2,14 +2,14 @@ import React, { Fragment } from 'react';
 import styles from './Landing.module.scss';
 import Nav from '../Nav/Nav.js';
 
-function Landing( props ) {
+const Landing = ( props ) => {
 
 
     return (
         
         <Fragment>
 
-            <Nav goToAuth={ props.goToAuth }/>
+            <Nav goToAuth={ props.goToAuth } goToContact = { props.goToContact } />
 
             <main  >
 
@@ -20,7 +20,7 @@ function Landing( props ) {
                     <p className = { styles.subtext }>Unanimity, instant communication that connects you to anyone.</p>
               
 
-                    <button onClick = { () => { props.goToAuth(); } } type = " button " className = {styles.chatButton}>Start Chatting</button>
+                    <button onClick = { () => { props.goToAuth() } } type = " button " className = {styles.chatButton}>Start Chatting</button>
                
             </main>
 
@@ -29,6 +29,6 @@ function Landing( props ) {
     );
 
 
-    }
+    };
     
     export default Landing;
