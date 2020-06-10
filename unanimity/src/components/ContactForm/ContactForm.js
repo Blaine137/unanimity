@@ -11,7 +11,7 @@ const contactForm = () => {
                     <form className = { styles.form }  >
                         <fieldset>
 
-                            <legend>Unanimity Messenger Login</legend>
+                            <legend>Unanimity Contact Form</legend>
                             <label htmlFor = "userNameID" >Username</label>
                             <input  type = "text" id = "userNameID" name = "userNameID" className = { styles.input } aria-label ="User Name Text Input" />
                             
