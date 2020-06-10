@@ -34,7 +34,7 @@ class App extends Component {
     //if landing is true show landing page
     if ( this.state.landing ) {
 
-      display = <Landing goToAuth = { this.goToAuth } />;
+      display = <Landing goToAuth = { this.goToAuth } goToContact={this.goToContact}/>;
 
     } else {
 
@@ -47,11 +47,7 @@ class App extends Component {
 
           display = <ContactForm />;
 
-      } else {
-
-          display = <Landing goToContact = { this.goToContact } />;
-
-        }
+      }
 
     return (
 

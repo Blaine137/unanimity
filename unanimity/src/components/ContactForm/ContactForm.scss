@@ -51,7 +51,7 @@ label {
     color:#F6F6F6;
     border: none;  
     height: 3rem;
-    width: 50%;
+    width: 25%;
     min-width: 3.5rem;
     border-radius: 3rem;
     font-weight: 700;
@@ -60,5 +60,24 @@ label {
             color: #05386B;
             background-color: #5CDB95; 
             transition: all .5s;   
+        }
+}
+
+.register{
+    position: relative;
+    left: 25%;
+    background-color: #05386B;
+    color:  #F6F6F6;
+    border: none;
+    display: block;
+    height: 3rem;
+    width: 50%;
+    min-width: 3.5rem;
+    border-radius: 3rem;
+    font-weight: 700;
+        &:hover, &:focus{
+            color: #05386B;
+            background-color: #5CDB95;
+            transition: all .5s; 
         }
 }
