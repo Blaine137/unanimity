@@ -290,14 +290,14 @@ class Authentication extends Component {
 
                             <legend>Unanimity Messenger Login</legend>
                             <label htmlFor = "userNameID" >Username</label>
-                            <input  type = "text" id = "userNameID" name = "userNameID" className = { styles.input } aria-label ="User Name Text Input" />
+                            <input  type = "text" id = "userNameID" name = "userNameID" className = { styles.input } aria-label ="User Name Text Input field" />
                             
                             <label htmlFor = "passwordID" >Password</label>
-                            <input aria-label = "Password Text input" type = "password" id = "passwordID" name = "passwordID" className = { styles.input } />
+                            <input aria-label = "Password Text input field" type = "password" id = "passwordID" name = "passwordID" className = { styles.input } />
 
-                            <input aria-label = "Submit Login information" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) }   } />
+                            <input aria-label = "Submit Login information button" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) }   } />
 
-                            <input aria-label = "Register For Account" type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) } }  /> 
+                            <input aria-label = "Register For Account button" type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) } }  /> 
 
                         </fieldset>
                         

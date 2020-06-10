@@ -1,17 +1,19 @@
 import React, {Fragment} from 'react';
-import styles from './ContactForm.scss';
+import styles from './ContactForm.module.scss';
 
 const contactForm = () => {
 
     return(
 
         <Fragment>
-            <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
+                        <div className = { styles.wrapper }>
+
+                    <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
                      
                     <form className = { styles.form }  >
                         <fieldset>
 
-                            <legend>Unanimity Contact Form</legend>
+                            <legend>Contact Unanimity!</legend>
                             <label htmlFor = "userNameID" >Username</label>
                             <input  type = "text" id = "userNameID" name = "userNameID" className = { styles.input } aria-label ="User Name Text Input" />
                             
@@ -25,6 +27,8 @@ const contactForm = () => {
                         </fieldset>
                         
                     </form>
+                    
+                </div>
         </Fragment>
 
     );

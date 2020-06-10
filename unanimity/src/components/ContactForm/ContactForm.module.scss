@@ -1,4 +1,15 @@
-form {
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.wrapper {
+    min-height: 100vh;
+    padding: 1rem;
+   
+}
+
+.form {
     
     display: block;
     text-align: left;
@@ -22,7 +33,7 @@ legend{
     text-align: left;
 }
 
-input {
+.input {
     font-size: 1.25rem;
     background-color: #F6F6F6;
     display: block;
@@ -51,7 +62,7 @@ label {
     color:#F6F6F6;
     border: none;  
     height: 3rem;
-    width: 25%;
+    width: 50%;
     min-width: 3.5rem;
     border-radius: 3rem;
     font-weight: 700;
@@ -80,4 +91,35 @@ label {
             background-color: #5CDB95;
             transition: all .5s; 
         }
+}
+img {
+   width: 50vw;
+   max-width: 600px;
+   margin: auto;
+
+}
+
+/* phablet and up */
+@media only screen and (min-width: 600px){
+    .form{
+        padding: 3rem;
+    }
+    .register{
+        left: 0;
+        width: 40%;
+        float: right;
+    }
+    .submit{
+        width: 40%;
+        left: 0;
+    }
+}
+/*tablets and larger*/
+@media only screen and (min-width: 700px){
+.form {
+    padding: 3rem;
+    position: relative;
+    max-width: 500px;
+    max-height: 550px;
+}
 }
