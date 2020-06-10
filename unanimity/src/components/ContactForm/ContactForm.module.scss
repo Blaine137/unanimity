@@ -55,9 +55,13 @@ label {
     margin-bottom: 1rem;;
 }
 
+textarea{
+    display: block;
+    margin: 0 auto;
+}
+
 .submit {
-    position: relative;
-    left: 25%;
+    display: block;
     background-color: #05386B;
     color:#F6F6F6;
     border: none;  
@@ -66,7 +70,9 @@ label {
     min-width: 3.5rem;
     border-radius: 3rem;
     font-weight: 700;
-    margin-bottom: 2rem;
+    // margin-bottom: 2rem;
+    margin: 0 auto;
+    margin-top: 2rem;
         &:focus, &:hover{
             color: #05386B;
             background-color: #5CDB95; 
@@ -74,24 +80,6 @@ label {
         }
 }
 
-.register{
-    position: relative;
-    left: 25%;
-    background-color: #05386B;
-    color:  #F6F6F6;
-    border: none;
-    display: block;
-    height: 3rem;
-    width: 50%;
-    min-width: 3.5rem;
-    border-radius: 3rem;
-    font-weight: 700;
-        &:hover, &:focus{
-            color: #05386B;
-            background-color: #5CDB95;
-            transition: all .5s; 
-        }
-}
 img {
    width: 50vw;
    max-width: 600px;
