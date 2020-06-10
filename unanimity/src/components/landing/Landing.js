@@ -20,7 +20,7 @@ const Landing = ( props ) => {
                     <p className = { styles.subtext }>Unanimity, instant communication that connects you to anyone.</p>
               
 
-                    <button onClick = { () => { props.goToAuth() } } type = " button " className = {styles.chatButton}>Start Chatting</button>
+                    <button onClick = { () => { props.goToAuth(); } } type = " button " className = {styles.chatButton}>Start Chatting</button>
                
             </main>
 

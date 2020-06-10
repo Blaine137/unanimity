@@ -10,7 +10,7 @@ const nav = ( props ) => {
             <ul>
                 
                 <li onClick={ () => {
-                    props.goToAuth()
+                    props.goToAuth() //localhost shows error coming from this line of code ??????
                 } }>
                     Login/Register
                 </li>
