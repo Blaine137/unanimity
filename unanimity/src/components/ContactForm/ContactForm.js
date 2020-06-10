@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import styles from './ContactForm';
+import styles from './ContactForm.scss';
 
 const contactForm = () => {
 
@@ -30,3 +30,5 @@ const contactForm = () => {
     );
 
 };
+
+export default contactForm;

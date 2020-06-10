@@ -14,7 +14,9 @@ const nav = ( props ) => {
                 } }>
                     Login/Register
                 </li>
-                <li> 
+                <li onClick = { () => {
+                    props.goToContact()
+                } }> 
                     Contact
                 </li>
 

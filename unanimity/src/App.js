@@ -4,12 +4,14 @@ import Authentication from './containers/Authentication/Authentication';
 import './fonts/Jost-VariableFont_ital,wght.ttf';
 import './fonts/Montserrat-Regular.ttf';
 import Landing from './components/landing/Landing';
+import ContactForm from './components/ContactForm/ContactForm';
 
 class App extends Component {
 
   state = {
 
-    landing: true
+    landing: true,
+    contactForm: false
 
   }
 
@@ -17,6 +19,12 @@ class App extends Component {
 
     this.setState( { landing: false } );
     
+  }
+
+  goToContact = (  ) => {
+
+    this.setState( { contactForm: true } );
+
   }
 
   render ( ) {
@@ -34,6 +42,16 @@ class App extends Component {
       display = <Authentication />;
 
     }
+
+       if(this.state.contactForm){
+
+          display = <ContactForm />;
+
+      } else {
+
+          display = <Landing goToContact = { this.goToContact } />;
+
+        }
 
     return (
 
