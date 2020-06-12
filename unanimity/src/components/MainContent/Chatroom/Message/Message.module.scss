@@ -3,11 +3,14 @@
     color: #05386B;
     max-width: 75vw;
     text-align: left;
+    margin-top: 2rem;
 }
 p{ 
     max-width: 75vw;
     word-wrap: break-word;
+    margin: 0;
 }
 .senderName {
     text-transform: capitalize;
+    margin: 0 0 .25rem 0;
 }
