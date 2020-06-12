@@ -9,19 +9,22 @@ const message = ( props ) => {
     sanitizedMessage = sanitizedMessage.replace( /[^\w\s!?$]/g,'' );
     sanitizedMessage = DOMPurify.sanitize( sanitizedMessage );
 
+    //sanitize sender name
     let sanitizedName = props.senderName;
     sanitizedName = sanitizedName.replace( /[^\w\s!?$]/g,'' );
     sanitizedName = DOMPurify.sanitize( sanitizedName );
 
-    return(
+    return (
 
         <div className = { styles.message } >
+
             <h3 className = { styles.senderName }  > { sanitizedName } </h3>
             <p> { sanitizedMessage } </p>
             
         </div>
 
-    );
+    );//return
 
-}
+};//function
+
 export default message;

@@ -327,6 +327,6 @@ class Authentication extends Component {
 
     }//render()
 
-}
+};//class
 
 export default Authentication;
