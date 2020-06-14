@@ -171,8 +171,7 @@ class Authentication extends Component {
         let username = userNameElement.value || userNameElement;
         let password = passwordElement.value || passwordElement;
         let userID = null;
-        //make usernames non-caseSensitive
-        username = username.toLowerCase();
+    
 
         username = DOMPurify.sanitize(username);
         username = username.replace(/[^\w]/g,'');
@@ -189,6 +188,9 @@ class Authentication extends Component {
         }
         //if username was provided
         if( username ) {
+
+            //make usernames non-caseSensitive
+            username = username.toLowerCase();
           
             //get userId by username 
             axios.get( 'userIDByUsername/' + username + '.json' ).then( ( e ) => {
@@ -290,10 +292,10 @@ class Authentication extends Component {
 
                             <legend>Unanimity Messenger Login</legend>
                             <label htmlFor = "userNameID" >Username</label>
-                            <input  type = "text" id = "userNameID" name = "userNameID" className = { styles.input } aria-label ="User Name Text Input field" />
+                            <input  type = "text" id = "userNameID" name = "userNameID" className = { styles.input } aria-label ="User Name Text Input field" required />
                             
                             <label htmlFor = "passwordID" >Password</label>
-                            <input aria-label = "Password Text input field" type = "password" id = "passwordID" name = "passwordID" className = { styles.input } />
+                            <input aria-label = "Password Text input field" type = "password" id = "passwordID" name = "passwordID" className = { styles.input } required />
 
                             <input aria-label = "Submit Login information button" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) }   } />
 
