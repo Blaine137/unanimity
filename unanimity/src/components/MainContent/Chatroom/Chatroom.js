@@ -22,15 +22,15 @@ const Chatroom = ( props ) => {
        
     } );
 
+
     let displayedMessages = [  <p className = { styles.introMsg } key = "-10"> Please select a chatroom. </p> ];
 
+    //if current chatroom is set
    if( props.currentChatRoom ){
-
-     
-        let chatRoomUsers = Object.entries( props.currentChatRoom );
-          
-      
-
+    
+        let chatRoomUsers = Object.entries( props.currentChatRoom ); //current chat room selected
+        
+        //for each user in the chatroom
         chatRoomUsers.forEach( ( nextuser ) => {
                                                         
             //foreach user looping through the messages
@@ -43,10 +43,10 @@ const Chatroom = ( props ) => {
                      username = props.authUsername;
 
                 } else {
+
                     username = props.recipientName;
+
                 }
-
-
 
                 let nextUser = [ ];
                 //if object converts to array by setting the property name(integer) as the index(key) of the array. 
@@ -71,11 +71,6 @@ const Chatroom = ( props ) => {
 
         }); //end of chatRoomUsers forEach
             
-       
-
-            
-
-
    }//if props.currentchatRoom
 
     return (

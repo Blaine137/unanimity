@@ -96,11 +96,13 @@ class Messenger extends Component {
         clearInterval( this.interval );
 
     }
+
     closeNotification = ( ) => {
 
         this.setState( { notification: null } );
         
     }
+
     setNotification = ( message ) => {
 
         //sanitize the message and remove malicious code
@@ -112,6 +114,7 @@ class Messenger extends Component {
         this.setState( { notification: alertComponent } );
 
     }
+
     /* handles logging in and out */
     setAuthentication = ( logout ) => {
         
@@ -337,9 +340,7 @@ class Messenger extends Component {
 
             //set authenticatedUserMessageOld and nextMSg number from this.state.currentChatRoom
             Object.entries( this.state.currentChatRoom).forEach( ( user ) => {
-
              
-               
                 //if the message user id is the current authenticated user id
                 if ( user[0] === ( "u" + this.state.userID ) ) {
 
@@ -401,7 +402,7 @@ class Messenger extends Component {
 
         } //end of newMessage validation if
 
-    }
+    }//new message function
 
     //add onSubmission of popUp for addChatRoom in sidebar component
     newChatRoom = ( event, recipentName ) => {
