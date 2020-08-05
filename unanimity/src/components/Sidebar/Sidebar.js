@@ -17,7 +17,7 @@ class Sidebar extends Component {
    
     shouldComponentUpdate( nextProps, nextState ){
 
-        //see if the prop uesrCHatRoomsID has changed
+        //see if the prop userChatRoomsID has changed
         if ( nextProps.usersChatRoomsID.length !== this.props.usersChatRoomsID.length ) {
             
             //if it has changed the resetTheSideBarDisplay
@@ -31,25 +31,26 @@ class Sidebar extends Component {
             return true;
 
         } 
-        //normal dont rerender if nothing has changed
+        //normal don't re-render if nothing has changed
         else {
 
             return false;
 
         }
 
-    }
+    }//shouldComponentUpdate()
 
     resetSidebarDisplay = ( ) => {
   
         /*
-            causes the component to update and resets the sidebar. the resest is required so that when it loops through the
-            chatRoomsArray.length and this.state.sidebarDisplay.length are both starting at 0. 
+            causes the component to update and resets the sidebar. the reset is required so that when it loops through the
+            chatRoomsArray.length and this.state.sidebarDisplay.length are both starting at 0. otherwise when the number of chatroom's
+            changes it wont display them properly.
         */
         this.setState( { sidebarDisplay: [ ] } );
         addedChatRoomsName = [ ];
 
-    }
+    }//resetSidebarDisplay()
 
     showSidebar = () => {
 
@@ -173,7 +174,7 @@ class Sidebar extends Component {
 
         return sidebar;
 
-    }//showSidebar function
+    }//showSidebar()
 
     popUp = ( ) => {
 
@@ -381,7 +382,7 @@ class Sidebar extends Component {
 
             } //end if this.props.usersChatRoomsID is not null
         
-    }//showAllChatRooms Function
+    }//showAllChatRooms()
 
     render ( ) {
 

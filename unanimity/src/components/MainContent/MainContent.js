@@ -3,7 +3,6 @@ import Header from './Header/Header';
 import ChatRoom from './Chatroom/Chatroom';
 import Input from './Input/Input';
 
-
 const mainContent = ( props ) => {
     
     return(
@@ -18,4 +17,5 @@ const mainContent = ( props ) => {
 
     );
 }
+
 export default mainContent;
