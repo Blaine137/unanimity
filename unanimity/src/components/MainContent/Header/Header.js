@@ -1,122 +1,128 @@
 import React, { Component, Fragment } from 'react';
 import styles from './Header.module.scss';
-// import { render } from 'node-sass';
 
 class Header extends Component{
 
-        state = {
-            openOptions: false,
-            options: null
-        }
+    state = {
 
-            //switches options to open or close
-        toggleOptions = () => {
+        openOptions: false,
+        options: null
 
-            if(this.state.openOptions === true){
-                this.setState( {openOptions: false} );
-            }else if(this.state.openOptions === false){
-                this.setState( {openOptions: true} );
-            }
+    }
 
-        }
-        //options menu once open
-        showOptions = () => {
+    //shows & hides the options menu. triggered by the three dots in the top right of the header
+    toggleOptions = ( ) => {
 
-            if(this.state.openOptions === true){
+         if( this.state.openOptions === true ) {
                 
-                this.setState( {options: 
+            this.setState( { 
                     
-                        <ul className = { styles.optionsMenu } >
-                            <li tabindex = " 0 " style = { { color: '#f44336' } } onClick = { () => { this.props.logout( true ) }  } onKeyDown = { ( e ) => { if ( e.key === 'Enter') { this.props.logout( true ); } } }>Logout</li>                       
-                        </ul>
-                 
-                } ); //end of setState
+                    options:                
+                    <ul className = { styles.optionsMenu } >
+                        <li tabIndex = " 0 " style = { { color: '#f44336' } } onClick = { () => { this.props.logout( true ) }  } onKeyDown = { ( e ) => { if ( e.key === 'Enter') { this.props.logout( true ); } } }>Logout</li>                       
+                    </ul>,
+                    openOptions: !this.state.openOptions,
+                
+            } ); //end of setState
 
-            }else{
-              this.setState( { options: null } );  
-            }
-
+        } else {
+            this.setState( { options: null, openOptions: !this.state.openOptions } );  
         }
-           
-        render(){
 
-            let burger = null;
+    }
 
-                    //if props.showSidebar is true
-            if( this.props.showSidebar ) {
+    /*
+        changes the sidebar opener between a x and a burger( the three lines ) 
+        dose not cause the sidebar to open and close. sidebar open and close is handled in messenger.js
+    */
+    toggleBurger = ( ) => {
 
-                    //make the burger button a X
-                burger = <div 
-                            tabIndex = " 0 " 
-                            onClick = { ( ) => { this.props.toggleSidebar( ); } } 
-                            onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
-                            className = { styles.close }
-                            aria-label = " Close Sidebar button"
-                            role = "button"  
+        //if the sidebar is open show the x to close it
+        if( this.props.showSidebar ) {
+
+            //make the burger button a X
+            return (
+                    <div 
+                        tabIndex = " 0 " 
+                        onClick = { ( ) => { this.props.toggleSidebar( ); } } 
+                        onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
+                        className = { styles.close }
+                        aria-label = " Close Sidebar button"
+                        role = "button"  
                         
-                        >
+                    >
 
-                                <div className = { styles.closeTop } ></div>
-                                <div className = { styles.closeMiddle } ></div>
-                                <div className = { styles.closeBottom } ></div>
+                        <div className = { styles.closeTop } > </div>
+                        <div className = { styles.closeMiddle } > </div>
+                        <div className = { styles.closeBottom } > </div>
                                 
-                    </div>;
+                    </div>
+            );
 
-            } else {
-                        //if false then make the burger button 
-                burger = <div 
-                            tabIndex = " 0 "
-                            onClick={ ( ) => { this.props.toggleSidebar( ); } } 
-                            onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
-                            className = { styles.burger }  
-                            aria-label = "Open Sidebar button"
-                            role = "button"
-                         >
+        } else {
 
-                            <div className = { styles.openTop } ></div>
-                            <div className = { styles.openMiddle } ></div>
-                            <div className = { styles.openBottom } ></div>
+            //sidebar is closed show the burger ( three lines ) to open it.
+            return (
+                    <div 
+                        tabIndex = " 0 "
+                        onClick={ ( ) => { this.props.toggleSidebar( ); } } 
+                        onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.props.toggleSidebar( ); } } }
+                        className = { styles.burger }  
+                        aria-label = "Open Sidebar button"
+                        role = "button"
+                    >
+
+                        <div className = { styles.openTop } ></div>
+                        <div className = { styles.openMiddle } ></div>
+                        <div className = { styles.openBottom } ></div>
                 
-                        </div>;
+                    </div>
+            );
 
-            }
-            
-            return(
+        }
 
-           <Fragment>
-                    <header className = { styles.header } >
-                    
+    }//toggleBurger()
+           
+    render( ) {
+
+        let burger = this.toggleBurger( );
+           
+        return (
+
+            <Fragment>
+
+                <header className = { styles.header } >
+                            
                     { burger }
-    
-                    <h3 >
-                        
-                        { this.props.currentChatRoomName } 
-    
-                    </h3>
+            
+                    <h3 > { this.props.currentChatRoomName } </h3>
 
+                    {/*this div is the three dots that you click to open the options */}
                     <div 
                         tabIndex = "0" 
-                        className={styles.options} 
-                        onClick={ ( ) => { this.toggleOptions( ); this.showOptions( ) } }
-                        onKeyDown = { ( e ) => {if ( e.key === 'Enter' ) { this.toggleOptions( ); this.showOptions( ); } } }
+                        className = { styles.options } 
+                        onClick = { ( ) => { this.toggleOptions( ) } }
+                        onKeyDown = { ( e ) => { if ( e.key === 'Enter' ) { this.toggleOptions( ); } } }
                         aria-label = "Open options menu button"
                         role = "button"
                     >
 
-                            <div className={styles.circle1}></div>
-                            <div className={styles.circle2}></div>
-                            <div className={styles.circle3}></div>
+                            <div className = { styles.circle1 } > </div>
+                            <div className = { styles.circle2 } > </div>
+                            <div className = { styles.circle3 } > </div>
 
                     </div>
-                    
+                            
                 </header>
-                {this.state.options}
-           </Fragment>
+
+                { this.state.options }
+                        
+            </Fragment>
                 
-            );//return
+        );//return
 
-        }//render
+    }//render
 
-}
+}//class Header
 
 export default Header;
