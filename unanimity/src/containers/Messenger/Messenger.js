@@ -28,7 +28,46 @@ class Messenger extends Component {
 
     componentDidMount = ( ) => {
 
-        //every second update the current chatroom. this make sure we can see if the other user sent a message.
+        this.updateChatRoom(); //updates the chatroom every half a second so users can see new messages
+
+
+        //on load set authentication
+        this.setAuthentication();
+
+
+        if ( this.state.userID ) {
+
+            //get and set state with an array of all the chatroom's the authenticated user is in
+            this.setUsersChatRoomsID( );
+
+        }
+
+    }
+
+    componentDidUpdate = ( prevProps, prevState ) => {
+
+        //if the userID in the state is not the same.
+        //prevents infinite loop
+        if ( prevState.userID !== this.state.userID ) {
+
+            this.setUsersChatRoomsID( );
+
+        }
+
+
+    }
+
+    componentWillUnmount( ) {
+
+        //removes the setTimeout from the component did mount.
+        clearInterval( this.interval );
+
+    }
+
+        /* updates the chatrooms every half of a second */
+    updateChatRoom(){
+
+                //every second update the current chatroom. this make sure we can see if the other user sent a message.
         this.interval = setInterval( ( ) => {
 
             //if a chatroom has been selected
@@ -62,38 +101,6 @@ class Messenger extends Component {
             }
 
         }, 500);
-
-
-        //on load set authentication
-        this.setAuthentication();
-
-
-        if ( this.state.userID ) {
-
-            //get and set state with an array of all the chatroom's the authenticated user is in
-            this.setUsersChatRoomsID( );
-
-        }
-
-    }
-
-    componentDidUpdate = ( prevProps, prevState ) => {
-
-        //if the userID in the state is not the same.
-        //prevents infinite loop
-        if ( prevState.userID !== this.state.userID ) {
-
-            this.setUsersChatRoomsID( );
-
-        }
-
-
-    }
-
-    componentWillUnmount( ) {
-
-        //removes the setTimeout from the component did mount.
-        clearInterval( this.interval );
 
     }
 

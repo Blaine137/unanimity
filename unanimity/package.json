@@ -9,7 +9,6 @@
     "axios": "^0.19.2",
     "dompurify": "^2.0.10",
     "googleapis": "^50.0.0",
-    "node-sass": "^4.13.1",
     "password-hash": "^1.2.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
@@ -39,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^4.14.1"
   }
 }
