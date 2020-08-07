@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
-import styles from './Authentication.module.scss';
+import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
 import DOMPurify from 'dompurify';
 import Alert from '../../components/Alert/Alert';
 //import npm pass https://www.npmjs.com/package/password-hash
 import * as passwordHash from 'password-hash';
 
+//messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
+let messenger = null;
 
 class Authentication extends Component {
     
@@ -269,9 +271,8 @@ class Authentication extends Component {
         this.setState( { notification: null } );
     }
 
-    render( ) {
-       
-        let messenger = null;
+    ifAuthenticated = () => {
+
         //if authenticated go to messenger
         if( this.state.authenticated ) {
 
@@ -281,46 +282,23 @@ class Authentication extends Component {
         //else not authenticated stay on login page to login in
         else {
 
-            messenger = (
-
-                <div className = { styles.wrapper }>
-
-                    <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
-                     
-                    <form className = { styles.form }  >
-                        <fieldset>
-
-                            <legend>Unanimity Messenger Login</legend>
-                            <label htmlFor = "userNameID" >Username</label>
-                            <input  type = "text" id = "userNameID" name = "userNameID" className = { styles.input } aria-label ="User Name Text Input field" required />
-                            
-                            <label htmlFor = "passwordID" >Password</label>
-                            <input aria-label = "Password Text input field" type = "password" id = "passwordID" name = "passwordID" className = { styles.input } required />
-
-                            <input aria-label = "Submit Login information button" type = "submit" value = "Log in" className = { styles.submit } onClick = {  ( e ) => { this.checkName( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) }   } />
-
-                            <input aria-label = "Register For Account button" type = "submit" value = "Register" className = { styles.register } onClick = { ( e ) => { this.checkForNewUser( e , document.getElementById( 'userNameID'  ), document.getElementById( 'passwordID' ) ) } }  /> 
-
-                        </fieldset>
-                        
-                    </form>
-
-                    <p>This Project's Database is public so that people can see how the project works!</p>
-                    
-                </div>
-                
-            );//variable messenger
+            messenger = <LoginForm checkName = { this.checkName } checkForNewUser = { this.checkForNewUser } />
                
         }//if state authenticated
+
+    }
+
+    render( ) {
        
-        
-         
+        this.ifAuthenticated();
+           
         return(
 
             <Fragment>
 
                 { this.state.notification }
                 
+                { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
                 { messenger }
 
             </Fragment>

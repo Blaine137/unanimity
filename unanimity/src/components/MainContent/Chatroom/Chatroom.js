@@ -68,7 +68,7 @@ const Chatroom = ( props ) => {
             chatRoomUsers.forEach( ( chatRoomUser ) => {
                                                 
                 //chatRoomUser[ 0 ] is the user id or nextmsgNum. if its a user show their messages
-                if( chatRoomUser [ 0 ] !== "nextMsgNum" ) {
+                if( chatRoomUser[ 0 ] !== "nextMsgNum" ) {
             
                     let username = "nobody";
                     //the next user will either be the auth user or the recipient. check to see if its the auth user
