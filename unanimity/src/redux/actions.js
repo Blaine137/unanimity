@@ -1,5 +1,7 @@
-export const CHANGE_BOOLEAN = 'CHANGE_BOOLEAN';
+export const SET_AUTHENTICATION = 'SET_AUTHENTICATION';
 
-export changeBoolean = () => {
-    type: CHANGE_BOOLEAN
-};
+export const setAuthentication = authStatus => ({
+    type: SET_AUTHENTICATION,
+    payload: authStatus
+});
+
