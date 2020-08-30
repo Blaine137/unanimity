@@ -6,9 +6,21 @@ import DOMPurify from 'dompurify';
 import Alert from '../../components/Alert/Alert';
 //import npm pass https://www.npmjs.com/package/password-hash
 import * as passwordHash from 'password-hash';
+import { connect } from 'react-redux';
+import { setAuthentication } from '../../redux/actions';
 
 //messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
 let messenger = null;
+
+const mapStateToProps = state => {
+    return {
+        authenticated: state.authenticated,
+    }
+}
+
+const mapDispatchToProps = {
+    setAuthentication: ( authStatus ) => (setAuthentication( authStatus )),
+}
 
 class Authentication extends Component {
     
@@ -22,6 +34,10 @@ class Authentication extends Component {
         
     }
     
+   componentDidMount() {
+    this.props.setAuthentication(false);
+   }
+
     checkForNewUser = ( event, newUser, newPassword ) => {
        
         
@@ -240,16 +256,17 @@ class Authentication extends Component {
                 //if pwd is correct
                 // e.data is the 
                 if ( passwordHash.verify( checkPassword, e.data) ) {
-
+                    this.props.setAuthentication(true);
                     //set username userid and authentication in state
                     this.setState( { authenticated: true, userID: checkUserID, username: checkUsername } );
                     
                 }
-                //pwd was incorect
+                //pwd was incorrect
                 else {
 
                     //pwd was wrong so set authenticed to false to make sure it failed. and set username and userID to null
                     this.setState( { authenticated: false, userID: null, username: null } );
+                    this.props.setAuthentication(false);
                     //tell the user that credientals were incorrect
                     this.setState( { notification: <Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } /> } );
 
@@ -272,7 +289,6 @@ class Authentication extends Component {
     }
 
     ifAuthenticated = () => {
-
         //if authenticated go to messenger
         if( this.state.authenticated ) {
 
@@ -289,7 +305,6 @@ class Authentication extends Component {
     }
 
     render( ) {
-       
         this.ifAuthenticated();
            
         return(
@@ -309,4 +324,4 @@ class Authentication extends Component {
 
 };//class
 
-export default Authentication;
+export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
