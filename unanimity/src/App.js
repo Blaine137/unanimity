@@ -5,6 +5,20 @@ import './fonts/Jost-VariableFont_ital,wght.ttf';
 import './fonts/Montserrat-Regular.ttf';
 import Landing from './components/landing/Landing';
 import ContactForm from './components/ContactForm/ContactForm';
+import { connect } from 'react-redux';
+import { setLanding, setContactForm } from './redux/actions';
+
+const mapStateToProps = state => {
+  return {
+      landing: state.landing,
+      contactForm: state.contactForm
+  }
+}
+
+const mapDispatchToProps = {
+  setLanding: ( landingStatus ) => (setLanding( landingStatus )),
+  setContactForm: ( contactStatus ) => (setContactForm( contactStatus )),
+}
 
 class App extends Component {
 
@@ -15,15 +29,22 @@ class App extends Component {
 
   }
 
+  componentDidMount(){
+    this.props.setLanding(true)
+    this.props.setContactForm(false)
+  }
+
   goToAuth = ( ) => {
 
     this.setState( { landing: false } );
-    
+    this.props.setLanding(false);
   }
 
   goToContact = (  ) => {
 
     this.setState( { contactForm: true } );
+    this.props.setLanding(false);
+    this.props.setContactForm(true)
 
   }
 
@@ -64,4 +85,4 @@ class App extends Component {
 
 }//app class
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

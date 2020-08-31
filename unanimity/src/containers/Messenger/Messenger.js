@@ -27,7 +27,7 @@ class Messenger extends Component {
     }
 
     componentDidMount = ( ) => {
-
+        
         this.updateChatRoom(); //updates the chatroom every half a second so users can see new messages
 
 
