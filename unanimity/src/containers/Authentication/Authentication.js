@@ -14,7 +14,7 @@ let messenger = null;
 
 const mapStateToProps = state => {
     return {
-        authenticated: state.authenticated,
+        authenticated: state.authenticated
     }
 }
 
@@ -36,6 +36,7 @@ class Authentication extends Component {
     
    componentDidMount() {
     this.props.setAuthentication(false);
+    
    }
 
     checkForNewUser = ( event, newUser, newPassword ) => {
@@ -257,6 +258,7 @@ class Authentication extends Component {
                 // e.data is the 
                 if ( passwordHash.verify( checkPassword, e.data) ) {
                     this.props.setAuthentication(true);
+                    console.log(this.props)
                     //set username userid and authentication in state
                     this.setState( { authenticated: true, userID: checkUserID, username: checkUsername } );
                     
@@ -290,6 +292,7 @@ class Authentication extends Component {
 
     ifAuthenticated = () => {
         //if authenticated go to messenger
+        
         if( this.state.authenticated ) {
 
             messenger = <Messenger authenticated = { this.state.authenticated } userID = { this.state.userID } username = { this.state.username } authLogout = { this.logout }/>;
