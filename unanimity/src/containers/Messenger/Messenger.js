@@ -27,9 +27,7 @@ class Messenger extends Component {
     }
 
     componentDidMount = ( ) => {
-        
         this.updateChatRoom(); //updates the chatroom every half a second so users can see new messages
-
 
         //on load set authentication
         this.setAuthentication();
@@ -126,7 +124,7 @@ class Messenger extends Component {
     setAuthentication = ( logout ) => {
         
         //login
-        if(logout === null || logout === undefined) {
+        if(logout === null || logout === undefined ) {
             /*
             if any of the bellow values is not set then auth is set to false. in component did mount their is a interval where it check to see if they are still authenticated. 
             if auth === false then it will handle force logging them out for security.
@@ -930,7 +928,7 @@ class Messenger extends Component {
     }
 
     render () {
-
+      
         let mainContentInlineStyles = { };
         //if sidebar is not showing 
         if ( !this.state.showSidebar ) {
