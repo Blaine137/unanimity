@@ -10,8 +10,8 @@ import { setLanding, setContactForm } from './redux/actions';
 
 const mapStateToProps = state => {
   return {
-      landing: state.landing,
-      contactForm: state.contactForm
+      landing: state.setLanding.landing,
+      contactForm: state.setContact.contactForm
   }
 }
 
@@ -21,68 +21,41 @@ const mapDispatchToProps = {
 }
 
 class App extends Component {
+	componentDidMount() {
+		this.props.setLanding(true)
+		this.props.setContactForm(false)
+	}
 
-  state = {
+	goToAuth = () => {
+		this.props.setLanding(false);
+	}
 
-    landing: true,
-    contactForm: false
+	goToContact = () => {
+		this.props.setLanding(false);
+		this.props.setContactForm(true)
+	}
 
-  }
+	render() {
+		let display;
+		
+		//if landing is true show landing page
+		if(this.props.landing) {
+		display = <Landing goToAuth = { this.goToAuth } goToContact = { this.goToContact } />;
+		} else {
+		//landing is false show auth page
+		display = <Authentication />;
+		}
 
-  componentDidMount(){
-    this.props.setLanding(true)
-    this.props.setContactForm(false)
-  }
+		if(this.props.contactForm) {
+			display = <ContactForm />;
+		}
 
-  goToAuth = ( ) => {
-
-    this.setState( { landing: false } );
-    this.props.setLanding(false);
-  }
-
-  goToContact = (  ) => {
-
-    this.setState( { contactForm: true } );
-    this.props.setLanding(false);
-    this.props.setContactForm(true)
-
-  }
-
-  render ( ) {
-
-    let display;
-
-    //if landing is true show landing page
-    if ( this.state.landing ) {
-
-      display = <Landing goToAuth = { this.goToAuth } goToContact={this.goToContact}/>;
-
-    } else {
-
-      //landing is false show auth page
-      display = <Authentication />;
-
-    }
-
-       if(this.state.contactForm){
-
-          display = <ContactForm />;
-
-      }
-
-    return (
-
-      <div className = " App " >
-          
-        { display }
-
-      </div>
-
-    );//return
-
-  }//render
-
-
-}//app class
+		return (
+		<div className = "App" >   
+			{ display }
+		</div>
+		);
+	}
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
