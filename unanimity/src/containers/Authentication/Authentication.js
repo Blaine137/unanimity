@@ -8,7 +8,6 @@ import Alert from '../../components/Alert/Alert';
 import * as passwordHash from 'password-hash';
 import { connect } from 'react-redux';
 import { setAuthentication, setUserId, setUsername } from '../../redux/actions';
-
 //messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
 let messenger = null;
 
@@ -39,17 +38,13 @@ class Authentication extends Component {
         let newUserValue = newUser.value;
         let newPasswordValue = newPassword.value;
         let newUserID = null;
-
         newUserValue = DOMPurify.sanitize( newUserValue );
         newUserValue = newUserValue.replace(/[^\w]/g,'');
         newUserValue = newUserValue.toLowerCase();
-
         newPasswordValue = DOMPurify.sanitize( newPasswordValue );
         newPasswordValue = newPasswordValue.replace(/[^\w^!?$]/g,'');
-
         newUserID = DOMPurify.sanitize( newUserID );
         newUserID = newUserID.replace(/[^\w]/g,'');
-
         //prevent reload of page due to form submission
         event.preventDefault();
         //a valid length
@@ -58,7 +53,7 @@ class Authentication extends Component {
          }//if valid length
          //if newUser and newPassword not null
          else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5 ) {
-            this.setState( { notification: <Alert alertMessage = "Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose = { this.closeNotification } /> } );
+            this.setState({ notification: <Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ this.closeNotification }/> });
          } else {
             //getnextuserID
             axios.get('userIDByUsername/nextUserID.json').then((e) => {
@@ -70,11 +65,9 @@ class Authentication extends Component {
                         if(!e.data) {
                             this.setNewUser(newUserValue, newPasswordValue, newUserID); 
                         } else {
-                            this.setState({ notification: <Alert alertMessage = "Username is already taken!" alertClose = { this.closeNotification } /> });
+                            this.setState({ notification: <Alert alertMessage="Username is already taken!" alertClose={ this.closeNotification }/> });
                         }
-                    }).catch((error) => {               
-                        return 300;
-                    });//axios get username they are wanting to register as
+                    }).catch((error) => { return 300; });
                 }
             });
          }
@@ -84,15 +77,13 @@ class Authentication extends Component {
     setNewUser = (newUser, newPassword, newUserID) => {
         newUser = DOMPurify.sanitize(newUser);
         newUser = newUser.replace(/[^\w]/g,'');
-
         newPassword = DOMPurify.sanitize(newPassword);
         newPassword = newPassword.replace(/[^\w^!?$]/g,'');
-
         newUserID = DOMPurify.sanitize( newUserID ); 
         newUserID = newUserID.replace(/[^\w!?$]/g,'');      
         //add user to Users in db
             let newCompleteUser = {
-                    //passwordHash is a npm install. gernerate by default has 8 salts and strong one way encryption.
+                    //passwordHash is a npm install. generates by default has 8 salts and strong one way encryption.
                     password: passwordHash.generate(newPassword),
                     userID: newUserID,
                     userName: newUser
@@ -120,7 +111,7 @@ class Authentication extends Component {
                     //update db to latest version
                     axios.put('userIDByUsername.json',  combinedUserIDByUsername);
                 }
-            );//axios get old usernames and iD
+            );
         // end of adds user to userIDByUsername
         //start add to usersChatRooms in DB
                 //ucr stands for UserChatRoom
@@ -133,23 +124,19 @@ class Authentication extends Component {
         //inform user that account was created
         let accountMessage = DOMPurify.sanitize("Your account has been created! Username: '" + newUser + "'");
         accountMessage = accountMessage.replace(/[^\w\s!?$]/g,'');
-        this.setState({ notification: <Alert alertMessage = { accountMessage } alertClose = { this.closeNotification } /> });
+        this.setState({ notification: <Alert alertMessage={ accountMessage } alertClose={ this.closeNotification }/> });
     }
     
     checkName = (authValues, userNameElement, passwordElement) => {
         let username = userNameElement.value || userNameElement;
         let password = passwordElement.value || passwordElement;
         let userID = null;
-    
         username = DOMPurify.sanitize(username);
         username = username.replace(/[^\w]/g,'');
-
         password = DOMPurify.sanitize(password);
         password = password.replace(/[^\w^!?$]/g,'');
-
         userID = DOMPurify.sanitize(userID);
         userID = userID.replace(/[^\w^!?$]/g,'');
-
         //prevents page from reloading. forms by default cause pages to reload.
         if(authValues) {
             authValues.preventDefault();
@@ -172,30 +159,26 @@ class Authentication extends Component {
                         this.checkPwdForUserID(username, userID, password);
                     }
                 }
-            })//axios get userID by Username 
-        }//if username was provided
+            })
+        }
     }
 
     checkPwdForUserID = (checkUsername, checkUserID, checkPassword) => {
        checkUsername = DOMPurify.sanitize(checkUsername);
        checkUsername = checkUsername.replace(/[^\w]/g,'');
-
        checkUserID = DOMPurify.sanitize(checkUserID);
        checkUserID = checkUserID.replace(/[^\w]/g,'');
-
        checkPassword = DOMPurify.sanitize(checkPassword);
        checkPassword = checkPassword.replace(/[^\w^!?$]/g,'');
-
         //axios get password for a given user
         axios.get('users/u' + checkUserID + '/password.json').then(
             (e) => {
                 //if pwd is correct
                 // e.data is the 
-                if (passwordHash.verify(checkPassword, e.data)) {
-                    this.props.setAuthentication(true);
+                if (passwordHash.verify(checkPassword, e.data)) {    
                     this.props.setUserId(checkUserID);
-                    //set username user id and authentication in state   
-                    this.props.setUsername(checkUsername)              
+                    this.props.setUsername(checkUsername); 
+                    setTimeout(() => { this.props.setAuthentication(true); } ,200)                           
                 }
                 //pwd was incorrect
                 else {
@@ -204,15 +187,10 @@ class Authentication extends Component {
                     this.props.setUsername(null);
                     this.props.setAuthentication(false);
                     //tell the user that credientals were incorrect
-                    this.setState({ notification: <Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } /> });
+                    this.setState({ notification: <Alert alertMessage="Incorrect username or password." alertClose={ this.closeNotification }/> });
                 }
             }
         )
-    }
-
-    logout = () => {
-        this.props.setAuthentication(false);
-        this.props.setUserId(null);
     }
 
     closeNotification = () => {
@@ -222,7 +200,7 @@ class Authentication extends Component {
     ifAuthenticated = () => {
         //if authenticated go to messenger
         if(this.props.authenticated) {
-            messenger = <Messenger authenticated = { this.props.authenticated } userID = { this.props.userId} username = { this.props.username } authLogout = { this.logout }/>;
+            messenger = <Messenger />;
         } 
         //else not authenticated stay on login page to login in
         else {
