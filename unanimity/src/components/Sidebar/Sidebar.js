@@ -358,7 +358,7 @@ class Sidebar extends Component {
 
                                                 this.addChatRoomToSidebar(e.data, chatRoomsArray, currentChatRoomID );
                                                                                                                                 
-                                        });//axios get username for the current chatRoom user
+                                        }).catch((error) => { console.log(error) });//axios get username for the current chatRoom user
 
                                     }//if current chatRoomuserID === current userID logged in 
                                                                                                     
