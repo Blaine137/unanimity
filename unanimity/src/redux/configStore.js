@@ -8,6 +8,7 @@ export const ConfigStore = createStore(
         authentication: reducers.authenticationReducer,
         setLanding: reducers.setLandingReducer,
         setContact: reducers.setContactReducer,
+        messenger: reducers.setShowSidebarReducer,
     }),
     applyMiddleware(thunk, logger)
 );

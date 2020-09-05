@@ -31,3 +31,15 @@ export const authenticationReducer = (state = { authenticated: false, userId: nu
     }
 };
 
+export const setShowSidebarReducer = (state = { showSidebar: true }, action) => {
+
+    switch(action.type){
+
+        case actionsTypes.SET_SHOWSIDEBAR:
+            return { ...state, showSidebar: action.payload };
+        default:
+            return state;
+
+    }
+
+};

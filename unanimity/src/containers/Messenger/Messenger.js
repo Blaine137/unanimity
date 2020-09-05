@@ -5,7 +5,7 @@ import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
 import DOMPurify from 'dompurify';
 import Alert from '../../components/Alert/Alert';
-import { setAuthentication, setUserId, setUsername } from '../../redux/actions';
+import { setAuthentication, setUserId, setUsername, setShowSidebar } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -13,6 +13,7 @@ const mapStateToProps = state => {
         authenticated: state.authentication.authenticated,
         userId: state.authentication.userId,
         username: state.authentication.username,
+        showSidebar: state.messenger.showSidebar,
     };
 };
 
@@ -20,6 +21,7 @@ const mapDispatchToProps = {
     setAuthentication: (authStatus) => (setAuthentication(authStatus)),
     setUserId: (userId) => (setUserId(userId)),
     setUsername: (username) => (setUsername(username)),
+    setShowSidebar: (showSidebar) => (setShowSidebar(showSidebar)),
 };
 
 class Messenger extends Component {
