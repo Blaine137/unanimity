@@ -7,7 +7,8 @@ import Alert from '../../components/Alert/Alert';
 //import npm pass https://www.npmjs.com/package/password-hash
 import * as passwordHash from 'password-hash';
 import { connect } from 'react-redux';
-import { setAuthentication, setUserId, setUsername } from '../../redux/actions';
+import { setAuthentication, setUserId, setUsername, setNotification } from '../../redux/actions';
+import Nav from '../../components/Nav/Nav';
 //messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
 let messenger = null;
 
@@ -16,18 +17,18 @@ const mapStateToProps = state => {
         authenticated: state.authentication.authenticated,
         userId: state.authentication.userId,
         username: state.authentication.username,
+        notification: state.messenger.notification,
     };
 };
 
 const mapDispatchToProps = {
-    setAuthentication: (authStatus) => (setAuthentication(authStatus)),
-    setUserId: (userId) => (setUserId(userId)),
-    setUsername: (username) => (setUsername(username)),
+    setAuthentication: authStatus => setAuthentication(authStatus),
+    setUserId: userId => setUserId(userId),
+    setUsername: username => setUsername(username),
+    setNotification: notification => setNotification(notification)
 };
 
 class Authentication extends Component {
-    state = { notification: null }
-    
     componentDidMount() {
         this.props.setAuthentication(false);
         this.props.setUserId(null);
@@ -49,11 +50,11 @@ class Authentication extends Component {
         event.preventDefault();
         //a valid length
         if(newUserValue.length > 10 || newPasswordValue.length > 20) {
-            this.setState({ notification: <Alert alertMessage = "Username must be less than 10 characters and password must be less than 20." alertClose = { this.closeNotification } /> });
+            this.props.setNotification([<Alert alertMessage = "Username must be less than 10 characters and password must be less than 20." alertClose = { this.closeNotification } />]);
          }//if valid length
          //if newUser and newPassword not null
          else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5 ) {
-            this.setState({ notification: <Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ this.closeNotification }/> });
+            this.props.setNotification([<Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ this.closeNotification }/>])
          } else {
             //getnextuserID
             axios.get('userIDByUsername/nextUserID.json').then((e) => {
@@ -65,7 +66,7 @@ class Authentication extends Component {
                         if(!e.data) {
                             this.setNewUser(newUserValue, newPasswordValue, newUserID); 
                         } else {
-                            this.setState({ notification: <Alert alertMessage="Username is already taken!" alertClose={ this.closeNotification }/> });
+                            this.props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ this.closeNotification }/>]);
                         }
                     }).catch((error) => { return 300; });
                 }
@@ -124,7 +125,7 @@ class Authentication extends Component {
         //inform user that account was created
         let accountMessage = DOMPurify.sanitize("Your account has been created! Username: '" + newUser + "'");
         accountMessage = accountMessage.replace(/[^\w\s!?$]/g,'');
-        this.setState({ notification: <Alert alertMessage={ accountMessage } alertClose={ this.closeNotification }/> });
+        this.props.setNotification([<Alert alertMessage={ accountMessage } alertClose={ this.closeNotification }/>]);
     }
     
     checkName = (authValues, userNameElement, passwordElement) => {
@@ -149,7 +150,7 @@ class Authentication extends Component {
             axios.get('userIDByUsername/' + username + '.json').then((e) => {
                 //if username was not found
                 if(!e.data) {
-                    this.setState( { notification: <Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } /> });
+                    this.props.setNotification([<Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } />]);
                 } else {
                     //set the userID if the username was found
                     userID = e.data;
@@ -187,14 +188,14 @@ class Authentication extends Component {
                     this.props.setUsername(null);
                     this.props.setAuthentication(false);
                     //tell the user that credientals were incorrect
-                    this.setState({ notification: <Alert alertMessage="Incorrect username or password." alertClose={ this.closeNotification }/> });
+                    this.props.setNotification([<Alert alertMessage="Incorrect username or password." alertClose={ this.closeNotification }/>]);
                 }
             }
         )
     }
 
     closeNotification = () => {
-        this.setState({ notification: null });
+        this.props.setNotification(null);
     }
 
     ifAuthenticated = () => {
@@ -212,9 +213,12 @@ class Authentication extends Component {
         this.ifAuthenticated();
         return(
             <Fragment>
-                { this.state.notification }
-                { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
-                { messenger }
+                <main>
+                    <Nav goToAuth={ this.props.goToAuth } goToContact = { this.props.goToContact } />
+                    { this.props.notification }
+                    { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
+                    { messenger }
+                </main>
             </Fragment>
         );
     }

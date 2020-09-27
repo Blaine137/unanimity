@@ -28,6 +28,7 @@ class App extends Component {
 
 	goToAuth = () => {
 		this.props.setLanding(false);
+		this.props.setContactForm(false);
 	}
 
 	goToContact = () => {
@@ -43,11 +44,11 @@ class App extends Component {
 		display = <Landing goToAuth = { this.goToAuth } goToContact = { this.goToContact } />;
 		} else {
 		//landing is false show auth page
-		display = <Authentication />;
+		display = <Authentication goToAuth={ this.goToAuth } goToContact={ this.goToContact } />;
 		}
 
 		if(this.props.contactForm) {
-			display = <ContactForm />;
+			display = <ContactForm goToAuth={ this.goToAuth } goToContact={ this.goToContact } />;
 		}
 
 		return (

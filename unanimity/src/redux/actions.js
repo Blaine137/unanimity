@@ -6,7 +6,9 @@ export const SET_USERNAME = 'SET_USERNAME';
 export const SET_SHOWSIDEBAR = 'SET_SHOWSIDEBAR';
 export const SET_CURRENTCHATROOMID = 'SET_CURRENTCHATROOMID';
 export const SET_CURRENTCHATROOM = 'SET_CURRENTCHATROOM';
+export const SET_CURRENTCHATROOMNAME = 'SET_CURRENTCHATROOMNAME';
 export const SET_USERSCHATROOMSID = 'SET_USERSCHATROOMSID';
+export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 
 export const setLanding = landingStatus => ({
     type: SET_LANDING,
@@ -18,17 +20,17 @@ export const setContactForm = contactStatus => ({
     payload: contactStatus
 });
 
-export const setAuthentication = (authStatus = false) => ({
+export const setAuthentication = (authStatus) => ({
     type: SET_AUTHENTICATION,
     payload: authStatus
 });
 
-export const setUserId = (userId = null) => ({
+export const setUserId = (userId) => ({
     type: SET_USER_ID,
     payload: userId
 });
 
-export const setUsername = (username = null) => ({
+export const setUsername = (username) => ({
     type: SET_USERNAME,
     payload: username
 });
@@ -38,19 +40,29 @@ export const setShowSidebar = (showSidebar) => ({
     payload: showSidebar
 });
 
-export const setCurrentChatRoomID = (currentChatRoomID = null) => ({
+export const setCurrentChatRoomID = (currentChatRoomID) => ({
     type: SET_CURRENTCHATROOMID,
     payload: currentChatRoomID
 });
 
-export const setCurrentChatRoom = (currentChatRoom = null) => ({
+export const setCurrentChatRoom = (currentChatRoom) => ({
     type: SET_CURRENTCHATROOM,
     payload: currentChatRoom
+});
+
+export const setCurrentChatRoomName = (currentChatRoomName) => ({
+    type: SET_CURRENTCHATROOMNAME,
+    payload: currentChatRoomName
 });
 
 export const setUsersChatRoomsID = (usersChatRoomsID) => ({
     type: SET_USERSCHATROOMSID,
     payload: usersChatRoomsID
+});
+
+export const setNotification = (notification) => ({
+    type: SET_NOTIFICATION,
+    payload: notification
 });
 
 
