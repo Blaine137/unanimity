@@ -5,7 +5,7 @@ import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
 import DOMPurify from 'dompurify';
 import Alert from '../../components/Alert/Alert';
-import { setAuthentication, setUserId, setUsername, setShowSidebar } from '../../redux/actions';
+import { setAuthentication, setUserId, setUsername, setShowSidebar, setCurrentChatRoomID, setCurrentChatRoom, setUsersChatRoomsID } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -14,21 +14,24 @@ const mapStateToProps = state => {
         userId: state.authentication.userId,
         username: state.authentication.username,
         showSidebar: state.messenger.showSidebar,
+        currentChatRoomID: state.messenger.currentChatRoomID,
+        currentChatRoom: state.messenger.currentChatRoom,
+        usersChatRoomsID: state.messenger.usersChatRoomsID
     };
 };
 
 const mapDispatchToProps = {
-    setAuthentication: (authStatus) => (setAuthentication(authStatus)),
-    setUserId: (userId) => (setUserId(userId)),
-    setUsername: (username) => (setUsername(username)),
-    setShowSidebar: (showSidebar) => (setShowSidebar(showSidebar)),
+    setAuthentication: (authStatus) => setAuthentication(authStatus),
+    setUserId: userId => setUserId(userId),
+    setUsername: username => setUsername(username),
+    setShowSidebar: showSidebar => setShowSidebar(showSidebar),
+    setCurrentChatRoomID: currentChatRoomID => setCurrentChatRoomID(currentChatRoomID),
+    setCurrentChatRoom: currentChatRoom => setCurrentChatRoom(currentChatRoom),
+    setUsersChatRoomsID: usersChatRoomsID => setUsersChatRoomsID(usersChatRoomsID)
 };
 
 class Messenger extends Component {
     state = {
-        usersChatRoomsID: [],
-        currentChatRoom: {},
-        currentChatRoomID: null,
         currentChatRoomName: 'Unanimity',
         sidebarInlineStyles: { display: 'block' },
         renderHeader: false,
@@ -63,13 +66,13 @@ class Messenger extends Component {
         //every second update the current chatroom. this make sure we can see if the other user sent a message.
         this.interval = setInterval(() => {
             //if a chatroom has been selected
-            if(this.state.currentChatRoomID && this.state.currentChatRoom !== 'Unanimity') {
-                let oldID = this.state.currentChatRoomID;
+            if(this.props.currentChatRoomID && this.props.currentChatRoom !== 'Unanimity') {
+                let oldID = this.props.currentChatRoomID;
                 //get the messages for the current chatroom                
                 axios.get( 'chatRooms/' + oldID + '.json' ).then( ( res ) => {
                     //if the current chatroom has not changes since we started and there is new messages update the state
-                    if(this.state.currentChatRoom !== res.data && oldID === this.state.currentChatRoomID) {
-                        this.setState({ currentChatRoom: res.data });
+                    if(this.props.currentChatRoom !== res.data && oldID === this.props.currentChatRoomID) {
+                        this.props.setCurrentChatRoom(res.data);
                     }
                 });
             }
@@ -121,8 +124,8 @@ class Messenger extends Component {
             axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
                 (e) => {
                     //if the data has changed update it.
-                    if(e.data !== this.state.usersChatRoomsID) {
-                        this.setState({ usersChatRoomsID: e.data });
+                    if(e.data !== this.props.usersChatRoomsID) {
+                        this.props.setUsersChatRoomsID(e.data);
                     }
                 }
             );
@@ -168,11 +171,9 @@ class Messenger extends Component {
         this.setCurrentChatRoomName(setChatRoomID);
         //gets object with messages for each user and next message number
         axios.get('chatRooms/' + setChatRoomID + '/.json').then(
-            (e) => {         
-                this.setState({
-                    currentChatRoom: e.data,
-                    currentChatRoomID: setChatRoomID
-                })
+            (e) => {  
+                this.props.setCurrentChatRoomID(setChatRoomID);       
+                this.props.setCurrentChatRoom(e.data);
             }
         );
     }
@@ -224,14 +225,14 @@ class Messenger extends Component {
     //called by input once a user enters a new message
     newMessage = (newMessage) => {
         //current chat room object with all the messages
-        let messageChatRoom = Object.entries(this.state.currentChatRoom);
+        let messageChatRoom = Object.entries(this.props.currentChatRoom);
         let authenticaedUserMessageOld = [];
         let authenticaedUserMessageCombined = [];
         let nextMsgNum = null;
         //set maximum allowed message length. make sure we have a message. and make sure a chatRoom is selected
-        if(newMessage.length > 0 && newMessage.length < 2000 && this.state.currentChatRoom != null) {
+        if(newMessage.length > 0 && newMessage.length < 2000 && this.props.currentChatRoom != null) {
             //set authenticatedUserMessageOld and nextMSg number from this.state.currentChatRoom
-            Object.entries(this.state.currentChatRoom).forEach((user) => {
+            Object.entries(this.props.currentChatRoom).forEach((user) => {
                 //if the message user id is the current authenticated user id
                 if(user[0] === ("u" + this.props.userId)) {
                     //in this if user[0] is "u" + userID of the message. user[1] is message  (u +userID, Message).
@@ -268,9 +269,9 @@ class Messenger extends Component {
             //convert our finished data from an array back to object to match the DB structure
             messageChatRoom = Object.fromEntries(messageChatRoom);
             //update the DB with all the new data. 
-            axios.put("chatRooms/" + this.state.currentChatRoomID + ".json", messageChatRoom);
+            axios.put("chatRooms/" + this.props.currentChatRoomID + ".json", messageChatRoom);
             //update our current chatRoom
-            this.setState({ currentChatRoom: messageChatRoom });
+            this.props.setCurrentChatRoom(messageChatRoom);
         }
     }
 
@@ -338,11 +339,11 @@ class Messenger extends Component {
 
                         // --------- start update usersChatRooms for authenticated user and recipent ---------
                         //start update for Authenticated user
-                        if(this.state.usersChatRoomsID) {
+                        if(this.props.usersChatRoomsID) {
                             //gets the latest data. this step prevents form add chatroom adding chatroom references to deleted chatroom
                             axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
                                 (e) => {
-                                    this.setState({ usersChatRoomsID: e.data }); //adds all chatroom's that authenticated user is in
+                                    this.props.setUsersChatRoomsID(e.data); //adds all chatroom's that authenticated user is in
                                     updatedAuthUserChatRoomsID = e.data;
                                     //add the newChatRoomID to the authenticated user chatRoomsID
                                     updatedAuthUserChatRoomsID.push( newChatRoomID );
@@ -451,9 +452,9 @@ class Messenger extends Component {
                     // if we have a valid recipent
                     if(recipentID !== null) {
                         //if the auth user has other chatroom check to see if the recipent is in one of those
-                        if(this.state.usersChatRoomsID !== null) {
+                        if(this.props.usersChatRoomsID !== null) {
                             //for each auth userChatroom. check to see if the recipent is in one of those chatroom's
-                            this.state.usersChatRoomsID.forEach((chatRoomID) => {
+                            this.props.usersChatRoomsID.forEach((chatRoomID) => {
                                 //for the current chatRoom get the users in that chatroom
                                 axios.get('chatRoomsUsers/cru' + chatRoomID + '.json').then(
                                     (result) => {
@@ -514,8 +515,9 @@ class Messenger extends Component {
                         //deletes data by setting it equal to an empty object. firebase then automatically removes empty objects
                         axios.put('chatRoomsUsers/cru' + removeChatRoomID + '.json', empty).then(() => {
                             //if deleted chatroom is the current chatroom
-                            if(this.state.currentChatRoomID === removeChatRoomID) {
+                            if(this.props.currentChatRoomID === removeChatRoomID) {
                                 //set the current chatroom to Unanimity instead of the chatroom that dose not exist
+                                
                                 this.setState({currentChatRoomName: 'Unanimity'}); 
                             }
                         }).catch((e) => { console.log("error overriding/deleting chatRoomUsers for " + removeChatRoomID + "axios error: " + e) });
@@ -603,8 +605,8 @@ class Messenger extends Component {
         }
         //prevents sidebar from erring out by returning an empty array instead of null or undefined.
         let sidebarusersChatRoomsID;
-        if(this.state.usersChatRoomsID !== null) {
-            sidebarusersChatRoomsID = this.state.usersChatRoomsID;
+        if(this.props.usersChatRoomsID !== null) {
+            sidebarusersChatRoomsID = this.props.usersChatRoomsID;
         } else {
             sidebarusersChatRoomsID = [];
         }
@@ -626,7 +628,7 @@ class Messenger extends Component {
                 <div className = { styles.mainContentGrid } style = { mainContentInlineStyles } >
                     <MainContent 
                         newMessage = { this.newMessage }
-                        currentChatRoom = { this.state.currentChatRoom }
+                        currentChatRoom = { this.props.currentChatRoom }
                         currentChatRoomName = { this.state.currentChatRoomName }
                         authUsername = { this.props.username }
                         authUID = { this.props.userId }

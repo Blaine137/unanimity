@@ -4,6 +4,9 @@ export const SET_AUTHENTICATION = 'SET_AUTHENTICATION';
 export const SET_USER_ID = 'SET_USER_ID';
 export const SET_USERNAME = 'SET_USERNAME';
 export const SET_SHOWSIDEBAR = 'SET_SHOWSIDEBAR';
+export const SET_CURRENTCHATROOMID = 'SET_CURRENTCHATROOMID';
+export const SET_CURRENTCHATROOM = 'SET_CURRENTCHATROOM';
+export const SET_USERSCHATROOMSID = 'SET_USERSCHATROOMSID';
 
 export const setLanding = landingStatus => ({
     type: SET_LANDING,
@@ -33,6 +36,21 @@ export const setUsername = (username = null) => ({
 export const setShowSidebar = (showSidebar) => ({
     type: SET_SHOWSIDEBAR,
     payload: showSidebar
+});
+
+export const setCurrentChatRoomID = (currentChatRoomID = null) => ({
+    type: SET_CURRENTCHATROOMID,
+    payload: currentChatRoomID
+});
+
+export const setCurrentChatRoom = (currentChatRoom = null) => ({
+    type: SET_CURRENTCHATROOM,
+    payload: currentChatRoom
+});
+
+export const setUsersChatRoomsID = (usersChatRoomsID) => ({
+    type: SET_USERSCHATROOMSID,
+    payload: usersChatRoomsID
 });
 
 
