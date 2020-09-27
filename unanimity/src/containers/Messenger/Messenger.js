@@ -30,7 +30,6 @@ class Messenger extends Component {
         currentChatRoom: {},
         currentChatRoomID: null,
         currentChatRoomName: 'Unanimity',
-        showSidebar: true,
         sidebarInlineStyles: { display: 'block' },
         renderHeader: false,
         notification: null
@@ -180,10 +179,11 @@ class Messenger extends Component {
 
     //called onClick of the hamburger in the malcontent/header.js
     setShowSidebar = (closeOnly) => {
+        
         //the x in the sidebar for mobile was clicked then close only == true
         if(closeOnly === true) {
             //set the sidebar to be closed
-            this.setState({ showSidebar: false });
+            this.props.setShowSidebar(false);
             //wait for the set state and animation to complete then make the sidebar disappear completely 
             setTimeout(() => {
                 this.setState({
@@ -194,8 +194,8 @@ class Messenger extends Component {
             }, 1000);
         } else {
                 //if sidebar was showing and we click hamburger. close the sidebar
-                if(this.state.showSidebar) {
-                    this.setState({ showSidebar: false });
+                if(this.props.showSidebar) {
+                    this.props.setShowSidebar(false);
                     //wait for the set state and sidebar animations to complete then remove the sidebar completely
                     setTimeout(() => {
                         this.setState({
@@ -215,9 +215,7 @@ class Messenger extends Component {
                     });
                     //wait for it to be visible then set it to be true
                     setTimeout(() => {
-                        this.setState({
-                            showSidebar: true
-                        });
+                        this.props.setShowSidebar(true);
                     }, 150);
                 }
         }
@@ -595,7 +593,7 @@ class Messenger extends Component {
     render() {
         let mainContentInlineStyles = {};
         //if sidebar is not showing 
-        if(!this.state.showSidebar) {
+        if(!this.props.showSidebar) {
             //make main content span entire width of screen
             mainContentInlineStyles = {
                 transform: 'translateX( -20vw )',
@@ -619,7 +617,7 @@ class Messenger extends Component {
                 <Sidebar usersChatRoomsID = { sidebarusersChatRoomsID }
                     userID = { this.props.userId }
                     setCurrentChatRoomID = { this.setCurrentChatRoom }
-                    showSidebar = { this.state.showSidebar }
+                    showSidebar = { this.props.showSidebar }
                     addChatRoom = { this.newChatRoom }
                     deleteChatRoom = { this.removeChatRoom }
                     toggleSidebar = { this.setShowSidebar }
@@ -633,7 +631,7 @@ class Messenger extends Component {
                         authUsername = { this.props.username }
                         authUID = { this.props.userId }
                         toggleSidebar = { this.setShowSidebar }
-                        showSidebar = { this.state.showSidebar  }
+                        showSidebar = { this.props.showSidebar  }
                         setAuth = { this.setAuthentication }
                         showAlert = { this.setNotification }
                     />
