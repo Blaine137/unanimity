@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import styles from './ContactForm.module.scss';
 import Alert from '../Alert/Alert';
 import DOMPurify from 'dompurify';
@@ -23,7 +23,7 @@ let ContactForm = (props) => {
     return(
         <Fragment>
             <main >
-                <Nav goToAuth={ props.goToAuth } goToContact = { props.goToContact } />
+                <Nav />
                 { props.notification }
                 <div className = { styles.wrapper }>
                     <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>                         

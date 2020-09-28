@@ -34,9 +34,9 @@ main {
 }
 
 .chatButton {
-
     margin: 15vh 0 10vh 0;
     background-color: #05386B;
+    text-decoration: none;
     color: white;
     padding: 0 3rem;
     max-width: 600px;
@@ -44,15 +44,13 @@ main {
     border-radius: 1rem;
     border: none;
     font-size: 1rem;
-
     &:focus, &:hover {
         
         transform: scale( 1.2 );
         transition: all ease-in-out .25s;
 
-    }//&:focus, &:hover
-
-}//.chatButton
+    }
+}
 
 //tablet
 @media only screen and ( min-width: 700px ) {

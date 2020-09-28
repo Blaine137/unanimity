@@ -201,24 +201,21 @@ class Authentication extends Component {
     ifAuthenticated = () => {
         //if authenticated go to messenger
         if(this.props.authenticated) {
-            messenger = <Messenger />;
+        messenger =  <Messenger />;
         } 
         //else not authenticated stay on login page to login in
         else {
-            messenger = <LoginForm checkName = { this.checkName } checkForNewUser = { this.checkForNewUser }/>              
+        messenger = <main><Nav />, <LoginForm checkName = { this.checkName } checkForNewUser = { this.checkForNewUser }/></main>;              
         }
     }
 
     render() {
         this.ifAuthenticated();
         return(
-            <Fragment>
-                <main>
-                    <Nav goToAuth={ this.props.goToAuth } goToContact = { this.props.goToContact } />
+            <Fragment>                                 
                     { this.props.notification }
                     { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
                     { messenger }
-                </main>
             </Fragment>
         );
     }
