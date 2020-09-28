@@ -14,13 +14,9 @@ ul{
         
 }
 
-li{
+li {
     display: inline;
     list-style: none;
-    color: #05386B;
-        &:first-child{
-            margin-right: 1rem;
-        }
         &:hover, &:focus{
             font-size: 1.1rem;
             transition: all ease-in-out .25s;
