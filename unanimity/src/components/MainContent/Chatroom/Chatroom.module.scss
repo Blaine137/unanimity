@@ -1,4 +1,4 @@
-.container{
+.container {
     overflow-y: scroll;
     height: 65vh;
     position: relative;
@@ -8,13 +8,9 @@
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
     width: 100%;
-    
     box-sizing: content-box;
-        &::-webkit-scrollbar{
-            display: none;
-        } 
+    &::-webkit-scrollbar{
+         display: none;
+    } 
 }
-
-.introMsg{
-    text-align: center;
-}
+.introMsg { text-align: center; }

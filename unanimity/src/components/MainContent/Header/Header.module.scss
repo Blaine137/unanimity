@@ -1,38 +1,29 @@
-.burger{
+.burger {
   cursor: pointer;
   float: left;
   transform: scale(.8);
-  //using scale so that we dont have to mess with the x sizing
 }
-
 .close {
   float: left;
   margin-top: .5rem;
   transform: scale(.8);
- 
-  &:hover{
-    cursor: pointer;
-  }
-  
+  &:hover { cursor: pointer; }
 }
-
-.closeTop{
+.closeTop {
   height: 5px;
   width: 50px;
   background-color: #05386B;
   transform: rotate(45deg);
   transition: transform .5s ease-in-out;
 }
-
-.closeMiddle{
+.closeMiddle {
   height: 5px;
   width: 50px;
   background-color: #05386B;
   display: none;
   transition: transform .5s ease-in-out;
 }
-
-.closeBottom{
+.closeBottom {
   height: 5px;
   width: 50px;
   background-color: #365F88;
@@ -40,8 +31,7 @@
   transform: rotate(-45deg);
   transition: transform .5s ease-in-out;
 }
-
-.openTop{
+.openTop {
   height: 5px;
   width: 50px;
   background-color: #05386B;
@@ -49,24 +39,21 @@
   transform: rotate(0deg);
   transition: transform .5s ease-in-out;
 }
-
-.openMiddle{
+.openMiddle {
   height: 5px;
   width: 50px;
   margin-bottom: 5px;
   background-color: #05386B;
   transition: transform .5s ease-in;
 }
-
-.openBottom{
+.openBottom {
   height: 5px;
   width: 50px;
   background-color: #05386B;
   transform: rotate(0deg);
   transition: transform .5s ease-in-out;  
 }
-
-.header{
+.header {
     font-weight: bold;
     width: inherit;
     height: 3.25rem;
@@ -80,17 +67,15 @@
       text-transform: capitalize;
     } 
 }
-
-.circle1, .circle2, .circle3{
+.circle1, .circle2, .circle3 {
   margin-top: 3px;
   background-color: #05386B;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  
 }
 /*three dot options opener*/
-.options{
+.options {
   float: right;
   cursor: pointer;
   padding: 0 1rem;
@@ -120,12 +105,7 @@
     cursor: pointer;
   }
 }
-
 @keyframes optionMenuFade {
-  from{
-    opacity: .05;
-  }
-  to{
-    opacity: 1;
-  }
+  from { opacity: .05; }
+  to { opacity: 1; }
 }

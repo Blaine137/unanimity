@@ -11,7 +11,7 @@ import { setAuthentication, setUserId, setUsername, setNotification } from '../.
 import Nav from '../../components/Nav/Nav';
 //messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
 let messenger = null;
-
+ 
 const mapStateToProps = state => {
     return {
         authenticated: state.authentication.authenticated,
@@ -213,9 +213,9 @@ class Authentication extends Component {
         this.ifAuthenticated();
         return(
             <Fragment>                                 
-                    { this.props.notification }
-                    { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
-                    { messenger }
+                { this.props.notification }
+                { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
+                { messenger }
             </Fragment>
         );
     }

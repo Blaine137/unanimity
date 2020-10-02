@@ -62,31 +62,6 @@ class Messenger extends Component {
         clearInterval(this.interval);
     }
 
-    /* updates the chatrooms every half of a second */
-    updateChatRoom() {
-        //every second update the current chatroom. this make sure we can see if the other user sent a message.
-        this.interval = setInterval(() => {
-            //if a chatroom has been selected
-            if(this.props.currentChatRoomID && this.props.currentChatRoom !== 'Unanimity') {
-                let oldID = this.props.currentChatRoomID;
-                //get the messages for the current chatroom                
-                axios.get( 'chatRooms/' + oldID + '.json' ).then( ( res ) => {
-                    //if the current chatroom has not changes since we started and there is new messages update the state
-                    if(this.props.currentChatRoom !== res.data && oldID === this.props.currentChatRoomID) {
-                        this.props.setCurrentChatRoom(res.data);
-                    }
-                });
-            }
-            //check for new chatroom's in the db
-            this.setUsersChatRoomsID();
-            //if authentication get set to false
-            if(this.props.authenticated === false) {
-                //set auth in authentication to false so that it prevents from being able to use app
-                this.props.authLogout();
-            }
-        }, 500);
-    }
-
     closeNotification = () => {
         this.props.setNotification(null);
     }
@@ -115,69 +90,6 @@ class Messenger extends Component {
             this.props.setUserId(null);
             this.props.setUsername(null);
         }
-    }
-
-    //gets array of chatRoomsID that the user is in and sets userChatRoomsID in state. called by mount and update
-    setUsersChatRoomsID = () => {
-        //ucr stands for user Chat Room.
-        //get array that contains all the chatRoomIDs that the user is a part of
-        if(this.props.userId) {
-            //get auth user ucr
-            axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
-                (e) => {
-                    //if the data has changed update it.
-                    if(e.data !== this.props.usersChatRoomsID) {
-                        this.props.setUsersChatRoomsID(e.data);
-                    }
-                }
-            );
-        }     
-    }
-
-    //called by setCurrentChatRoom
-    setCurrentChatRoomName = (ChatRoomIDForName) => {
-        /*
-            This function only works for chatroom's that contain two people. you and a recipient. 
-        */
-        if(ChatRoomIDForName) {
-            //for the passed in chatRoomName get the users in that chatRoom
-            axios.get('chatRoomsUsers/cru' + ChatRoomIDForName + '/users.json').then(
-                (e) => {
-                    if (e.data) {
-                        //find index of our id in the array of users.
-                        let userIndex = e.data.indexOf(this.props.userId);
-                        //remove ourself form the array.
-                        e.data.splice(userIndex, 1);
-                        //for recipients in the array set them as chatRoom name
-                        e.data.forEach((singleUserID) => {
-                            //get username by id.
-                            axios.get('users/u' + singleUserID + '/userName.json').then((e) => {
-                                //set the chatroom name to the users name
-                                this.props.setCurrentChatRoomName(e.data);
-                            });
-                        });
-                    }
-                    else {
-                        //no chatroomName so set the chatroom to be the placeholder Unanimity
-                        this.props.setCurrentChatRoomName('Unanimity');
-                    }
-                }
-            ); 
-        }
-    }
-
-    //called by sidebar on click of a chatroom
-    //sets currentChatRoom and currentChatRoomID
-    setCurrentChatRoom = (setChatRoomID) => { 
-        //calls the function to start setting the current chatroom Name
-        this.setCurrentChatRoomName(setChatRoomID);
-        //gets object with messages for each user and next message number
-        axios.get('chatRooms/' + setChatRoomID + '/.json').then(
-            (e) => {  
-                this.props.setCurrentChatRoomID(setChatRoomID);       
-                this.props.setCurrentChatRoom(e.data);
-            }
-        );
     }
 
     //called onClick of the hamburger in the malcontent/header.js
@@ -275,6 +187,94 @@ class Messenger extends Component {
             //update our current chatRoom
             this.props.setCurrentChatRoom(messageChatRoom);
         }
+    }
+
+    /* updates the chatrooms every half of a second */
+    updateChatRoom() {
+        //every second update the current chatroom. this make sure we can see if the other user sent a message.
+        this.interval = setInterval(() => {
+            //if a chatroom has been selected
+            if(this.props.currentChatRoomID && this.props.currentChatRoom !== 'Unanimity') {
+                let oldID = this.props.currentChatRoomID;
+                //get the messages for the current chatroom                
+                axios.get( 'chatRooms/' + oldID + '.json' ).then( ( res ) => {
+                    //if the current chatroom has not changes since we started and there is new messages update the state
+                    if(this.props.currentChatRoom !== res.data && oldID === this.props.currentChatRoomID) {
+                        this.props.setCurrentChatRoom(res.data);
+                    }
+                });
+            }
+            //check for new chatroom's in the db
+            this.setUsersChatRoomsID();
+            //if authentication get set to false
+            if(this.props.authenticated === false) {
+                //set auth in authentication to false so that it prevents from being able to use app
+                this.props.authLogout();
+            }
+        }, 500);
+    }
+
+    //gets array of chatRoomsID that the user is in and sets userChatRoomsID in state. called by mount and update
+    setUsersChatRoomsID = () => {
+        //ucr stands for user Chat Room.
+        //get array that contains all the chatRoomIDs that the user is a part of
+        if(this.props.userId) {
+            //get auth user ucr
+            axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
+                (e) => {
+                    //if the data has changed update it.
+                    if(e.data !== this.props.usersChatRoomsID) {
+                        this.props.setUsersChatRoomsID(e.data);
+                    }
+                }
+            );
+        }     
+    }
+
+    //called by setCurrentChatRoom
+    setCurrentChatRoomName = (ChatRoomIDForName) => {
+        /*
+            This function only works for chatroom's that contain two people. you and a recipient. 
+        */
+        if(ChatRoomIDForName) {
+            //for the passed in chatRoomName get the users in that chatRoom
+            axios.get('chatRoomsUsers/cru' + ChatRoomIDForName + '/users.json').then(
+                (e) => {
+                    if (e.data) {
+                        //find index of our id in the array of users.
+                        let userIndex = e.data.indexOf(this.props.userId);
+                        //remove ourself form the array.
+                        e.data.splice(userIndex, 1);
+                        //for recipients in the array set them as chatRoom name
+                        e.data.forEach((singleUserID) => {
+                            //get username by id.
+                            axios.get('users/u' + singleUserID + '/userName.json').then((e) => {
+                                //set the chatroom name to the users name
+                                this.props.setCurrentChatRoomName(e.data);
+                            });
+                        });
+                    }
+                    else {
+                        //no chatroomName so set the chatroom to be the placeholder Unanimity
+                        this.props.setCurrentChatRoomName('Unanimity');
+                    }
+                }
+            ); 
+        }
+    }
+
+    //called by sidebar on click of a chatroom
+    //sets currentChatRoom and currentChatRoomID
+    setCurrentChatRoom = (setChatRoomID) => { 
+        //calls the function to start setting the current chatroom Name
+        this.setCurrentChatRoomName(setChatRoomID);
+        //gets object with messages for each user and next message number
+        axios.get('chatRooms/' + setChatRoomID + '/.json').then(
+            (e) => {  
+                this.props.setCurrentChatRoomID(setChatRoomID);       
+                this.props.setCurrentChatRoom(e.data);
+            }
+        );
     }
 
     //add onSubmission of popUp for addChatRoom in sidebar component
