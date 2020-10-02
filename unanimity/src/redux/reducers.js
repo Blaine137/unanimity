@@ -3,7 +3,7 @@ import * as actionsTypes from './actions';
 export const setLandingReducer = (state = { landing: true }, action) => {
     switch(action.type) {
         case actionsTypes.SET_LANDING:
-            return {...state, landing: action.payload};
+            return { ...state, landing: action.payload };
         default:
             return state;
     }
@@ -12,7 +12,7 @@ export const setLandingReducer = (state = { landing: true }, action) => {
 export const setContactReducer = (state = { contactForm: false }, action) => {
     switch(action.type) {
         case actionsTypes.SET_CONTACTFORM:
-            return {...state, contactForm: action.payload};
+            return { ...state, contactForm: action.payload };
         default: 
             return state;
     }
@@ -32,19 +32,19 @@ export const authenticationReducer = (state = { authenticated: false, userId: nu
 };
 
 export const messengerReducer = (state = { showSidebar: true, currentChatRoomID: null, currentChatRoom: null, usersChatRoomsID: [], currentChatRoomName: 'Unanimity', notification: null }, action) => {
-    switch(action.type){
+    switch(action.type) {
         case actionsTypes.SET_SHOWSIDEBAR:
             return { ...state, showSidebar: action.payload };
         case actionsTypes.SET_CURRENTCHATROOMID:
-            return {...state, currentChatRoomID: action.payload };
+            return { ...state, currentChatRoomID: action.payload };
         case actionsTypes.SET_CURRENTCHATROOM:
-            return {...state, currentChatRoom: action.payload};
+            return { ...state, currentChatRoom: action.payload };
         case actionsTypes.SET_CURRENTCHATROOMNAME:
-            return {...state, currentChatRoomName: action.payload};
+            return { ...state, currentChatRoomName: action.payload };
         case actionsTypes.SET_USERSCHATROOMSID:
-            return {...state, usersChatRoomsID: action.payload};
+            return { ...state, usersChatRoomsID: action.payload };
         case actionsTypes.SET_NOTIFICATION:
-            return {...state, notification: action.payload};
+            return { ...state, notification: action.payload };
         default:
             return state;
     }

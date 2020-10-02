@@ -5,34 +5,22 @@ nav{
     align-items: center;
     height: 3rem;
 }
-
 ul{
     padding: 0;
     margin: auto;
     width: 100%;
-    text-align: center;
-        
+    text-align: center;     
 }
-
 li {
     display: inline;
     list-style: none;
-        &:hover, &:focus{
-            font-size: 1.1rem;
-            transition: all ease-in-out .25s;
-            cursor: pointer;
-        }
+    &:hover, &:focus{
+        font-size: 1.1rem;
+        transition: all ease-in-out .25s;
+        cursor: pointer;
+    }
 }
-
 @media only screen and ( min-width: 700px ){
-
-    ul{
-        text-align: right;
-    }
-
-    li{
-            margin-right: 2rem;
-        
-    }
-
+    ul{ text-align: right; }
+    li{ margin-right: 2rem; }
 }

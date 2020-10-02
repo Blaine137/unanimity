@@ -1,18 +1,7 @@
-
 *, *:before, *:after {
   box-sizing: inherit;
 }
-
-.wrapper {
-    min-height: 100vh;
-    padding: 1rem;
-   
-}
-
-
-
-.form {
-    
+.form {  
     display: block;
     text-align: left;
     margin: 1rem auto;
@@ -25,16 +14,12 @@
     letter-spacing: .1rem;
     border-radius: 1rem;
 }
-
-fieldset{
-    border: none;
-}
-
 legend{
     padding-bottom: 3rem;
-    text-align: left;
+    font-size: 1.25rem;
+    text-align: center;
+    width: 100%;
 }
-
 .input {
     font-size: 1.25rem;
     background-color: #F6F6F6;
@@ -45,23 +30,30 @@ legend{
     border-bottom: 2px solid #05386B;
     margin-bottom: 3rem;
     transition: all .1s ease-in-out;
-        &:focus{
-            outline: none;
-            border: 1px solid #05386B;
-            border-bottom: 2px solid #05386B;
-            transform: scale(1.1);
-        }
+    &:focus{
+        outline: none;
+        border: 1px solid #05386B;
+        border-bottom: 2px solid #05386B;
+        transform: scale(1.1);
+    }
 }
 label {
     display: block;
     margin-bottom: 1rem;;
 }
-
 textarea{
     display: block;
     margin: 0 auto;
+    padding: .5rem;
+    border-color: #05386B;
+    background-color: #F6F6F6;
+    color: #05386B;
+    border-radius: 1rem;
+    width: 100%;
+    font-size: 1.25rem;
+    transition: all .1s ease-in-out;
+    &:focus{ transform: scale(1.1); }
 }
-
 .submit {
     display: block;
     background-color: #05386B;
@@ -75,22 +67,18 @@ textarea{
     // margin-bottom: 2rem;
     margin: 0 auto;
     margin-top: 2rem;
-        &:focus, &:hover{
-            color: #05386B;
-            background-color: #5CDB95; 
-            transition: all .5s;   
-        }
+    &:focus, &:hover{
+        color: #05386B;
+        background-color: #5CDB95; 
+        transition: all .5s;   
+    }
 }
-
 img {
-   width: 50vw;
-   max-width: 600px;
-   margin: auto;
-
+    height: 10vh;
+    margin: 2vh auto;
 }
-
 /* phablet and up */
-@media only screen and (min-width: 600px){
+@media only screen and (min-width: 600px) {
     .form{
         padding: 3rem;
     }
@@ -105,11 +93,10 @@ img {
     }
 }
 /*tablets and larger*/
-@media only screen and (min-width: 700px){
-.form {
-    padding: 3rem;
-    position: relative;
-    max-width: 500px;
-    max-height: 550px;
-}
+@media only screen and (min-width: 700px) {
+    .form {
+        padding: 3rem;
+        position: relative;
+        max-width: 50vw;
+    }
 }
