@@ -1,6 +1,4 @@
-*, *:before, *:after {
-  box-sizing: inherit;
-}
+*, *:before, *:after { box-sizing: inherit; }
 .form {  
     display: block;
     text-align: left;
@@ -14,7 +12,7 @@
     letter-spacing: .1rem;
     border-radius: 1rem;
 }
-legend{
+legend {
     padding-bottom: 3rem;
     font-size: 1.25rem;
     text-align: center;
@@ -30,7 +28,7 @@ legend{
     border-bottom: 2px solid #05386B;
     margin-bottom: 3rem;
     transition: all .1s ease-in-out;
-    &:focus{
+    &:focus {
         outline: none;
         border: 1px solid #05386B;
         border-bottom: 2px solid #05386B;
@@ -41,7 +39,7 @@ label {
     display: block;
     margin-bottom: 1rem;;
 }
-textarea{
+textarea {
     display: block;
     margin: 0 auto;
     padding: .5rem;
@@ -52,7 +50,7 @@ textarea{
     width: 100%;
     font-size: 1.25rem;
     transition: all .1s ease-in-out;
-    &:focus{ transform: scale(1.1); }
+    &:focus { transform: scale(1.1); }
 }
 .submit {
     display: block;
@@ -67,7 +65,7 @@ textarea{
     // margin-bottom: 2rem;
     margin: 0 auto;
     margin-top: 2rem;
-    &:focus, &:hover{
+    &:focus, &:hover {
         color: #05386B;
         background-color: #5CDB95; 
         transition: all .5s;   
@@ -79,15 +77,13 @@ img {
 }
 /* phablet and up */
 @media only screen and (min-width: 600px) {
-    .form{
-        padding: 3rem;
-    }
-    .register{
+    .form { padding: 3rem; }
+    .register {
         left: 0;
         width: 40%;
         float: right;
     }
-    .submit{
+    .submit {
         width: 40%;
         left: 0;
     }

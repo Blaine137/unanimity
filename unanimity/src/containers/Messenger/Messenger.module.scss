@@ -1,19 +1,18 @@
-.layout{
+.layout {
     position: relative;
     height: 100vh;
     display: grid;
     grid-template-columns: 20vw 80vw;
-     overflow: hidden; 
+    overflow: hidden; 
 }
-.sidebarGrid{
+.sidebarGrid {
     grid-column-start: 1;
     grid-column-end: 1;
     z-index: 1;
     width: 20vw;
-    transition: all 1s ease-in-out;
-    
+    transition: all 1s ease-in-out; 
 }
-.mainContentGrid{
+.mainContentGrid {
     height: 100vh; 
     grid-column-start: 2;
     grid-column-end: 2;
@@ -21,11 +20,3 @@
     width: 80vw;
     transition: all 1s ease-in-out;
 }
-
-
-
-
-
-
-
-

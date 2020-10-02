@@ -1,4 +1,4 @@
-.sidebarContainer{
+.sidebarContainer {
     width: 100vw;
     height: 100vh;
     background-color: #f4f4f4;
@@ -6,22 +6,20 @@
     position: relative;
     transition: all 1s ease-in-out;
 }
-.addContainer{
+.addContainer {
     position: absolute;
     top: 20px;
     left: 5%;
     height: 30px;
     width: 25px;
-    &:hover{
-        cursor: pointer;
-    }
+    &:hover { cursor: pointer; }
 }
-.addButton{
+.addButton {
     height: 6px;
     width: 100%;
     background: green;
     border: none;
-    &::after{
+    &::after {
         content: '';
         height: 6px;
         width: 100%;
@@ -32,8 +30,8 @@
     }
 }
 @keyframes fadein {
-    0%{ width: 0; height: 0; background-color: rgba(96, 96, 96, 0); }
-    70%{ background-color: rgba(96, 96, 96, 0); }
+    0% { width: 0; height: 0; background-color: rgba(96, 96, 96, 0); }
+    70% { background-color: rgba(96, 96, 96, 0); }
     100% {
         width: 100vw;
         height: 100vh;
@@ -49,20 +47,18 @@
     animation-name: fadein;
     animation-duration: .5s;
 }
-.usersContainer {
-    margin: 2rem 0 0 0;
-}
-.users{
+.usersContainer { margin: 2rem 0 0 0; }
+.users {
     text-transform: capitalize;
     color: rgba(5,56,107,0.7);
-    &:hover{
+    &:hover {
         color:#05386B;
         font-weight: bold;
         cursor: grab;
     }       
 }
 /*burger is the closing x for mobile that is located in the sidebar. on mobile the sidebar is wider.*/
-.burger, .closeBurger{
+.burger, .closeBurger {
     position: absolute;
     top: 10px;
     /* 80 percent over minus the width of the x. this prevents from half the x being cut off the screen */
@@ -74,14 +70,14 @@
     margin-bottom: auto;
     display: inline-block;
   }
-  .closeTop{
+  .closeTop {
     height: 5px;
     width: 50px;
     background-color: #05386B;
     transform: rotate(45deg);
     transition: transform .5s ease-in-out;
   }
-  .closeBottom{
+  .closeBottom {
     height: 5px;
     width: 50px;
     background-color: #365F88;
@@ -90,21 +86,21 @@
     transition: transform .5s ease-in-out;
   }
   /* delete stuff is the x that allows you to delete a chatroom in the sidebar*/
-  .deleteContainer{
+  .deleteContainer {
     padding-top: .5rem;
     float: left;
     width: 30px;
     height: 2rem;
     cursor: pointer;
   }
-  .deleteTop{
+  .deleteTop {
     height: 2px;
     width: 20px;
     background-color: darkgrey;
     transform: rotate(45deg);
     transition: transform .5s ease-in-out;
   }
-  .deleteBottom{   
+  .deleteBottom {   
     height: 2px;
     width: 20px;
     background-color: darkgrey;
@@ -129,10 +125,8 @@
     border-radius: 1rem;
     top: 2vh;
 }
-fieldset{
-    border: none;
-}
-legend{
+fieldset { border: none; }
+legend {
     padding-bottom: 3rem;
     text-align: left;
 }
@@ -147,9 +141,7 @@ legend{
     margin-bottom: 3rem;
     transition: all ease-in-out;
     transition-duration: .25s;
-    &:focus{
-        transform: scale(1.2);
-    }
+    &:focus { transform: scale(1.2); }
 }
 label {
     display: block;
@@ -167,29 +159,27 @@ label {
     border-radius: 3rem;
     font-weight: 700;
     margin-bottom: 2rem;
-        &:hover{
-            color: #05386B;
-            background-color: #5CDB95; 
-            transition: all .5s;   
-        }
+    &:hover {
+        color: #05386B;
+        background-color: #5CDB95; 
+        transition: all .5s;   
+    }
 }
 /* phablet and up */
-@media only screen and ( min-width: 600px ) {
-    .form{
-        padding: 3rem;
-    }
-    .register{
+@media only screen and (min-width: 600px) {
+    .form { padding: 3rem; }
+    .register {
         left: 0;
         width: 40%;
         float: right;
     }
-    .submit{
+    .submit {
         width: 40%;
         left: 0;
     }
 }
 /*tablets and larger*/
-@media only screen and ( min-width: 700px ) { 
+@media only screen and (min-width: 700px) { 
     .form {
         padding: 3rem;
         position: relative;
@@ -199,11 +189,7 @@ label {
     }
 }
 /*For desktop*/
-@media only screen and ( min-width: 900px ) {
-    .burger{
-        display: none;
-    }
-    .sidebarContainer{
-        width: 20.5vw ;
-    }
+@media only screen and (min-width: 900px) {
+    .burger { display: none; }
+    .sidebarContainer { width: 20.5vw ; }
 }

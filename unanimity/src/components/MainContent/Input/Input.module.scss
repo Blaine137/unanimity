@@ -4,11 +4,8 @@ html {
     box-sizing: border-box;
     overflow: hidden;
 }
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-.inputContainer{
+*, *:before, *:after { box-sizing: inherit; }
+.inputContainer {
     width: inherit;
     height: 20vh;
     padding: 1rem;
@@ -17,7 +14,6 @@ html {
     background-color: #e8e8e8;
     
 }
-
 .input {
     background-color: #f4f4f4;
     color: #05386B;
@@ -30,20 +26,11 @@ html {
     transition: all .1s ease-in-out;
     /*slightly smaller so that once you click on the input and the input scales up. the font size is not super huge*/
     font-size: .9rem;
-        &::placeholder{
-            color: #05386B;
-        }
-
-        &:hover{
-            cursor: pointer;
-        }
-
-        &:focus{
-            border: 1px solid #05386B;
-            outline: none;
-            transform: scale(1.1);
-        }
-
+    &::placeholder { color: #05386B; }
+    &:hover { cursor: pointer; }
+    &:focus {
+        border: 1px solid #05386B;
+        outline: none;
+        transform: scale(1.1);
+    }
 }
-
-

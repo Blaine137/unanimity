@@ -1,11 +1,11 @@
-nav{
+nav {
     width: 100%;
     background-color: #F6F6F6;
     display: flex;
     align-items: center;
     height: 3rem;
 }
-ul{
+ul {
     padding: 0;
     margin: auto;
     width: 100%;
@@ -14,13 +14,13 @@ ul{
 li {
     display: inline;
     list-style: none;
-    &:hover, &:focus{
+    &:hover, &:focus {
         font-size: 1.1rem;
         transition: all ease-in-out .25s;
         cursor: pointer;
     }
 }
-@media only screen and ( min-width: 700px ){
+@media only screen and (min-width: 700px) {
     ul{ text-align: right; }
     li{ margin-right: 2rem; }
 }
