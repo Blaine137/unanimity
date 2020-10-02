@@ -17,33 +17,31 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  setLanding: ( landingStatus ) => (setLanding( landingStatus )),
-  setContactForm: ( contactStatus ) => (setContactForm( contactStatus )),
+  setLanding: (landingStatus) => (setLanding(landingStatus)),
+  setContactForm: (contactStatus) => (setContactForm(contactStatus)),
 }
 
 class App extends Component {
-
 	render() {
-	
 		return (
 			<div className="App">
 				<BrowserRouter>
 					<Switch>
-						<Route exact path='/' >
-							<Landing />;
+						<Route exact path='/'>
+							<Landing />
 						</Route>
-						<Route path='/contact' >
-							<ContactForm />;
+						<Route path='/contact'>
+							<ContactForm />
 						</Route> 
-						<Route path='/login' >
-							<Authentication />;
+						<Route path='/login'>
+							<Authentication/>
 						</Route>						                             
-						<Redirect to='/' />
+						<Redirect to='/'/>
 					</Switch>  				
 				</BrowserRouter>
 			</div>
 		);
-	}
-}
+	};
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

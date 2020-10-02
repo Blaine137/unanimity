@@ -2,7 +2,7 @@ import React from 'react';
 import './Nav.module.scss';
 import { Link } from 'react-router-dom';
 
-const nav = ( props ) => {
+const nav = props => {
     return(
         <nav>
             <ul>          
