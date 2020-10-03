@@ -9,21 +9,21 @@ const input = props => {
             <textarea 
                 aria-label="Type a messages and press enter to send." 
                 spellCheck="true" 
-                placeholder = "Press Enter to send Message" 
-                maxLength = "1999"
+                placeholder="Press Enter to send Message" 
+                maxLength="1999"
                 className={ styles.input }
-                onKeyDown = { e => {
+                onKeyDown={ e => {
                     let userInput = DOMPurify.sanitize(e.target.value);         
                     if(e.key === 'Enter') {
                         if(props.currentChatRoomName && props.currentChatRoomName !== 'Unanimity') {
                             if( oldTime === null ) {                                      
-                                oldTime =  Date.now();
+                                oldTime = Date.now();
                                 oldTime -= 50000;                           
                             }                       
                             let currentTime = Date.now();                           
                             if(currentTime >= (oldTime + 2000)) {                               
                                     oldTime = currentTime;                                       
-                                    props.newMessage( userInput );
+                                    props.newMessage(userInput);
                                     e.target.value = ''; //makes the input box empty once newMessage gets the input                            
                             } else {
                                 props.showAlert(" Please wait two seconds before sending another message! ");

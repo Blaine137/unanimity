@@ -4,13 +4,12 @@ import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
 import DOMPurify from 'dompurify';
 import Alert from '../../components/Alert/Alert';
-//import npm pass https://www.npmjs.com/package/password-hash
-import * as passwordHash from 'password-hash';
+import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import { connect } from 'react-redux';
 import { setAuthentication, setUserId, setUsername, setNotification } from '../../redux/actions';
 import Nav from '../../components/Nav/Nav';
-//messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
-let messenger = null;
+
+let messenger = null; //messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
  
 const mapStateToProps = state => {
     return {
@@ -39,36 +38,35 @@ class Authentication extends Component {
         let newUserValue = newUser.value;
         let newPasswordValue = newPassword.value;
         let newUserID = null;
-        newUserValue = DOMPurify.sanitize( newUserValue );
+        newUserValue = DOMPurify.sanitize(newUserValue);
         newUserValue = newUserValue.replace(/[^\w]/g,'');
         newUserValue = newUserValue.toLowerCase();
-        newPasswordValue = DOMPurify.sanitize( newPasswordValue );
+        newPasswordValue = DOMPurify.sanitize(newPasswordValue);
         newPasswordValue = newPasswordValue.replace(/[^\w^!?$]/g,'');
-        newUserID = DOMPurify.sanitize( newUserID );
+        newUserID = DOMPurify.sanitize(newUserID);
         newUserID = newUserID.replace(/[^\w]/g,'');
-        //prevent reload of page due to form submission
-        event.preventDefault();
+        
+        event.preventDefault(); //prevent reload of page due to form submission
         //a valid length
         if(newUserValue.length > 10 || newPasswordValue.length > 20) {
-            this.props.setNotification([<Alert alertMessage = "Username must be less than 10 characters and password must be less than 20." alertClose = { this.closeNotification } />]);
+            this.props.setNotification([<Alert alertMessage="Username must be less than 10 characters and password must be less than 20." alertClose={ this.closeNotification }/>]);
          }//if valid length
          //if newUser and newPassword not null
-         else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5 ) {
+         else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5) {
             this.props.setNotification([<Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ this.closeNotification }/>])
          } else {
             //getnextuserID
-            axios.get('userIDByUsername/nextUserID.json').then((e) => {
+            axios.get('userIDByUsername/nextUserID.json').then(e => {
                 newUserID = e.data
-                //not null
                 if(newUserID) {
                     //try to get the username they are wanting to register as
-                    axios.get('userIDByUsername/' + newUserValue + '.json').then((e) => {
+                    axios.get('userIDByUsername/' + newUserValue + '.json').then(e => {
                         if(!e.data) {
-                            this.setNewUser(newUserValue, newPasswordValue, newUserID); 
+                            this.setNewUser(newUserValue, newPasswordValue, newUserID); //create user if the input does not exist
                         } else {
                             this.props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ this.closeNotification }/>]);
                         }
-                    }).catch((error) => { return 300; });
+                    }).catch(error => { return 300; });
                 }
             });
          }
@@ -99,7 +97,7 @@ class Authentication extends Component {
             userIDByUsername[newUser] = newUserID;
             //axios get old usernames and ID
             axios.get('userIDByUsername.json').then(
-                (e) => {
+                e => {
                     //set old data(not including new user)
                     let oldUserIDByUsername = e.data;
                     //combine new user and old users
@@ -110,7 +108,7 @@ class Authentication extends Component {
                     //sets nextUserId to correct ID
                     combinedUserIDByUsername.nextUserID = updatedNextUserID;
                     //update db to latest version
-                    axios.put('userIDByUsername.json',  combinedUserIDByUsername);
+                    axios.put('userIDByUsername.json', combinedUserIDByUsername);
                 }
             );
         // end of adds user to userIDByUsername
@@ -139,26 +137,22 @@ class Authentication extends Component {
         userID = DOMPurify.sanitize(userID);
         userID = userID.replace(/[^\w^!?$]/g,'');
         //prevents page from reloading. forms by default cause pages to reload.
-        if(authValues) {
-            authValues.preventDefault();
-        }
+        if(authValues) { authValues.preventDefault(); }
         //if username was provided
         if(username) {
             //make usernames non-caseSensitive
             username = username.toLowerCase();
             //get userId by username 
-            axios.get('userIDByUsername/' + username + '.json').then((e) => {
+            axios.get('userIDByUsername/' + username + '.json').then(e => {
                 //if username was not found
                 if(!e.data) {
-                    this.props.setNotification([<Alert alertMessage = "Incorrect username or password." alertClose = { this.closeNotification } />]);
+                    this.props.setNotification([<Alert alertMessage="Incorrect username or password." alertClose={ this.closeNotification }/>]);
                 } else {
                     //set the userID if the username was found
                     userID = e.data;
                     //now that we know the username is exist and we have the userID for that username check the password
                     //if we have a password
-                    if(password) {
-                        this.checkPwdForUserID(username, userID, password);
-                    }
+                    if(password) { this.checkPwdForUserID(username, userID, password); }
                 }
             })
         }
@@ -173,10 +167,10 @@ class Authentication extends Component {
        checkPassword = checkPassword.replace(/[^\w^!?$]/g,'');
         //axios get password for a given user
         axios.get('users/u' + checkUserID + '/password.json').then(
-            (e) => {
+            e => {
                 //if pwd is correct
                 // e.data is the 
-                if (passwordHash.verify(checkPassword, e.data)) {    
+                if(passwordHash.verify(checkPassword, e.data)) {    
                     this.props.setUserId(checkUserID);
                     this.props.setUsername(checkUsername); 
                     setTimeout(() => { this.props.setAuthentication(true); } ,200)                           
@@ -200,11 +194,11 @@ class Authentication extends Component {
     ifAuthenticated = () => {
         //if authenticated go to messenger
         if(this.props.authenticated) {
-        messenger =  <Messenger />;
+            messenger =  <Messenger/>;
         } 
         //else not authenticated stay on login page to login in
         else {
-        messenger = <main><Nav />, <LoginForm checkName = { this.checkName } checkForNewUser = { this.checkForNewUser }/></main>;              
+            messenger = <main><Nav/>, <LoginForm checkName={ this.checkName } checkForNewUser={ this.checkForNewUser}/></main>;              
         }
     }
 

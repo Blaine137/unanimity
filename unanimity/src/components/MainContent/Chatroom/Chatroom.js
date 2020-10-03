@@ -21,19 +21,18 @@ const Chatroom = props => {
     //sets displayedMessages to an array of Message components where the index are the order the messages were sent.
     let setUserMessages = (userMessagesObject, username) => {
         let userMessagesArray = [];
-        //converts from a object to an array. Where the array indexes are userMessagesObject[0] and the value is userMessagesObject[1]
+        //creates array where indexes are userMessagesObject[0] and the value is userMessagesObject[1]
         for(let [key, value] of Object.entries(userMessagesObject)) { userMessagesArray[key]=value; };
-        //for every message add it to displayedMessages as a Message Component. keeping the same index
         userMessagesArray.forEach((msg, index) => {   
             if(msg !== null) { 
-                displayedMessages[index]=(<Message  senderName={ username } currentMessage={ msg } key={ index } ></Message>);        
+                displayedMessages[index] = (<Message senderName={ username } currentMessage={ msg } key={ index }></Message>);        
             }
         });
     }
     
     //get the username for all the users in the current chatroom and calls setUserMessages passing the userMessages and username
     let getUserName = () => {
-         //if a chatroom has been selected
+        //if a chatroom has been selected
         if( props.currentChatRoom ){
             let chatRoomUsers = Object.entries( props.currentChatRoom ); 
             chatRoomUsers.forEach( ( chatRoomUser ) => {                                       
@@ -52,7 +51,7 @@ const Chatroom = props => {
         }
     }
     
-    let displayedMessages=[<p className={ styles.introMsg } key="-10"> Please select a chatroom. </p>];
+    let displayedMessages=[<p className={ styles.introMsg } key="-10"> Please select a chatroom.</p>];
     getUserName();
     return(
         <div className={ styles.container } id='scrolldown'>

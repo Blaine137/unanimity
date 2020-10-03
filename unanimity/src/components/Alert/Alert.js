@@ -1,13 +1,8 @@
 import React, { Fragment } from 'react';
 import styles from './Alert.module.scss';
 import DOMPurify from 'dompurify';
-/**
- takes in two props.
- the alert message to be displayed. As alertMessage
- A function to call once the closed button is clicked to stop displaying the alert. as alertClose
- */
-const  alert = props => {
-    //the finished content that is displayed to the user
+
+const alert = props => {
     let alertDisplay = null;
     let sanitizedMessage = null;
     if(props.alertMessage && props.alertClose) {
