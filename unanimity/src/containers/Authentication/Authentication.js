@@ -194,9 +194,8 @@ class Authentication extends Component {
         )
     }
 
-    closeNotification = () => {
-        this.props.setNotification(null);
-    }
+    closeNotification = () => this.props.setNotification(null);
+    
 
     ifAuthenticated = () => {
         //if authenticated go to messenger
