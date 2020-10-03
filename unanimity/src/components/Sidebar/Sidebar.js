@@ -13,8 +13,7 @@ class Sidebar extends Component {
     }
    
     shouldComponentUpdate(nextProps, nextState) {
-        //see if the prop userChatRoomsID has changed
-        if ( nextProps.usersChatRoomsID.length !== this.props.usersChatRoomsID.length ) {  
+        if( nextProps.usersChatRoomsID.length !== this.props.usersChatRoomsID.length ) {  
             //if it has changed the resetTheSideBarDisplay
             this.resetSidebarDisplay( );
             return true;
@@ -99,6 +98,7 @@ class Sidebar extends Component {
         return sidebar;
     };
 
+        //executes on click of the add chatroom button, renders a form to type the chatroom name to add
     addChatRoomPopUp = () => {
         //show pop up form to add new chatroom
         this.setState({ addChatRoomPopUp:  
@@ -177,7 +177,7 @@ class Sidebar extends Component {
         key++;
         //prevents from  infinite loop
         if( chatRoomsArray.length > this.state.sidebarDisplay.length ) {       
-            //if addedchatRoomsName dose not have the new chatroom name then add it.(e.data is chatroom name their trying to add)
+            //if addedchatRoomsName does not have the new chatroom name then add it.(e.data is chatroom name their trying to add)
             if(!addedChatRoomsName.includes(recipientsName)) {
                 addedChatRoomsName.push(recipientsName);
                 this.setState({ sidebarDisplay: newDisplay });
@@ -187,7 +187,6 @@ class Sidebar extends Component {
     
     //showAllChatRooms gets the recipients name and calls addChatRoomToSidebar().
     showAllChatRooms = () => {
-        //if the user has a chatroom
         if(this.props.usersChatRoomsID) {
             // All the chat rooms ids that the current authenticated user is in. 
             let chatRoomIDs = { ...this.props.usersChatRoomsID }; 
@@ -199,16 +198,15 @@ class Sidebar extends Component {
                         if(res.data !== null) {   
                             //[1][1] navigates to userID in the response. [1][1] has the auth user id and recipients id. 
                             let chatRoomUsersArray = Object.entries(res.data)[1][1]; 
-                            //For the recipients ID get that recipients username                                                                    
+                            //For each of the users in the chatroom get that recipients username                                                                    
                             chatRoomUsersArray.forEach(chatRoomUserID => {  
                                 if(chatRoomUserID !== this.props.userID) {                                 
-                                    let currentChatRoomID = singleChatRoomID[1];                                   
+                                    let currentChatRoomID = singleChatRoomID[1];                                 
                                     //axios get username for the current chatRoom user
                                     axios.get('users/u' + chatRoomUserID + '/userName.json').then(
                                         e  => {
                                             let recipientsName = e.data;
-                                            //addChatRoomToSidebar is where the sematic/styling jsx is located.
-                                            this.addChatRoomToSidebar(recipientsName, chatRoomsArray, currentChatRoomID );    
+                                            this.addChatRoomToSidebar(recipientsName, chatRoomsArray, currentChatRoomID ); //the value of args is placed into jsx and added to the sidebar   
                                         }
                                     ).catch(error => { console.log(error) });
                                 }                                                                                              

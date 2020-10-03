@@ -17,8 +17,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  setLanding: (landingStatus) => (setLanding(landingStatus)),
-  setContactForm: (contactStatus) => (setContactForm(contactStatus)),
+  setLanding: landingStatus => setLanding(landingStatus),
+  setContactForm: contactStatus => setContactForm(contactStatus),
 }
 
 class App extends Component {

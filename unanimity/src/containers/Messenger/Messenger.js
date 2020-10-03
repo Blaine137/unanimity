@@ -40,28 +40,20 @@ class Messenger extends Component {
     }
  
     componentDidMount = () => {
-        this.updateChatRoom(); //updates the chatroom every half a second so users can see new messages
-        //on load set authentication
+        //updates the chatroom every half a second so users can see new messages
+        this.updateChatRoom(); 
+        //on load of messenger make sure the user is logged in.
         this.setAuthentication();
         //get and set state with an array of all the chatroom's the authenticated user is in
         if(this.props.userId) { this.setUsersChatRoomsID(); }
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
-        //if the userID in the state is not the same.
-        //prevents infinite loop
-        if(prevProps.userId !== this.props.userId) { this.setUsersChatRoomsID(); }
-    }
-
-    componentWillUnmount() {
-        //removes the setTimeout from the component did mount.
-        clearInterval(this.interval);
-    }
+    //removes the interval component did mount/ updateChatRoom.
+    componentWillUnmount() { clearInterval(this.interval); }
 
     closeNotification = () => this.props.setNotification(null);
 
     setNotification = message => {
-        //sanitize the message and remove malicious code
         let sanitizedMessage = DOMPurify.sanitize(message);
         //only allows words, spaces, !, ?, $
         sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
@@ -69,7 +61,7 @@ class Messenger extends Component {
         this.props.setNotification(alertComponent);
     }
 
-    /* handles logging in and out */
+    //check that the user is logged in and if passed true for logout logs the user out
     setAuthentication = logout => {
         //on login make sure all required values are set. If one value is not set force logout.
         if(logout === null || logout === undefined) {
@@ -78,104 +70,79 @@ class Messenger extends Component {
                 this.props.setUserId(null);
                 this.props.setUsername(null);
             }
-        } else /* Logout */  {
+        } else { 
+            /* Logout */
             this.props.setAuthentication(false);
             this.props.setUserId(null);
             this.props.setUsername(null);
         }
     }
 
-    //called onClick of the hamburger in the malcontent/header.js
+    //onClick of hamburger/X. show/Hide the sidebar
     setShowSidebar = closeOnly => {
         //the x in the sidebar for mobile was clicked then close only == true
         if(closeOnly === true) {
-            //set the sidebar to be closed
             this.props.setShowSidebar(false);
-            //wait for the set state and animation to complete then make the sidebar disappear completely 
-            setTimeout( () => {
-                    this.setState({ sidebarInlineStyles: { display: 'none'}
-                });
-            }, 1000);
+            //wait for animiation to complete.
+            setTimeout(() => this.setState({ sidebarInlineStyles: { display: 'none'}}), 1000);
         } else {
-            //if sidebar was showing and we click hamburger. close the sidebar
             if(this.props.showSidebar) {
+                //if sidebar was showing and we click hamburger. close the sidebar
                 this.props.setShowSidebar(false);
-                //wait for the set state and sidebar animations to complete then remove the sidebar completely
-                setTimeout(() => {
-                    this.setState({ sidebarInlineStyles: { display: 'none' } });
-                }, 1000);
-            }
-            //if sidebar was closed and we clicked the hamburger open the sidebar
-            else {
-                //set it to be visible
+                //wait for animiation to complete.
+                setTimeout(() => this.setState({ sidebarInlineStyles: { display: 'none'}}), 1000);
+            } else {
+                //if sidebar was closed and we clicked the hamburger open the sidebar
                 this.setState({ sidebarInlineStyles: { display: 'block' } });
-                //wait for it to be visible then set it to be true
+                //wait for the animation
                 setTimeout(() => this.props.setShowSidebar(true), 150);
             }
         }
     }
 
-    //called by input once a user enters a new message
+    //once auth user sends message. Validates Message, add to the DB.
     newMessage = newMessage => {
-        //current chat room object with all the messages
+        //messageChatRoom = selected chatroom object with all the messages
         let messageChatRoom = Object.entries(this.props.currentChatRoom);
         let authenticaedUserMessageOld = [];
         let authenticaedUserMessageCombined = [];
+        //nextMsgNum is the number of all the mesages sent by auth user and recipent plus one.
         let nextMsgNum = null;
-        //set maximum allowed message length. make sure we have a message. and make sure a chatRoom is selected
         if(newMessage.length > 0 && newMessage.length < 2000 && this.props.currentChatRoom != null) {
-            //set authenticatedUserMessageOld and nextMSg number from this.state.currentChatRoom
             Object.entries(this.props.currentChatRoom).forEach(user => {
-                //if the message user id is the current authenticated user id
                 if(user[0] === ("u" + this.props.userId)) {
-                    //in this if user[0] is "u" + userID of the message. user[1] is message  (u +userID, Message).
-                    //set auth old messages to auth user messages
+                    //in this if user[0] is "u" + auth userID. user[1] is auth users messages
                     authenticaedUserMessageOld = user[1] ;
                 } else if(user[0] === "nextMsgNum") {
-                    //user[1] the value of nextMsgNum
                     nextMsgNum = user[1];
                 }
-            })
-            //add new message to to old messages
+            });
             authenticaedUserMessageCombined = [...Object.values(authenticaedUserMessageOld)];
-            //make sure that it keeps the order in the arrays. make it the nextMsgNum position in the array. array[nextMsgNum]
             authenticaedUserMessageCombined[nextMsgNum] = DOMPurify.sanitize(newMessage);
             authenticaedUserMessageCombined[nextMsgNum] = authenticaedUserMessageCombined[nextMsgNum].replace(/[^\w\s!?$]/g,'');
-            //increment nextMsgNum by 1
-            if(nextMsgNum) { nextMsgNum++; }
-            //set messageChatRoom to all the new data
-            //messageChatRoom Contains the other user messages. This is required so that when we put the data on the db that the other user messages are not removed
+            nextMsgNum++; 
             messageChatRoom.forEach(property => {
-                //property[0] is the name of the property 
-                //if this the current authenticaed user messages
                 if(property[0] === ("u" + this.props.userId)) {
-                    //set our current user messages to combined messages new and old.
-                    //property[ 1 ] is the array of out user messages
                     property[1] = authenticaedUserMessageCombined;
                 } else if(property[0] === "nextMsgNum") {
-                    //property[ 1 ] is the old nextMsgNum before the increment of 1.
                     property[1] = nextMsgNum;
                 }
             })
-            //convert our finished data from an array back to object to match the DB structure
             messageChatRoom = Object.fromEntries(messageChatRoom);
-            //update the DB with all the new data. 
             axios.put("chatRooms/" + this.props.currentChatRoomID + ".json", messageChatRoom);
             //update our current chatRoom
             this.props.setCurrentChatRoom(messageChatRoom);
         }
     }
 
-    /* updates the chatrooms every half of a second */
+    /* checks for new messages/new chatrooms from other users */
     updateChatRoom = () => {
-        //every second update the current chatroom. this make sure we can see if the other user sent a message.
         this.interval = setInterval(() => {
-            //if a chatroom has been selected
             if(this.props.currentChatRoomID && this.props.currentChatRoom !== 'Unanimity') {
                 let oldID = this.props.currentChatRoomID;
                 //get the messages for the current chatroom                
                 axios.get('chatRooms/' + oldID + '.json').then(res => {
-                    //if the current chatroom has not changes since we started and there is new messages update the state
+                    //if the selected chatroom has not changes and there is new messages update the state
                     if(this.props.currentChatRoom !== res.data && oldID === this.props.currentChatRoomID) {
                         this.props.setCurrentChatRoom(res.data);
                     }
@@ -183,7 +150,6 @@ class Messenger extends Component {
             }
             //check for new chatroom's in the db
             this.setUsersChatRoomsID();
-            //if authentication get set to false
             if(this.props.authenticated === false) { this.props.authLogout(); }
         }, 500);
     }
@@ -252,8 +218,8 @@ class Messenger extends Component {
         recipentName = DOMPurify.sanitize(recipentName);
         recipentName = recipentName.replace(/[^\w^!?$]/g,'');
         recipentName = recipentName.toLowerCase();
-        //id of the person we are sending to
-        let recipentID = null;
+        
+        let recipentID = null; //id of the person we are sending to
         //the chatroom id that will be used for the creation of the new chatroom
         let newChatRoomID = null;
         //chatRoomID after our new chatroom. used for updating db after we add our new chatroom
@@ -469,7 +435,7 @@ class Messenger extends Component {
         let ucrIndex = null;
         //used for deleting the data. set the data to null ( empty object ) and firebase removes it completely
         let empty = {};
-        //if chatRoomID is not null
+    
         if(removeChatRoomID !== null) {
             //get the chatRoomUsers ID so that we can use it to remove the chatRoom from usersChatRoom.
             axios.get('chatRoomsUsers/cru' + removeChatRoomID + '/users.json').then(
@@ -498,10 +464,8 @@ class Messenger extends Component {
                                 //get all of the users chatroom's for a specific user
                                 axios.get('usersChatRooms/ucr' + user + '/chatRooms.json').then(
                                     e => {                                  
-                                        //confirm that it is an array
-                                        e.data = Object.values(e.data);                                       
-                                       //find the index of the chatRoomID we need to remove                                      
-                                        ucrIndex = e.data.indexOf(removeChatRoomID);                                     
+                                        e.data = Object.values(e.data);  //confirm that it is an array                                     
+                                        ucrIndex = e.data.indexOf(removeChatRoomID);  //find the index of the chatRoomID we need to remove                                   
                                         //if we have an index to remove.
                                         //0 is a valid index but zero equals false by default 
                                         if(ucrIndex || ucrIndex === 0) {
@@ -515,8 +479,7 @@ class Messenger extends Component {
                                                 //update users chatroom's in BD
                                                 axios.put('usersChatRooms/ucr' + user + '/chatRooms.json', empty).then(
                                                     () => {
-                                                        //causes sidebar to update
-                                                        this.setUsersChatRoomsID();
+                                                        this.setUsersChatRoomsID(); //causes sidebar to update
                                                     }
                                                 ).catch(error => { console.log(error); });
                                             }
