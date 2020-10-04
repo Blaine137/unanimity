@@ -1,7 +1,7 @@
 # Unanimity Messenger
 ## Harmony through Words.
 
-Online chatroom where you can connect with friends. \n
+Online chatroom where you can connect with friends. <br />
 Poweder by: React.js, React Router, and redux.
 
 view the website at: https://unanimity.herokuapp.com/
