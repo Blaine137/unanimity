@@ -1,7 +1,7 @@
 # Unanimity Messenger
 ## Harmony through Words.
 
-Online chatroom where you can connect with friends. <br />
+Unanimity, instant communication that connects you to anyone.<br />
 
 Poweder by: React.js, React Router, and redux.
 
