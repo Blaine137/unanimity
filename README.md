@@ -3,7 +3,7 @@
 
 Unanimity, instant communication that connects you to anyone.<br />
 
-Poweder by: React.js, React Router, and redux.
+Poweder by: React.js, React Router, and Redux.
 
 view the website at: https://unanimity.herokuapp.com/
 
