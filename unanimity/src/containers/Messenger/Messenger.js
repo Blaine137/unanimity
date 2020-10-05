@@ -43,9 +43,9 @@ class Messenger extends Component {
         //updates the chatroom every half a second so users can see new messages
         this.updateChatRoom(); 
         //on load of messenger make sure the user is logged in.
-        this.setAuthentication();
+        this.handleAuthentication();
         //get and set state with an array of all the chatroom's the authenticated user is in
-        if(this.props.userId) { this.setUsersChatRoomsID(); }
+        if(this.props.userId) { this.handleUsersChatRoomsID(); }
     }
 
     //removes the interval component did mount/ updateChatRoom.
@@ -53,7 +53,7 @@ class Messenger extends Component {
 
     closeNotification = () => this.props.setNotification(null);
 
-    setNotification = message => {
+    handleNotification = message => {
         let sanitizedMessage = DOMPurify.sanitize(message);
         //only allows words, spaces, !, ?, $
         sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
@@ -62,7 +62,7 @@ class Messenger extends Component {
     }
 
     //check that the user is logged in and if passed true for logout logs the user out
-    setAuthentication = logout => {
+    handleAuthentication = logout => {
         //on login make sure all required values are set. If one value is not set force logout.
         if(logout === null || logout === undefined) {
             if(!this.props.username || !this.props.authenticated || !this.props.userId) {
@@ -79,7 +79,7 @@ class Messenger extends Component {
     }
 
     //onClick of hamburger/X. show/Hide the sidebar
-    setShowSidebar = closeOnly => {
+    handleShowSidebar = closeOnly => {
         //the x in the sidebar for mobile was clicked then close only == true
         if(closeOnly === true) {
             this.props.setShowSidebar(false);
@@ -138,7 +138,7 @@ class Messenger extends Component {
         this.interval = setInterval(() => {
             if(this.props.currentChatRoomID && this.props.currentChatRoom !== 'Unanimity') {
                 let oldID = this.props.currentChatRoomID;
-                //get the messages for the current chatroom                
+                //get the messages for the current chatroom        
                 axios.get('chatRooms/' + oldID + '.json').then(newChatRoom => {
                     if(this.props.currentChatRoom !== newChatRoom.data && oldID === this.props.currentChatRoomID) {
                         this.props.setCurrentChatRoom(newChatRoom.data);
@@ -146,13 +146,13 @@ class Messenger extends Component {
                 });
             }
             //check for new chatroom's in the db
-            this.setUsersChatRoomsID();
+            this.handleUsersChatRoomsID();
             if(this.props.authenticated === false) { this.props.authLogout(); }
         }, 500);
     }
 
     //gets array of chatRoomsID auth user is in. if its different then our current UsersChatRoomsID then update state. called by mount and update
-    setUsersChatRoomsID = () => {
+    handleUsersChatRoomsID = () => {
         if(this.props.userId) {
             axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
                 newUsersChatRoomsID => {
@@ -163,14 +163,13 @@ class Messenger extends Component {
     }
 
     //gets selected chatRoom users(cru). gets name of recipient. then sets currentChatRoomName to recipients name. called by setCurrentChatRoom
-    setCurrentChatRoomName = ChatRoomID => {   
+    handleCurrentChatRoomName = ChatRoomID => {   
         if(ChatRoomID) {
             axios.get('chatRoomsUsers/cru' + ChatRoomID + '/users.json').then(
                 e => {
                     if(e.data) {
                         let authUserIndex = e.data.indexOf(this.props.userId);
-                        e.data.splice(authUserIndex, 1);
-                        console.log(e.data);                       
+                        e.data.splice(authUserIndex, 1);                    
                         axios.get('users/u' + e.data[0] + '/userName.json').then(e => {
                             this.props.setCurrentChatRoomName(e.data);
                         });                   
@@ -184,8 +183,8 @@ class Messenger extends Component {
     }
 
     //called by sidebar on click of a chatroom. calls functions to set chatRoom name and set state for CurrentChatRoomID and CurrentChatRoom
-    setCurrentChatRoom = setChatRoomID => { 
-        this.setCurrentChatRoomName(setChatRoomID);
+    handleCurrentChatRoom = setChatRoomID => { 
+        this.handleCurrentChatRoomName(setChatRoomID);
         axios.get('chatRooms/' + setChatRoomID + '/.json').then(
             chatRoomMsg => {  
                 this.props.setCurrentChatRoomID(setChatRoomID);       
@@ -246,7 +245,7 @@ class Messenger extends Component {
                             //gets latest data. this prevents from add chatroom adding chatroom references to deleted chatroom
                             axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
                                 e => {
-                                    this.props.setUsersChatRoomsID(e.data);
+                                    this.handleUsersChatRoomsID();
                                     updatedAuthUserChatRoomsID = e.data;
                                     updatedAuthUserChatRoomsID.push(newChatRoomID);
                                     let chatRooms = updatedAuthUserChatRoomsID;
@@ -283,7 +282,7 @@ class Messenger extends Component {
                                 axios.put('usersChatRooms/ucr' + recipentID + '.json', { chatRooms }).then(
                                     () => {
                                         //auth and recipent have new chatroom so update auth user sidebar with new chatroom 
-                                        this.setUsersChatRoomsID();     
+                                        this.handleUsersChatRoomsID();     
                                     }
                                 ).catch(
                                     error => {                                     
@@ -410,7 +409,7 @@ class Messenger extends Component {
                                                 axios.put('usersChatRooms/ucr' + user + '/chatRooms.json', empty).then(
                                                     () => {
                                                         //causes sidebar to update
-                                                        this.setUsersChatRoomsID(); 
+                                                        this.handleUsersChatRoomsID(); 
                                                     }
                                                 ).catch(error => { console.log(error); });
                                             } else {                                      
@@ -418,7 +417,7 @@ class Messenger extends Component {
                                                 axios.put('usersChatRooms/ucr' + user + '.json', { chatRooms }).then(
                                                     () => {
                                                         //causes sidebar to update
-                                                        this.setUsersChatRoomsID();
+                                                        this.handleUsersChatRoomsID();
                                                     }
                                                 ).catch(error => { console.log(error); });
                                             }
@@ -464,7 +463,6 @@ class Messenger extends Component {
         } else {
             sidebarusersChatRoomsID = [];
         }
-   
         return(
             <Fragment>
                 { this.props.notification }
@@ -472,11 +470,11 @@ class Messenger extends Component {
                     <div className={ styles.sidebarGrid } style={ this.state.sidebarInlineStyles }>
                         <Sidebar usersChatRoomsID={ sidebarusersChatRoomsID }
                             userID={ this.props.userId }
-                            setCurrentChatRoomID = { this.setCurrentChatRoom }
+                            setCurrentChatRoomID = { this.handleCurrentChatRoom }
                             showSidebar={ this.props.showSidebar }
                             addChatRoom={ this.newChatRoom }
                             deleteChatRoom={ this.removeChatRoom }
-                            toggleSidebar={ this.setShowSidebar }
+                            toggleSidebar={ this.handleShowSidebar }
                         />
                     </div>
                     <div className={ styles.mainContentGrid } style={ mainContentInlineStyles }>
@@ -486,10 +484,10 @@ class Messenger extends Component {
                             currentChatRoomName={ this.props.currentChatRoomName }
                             authUsername={ this.props.username }
                             authUID={ this.props.userId }
-                            toggleSidebar={ this.setShowSidebar }
+                            toggleSidebar={ this.handleShowSidebar }
                             showSidebar={ this.props.showSidebar }
-                            setAuth={ this.setAuthentication }
-                            showAlert={ this.setNotification }
+                            setAuth={ this.handleAuthentication }
+                            showAlert={ this.handleNotification }
                         />
                     </div> 
                 </div>
