@@ -198,7 +198,7 @@ class Authentication extends Component {
         } 
         //else not authenticated stay on login page to login in
         else {
-            messenger = <main><Nav/>, <LoginForm checkName={ this.checkName } checkForNewUser={ this.checkForNewUser}/></main>;              
+            messenger = <main><Nav/><LoginForm checkName={ this.checkName } checkForNewUser={ this.checkForNewUser}/></main>;              
         }
     }
 
