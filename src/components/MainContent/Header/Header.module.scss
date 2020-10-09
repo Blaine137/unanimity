@@ -103,9 +103,12 @@
     padding: .25rem;
     border-bottom: 2px solid var(--dark-accent-bg);
     color: var(--dark-action); 
+    display: block;
     cursor: pointer;
   }
 }
+
+
 
 @keyframes optionMenuFade {
   from { opacity: .05; }
