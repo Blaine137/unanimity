@@ -1,6 +1,7 @@
+@import '../../../../assets/colors.css';
 .message {
     display: block;
-    color: #05386B;
+    color: var(--dark-action);
     max-width: 75vw;
     text-align: left;
     margin-top: 2rem;

@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from "react";
 import styles from './Sidebar.module.scss';
 import axios from '../../axios';
-import DOMPurify from 'dompurify';
+import AddChatRoomPopUp from './addChatRoom/addChatRoom';
+
 //set at this scope so that no two keys would equal the same value
 let key = 0;
 let addedChatRoomsName = [];
 
 class Sidebar extends Component {
     state = {
-        addChatRoomPopUp: null,
+        showAddChatRoomPopUp: false,
         sidebarDisplay: [ ]    
     }
    
@@ -42,9 +43,9 @@ class Sidebar extends Component {
         let sidebarInner =  (
             <Fragment>
                 <div
-                    onClick = { () => this.addChatRoomPopUp() } 
+                    onClick = { () => this.setState({showAddChatRoomPopUp: !this.state.showAddChatRoomPopUp}) } 
                     onKeyDown = { e => { 
-                        if(e.key === 'Enter') { this.addChatRoomPopUp(); } 
+                        if(e.key === 'Enter') { this.setState({showAddChatRoomPopUp: !this.state.showAddChatRoomPopUp})  } 
                     } }
                     tabIndex="0" 
                     className={ styles.addContainer }
@@ -96,47 +97,6 @@ class Sidebar extends Component {
             );
         };
         return sidebar;
-    };
-
-        //executes on click of the add chatroom button, renders a form to type the chatroom name to add
-    addChatRoomPopUp = () => {
-        //show pop up form to add new chatroom
-        this.setState({ addChatRoomPopUp:  
-            <div className={ styles.popUpContainer }>                                  
-                <form 
-                    onSubmit={ e => {
-                            this.props.addChatRoom( e , DOMPurify.sanitize(document.getElementById( 'newChatRoomName' ).value) ) 
-                            //on submit of popup close the popup
-                            this.setState( { addChatRoomPopUp: null } )
-                    }}
-                    className={ styles.form } 
-                >               
-                    <div 
-                        tabIndex="0" 
-                        aria-label="Close Add ChatRoom pop up button."   
-                        className={ styles.closeBurger }
-                        role="button"
-                        onClick={ () => { this.setState( { addChatRoomPopUp: null } ); } } 
-                        onKeyDown={ e => { if(e.key === 'Enter') { this.setState({ addChatRoomPopUp: null }); } } }
-                    >
-                        <div className={ styles.closeTop } ></div>
-                        <div className={ styles.closeBottom }></div>
-                    </div>
-                    <legend>Add a Chatroom.</legend>
-                    <fieldset>
-                        <label htmlFor="newChatRoomName">Recipient's Username</label>
-                        <input 
-                            type="text" 
-                            id="newChatRoomName" 
-                            name="newChatRoomName" 
-                            className={styles.input}
-                            placeholder="Press enter to submit!"
-                        />
-                        <input type="submit" value="Add Chatroom" className={ styles.submit}/>
-                    </fieldset>
-                </form>
-            </div>
-        });
     };
 
     /* adds a single chatroom to the sidebar. This is the jsx and styles for each recipient/chatroom */
@@ -220,11 +180,21 @@ class Sidebar extends Component {
         }
     }
 
+    togglePopUp = () => {
+        this.setState({showAddChatRoomPopUp: !this.state.showAddChatRoomPopUp});
+    }
+
+    showPopUp = () => {
+        if( this.state.showAddChatRoomPopUp) {
+            return <AddChatRoomPopUp togglePopUp={this.togglePopUp} addChatRoom={this.props.addChatRoom}/>;
+        }
+        return null;
+    }
     render() {    
         this.showAllChatRooms();     
         return(
           <Fragment>
-            { this.state.addChatRoomPopUp }
+            { this.showPopUp() }
             { this.showSidebar() }                    
           </Fragment>       
         );

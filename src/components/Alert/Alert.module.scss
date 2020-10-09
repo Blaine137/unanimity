@@ -1,15 +1,16 @@
+@import '../../assets/colors.css';
 .alertContainer {
-    background-color: #f44336;
+    background-color: var(--negative-action);
     min-height: 2rem;
     max-height: 25vh;
 }
 .alertMessage {
-    color: white;
+    color: var(--main-bg);
     padding: 0 .5rem;
     font-size: .80rem;
 }
 .alertClose {
-    color: #F6F6F6;
+    color: var(--light-accent-bg);
     font-size: 1.5rem;
     cursor: pointer;
     float: right;

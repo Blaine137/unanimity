@@ -1,3 +1,4 @@
+@import '../../assets/colors.css';
 main {
     min-height: 100vh;
     background-repeat: no-repeat;
@@ -15,16 +16,16 @@ main {
     font-size: 1.4rem; 
 }
 .subtext {  
-    color: 	#313639;
+    color: 	var(--off-text);
     margin: auto;
     height: 10vh;
     font-size: .9rem;   
 }
 .chatButton {
     margin: 15vh 0 10vh 0;
-    background-color: #05386B;
+    background-color: var(--dark-action);
     text-decoration: none;
-    color: white;
+    color: var(--main-bg);
     padding: 0 3rem;
     max-width: 600px;
     height: 7vh;
