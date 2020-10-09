@@ -15,6 +15,10 @@ class Header extends Component{
             this.setState({      
                     options:                
                         <ul className={ styles.optionsMenu }>
+                            <li>
+                                <span>Theme </span>
+                                <Switch className={styles.switch} checked={this.state.lightTheme} onChange={() => this.toggleTheme()} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} checked={false}/>   
+                            </li> 
                             <li 
                                 tabIndex="0" 
                                 style={ { color: '#f44336' } } 
@@ -22,10 +26,7 @@ class Header extends Component{
                                 onKeyDown={ e => { if(e.key === 'Enter') { this.props.logout(true); } } }
                             >
                                 Logout
-                            </li>
-                            <li>
-                                <Switch checked={this.state.lightTheme} onChange={() => this.toggleTheme()} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} checked={false}/>   
-                            </li>                       
+                            </li>                      
                         </ul>,
                     openOptions: !this.state.openOptions,         
             });
