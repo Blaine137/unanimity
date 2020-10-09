@@ -1,7 +1,8 @@
+@import '../../assets/colors.css';
 .sidebarContainer {
     width: 100vw;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-color: var(--light-accent-bg);
     padding: 1rem;
     position: relative;
     transition: all 1s ease-in-out;
@@ -17,42 +18,24 @@
 .addButton {
     height: 6px;
     width: 100%;
-    background: green;
+    background: var(--positive-action);
     border: none;
     &::after {
         content: '';
         height: 6px;
         width: 100%;
         transform: rotate(90deg);
-        border: 1px solid green;
-        background-color: green;
+        border: 1px solid var(--positive-action);
+        background-color: var(--positive-action);
         display: block;
     }
-}
-@keyframes fadein {
-    0% { width: 0; height: 0; background-color: rgba(96, 96, 96, 0); }
-    70% { background-color: rgba(96, 96, 96, 0); }
-    100% {
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(96, 96, 96, .8);
-    }
-}
-.popUpContainer {
-    position: relative;
-    z-index: 0;
-    background-color: rgba(96, 96, 96, .8);
-    width: 100vw;
-    height: 100vh;
-    animation-name: fadein;
-    animation-duration: .5s;
 }
 .usersContainer { margin: 2rem 0 0 0; }
 .users {
     text-transform: capitalize;
     color: rgba(5,56,107,0.7);
     &:hover {
-        color:#05386B;
+        color: var(--dark-action);
         font-weight: bold;
         cursor: grab;
     }       
@@ -73,14 +56,14 @@
   .closeTop {
     height: 5px;
     width: 50px;
-    background-color: #05386B;
+    background-color: var(--dark-action);
     transform: rotate(45deg);
     transition: transform .5s ease-in-out;
   }
   .closeBottom {
     height: 5px;
     width: 50px;
-    background-color: #365F88;
+    background-color: var(--light-action);
     transform-origin: 40% 0;
     transform: rotate(-45deg);
     transition: transform .5s ease-in-out;
@@ -96,97 +79,17 @@
   .deleteTop {
     height: 2px;
     width: 20px;
-    background-color: darkgrey;
+    background-color: var(--off-text);
     transform: rotate(45deg);
     transition: transform .5s ease-in-out;
   }
   .deleteBottom {   
     height: 2px;
     width: 20px;
-    background-color: darkgrey;
+    background-color: var(--off-text);
     transform-origin: 40% 0;
     transform: rotate(-45deg);
     transition: transform .5s ease-in-out;
-}
-/* All the form stuff is used for the pop up that opens when you add a new chatroom */
-.form {
-    position: relative;
-    z-index: 10;
-    display: block;
-    text-align: left;
-    margin: auto;
-    padding: 1rem;
-    background-color:#F6F6F6;
-    width: 80vw;
-    max-width: 90vw;
-    color: #05386B ;
-    font-weight: 700;
-    letter-spacing: .1rem;
-    border-radius: 1rem;
-    top: 2vh;
-}
-fieldset { border: none; }
-legend {
-    padding-bottom: 3rem;
-    text-align: left;
-}
-.input {
-    font-size: 1rem;
-    background-color: #F6F6F6;
-    display: block;
-    width: 100%;
-    color: #05386B;
-    border: none;
-    border-bottom: 2px solid #05386B;
-    margin-bottom: 3rem;
-    transition: all ease-in-out;
-    transition-duration: .25s;
-    &:focus { transform: scale(1.2); }
-}
-label {
-    display: block;
-    margin-bottom: 1rem;;
-}
-.submit {
-    position: relative;
-    left: 25%;
-    background-color: #05386B;
-    color:#F6F6F6;
-    border: none;  
-    height: 3rem;
-    width: 50%;
-    min-width: 6rem;
-    border-radius: 3rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    &:hover {
-        color: #05386B;
-        background-color: #5CDB95; 
-        transition: all .5s;   
-    }
-}
-/* phablet and up */
-@media only screen and (min-width: 600px) {
-    .form { padding: 3rem; }
-    .register {
-        left: 0;
-        width: 40%;
-        float: right;
-    }
-    .submit {
-        width: 40%;
-        left: 0;
-    }
-}
-/*tablets and larger*/
-@media only screen and (min-width: 700px) { 
-    .form {
-        padding: 3rem;
-        position: relative;
-        top: 10vh;
-        max-width: 500px;
-        max-height: 550px;
-    }
 }
 /*For desktop*/
 @media only screen and (min-width: 900px) {

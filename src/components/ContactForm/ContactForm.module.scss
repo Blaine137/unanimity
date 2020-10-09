@@ -1,13 +1,14 @@
+@import '../../assets/colors.css';
 *, *:before, *:after { box-sizing: inherit; }
 .form {  
     display: block;
     text-align: left;
     margin: 1rem auto;
     padding: 1rem;
-    background-color:#F6F6F6;
+    background-color: var(--light-accent-bg);
     width: 80vw;
     max-width: 90vw;
-    color: #05386B ;
+    color: var(--dark-action);
     font-weight: 700;
     letter-spacing: .1rem;
     border-radius: 1rem;
@@ -20,18 +21,18 @@ legend {
 }
 .input {
     font-size: 1.25rem;
-    background-color: #F6F6F6;
+    background-color: var(--light-accent-bg);
     display: block;
     width: 100%;
-    color: #05386B;
+    color: var(--dark-action);
     border: none;
-    border-bottom: 2px solid #05386B;
+    border-bottom: 2px solid var(--dark-action);
     margin-bottom: 3rem;
     transition: all .1s ease-in-out;
     &:focus {
         outline: none;
-        border: 1px solid #05386B;
-        border-bottom: 2px solid #05386B;
+        border: 1px solid var(--dark-action);
+        border-bottom: 2px solid var(--dark-action);
         transform: scale(1.1);
     }
 }
@@ -43,9 +44,9 @@ textarea {
     display: block;
     margin: 0 auto;
     padding: .5rem;
-    border-color: #05386B;
-    background-color: #F6F6F6;
-    color: #05386B;
+    border-color: var(--dark-action);
+    background-color: var(--light-accent-bg);
+    color: var(--dark-action);
     border-radius: 1rem;
     width: 100%;
     font-size: 1.25rem;
@@ -54,8 +55,8 @@ textarea {
 }
 .submit {
     display: block;
-    background-color: #05386B;
-    color:#F6F6F6;
+    background-color: var(--dark-action);
+    color:var(--light-accent-bg);
     border: none;  
     height: 3rem;
     width: 50%;
@@ -66,8 +67,8 @@ textarea {
     margin: 0 auto;
     margin-top: 2rem;
     &:focus, &:hover {
-        color: #05386B;
-        background-color: #5CDB95; 
+        color: var(--dark-action);
+        background-color: var(--positive-action); 
         transition: all .5s;   
     }
 }

@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import styles from './Header.module.scss';
+import Switch from 'react-switch';
+
 
 class Header extends Component{
     state = {
         openOptions: false,
-        options: null
+        options: null,
+        lightTheme: true
     }
-
     //shows & hides the options menu. triggered by the three dots in the top right of the header
     toggleOptions = () => {
          if(this.state.openOptions === true) {
@@ -20,6 +22,9 @@ class Header extends Component{
                                 onKeyDown={ e => { if(e.key === 'Enter') { this.props.logout(true); } } }
                             >
                                 Logout
+                            </li>
+                            <li>
+                                <Switch checked={this.state.lightTheme} onChange={() => this.toggleTheme()} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} checked={false}/>   
                             </li>                       
                         </ul>,
                     openOptions: !this.state.openOptions,         
@@ -67,7 +72,11 @@ class Header extends Component{
             );
         }
     }
-           
+       
+    toggleTheme = () => {
+        this.setState({ lightTheme: !this.state.lightTheme})
+    }
+
     render() {
         let burger = this.toggleBurger();   
         return(

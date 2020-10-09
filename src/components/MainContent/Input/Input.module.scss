@@ -1,3 +1,4 @@
+@import '../../../assets/colors.css';
 html {
     font-weight: bold;
     font-size: 1.25rem;
@@ -11,11 +12,11 @@ html {
     padding: 1rem;
     position: absolute;
     bottom: 0;
-    background-color: #e8e8e8;
+    background-color: var(--dark-accent-bg);
     
 }
 .input {
-    background-color: #f4f4f4;
+    background-color: var(--light-accent-bg);
     color: #05386B;
     border: none;
     border-radius: 1rem;
@@ -26,10 +27,10 @@ html {
     transition: all .1s ease-in-out;
     /*slightly smaller so that once you click on the input and the input scales up. the font size is not super huge*/
     font-size: .9rem;
-    &::placeholder { color: #05386B; }
+    &::placeholder { color: var(--dark-action); }
     &:hover { cursor: pointer; }
     &:focus {
-        border: 1px solid #05386B;
+        border: 1px solid var(--dark-action);
         outline: none;
         transform: scale(1.1);
     }
