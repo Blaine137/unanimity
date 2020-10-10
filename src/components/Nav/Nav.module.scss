@@ -20,6 +20,9 @@ li {
         cursor: pointer;
     }
 }
+.linkColor {
+    color: var(--dark-action);
+}
 @media only screen and (min-width: 700px) {
     ul{ text-align: right; }
     li{ margin-right: 2rem; }

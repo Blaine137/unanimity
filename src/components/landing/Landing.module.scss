@@ -20,6 +20,9 @@ main {
     height: 10vh;
     font-size: .9rem;   
 }
+h1 {
+    color: var(--main-text);
+}
 .chatButton {
     margin: 15vh 0 10vh 0;
     background-color: var(--dark-action);

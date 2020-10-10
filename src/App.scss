@@ -9,8 +9,8 @@
 	--positive-action: #5CDB95;
 	--negative-action: rgb(244, 67, 54);
 }
-html { font-family: Jost; font-weight: normal; }
-body { font-family: Jost; font-weight: normal; }
+html { font-family: Jost; font-weight: normal; background-color: var(--main-bg);}
+body { font-family: Jost; font-weight: normal; background-color: var(--main-bg); }
 h1, h2, h3, h4, h5, h6, legend{
   font-family: Montserrat;
   font-weight: bold;
