@@ -6,7 +6,7 @@ class Header extends Component{
     state = {
         openOptions: false,
         options: null,
-        lightTheme: true
+        lightTheme: false
     }
     //shows & hides the options menu. triggered by the three dots in the top right of the header
     toggleOptions = () => {
@@ -16,7 +16,7 @@ class Header extends Component{
                         <ul className={ styles.optionsMenu }>
                             <li>
                                 <span>Theme: </span>
-                                <Switch className={styles.switch} checked={this.state.lightTheme} onChange={() => this.toggleTheme()} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} checked={false}/>   
+                                <Switch className={styles.switch} checked={this.state.lightTheme} onChange={() => this.toggleTheme()} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} />   
                             </li> 
                             <li 
                                 tabIndex="0" 
@@ -72,14 +72,28 @@ class Header extends Component{
             );
         }
     }
-       
+    
     toggleTheme = () => {
-        //not working left off here
-        //getComputedStyle(document.querySelector('body')).setProperty('--main-bg', '#000');
-        console.log(document.documentElement);
         this.setState({ lightTheme: !this.state.lightTheme})
-        document.documentElement.style.setProperty("--main-bg","black");
-       
+        if(this.state.lightTheme === true) {
+            //#3c4045
+            document.documentElement.style.setProperty("--main-bg","#585d63");
+            document.documentElement.style.setProperty("--main-text","white");
+            document.documentElement.style.setProperty("--off-text","#f6f6f6");
+            document.documentElement.style.setProperty("--light-accent-bg","#2C2F33");
+            document.documentElement.style.setProperty("--dark-accent-bg","#23272A");
+            document.documentElement.style.setProperty("--light-action","white");
+            document.documentElement.style.setProperty("--dark-action","#d4d4d4");
+
+        } else {
+            document.documentElement.style.setProperty("--main-bg","white");
+            document.documentElement.style.setProperty("--main-text","black");
+            document.documentElement.style.setProperty("--off-text","#313639");
+            document.documentElement.style.setProperty("--light-accent-bg","#F6F6F6");
+            document.documentElement.style.setProperty("--dark-accent-bg","#e8e8e8");
+            document.documentElement.style.setProperty("--light-action","#365F88");
+            document.documentElement.style.setProperty("--dark-action","#05386B");
+        } 
     }
     
     render() {
