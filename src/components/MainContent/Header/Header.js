@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import styles from './Header.module.scss';
 import Switch from 'react-switch';
 
-
 class Header extends Component{
     state = {
         openOptions: false,
@@ -16,7 +15,7 @@ class Header extends Component{
                     options:                
                         <ul className={ styles.optionsMenu }>
                             <li>
-                                <span>Theme </span>
+                                <span>Theme: </span>
                                 <Switch className={styles.switch} checked={this.state.lightTheme} onChange={() => this.toggleTheme()} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} checked={false}/>   
                             </li> 
                             <li 
@@ -75,9 +74,14 @@ class Header extends Component{
     }
        
     toggleTheme = () => {
+        //not working left off here
+        //getComputedStyle(document.querySelector('body')).setProperty('--main-bg', '#000');
+        console.log(document.documentElement);
         this.setState({ lightTheme: !this.state.lightTheme})
+        document.documentElement.style.setProperty("--main-bg","black");
+       
     }
-
+    
     render() {
         let burger = this.toggleBurger();   
         return(

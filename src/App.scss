@@ -1,3 +1,14 @@
+:root {
+	--main-bg: white;
+	--main-text: black;
+	--off-text: #313639;
+	--light-accent-bg: #F6F6F6;
+	--dark-accent-bg: #e8e8e8;
+	--light-action: #365F88;
+	--dark-action: #05386B;
+	--positive-action: #5CDB95;
+	--negative-action: rgb(244, 67, 54);
+}
 html { font-family: Jost; font-weight: normal; }
 body { font-family: Jost; font-weight: normal; }
 h1, h2, h3, h4, h5, h6, legend{
