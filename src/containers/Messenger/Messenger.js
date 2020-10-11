@@ -139,8 +139,9 @@ class Messenger extends Component {
             if(this.props.currentChatRoomID && this.props.currentChatRoom !== 'Unanimity') {
                 let oldID = this.props.currentChatRoomID;
                 //get the messages for the current chatroom        
-                axios.get('chatRooms/' + oldID + '.json').then(newChatRoom => {
-                    if(this.props.currentChatRoom !== newChatRoom.data && oldID === this.props.currentChatRoomID) {
+                axios.get('chatRooms/' + oldID + '.json').then(newChatRoom => {  
+                    //convert object to string the see if strings equal to see if we need to update 
+                    if(JSON.stringify(this.props.currentChatRoom) !== JSON.stringify(newChatRoom.data) && oldID === this.props.currentChatRoomID) {
                         this.props.setCurrentChatRoom(newChatRoom.data);
                     }
                 });
@@ -156,7 +157,10 @@ class Messenger extends Component {
         if(this.props.userId) {
             axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
                 newUsersChatRoomsID => {
-                    if(newUsersChatRoomsID.data !== this.props.usersChatRoomsID) { this.props.setUsersChatRoomsID(newUsersChatRoomsID.data); }
+                    //convert array to object. then stringify object. if strings dont eqaul chatroom has been added or delted. then update.
+                    if(JSON.stringify(Object.assign({}, newUsersChatRoomsID.data)) !== JSON.stringify(Object.assign({}, this.props.usersChatRoomsID))) {
+                         this.props.setUsersChatRoomsID(newUsersChatRoomsID.data); 
+                    }
                 }
             );
         }     
