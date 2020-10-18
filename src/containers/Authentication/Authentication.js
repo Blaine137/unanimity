@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
 import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
@@ -27,14 +27,14 @@ const mapDispatchToProps = {
     setNotification: notification => setNotification(notification)
 };
 
-class Authentication extends Component {
-    componentDidMount() {
-        this.props.setAuthentication(false);
-        this.props.setUserId(null);
-        this.props.setUsername(null);
-    }
+let Authentication = props => {
+    useEffect(() => {
+        props.setAuthentication(false);
+        props.setUserId(null);
+        props.setUsername(null);
+    }, []);
 
-    checkForNewUser = (event, newUser, newPassword) => {     
+    const checkForNewUser = (event, newUser, newPassword) => {     
         let newUserValue = newUser.value;
         let newPasswordValue = newPassword.value;
         let newUserID = null;
@@ -49,11 +49,11 @@ class Authentication extends Component {
         event.preventDefault(); //prevent reload of page due to form submission
         //a valid length
         if(newUserValue.length > 10 || newPasswordValue.length > 20) {
-            this.props.setNotification([<Alert alertMessage="Username must be less than 10 characters and password must be less than 20." alertClose={ this.closeNotification }/>]);
+            props.setNotification([<Alert alertMessage="Username must be less than 10 characters and password must be less than 20." alertClose={ closeNotification }/>]);
          }//if valid length
          //if newUser and newPassword not null
          else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5) {
-            this.props.setNotification([<Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ this.closeNotification }/>])
+            props.setNotification([<Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ closeNotification }/>])
          } else {
             //getnextuserID
             axios.get('userIDByUsername/nextUserID.json').then(e => {
@@ -62,9 +62,9 @@ class Authentication extends Component {
                     //try to get the username they are wanting to register as
                     axios.get('userIDByUsername/' + newUserValue + '.json').then(e => {
                         if(!e.data) {
-                            this.setNewUser(newUserValue, newPasswordValue, newUserID); //create user if the input does not exist
+                            setNewUser(newUserValue, newPasswordValue, newUserID); //create user if the input does not exist
                         } else {
-                            this.props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ this.closeNotification }/>]);
+                            props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ closeNotification }/>]);
                         }
                     }).catch(error => { return 300; });
                 }
@@ -73,7 +73,7 @@ class Authentication extends Component {
     }
 
     //sets users in db
-    setNewUser = (newUser, newPassword, newUserID) => {
+    const setNewUser = (newUser, newPassword, newUserID) => {
         newUser = DOMPurify.sanitize(newUser);
         newUser = newUser.replace(/[^\w]/g,'');
         newPassword = DOMPurify.sanitize(newPassword);
@@ -123,10 +123,10 @@ class Authentication extends Component {
         //inform user that account was created
         let accountMessage = DOMPurify.sanitize("Your account has been created! Username: '" + newUser + "'");
         accountMessage = accountMessage.replace(/[^\w\s!?$]/g,'');
-        this.props.setNotification([<Alert alertMessage={ accountMessage } alertClose={ this.closeNotification }/>]);
+        props.setNotification([<Alert alertMessage={ accountMessage } alertClose={ closeNotification }/>]);
     }
     
-    checkName = (authValues, userNameElement, passwordElement) => {
+    const checkName = (authValues, userNameElement, passwordElement) => {
         let username = userNameElement.value || userNameElement;
         let password = passwordElement.value || passwordElement;
         let userID = null;
@@ -146,19 +146,19 @@ class Authentication extends Component {
             axios.get('userIDByUsername/' + username + '.json').then(e => {
                 //if username was not found
                 if(!e.data) {
-                    this.props.setNotification([<Alert alertMessage="Incorrect username or password." alertClose={ this.closeNotification }/>]);
+                    props.setNotification([<Alert alertMessage="Incorrect username or password." alertClose={ closeNotification }/>]);
                 } else {
                     //set the userID if the username was found
                     userID = e.data;
                     //now that we know the username is exist and we have the userID for that username check the password
                     //if we have a password
-                    if(password) { this.checkPwdForUserID(username, userID, password); }
+                    if(password) { checkPwdForUserID(username, userID, password); }
                 }
             })
         }
     }
 
-    checkPwdForUserID = (checkUsername, checkUserID, checkPassword) => {
+    const checkPwdForUserID = (checkUsername, checkUserID, checkPassword) => {
        checkUsername = DOMPurify.sanitize(checkUsername);
        checkUsername = checkUsername.replace(/[^\w]/g,'');
        checkUserID = DOMPurify.sanitize(checkUserID);
@@ -171,47 +171,44 @@ class Authentication extends Component {
                 //if pwd is correct
                 // e.data is the 
                 if(passwordHash.verify(checkPassword, e.data)) {    
-                    this.props.setUserId(checkUserID);
-                    this.props.setUsername(checkUsername); 
-                    setTimeout(() => { this.props.setAuthentication(true); } ,200)                           
+                    props.setUserId(checkUserID);
+                    props.setUsername(checkUsername); 
+                    setTimeout(() => { props.setAuthentication(true); } ,200)                           
                 }
                 //pwd was incorrect
                 else {
                     //pwd was wrong so set authenticed to false to make sure it failed. and set username and userID to null
-                    this.props.setUserId(null);
-                    this.props.setUsername(null);
-                    this.props.setAuthentication(false);
+                    props.setUserId(null);
+                    props.setUsername(null);
+                    props.setAuthentication(false);
                     //tell the user that credientals were incorrect
-                    this.props.setNotification([<Alert alertMessage="Incorrect username or password." alertClose={ this.closeNotification }/>]);
+                    props.setNotification([<Alert alertMessage="Incorrect username or password." alertClose={ closeNotification }/>]);
                 }
             }
         )
     }
 
-    closeNotification = () => this.props.setNotification(null);
+    const closeNotification = () => props.setNotification(null);
     
-
-    ifAuthenticated = () => {
+    const ifAuthenticated = () => {
         //if authenticated go to messenger
-        if(this.props.authenticated) {
+        if(props.authenticated) {
             messenger =  <Messenger/>;
         } 
         //else not authenticated stay on login page to login in
         else {
-            messenger = <main><Nav/><LoginForm checkName={ this.checkName } checkForNewUser={ this.checkForNewUser}/></main>;              
+            messenger = <main><Nav/><LoginForm checkName={ checkName } checkForNewUser={ checkForNewUser}/></main>;              
         }
     }
-
-    render() {
-        this.ifAuthenticated();
-        return(
-            <Fragment>                                 
-                { this.props.notification }
-                { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
-                { messenger }
-            </Fragment>
-        );
-    }
+    ifAuthenticated();
+    
+    return(
+        <Fragment>                                 
+            { props.notification }
+            { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
+            { messenger }
+        </Fragment>
+    );
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
