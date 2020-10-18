@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
@@ -34,81 +34,81 @@ const mapDispatchToProps = {
     setNotification: notification => setNotification(notification)
 };
 
-class Messenger extends Component {
-    state = {
-        sidebarInlineStyles: { display: 'block' },
-    }
+const Messenger = props => {
+    const [sidebarInlineStyles, setSideStyles] = useState({display: 'block'});
  
-    componentDidMount = () => {
+    useEffect(() => {
         //updates the chatroom every half a second so users can see new messages
-        this.updateChatRoom(); 
+        const interval = setInterval(() => { updateChatRoom(); }, 500);
         //on load of messenger make sure the user is logged in.
-        this.handleAuthentication();
+        handleAuthentication();
         //get and set state with an array of all the chatroom's the authenticated user is in
-        if(this.props.userId) { this.handleUsersChatRoomsID(); }
-    }
+        if(props.userId) { handleUsersChatRoomsID(); }
 
-    //removes the interval component did mount/ updateChatRoom.
-    componentWillUnmount() { clearInterval(this.interval); }
+        return () => {
+             //removes the interval component did mount/ updateChatRoom.
+            clearInterval(interval);
+        };
+    });
 
-    closeNotification = () => this.props.setNotification(null);
+    const closeNotification = () => props.setNotification(null);
 
-    handleNotification = message => {
+    const handleNotification = message => {
         let sanitizedMessage = DOMPurify.sanitize(message);
         //only allows words, spaces, !, ?, $
         sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
-        let alertComponent=<Alert alertMessage={ sanitizedMessage } alertClose={ this.closeNotification }/>;
-        this.props.setNotification(alertComponent);
+        let alertComponent=<Alert alertMessage={ sanitizedMessage } alertClose={ closeNotification }/>;
+        props.setNotification(alertComponent);
     }
 
     //check that the user is logged in and if passed true for logout logs the user out
-    handleAuthentication = logout => {
+    const handleAuthentication = logout => {
         //on login make sure all required values are set. If one value is not set force logout.
         if(logout === null || logout === undefined) {
-            if(!this.props.username || !this.props.authenticated || !this.props.userId) {
-                this.props.setAuthentication(false);
-                this.props.setUserId(null);
-                this.props.setUsername(null);
+            if(!props.username || !props.authenticated || !props.userId) {
+                props.setAuthentication(false);
+                props.setUserId(null);
+                props.setUsername(null);
             }
         } else { 
             /* Logout */
-            this.props.setAuthentication(false);
-            this.props.setUserId(null);
-            this.props.setUsername(null);
+            props.setAuthentication(false);
+            props.setUserId(null);
+            props.setUsername(null);
         }
     }
 
     //onClick of hamburger/X. show/Hide the sidebar
-    handleShowSidebar = closeOnly => {
+    const handleShowSidebar = closeOnly => {
         //the x in the sidebar for mobile was clicked then close only == true
         if(closeOnly === true) {
-            this.props.setShowSidebar(false);
+            props.setShowSidebar(false);
             //wait for animiation to complete.
-            setTimeout(() => this.setState({ sidebarInlineStyles: { display: 'none'}}), 1000);
+            setTimeout(() => setSideStyles({ display: 'none'}), 1000);
         } else {
-            if(this.props.showSidebar) {
-                this.props.setShowSidebar(false);
+            if(props.showSidebar) {
+                props.setShowSidebar(false);
                 //wait for animiation to complete.
-                setTimeout(() => this.setState({ sidebarInlineStyles: { display: 'none'}}), 1000);
+                setTimeout(() => setSideStyles({ display: 'none'}), 1000);
             } else {
-                this.setState({ sidebarInlineStyles: { display: 'block' } });
+                setSideStyles({ display: 'block'})
                 //wait for the animation
-                setTimeout(() => this.props.setShowSidebar(true), 150);
+                setTimeout(() => props.setShowSidebar(true), 150);
             }
         }
     }
 
     //once auth user sends message. Validates Message, add to the DB.
-    newMessage = newMessage => {
+    const newMessage = newMessage => {
         //messageChatRoom = selected chatroom object with all the messages
-        let messageChatRoom = Object.entries(this.props.currentChatRoom);
+        let messageChatRoom = Object.entries(props.currentChatRoom);
         let authenticaedUserMessageOld = [];
         let authenticaedUserMessageCombined = [];
         //nextMsgNum is the number of all the mesages sent by auth user and recipent plus one.
         let nextMsgNum = null;
-        if(newMessage.length > 0 && newMessage.length < 2000 && this.props.currentChatRoom != null) {
-            Object.entries(this.props.currentChatRoom).forEach(user => {
-                if(user[0] === ("u" + this.props.userId)) {
+        if(newMessage.length > 0 && newMessage.length < 2000 && props.currentChatRoom != null) {
+            Object.entries(props.currentChatRoom).forEach(user => {
+                if(user[0] === ("u" + props.userId)) {
                     //in this if user[0] is "u" + auth userID. user[1] is auth users messages
                     authenticaedUserMessageOld = user[1] ;
                 } else if(user[0] === "nextMsgNum") {
@@ -120,46 +120,44 @@ class Messenger extends Component {
             authenticaedUserMessageCombined[nextMsgNum] = authenticaedUserMessageCombined[nextMsgNum].replace(/[^\w\s!?$]/g,'');
             nextMsgNum++; 
             messageChatRoom.forEach(property => {
-                if(property[0] === ("u" + this.props.userId)) {
+                if(property[0] === ("u" + props.userId)) {
                     property[1] = authenticaedUserMessageCombined;
                 } else if(property[0] === "nextMsgNum") {
                     property[1] = nextMsgNum;
                 }
             })
             messageChatRoom = Object.fromEntries(messageChatRoom);
-            axios.put("chatRooms/" + this.props.currentChatRoomID + ".json", messageChatRoom);
+            axios.put("chatRooms/" + props.currentChatRoomID + ".json", messageChatRoom);
             //update our current chatRoom
-            this.props.setCurrentChatRoom(messageChatRoom);
+            props.setCurrentChatRoom(messageChatRoom);
         }
     }
 
     /* checks for new messages/new chatrooms from other users */
-    updateChatRoom = () => {
-        this.interval = setInterval(() => {
-            if(this.props.currentChatRoomID && this.props.currentChatRoom !== 'Unanimity') {
-                let oldID = this.props.currentChatRoomID;
-                //get the messages for the current chatroom        
-                axios.get('chatRooms/' + oldID + '.json').then(newChatRoom => {  
-                    //convert object to string the see if strings equal to see if we need to update 
-                    if(JSON.stringify(this.props.currentChatRoom) !== JSON.stringify(newChatRoom.data) && oldID === this.props.currentChatRoomID) {
-                        this.props.setCurrentChatRoom(newChatRoom.data);
-                    }
-                });
-            }
-            //check for new chatroom's in the db
-            this.handleUsersChatRoomsID();
-            if(this.props.authenticated === false) { this.props.authLogout(); }
-        }, 500);
+    const updateChatRoom = () => {
+        if(props.currentChatRoomID && props.currentChatRoom !== 'Unanimity') {
+            let oldID = props.currentChatRoomID;
+            //get the messages for the current chatroom        
+            axios.get('chatRooms/' + oldID + '.json').then(newChatRoom => {  
+                //convert object to string the see if strings equal to see if we need to update 
+                if(JSON.stringify(props.currentChatRoom) !== JSON.stringify(newChatRoom.data) && oldID === props.currentChatRoomID) {
+                    props.setCurrentChatRoom(newChatRoom.data);
+                }
+            });
+        }
+        //check for new chatroom's in the db
+        handleUsersChatRoomsID();
+        if(props.authenticated === false) { props.authLogout(); }
     }
 
     //gets array of chatRoomsID auth user is in. if its different then our current UsersChatRoomsID then update state. called by mount and update
-    handleUsersChatRoomsID = () => {
-        if(this.props.userId) {
-            axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
+    const handleUsersChatRoomsID = () => {
+        if(props.userId) {
+            axios.get('usersChatRooms/ucr' + props.userId + '/chatRooms.json').then(
                 newUsersChatRoomsID => {
                     //convert array to object. then stringify object. if strings dont eqaul chatroom has been added or delted. then update.
-                    if(JSON.stringify(Object.assign({}, newUsersChatRoomsID.data)) !== JSON.stringify(Object.assign({}, this.props.usersChatRoomsID))) {
-                         this.props.setUsersChatRoomsID(newUsersChatRoomsID.data); 
+                    if(JSON.stringify(Object.assign({}, newUsersChatRoomsID.data)) !== JSON.stringify(Object.assign({}, props.usersChatRoomsID))) {
+                         props.setUsersChatRoomsID(newUsersChatRoomsID.data); 
                     }
                 }
             );
@@ -167,19 +165,19 @@ class Messenger extends Component {
     }
 
     //gets selected chatRoom users(cru). gets name of recipient. then sets currentChatRoomName to recipients name. called by setCurrentChatRoom
-    handleCurrentChatRoomName = ChatRoomID => {   
+    const handleCurrentChatRoomName = ChatRoomID => {   
         if(ChatRoomID) {
             axios.get('chatRoomsUsers/cru' + ChatRoomID + '/users.json').then(
                 e => {
                     if(e.data) {
-                        let authUserIndex = e.data.indexOf(this.props.userId);
+                        let authUserIndex = e.data.indexOf(props.userId);
                         e.data.splice(authUserIndex, 1);                    
                         axios.get('users/u' + e.data[0] + '/userName.json').then(e => {
-                            this.props.setCurrentChatRoomName(e.data);
+                            props.setCurrentChatRoomName(e.data);
                         });                   
                     }
                     else {
-                        this.props.setCurrentChatRoomName('Unanimity');
+                        props.setCurrentChatRoomName('Unanimity');
                     }
                 }
             ); 
@@ -187,17 +185,17 @@ class Messenger extends Component {
     }
 
     //called by sidebar on click of a chatroom. calls functions to set chatRoom name and set state for CurrentChatRoomID and CurrentChatRoom
-    handleCurrentChatRoom = setChatRoomID => { 
-        this.handleCurrentChatRoomName(setChatRoomID);
+    const handleCurrentChatRoom = setChatRoomID => { 
+        handleCurrentChatRoomName(setChatRoomID);
         axios.get('chatRooms/' + setChatRoomID + '/.json').then(
             chatRoomMsg => {  
-                this.props.setCurrentChatRoomID(setChatRoomID);       
-                this.props.setCurrentChatRoom(chatRoomMsg.data);
+                props.setCurrentChatRoomID(setChatRoomID);       
+                props.setCurrentChatRoom(chatRoomMsg.data);
             }
         );
     }
 
-    newChatRoom = (event, recipentName) => {
+    const newChatRoom = (event, recipentName) => {
         recipentName = DOMPurify.sanitize(recipentName);
         recipentName = recipentName.replace(/[^\w^!?$]/g,'');
         recipentName = recipentName.toLowerCase();   
@@ -218,7 +216,7 @@ class Messenger extends Component {
             if(recipentID !== null) {
                 newChatRoomObject = { nextMsgNum: 2, };
                 //adds u+userid to the chatroom object with u+userID as the property name. then sets the value to an array with a welcome message.
-                newChatRoomObject["u" + this.props.userId] = [(this.props.username + " has joined the chat!")];
+                newChatRoomObject["u" + props.userId] = [(props.username + " has joined the chat!")];
                 newChatRoomObject["u" + recipentID] = [ null, (recipentName + " has joined the chat!")];
                 axios.get('chatRooms/nextChatRoomID.json').then(
                     nextChatRoomId => {
@@ -227,7 +225,7 @@ class Messenger extends Component {
                         if(newChatRoomID) {
                             axios.put('chatRooms/' + newChatRoomID + '.json', newChatRoomObject).catch(
                                 error => {
-                                    this.props.setNotification([<Alert alertMessage = "failed to add chat room to data base. Please try agin." alertClose = { this.closeNotification }/>]);   
+                                    props.setNotification([<Alert alertMessage = "failed to add chat room to data base. Please try agin." alertClose = { closeNotification }/>]);   
                                 }
                             );
                             updatedChatRoomID = parseInt(newChatRoomID);
@@ -238,25 +236,25 @@ class Messenger extends Component {
                             );
                         }
                         else {      
-                            this.props.setNotification([<Alert alertMessage="Could not determine the chat room id. Please try agin." alertClose={ this.closeNotification }/>]);
+                            props.setNotification([<Alert alertMessage="Could not determine the chat room id. Please try agin." alertClose={ closeNotification }/>]);
                         }
                         //--------- end create the chatroom in chatRooms ---------
 
 
                         // --------- start update usersChatRooms for authenticated user and recipent ---------
                         //they have other chatRooms
-                        if(this.props.usersChatRoomsID) {
+                        if(props.usersChatRoomsID) {
                             //gets latest data. this prevents from add chatroom adding chatroom references to deleted chatroom
-                            axios.get('usersChatRooms/ucr' + this.props.userId + '/chatRooms.json').then(
+                            axios.get('usersChatRooms/ucr' + props.userId + '/chatRooms.json').then(
                                 e => {
-                                    this.handleUsersChatRoomsID();
+                                    handleUsersChatRoomsID();
                                     updatedAuthUserChatRoomsID = e.data;
                                     updatedAuthUserChatRoomsID.push(newChatRoomID);
                                     let chatRooms = updatedAuthUserChatRoomsID;
-                                    axios.put('usersChatRooms/ucr' + this.props.userId + '.json', { chatRooms }).catch(
+                                    axios.put('usersChatRooms/ucr' + props.userId + '.json', { chatRooms }).catch(
                                         error => {
                                             let errorMessage = "Error. failed to update Authenticated usersChatRooms " + DOMPurify.sanitize(error);
-                                            this.props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ this.closeNotification } />]);
+                                            props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification } />]);
                                         }
                                     ); 
                                 }
@@ -266,10 +264,10 @@ class Messenger extends Component {
                             updatedAuthUserChatRoomsID = [];
                             updatedAuthUserChatRoomsID.push(newChatRoomID);
                             let chatRooms = updatedAuthUserChatRoomsID;
-                            axios.put('usersChatRooms/ucr' + this.props.userId + '.json', { chatRooms }).catch(
+                            axios.put('usersChatRooms/ucr' + props.userId + '.json', { chatRooms }).catch(
                                 error => {                              
                                     let errorMessage = "Error. failed to update Authenticated usersChatRooms " + DOMPurify.sanitize(error); 
-                                    this.props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ this.closeNotification }/>]);
+                                    props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification }/>]);
                                 }
                             );
                         }
@@ -286,12 +284,12 @@ class Messenger extends Component {
                                 axios.put('usersChatRooms/ucr' + recipentID + '.json', { chatRooms }).then(
                                     () => {
                                         //auth and recipent have new chatroom so update auth user sidebar with new chatroom 
-                                        this.handleUsersChatRoomsID();     
+                                        handleUsersChatRoomsID();     
                                     }
                                 ).catch(
                                     error => {                                     
                                         let errorMessage = "Error. failed to update Recipient usersChatRooms " + DOMPurify.sanitize(error);
-                                        this.props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ this.closeNotification }/>]);
+                                        props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification }/>]);
                                     }
                                 );
                             } 
@@ -302,12 +300,12 @@ class Messenger extends Component {
                         // --------- start of update chatRoomUser --------- 
                         newChatRoomUsersObject = {
                             chatRoomID: newChatRoomID,
-                            users: [this.props.userId, recipentID]
+                            users: [props.userId, recipentID]
                         }
                         axios.put('chatRoomsUsers/cru' + newChatRoomID + '.json', newChatRoomUsersObject).catch(
                             error => {
                                 let errorMessage = "Error. Failed to add ChatRoom to ChatRoomUsers " + DOMPurify.sanitize(error); 
-                                this.props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ this.closeNotification }/>]);
+                                props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification }/>]);
                             }
                         );
                         // --------- end of update chatRoomUsers ---------
@@ -316,7 +314,7 @@ class Messenger extends Component {
                     //if error occurred in axios get nextChatRoomID from chatRooms/nextChatRoomID.json
                     error => {
                         let errorMessage = "Error occurred while trying to set ChatRoomID. Please try agin. " + DOMPurify.sanitize(error); 
-                        this.props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ this.closeNotification }/>]);
+                        props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification }/>]);
                     }
                 );
             }
@@ -324,18 +322,18 @@ class Messenger extends Component {
 
         if(event) { event.preventDefault(); }
         //--------- start check if recipients name exists. set recipientsId if it exists ---------
-        if(recipentName !== null && recipentName !== this.props.username && recipentName) {
+        if(recipentName !== null && recipentName !== props.username && recipentName) {
             axios.get('userIDByUsername/' + recipentName + '.json').then(
                 response => {
                     recipentID = response.data;
                     if(recipentID === null) {     
-                        this.props.setNotification([<Alert alertMessage = "User not found! 308" alertClose = { this.closeNotification } />]);
+                        props.setNotification([<Alert alertMessage = "User not found! 308" alertClose = { closeNotification } />]);
                     }
 
                     // --------- Check to see if auth user already has a chatroom with recipent ---------
                     if(recipentID !== null) {
-                        if(this.props.usersChatRoomsID !== null) {
-                            this.props.usersChatRoomsID.forEach(chatRoomID => {
+                        if(props.usersChatRoomsID !== null) {
+                            props.usersChatRoomsID.forEach(chatRoomID => {
                                 //for the current chatRoom get the users in that chatroom
                                 axios.get('chatRoomsUsers/cru' + chatRoomID + '.json').then(
                                     chatRoomUsers => {
@@ -345,7 +343,7 @@ class Messenger extends Component {
                                             for(let i = 0; i < Object.values(chatRoomUsers.data.users).length; i++) {
                                                 let userID = chatRoomUsers.data.users[i];
                                                 if(recipentID === userID) {             
-                                                    this.props.setNotification([<Alert alertMessage="You already have a chatroom with this user." alertClose={ this.closeNotification }/>]);             
+                                                    props.setNotification([<Alert alertMessage="You already have a chatroom with this user." alertClose={ closeNotification }/>]);             
                                                     hasChatRoomWithRecipent = true;
                                                     break;
                                                 }
@@ -365,16 +363,16 @@ class Messenger extends Component {
                 }
             ).catch(
                 error => {
-                    this.props.setNotification([<Alert alertMessage="User not found! 366" alertClose={ this.closeNotification }/>]);
+                    props.setNotification([<Alert alertMessage="User not found! 366" alertClose={ closeNotification }/>]);
                 }
             );
         } else {
-            this.props.setNotification([<Alert alertMessage="Recipent\'s name is required and can\'t be your own name!" alertClose={ this.closeNotification }/>]);
+            props.setNotification([<Alert alertMessage="Recipent\'s name is required and can\'t be your own name!" alertClose={ closeNotification }/>]);
         }
         // --------- end of check recipent name ---------
     }
 
-    removeChatRoom = removeChatRoomID => {
+    const removeChatRoom = removeChatRoomID => {
         //will equal all the users ID that are in the chatroom and need the chatroom id removed from userChatRooms
         let removeChatRoomUsers = [];
         //index of the chatRoom we need to remove from userChatRoom ( ucr )
@@ -389,9 +387,9 @@ class Messenger extends Component {
                         // -------- start remove the chatRoom from the ChatRoomUsers --------
                         //deletes data by setting it equal to an empty object. firebase then automatically removes empty objects
                         axios.put('chatRoomsUsers/cru' + removeChatRoomID + '.json', empty).then(() => {
-                            if(this.props.currentChatRoomID === removeChatRoomID) {
+                            if(props.currentChatRoomID === removeChatRoomID) {
                                 //set the current chatroom to Unanimity instead of the chatroom that dose not exist
-                                this.props.setCurrentChatRoomName('Unanimity');
+                                props.setCurrentChatRoomName('Unanimity');
                             }
                         }).catch(e => { console.log("error overriding/deleting chatRoomUsers for " + removeChatRoomID + "axios error: " + e) });
                         // -------- end of remove the chatRoom from the chatRoomUsers --------
@@ -413,7 +411,7 @@ class Messenger extends Component {
                                                 axios.put('usersChatRooms/ucr' + user + '/chatRooms.json', empty).then(
                                                     () => {
                                                         //causes sidebar to update
-                                                        this.handleUsersChatRoomsID(); 
+                                                        handleUsersChatRoomsID(); 
                                                     }
                                                 ).catch(error => { console.log(error); });
                                             } else {                                      
@@ -421,7 +419,7 @@ class Messenger extends Component {
                                                 axios.put('usersChatRooms/ucr' + user + '.json', { chatRooms }).then(
                                                     () => {
                                                         //causes sidebar to update
-                                                        this.handleUsersChatRoomsID();
+                                                        handleUsersChatRoomsID();
                                                     }
                                                 ).catch(error => { console.log(error); });
                                             }
@@ -441,7 +439,7 @@ class Messenger extends Component {
                 }
             ).catch(
                  error => {
-                    this.props.setNotification([<Alert alertMessage="Could not find Chatroom that you requested to be removed." alertClose={ this.closeNotification }/>]);
+                    props.setNotification([<Alert alertMessage="Could not find Chatroom that you requested to be removed." alertClose={ closeNotification }/>]);
                 }
             );
         }
@@ -450,54 +448,52 @@ class Messenger extends Component {
         }
     }
 
-    render() {
-        let mainContentInlineStyles = {}; 
-        //sidebar closed make main content (the chatRoom area) expand entire width
-        if(!this.props.showSidebar) {
-            mainContentInlineStyles = {
-                transform: 'translateX( -20vw )',
-                width: '100vw',
-                height: '100vh',
-            };
-        }
-        //prevents sidebar from erring out by returning an empty array instead of null or undefined.
-        let sidebarusersChatRoomsID;
-        if(this.props.usersChatRoomsID !== null) {
-            sidebarusersChatRoomsID = this.props.usersChatRoomsID;
-        } else {
-            sidebarusersChatRoomsID = [];
-        }
-        return(
-            <Fragment>
-                { this.props.notification }
-                <div className={ styles.layout }>
-                    <div className={ styles.sidebarGrid } style={ this.state.sidebarInlineStyles }>
-                        <Sidebar usersChatRoomsID={ sidebarusersChatRoomsID }
-                            userID={ this.props.userId }
-                            setCurrentChatRoomID = { this.handleCurrentChatRoom }
-                            showSidebar={ this.props.showSidebar }
-                            addChatRoom={ this.newChatRoom }
-                            deleteChatRoom={ this.removeChatRoom }
-                            toggleSidebar={ this.handleShowSidebar }
-                        />
-                    </div>
-                    <div className={ styles.mainContentGrid } style={ mainContentInlineStyles }>
-                        <MainContent 
-                            newMessage={ this.newMessage }
-                            currentChatRoom={ this.props.currentChatRoom }
-                            currentChatRoomName={ this.props.currentChatRoomName }
-                            authUsername={ this.props.username }
-                            authUID={ this.props.userId }
-                            toggleSidebar={ this.handleShowSidebar }
-                            showSidebar={ this.props.showSidebar }
-                            setAuth={ this.handleAuthentication }
-                            showAlert={ this.handleNotification }
-                        />
-                    </div> 
-                </div>
-            </Fragment>
-        );
+    let mainContentInlineStyles = {}; 
+    //sidebar closed make main content (the chatRoom area) expand entire width
+    if(!props.showSidebar) {
+        mainContentInlineStyles = {
+            transform: 'translateX( -20vw )',
+            width: '100vw',
+            height: '100vh',
+        };
     }
+    //prevents sidebar from erring out by returning an empty array instead of null or undefined.
+    let sidebarusersChatRoomsID;
+    if(props.usersChatRoomsID !== null) {
+        sidebarusersChatRoomsID = props.usersChatRoomsID;
+    } else {
+        sidebarusersChatRoomsID = [];
+    }
+    return(
+        <Fragment>
+            { props.notification }
+            <div className={ styles.layout }>
+                <div className={ styles.sidebarGrid } style={ sidebarInlineStyles }>
+                    <Sidebar usersChatRoomsID={ sidebarusersChatRoomsID }
+                        userID={ props.userId }
+                        setCurrentChatRoomID = { handleCurrentChatRoom }
+                        showSidebar={ props.showSidebar }
+                        addChatRoom={ newChatRoom }
+                        deleteChatRoom={ removeChatRoom }
+                        toggleSidebar={ handleShowSidebar }
+                    />
+                </div>
+                <div className={ styles.mainContentGrid } style={ mainContentInlineStyles }>
+                    <MainContent 
+                        newMessage={ newMessage }
+                        currentChatRoom={ props.currentChatRoom }
+                        currentChatRoomName={ props.currentChatRoomName }
+                        authUsername={ props.username }
+                        authUID={ props.userId }
+                        toggleSidebar={ handleShowSidebar }
+                        showSidebar={ props.showSidebar }
+                        setAuth={ handleAuthentication }
+                        showAlert={ handleNotification }
+                    />
+                </div> 
+            </div>
+        </Fragment>
+    );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messenger);

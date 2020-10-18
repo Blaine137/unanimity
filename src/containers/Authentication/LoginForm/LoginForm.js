@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './LoginForm.module.scss';
 
-const  LoginForm = props => {
+const LoginForm = props => {
     return(
         <div className={ styles.wrapper }>
             <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
