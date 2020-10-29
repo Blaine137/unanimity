@@ -34,7 +34,8 @@ let Authentication = props => {
         props.setUsername(null);
     }, []);
 
-    const checkForNewUser = (event, newUser, newPassword) => {     
+    const checkForNewUser = async (event, newUser, newPassword) => {    
+        event.preventDefault(); //prevent reload of page due to form submission 
         let newUserValue = newUser.value;
         let newPasswordValue = newPassword.value;
         let newUserID = null;
@@ -46,7 +47,6 @@ let Authentication = props => {
         newUserID = DOMPurify.sanitize(newUserID);
         newUserID = newUserID.replace(/[^\w]/g,'');
         
-        event.preventDefault(); //prevent reload of page due to form submission
         //a valid length
         if(newUserValue.length > 10 || newPasswordValue.length > 20) {
             props.setNotification([<Alert alertMessage="Username must be less than 10 characters and password must be less than 20." alertClose={ closeNotification }/>]);
@@ -55,21 +55,23 @@ let Authentication = props => {
          else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5) {
             props.setNotification([<Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ closeNotification }/>])
          } else {
-            //getnextuserID
-            axios.get('userIDByUsername/nextUserID.json').then(e => {
-                newUserID = e.data
-                if(newUserID) {
+            let getUserId = async () => {
+                try {
+                    let resID = await axios.get('userIDByUsername/nextUserID.json');
+                    newUserID = resID.data;
                     //try to get the username they are wanting to register as
-                    axios.get('userIDByUsername/' + newUserValue + '.json').then(e => {
-                        if(!e.data) {
-                            setNewUser(newUserValue, newPasswordValue, newUserID); //create user if the input does not exist
-                        } else {
-                            props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ closeNotification }/>]);
-                        }
-                    }).catch(error => { return 300; });
+                    let resName = await axios.get('userIDByUsername/' + newUserValue + '.json');
+                    if(!resName.data) {
+                        setNewUser(newUserValue, newPasswordValue, newUserID); //create user if the input does not exist
+                    } else {
+                        props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ closeNotification }/>]);
+                    }
+                } catch(error) {
+                    return 300;
                 }
-            });
-         }
+            }
+            getUserId();
+        }
     }
 
     //sets users in db
@@ -81,15 +83,14 @@ let Authentication = props => {
         newUserID = DOMPurify.sanitize( newUserID ); 
         newUserID = newUserID.replace(/[^\w!?$]/g,'');      
         //add user to Users in db
-            let newCompleteUser = {
-                    //passwordHash is a npm install. generates by default has 8 salts and strong one way encryption.
-                    password: passwordHash.generate(newPassword),
-                    userID: newUserID,
-                    userName: newUser
-            };
-            //sets new users in users
-            axios.put('users/u' + newUserID + '.json' , newCompleteUser);   
-        //end of add user to Users in db
+        let newCompleteUser = {
+                //passwordHash is a npm install. generates by default has 8 salts and strong one way encryption.
+                password: passwordHash.generate(newPassword),
+                userID: newUserID,
+                userName: newUser
+        };
+        //sets new users in users
+        axios.put('users/u' + newUserID + '.json' , newCompleteUser);   
         // adds user to userIDByUsername
             //create object
             let userIDByUsername = {};

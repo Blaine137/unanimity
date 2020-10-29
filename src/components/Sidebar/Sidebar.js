@@ -190,6 +190,7 @@ class Sidebar extends Component {
         }
         return null;
     }
+    
     render() {    
         this.showAllChatRooms();     
         return(
