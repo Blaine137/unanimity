@@ -243,7 +243,8 @@ const Messenger = props => {
 
                         // --------- start update usersChatRooms for authenticated user and recipent ---------
                         //they have other chatRooms
-                        if(props.usersChatRoomsID) {
+                      
+                        if(props.usersChatRoomsID && props.usersChatRoomsID.length !== 0) {
                             //gets latest data. this prevents from add chatroom adding chatroom references to deleted chatroom
                             axios.get('usersChatRooms/ucr' + props.userId + '/chatRooms.json').then(
                                 e => {
@@ -332,7 +333,9 @@ const Messenger = props => {
 
                     // --------- Check to see if auth user already has a chatroom with recipent ---------
                     if(recipentID !== null) {
-                        if(props.usersChatRoomsID !== null) {
+                        console.log(props.usersChatRoomsID);
+                        if(props.usersChatRoomsID !== null && props.usersChatRoomsID.length !== 0) {
+                            
                             props.usersChatRoomsID.forEach(chatRoomID => {
                                 //for the current chatRoom get the users in that chatroom
                                 axios.get('chatRoomsUsers/cru' + chatRoomID + '.json').then(
@@ -343,7 +346,7 @@ const Messenger = props => {
                                             for(let i = 0; i < Object.values(chatRoomUsers.data.users).length; i++) {
                                                 let userID = chatRoomUsers.data.users[i];
                                                 if(recipentID === userID) {             
-                                                    props.setNotification([<Alert alertMessage="You already have a chatroom with this user." alertClose={ closeNotification }/>]);             
+                                                    props.setNotification([<Alert alertMessage="You already have a chatroom with this user." alertClose={ closeNotification }/>]);
                                                     hasChatRoomWithRecipent = true;
                                                     break;
                                                 }
