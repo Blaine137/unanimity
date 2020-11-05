@@ -7,4 +7,9 @@ Poweder by: React.js, React Router, Redux, Axios, Firebase, and Heroku.
 
 view the website at: https://unanimity.herokuapp.com/
 
+-HOW TO RUN THE PROJECT-
+
+step1: in the root directory, run "npm install"
+step2: in the root directory, run "npm run dev"
+
 <image src="https://github.com/Blaine137/unanimityFIREBASE/blob/master/primaryimageofpage.png" alt="Unanimity Messenger landing page image" />
