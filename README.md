@@ -9,7 +9,7 @@ view the website at: https://unanimity.herokuapp.com/
 
 -HOW TO RUN THE PROJECT-
 
-step1: in the root directory, run "npm install"
+step1: in the root directory, run "npm install" <br>
 step2: in the root directory, run "npm run dev"
 
 
