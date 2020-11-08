@@ -3,7 +3,7 @@ nav {
     background-color: var(--light-accent-bg);
     display: flex;
     align-items: center;
-    height: 3rem;
+    height: auto;
 }
 ul {
     padding: 0;
@@ -12,18 +12,23 @@ ul {
     text-align: center;     
 }
 li {
-    display: inline;
+    display: block;
+    padding: .3rem 0 .3rem 0;
     list-style: none;
     &:hover, &:focus {
         font-size: 1.1rem;
         transition: all ease-in-out .25s;
         cursor: pointer;
     }
+    a{
+        text-decoration: none;
+    }
 }
 .linkColor {
     color: var(--dark-action);
 }
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 550px) {
+    nav{height: 3rem;}
     ul{ text-align: right; }
-    li{ margin-right: 2rem; }
+    li{ margin-right: 2rem; display: inline; }
 }

@@ -126,6 +126,7 @@ const Messenger = props => {
                     property[1] = nextMsgNum;
                 }
             })
+            console.log(messageChatRoom);
             messageChatRoom = Object.fromEntries(messageChatRoom);
             axios.put("chatRooms/" + props.currentChatRoomID + ".json", messageChatRoom);
             //update our current chatRoom
