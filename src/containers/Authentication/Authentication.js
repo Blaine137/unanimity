@@ -157,6 +157,7 @@ let Authentication = props => {
     }
 
     const checkPwdForUserID = async (checkUsername, checkUserID, checkPassword) => {
+        
        checkUsername = DOMPurify.sanitize(checkUsername);
        checkUsername = checkUsername.replace(/[^\w]/g,'');
        checkUserID = DOMPurify.sanitize(checkUserID);
@@ -165,6 +166,7 @@ let Authentication = props => {
        checkPassword = checkPassword.replace(/[^\w^!?$]/g,'');
         try {
             let hashedPassword = await axios.get('users/u' + checkUserID + '/password.json');
+            hashedPassword = hashedPassword.data;
             if(passwordHash.verify(checkPassword, hashedPassword)) {    
                 props.setUserId(checkUserID);
                 props.setUsername(checkUsername); 

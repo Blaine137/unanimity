@@ -8,6 +8,7 @@ main {
 }
 .landinglogo {
     max-height: 10vh;
+    width: 100%;
     margin: 10vh 0 15vh 0;
 }
 .header {
@@ -28,8 +29,8 @@ h1 {
     background-color: var(--dark-action);
     text-decoration: none;
     color: var(--main-bg);
-    padding: 0 3rem;
-    max-width: 600px;
+    padding: 0 1.8rem;
+    max-width: 400px;
     height: 7vh;
     border-radius: 1rem;
     border: none;
@@ -43,6 +44,7 @@ h1 {
 @media only screen and ( min-width: 700px ) {
     main { background-image: url( /backgroundmedium.png ); }
     .header { font-size: 1.8rem; }
+    .chatButton{max-width: 600px;}
 }
 //desktop
 @media only screen and ( min-width: 1000px ) {
