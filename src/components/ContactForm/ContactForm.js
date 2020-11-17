@@ -8,7 +8,7 @@ import Nav from '../Nav/Nav.js';
 
 const mapStateToProps = state => ({ notification: state.messenger.notification });
 
-const mapDispatchToProps = { setNotification: notification => setNotification(notification) };
+const mapDispatchToProps = { setNotification };
 
 let ContactForm = props => {
     let closeNotification = () => props.setNotification(null);      

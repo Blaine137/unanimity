@@ -23,15 +23,15 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    setAuthentication: authStatus => setAuthentication(authStatus),
-    setUserId: userId => setUserId(userId),
-    setUsername: username => setUsername(username),
-    setShowSidebar: showSidebar => setShowSidebar(showSidebar),
-    setCurrentChatRoomID: currentChatRoomID => setCurrentChatRoomID(currentChatRoomID),
-    setCurrentChatRoom: currentChatRoom => setCurrentChatRoom(currentChatRoom),
-    setCurrentChatRoomName: currentChatRoomName => setCurrentChatRoomName(currentChatRoomName),
-    setUsersChatRoomsID: usersChatRoomsID => setUsersChatRoomsID(usersChatRoomsID),
-    setNotification: notification => setNotification(notification)
+    setAuthentication,
+    setUserId,
+    setUsername,
+    setShowSidebar,
+    setCurrentChatRoomID,
+    setCurrentChatRoom,
+    setCurrentChatRoomName,
+    setUsersChatRoomsID,
+    setNotification
 };
 
 const Messenger = props => {

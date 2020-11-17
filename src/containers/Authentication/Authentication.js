@@ -21,10 +21,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    setAuthentication: authStatus => setAuthentication(authStatus),
-    setUserId: userId => setUserId(userId),
-    setUsername: username => setUsername(username),
-    setNotification: notification => setNotification(notification)
+    setAuthentication,
+    setUserId,
+    setUsername,
+    setNotification
 };
 
 let Authentication = props => {
