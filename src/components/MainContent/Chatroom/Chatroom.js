@@ -23,9 +23,13 @@ const Chatroom = props => {
         let userMessagesArray = [];
         //creates array where indexes are userMessagesObject[0] and the value is userMessagesObject[1]
         for(let [key, value] of Object.entries(userMessagesObject)) { userMessagesArray[key]=value; };
+        let isSender = false;
+        if(username === props.authUsername) {
+            isSender = true;
+        }
         userMessagesArray.forEach((msg, index) => {   
             if(msg !== null) { 
-                displayedMessages[index] = (<Message senderName={ username } currentMessage={ msg } key={ index }></Message>);        
+                displayedMessages[index] = (<Message isSender={ isSender } senderName={ username } currentMessage={ msg } key={ index }></Message>);        
             }
         });
     }
