@@ -5,9 +5,9 @@ import DOMPurify from 'dompurify';
 const message = props => {
     var messageStyle = null;
     if(props.isSender) {
-        messageStyle = styles.senderName;
+        messageStyle = styles.senderMessage;
     } else {
-        messageStyle = styles.recieverName;
+        messageStyle = styles.recieverMessage;
     }
 
     let sanitizedMessage = props.currentMessage;
@@ -16,10 +16,11 @@ const message = props => {
     let sanitizedName = props.senderName;
     sanitizedName = sanitizedName.replace(/[^\w\s!?$]/g, '');
     sanitizedName = DOMPurify.sanitize(sanitizedName);
+    
     return (
-        <div className={ `${ styles.message } ${ messageStyle }` }>
-            <h3 className={ styles.userName }> { sanitizedName } </h3>
-            <p>{ sanitizedMessage }</p>  
+        <div className={ styles.messageContainer }>
+            <h3 className={ styles.userName }>{ sanitizedName }</h3>
+            <p className={`${messageStyle} ${styles.message}`}>{ sanitizedMessage }</p>  
         </div>
     );
 };
