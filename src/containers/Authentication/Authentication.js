@@ -157,7 +157,6 @@ let Authentication = props => {
     }
 
     const checkPwdForUserID = async (checkUsername, checkUserID, checkPassword) => {
-        
        checkUsername = DOMPurify.sanitize(checkUsername);
        checkUsername = checkUsername.replace(/[^\w]/g,'');
        checkUserID = DOMPurify.sanitize(checkUserID);

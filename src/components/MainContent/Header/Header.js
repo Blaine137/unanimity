@@ -1,11 +1,13 @@
 import React, { Component, Fragment, useState } from 'react';
 import styles from './Header.module.scss';
 import Switch from 'react-switch';
+import AccountSettings from './AccountSettings/AccountSettings';
 
 const Header = props => {
     const [openOptions, setOpenOptions] = useState(false);
     const [options, setOptions] = useState(null);
     const [lightTheme, setLightTheme] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
 
     const toggleTheme = () => {
         if(lightTheme) {
@@ -35,7 +37,7 @@ const Header = props => {
                     <li>
                         <span>Theme: </span>
                         <Switch className={styles.switch} checked={lightTheme} onChange={() => { setLightTheme(!lightTheme);  setOptions(null)}} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} />   
-                    </li> 
+                    </li>
                     <li 
                         tabIndex="0" 
                         style={ { color: '#f44336' } } 
@@ -43,10 +45,14 @@ const Header = props => {
                         onKeyDown={ e => { if(e.key === 'Enter') { props.logout(true); } } }
                     >
                         Logout
-                    </li>                      
+                    </li>
+                    <li>
+                        <a
+                        onClick={() => { setShowSettings(!showSettings); setOptions(null); }}
+                        >account settings</a>
+                    </li>                       
                 </ul>
-            );
-            
+            );          
         } else {
             setOptions(null);
         }
@@ -93,6 +99,12 @@ const Header = props => {
         }
     }
 
+    const showSettingsMenu = () => {
+        if(showSettings) {
+            return <AccountSettings setShowSettings={setShowSettings} authUID={ props.authUID } />;
+        }
+    }
+
     toggleTheme();
     let burger = toggleBurger();   
     return(
@@ -114,6 +126,7 @@ const Header = props => {
                 </div>     
             </header>
             { options }  
+            { showSettingsMenu() }
         </Fragment>
     );
 }

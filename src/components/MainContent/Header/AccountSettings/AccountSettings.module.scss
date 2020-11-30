@@ -1,0 +1,82 @@
+.container {
+    overflow: scroll;
+    height: 75vh; 
+}
+.closeSettings {
+    background-color: transparent;
+    border: none;
+    font-size: 1.75rem;
+    display: inline;
+}
+.form {
+    z-index: 10;
+    display: block;
+    text-align: left;
+    margin: auto;
+    padding: 1rem;
+    background-color: var(--light-accent-bg);
+    width: 90vw;
+    max-width: 95vw;
+    color: var(--dark-action);
+    font-weight: 700;
+    letter-spacing: .1rem;
+    border-radius: 1rem;
+}
+fieldset { border: none; }
+legend {
+    padding-bottom: 3rem;
+    text-align: left;
+}
+.input {
+    font-size: 1rem;
+    background-color: var(--light-accent-bg);
+    display: block;
+    width: 100%;
+    color: var(--dark-action);
+    border: none;
+    border-bottom: 2px solid var(--dark-action);
+    margin-bottom: 3rem;
+    transition: all ease-in-out;
+    transition-duration: .25s;
+    &:focus { transform: scale(1.2); }
+}
+label {
+    display: block;
+    margin-bottom: 1rem;;
+}
+.submit {
+    position: relative;
+    left: 25%;
+    background-color: var(--dark-action);
+    color: var(--light-accent-bg);
+    border: none;  
+    height: 3rem;
+    width: 50%;
+    min-width: 6rem;
+    border-radius: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    &:hover {
+        color: var(--dark-action);
+        background-color: var(--positive-action); 
+        transition: all .5s;   
+    }
+}
+/* phablet and up */
+@media only screen and (min-width: 600px) {
+    .form { padding: 3rem; }
+    .submit {
+        width: 40%;
+        left: 0;
+    }
+}
+/*tablets and larger*/
+@media only screen and (min-width: 700px) { 
+    .form {
+        padding: 3rem;
+        position: relative;
+        top: 10vh;
+        max-width: 500px;
+        max-height: 550px;
+    }
+}
