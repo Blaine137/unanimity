@@ -69,12 +69,14 @@ const Messenger = props => {
                 props.setAuthentication(false);
                 props.setUserId(null);
                 props.setUsername(null);
+                props.setUsersChatRoomsID(null);
             }
         } else { 
             /* Logout */
             props.setAuthentication(false);
             props.setUserId(null);
             props.setUsername(null);
+            props.setUsersChatRoomsID(null);
         }
     }
 
