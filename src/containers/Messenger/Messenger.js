@@ -335,7 +335,6 @@ const Messenger = props => {
 
                     // --------- Check to see if auth user already has a chatroom with recipent ---------
                     if(recipentID !== null) {
-                        console.log(props.usersChatRoomsID);
                         if(props.usersChatRoomsID !== null && props.usersChatRoomsID.length !== 0) {
                             
                             props.usersChatRoomsID.forEach(chatRoomID => {

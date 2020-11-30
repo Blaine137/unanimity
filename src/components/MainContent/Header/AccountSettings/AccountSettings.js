@@ -7,6 +7,7 @@ import * as passwordHash from 'password-hash'; //import npm pass https://www.npm
 const AccountSettings = props => {
 	let [oldPassword, setOldPassword] = useState('');
 	let [newPassword, setNewPassword] = useState('');
+	let [pwdError, setPwdError] = useState('');
 
 	const checkPwdForUserID = async ( checkPassword) => {
 		checkPassword = DOMPurify.sanitize(checkPassword);
@@ -15,11 +16,7 @@ const AccountSettings = props => {
 			 let hashedPassword = await axios.get('users/u' + props.authUID + '/password.json')
 			 .catch(err => console.log(err));
 			 hashedPassword = hashedPassword.data;
-			 if(passwordHash.verify(checkPassword, hashedPassword)) {    
-				 return true;                     
-			 } else {			 
-				return false;
-			 }
+			 return passwordHash.verify(checkPassword, hashedPassword);   
 		 } catch {
 			 return 300;
 		 }  
@@ -28,15 +25,15 @@ const AccountSettings = props => {
 	const handleSubmit = async e => {
 		e.preventDefault();
 		let passwordCorrect;
-		if(oldPassword.length > 5) {
-			passwordCorrect = checkPwdForUserID(oldPassword);
-			if(passwordCorrect){
+		if(oldPassword.length > 5 && newPassword.length > 5) {
+			passwordCorrect = await checkPwdForUserID(oldPassword);
+			console.log(passwordCorrect);
+			if(passwordCorrect && passwordCorrect !== 300) {
 				let newHashedPassword = passwordHash.generate(newPassword);
 				let oldUser = await axios.get('users/u' + props.authUID + '.json')
 				.catch(err => console.log(err));
 				let updatedUser = {...oldUser.data};
 				updatedUser.password = newHashedPassword;
-				
 			    axios.put('users/u' + props.authUID + '.json', updatedUser)
 				.then(res => {
 					if(res){
@@ -44,19 +41,15 @@ const AccountSettings = props => {
 					}
 				})
 				.catch(err => console.log('err..', err));
+				props.setShowSettings(false);
+			} else {
+				setPwdError(`${pwdError} Incorrect current password.`);
 			}
 		} else {
-			/*
-
-
-				TODO: Make this error work
-
-
-			*/
-			console.log('To short of password');
+			setPwdError(`${pwdError} Password must be at least five characters long.`);
 		}
-		props.setShowSettings(false);
 	}
+
 	return(
 		<div className={ styles.container }> 
 			<button className={ styles.closeSettings } onClick={ () => props.setShowSettings(false) }>&times;</button>
@@ -81,6 +74,7 @@ const AccountSettings = props => {
 					placeholder="Enter your new password"
 					onChange={ e => setNewPassword(e.target.value) }
 				/>
+				<span>{pwdError}</span>
 				<button className={ styles.submit }>Submit</button>
 			</form>	
 		</div>
