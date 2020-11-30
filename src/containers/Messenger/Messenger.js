@@ -492,6 +492,7 @@ const Messenger = props => {
                         showSidebar={ props.showSidebar }
                         setAuth={ handleAuthentication }
                         showAlert={ handleNotification }
+                       
                     />
                 </div> 
             </div>

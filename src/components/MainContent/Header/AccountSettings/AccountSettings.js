@@ -27,8 +27,21 @@ const AccountSettings = props => {
 	const handleSubmit = e => {
 		e.preventDefault();
 		let passwordCorrect;
-		if(oldPassword.length() > 5) {
+		if(oldPassword.length > 5) {
 			passwordCorrect = checkPwdForUserID(oldPassword);
+
+			if(passwordCorrect){
+				let newHashedPassword = passwordHash.generate(newPassword);
+			    axios.put('users/u' + props.authUID + '.json', {password: newHashedPassword})
+				.then(res => {
+					if(res){
+						console.log('changed password!!!')
+					}
+				})
+				.catch(err => console.log('err..', err));
+			}
+
+
 		} else {
 			/*
 
@@ -39,6 +52,7 @@ const AccountSettings = props => {
 			*/
 			console.log('To short of password');
 		}
+		props.setShowSettings(false);
 	}
 	return(
 		<div className={ styles.container }> 
