@@ -12,7 +12,8 @@ const AccountSettings = props => {
 		checkPassword = DOMPurify.sanitize(checkPassword);
 		checkPassword = checkPassword.replace(/[^\w^!?$]/g,'');
 		 try {
-			 let hashedPassword = await axios.get('users/u' + props.authUID + '/password.json');
+			 let hashedPassword = await axios.get('users/u' + props.authUID + '/password.json')
+			 .catch(err => console.log(err));
 			 hashedPassword = hashedPassword.data;
 			 if(passwordHash.verify(checkPassword, hashedPassword)) {    
 				 return true;                     
@@ -24,15 +25,19 @@ const AccountSettings = props => {
 		 }  
 	}
 
-	const handleSubmit = e => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 		let passwordCorrect;
 		if(oldPassword.length > 5) {
 			passwordCorrect = checkPwdForUserID(oldPassword);
-
 			if(passwordCorrect){
 				let newHashedPassword = passwordHash.generate(newPassword);
-			    axios.put('users/u' + props.authUID + '.json', {password: newHashedPassword})
+				let oldUser = await axios.get('users/u' + props.authUID + '.json')
+				.catch(err => console.log(err));
+				let updatedUser = {...oldUser.data};
+				updatedUser.password = newHashedPassword;
+				
+			    axios.put('users/u' + props.authUID + '.json', updatedUser)
 				.then(res => {
 					if(res){
 						console.log('changed password!!!')
@@ -40,8 +45,6 @@ const AccountSettings = props => {
 				})
 				.catch(err => console.log('err..', err));
 			}
-
-
 		} else {
 			/*
 
