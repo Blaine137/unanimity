@@ -1,3 +1,4 @@
+
 .container {
     overflow: scroll;
     height: 75vh; 
@@ -7,6 +8,24 @@
     border: none;
     font-size: 1.75rem;
     display: inline;
+}
+.settingOptions{
+    display: block;
+    margin: .5rem auto;
+    background-color: var(--dark-action);
+    padding: .5rem;
+    max-width: 400px;
+    height: 7vh;
+    border-radius: 1rem;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    &:focus, &:hover {   
+        transform: scale( 1.2 );
+        color: var(--dark-action);
+        background-color: var(--positive-action);  
+        transition: all ease-in-out .25s;
+    }
 }
 .form {
     z-index: 10;

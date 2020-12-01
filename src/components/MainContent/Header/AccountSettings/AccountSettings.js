@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import styles from "./AccountSettings.module.scss";
 import UpdatePwdForm from './UpdatePwdForm/UpdatePwdForm';
 import UpdateUsernameForm from './UpdateUsernameForm/UpdateUsernameForm';
@@ -11,6 +11,9 @@ import axios from '../../../../axios';
 */
 
 const AccountSettings = props => {
+	const [showUpdatePwd, setShowUpdatePwd] = useState(false);
+	const [showUpdateUsername, setShowUpdateUsername] = useState(false);
+
 	//checks if currrent password entered is equal to auth user pwd on db.
 	const checkPwd = async checkPassword => {
 		checkPassword = DOMPurify.sanitize(checkPassword);
@@ -25,12 +28,36 @@ const AccountSettings = props => {
 		 }  
 	}
 
+	let body;
+	if(showUpdateUsername){	
+		body = (
+			<>
+				<button className={ styles.closeSettings } onClick={ () => props.setShowSettings(false) }>&times;</button>
+				<button className={styles.closeSettings}>larr;</button>
+				<h3 style={ { display: "inline" } }>Account settings</h3>
+				<UpdateUsernameForm checkPwd={ checkPwd } authUsername={ props.authUsername } setShowSettings={ props.setShowSettings } authUID={ props.authUID }/>
+			</>);
+	}else if(showUpdatePwd){
+		body = (
+			<>
+				<button className={ styles.closeSettings } onClick={ () => props.setShowSettings(false) }>&times;</button>
+				<h3 style={ { display: "inline" } }>Account settings</h3>
+				<UpdatePwdForm checkPwd={ checkPwd } setShowSettings={ props.setShowSettings } authUID={ props.authUID }/>
+			</>
+		);
+	}else{
+		body = (
+			<>
+				<button className={ styles.closeSettings } onClick={ () => props.setShowSettings(false) }>&times;</button>
+				<h3 style={ { display: "inline" } }>Account settings</h3>
+				<button className={styles.settingOptions} onClick={() => setShowUpdateUsername(true)}>Update Username</button>
+				<button className={styles.settingOptions} onClick={() => setShowUpdatePwd(true)}>Update Password</button>
+			</>
+		);
+	}
 	return(
 		<div className={ styles.container }> 
-			<button className={ styles.closeSettings } onClick={ () => props.setShowSettings(false) }>&times;</button>
-			<h3 style={ { display: "inline" } }>Account settings</h3>
-			<UpdatePwdForm checkPwd={ checkPwd } setShowSettings={ props.setShowSettings } authUID={ props.authUID }/>
-			<UpdateUsernameForm checkPwd={ checkPwd } authUsername={ props.authUsername } setShowSettings={ props.setShowSettings } authUID={ props.authUID }/>
+			{body}
 		</div>
 	);
 }
