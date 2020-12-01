@@ -101,7 +101,7 @@ const Header = props => {
 
     const showSettingsMenu = () => {
         if(showSettings) {
-            return <AccountSettings setShowSettings={setShowSettings} authUID={ props.authUID } />;
+            return <AccountSettings setShowSettings={setShowSettings} authUID={ props.authUID } authUsername={props.authUsername}/>;
         }
     }
 
