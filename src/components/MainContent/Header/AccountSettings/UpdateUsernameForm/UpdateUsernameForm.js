@@ -8,16 +8,6 @@ const UpdateUsernameForm = props => {
     let [errors, setErrors] = useState('');
 	let [password, setPassword] = useState('');
 
-    
-	//checks if currrent username entered is equal to auth user on db.
-	const checkUsername = async checkUsername => {
-        if(props.authUsername === checkUsername) {
-            return true;
-        } else {
-            return false;
-        }         
-	}
-
 	//calls checkUsername if correct then updates db to new username for auth user
 	const handleUsernameSubmit = async e => {
         e.preventDefault();
@@ -38,15 +28,6 @@ const UpdateUsernameForm = props => {
                 props.setShowSettings(false);
             })
 			.catch(err => console.log('username did not change: ', err));
-			
-
-
-			/*username = DOMPurify.sanitize(username);
-			username = username.replace(/[^\w]/g,'');*/
-
-
-
-
 			
             //change username in userIDByUsername
             const userIDByUsername = await axios.get('userIDByUsername.json');
@@ -80,7 +61,7 @@ const UpdateUsernameForm = props => {
                 <label htmlFor="newUsername">Password</label>
 				<input
 					className={ styles.input } 
-					type="text" 
+					type="password" 
 					id="password" 
 					name="password" 
 					placeholder="Enter your password"

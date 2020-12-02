@@ -93,10 +93,6 @@ label {
 /*tablets and larger*/
 @media only screen and (min-width: 700px) { 
     .form {
-        padding: 3rem;
-        position: relative;
-        top: 10vh;
         max-width: 500px;
-        max-height: 550px;
     }
 }
