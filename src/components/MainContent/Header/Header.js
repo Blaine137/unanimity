@@ -49,7 +49,7 @@ const Header = props => {
                     <li>
                         <a
                         onClick={() => { setShowSettings(!showSettings); setOptions(null); }}
-                        >account settings</a>
+                        >Account Settings</a>
                     </li>                       
                 </ul>
             );          
