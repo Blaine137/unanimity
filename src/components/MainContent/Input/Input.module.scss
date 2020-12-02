@@ -7,20 +7,18 @@ html {
 *, *:before, *:after { box-sizing: inherit; }
 .inputContainer {
     width: inherit;
-    height: 20vh;
     padding: 1rem;
     position: absolute;
     bottom: 0;
     background-color: var(--dark-accent-bg);
-    
 }
-.input {
+.input, aside {
     background-color: var(--light-accent-bg);
     color: var(--dark-action);
     border: none;
     border-radius: 1rem;
-    width: 80%;
-    max-width: 1200px;
+    width: 90% !important;
+    max-width: 1200px !important;
     height: 90%;
     padding: 1rem;
     transition: all .1s ease-in-out;
