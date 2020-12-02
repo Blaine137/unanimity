@@ -1,32 +1,27 @@
 import React, { useState } from 'react';
 import styles from './Input.module.scss';
 import DOMPurify from 'dompurify';
-import Picker from 'emoji-picker-react';
 let oldTime = null;
 
 const Input = props => {
-    const [emojiPicker, setEmojiPicker] = useState(false);
     let [userMessage, setUserMessage] = useState('');
 
     /*
         make aria label dynamic
     */
     const handleEmoji = (event, emojiObject) => {
-        setEmojiPicker(false);
-        props.newMessage(`<span role="img" aria-label="sheep">'\${emojiObject.originalUnified}'</span>` );
+        console.log(emojiObject.originalUnified);
+        props.newMessage(`<span role="img" aria-label="sheep">${emojiObject.Unified}</span> `);
     }
     return(
         <div className={ styles.inputContainer }>
-            { emojiPicker &&
-                <Picker onEmojiClick={ handleEmoji } />
-            }
+           
             <textarea 
                 aria-label="Type a messages and press enter to send." 
                 spellCheck="true" 
                 placeholder="Press Enter to send Message" 
                 maxLength="1999"
                 className={ styles.input }
-                style={{display: emojiPicker ? 'none' : 'inline-block'} }
                 onChange={ e => {
                     setUserMessage(DOMPurify.sanitize(e.target.value));
                 }}
@@ -51,8 +46,7 @@ const Input = props => {
                     }
                 }}             
             >
-            </textarea>
-            <button onClick={ () => setEmojiPicker(true) }>Emoji</button>                  
+            </textarea>       
         </div>
     );
 }
