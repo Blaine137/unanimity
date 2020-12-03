@@ -6,10 +6,11 @@ import styles from './Nav.module.scss';
 const nav = props => {
     return(
         <nav>
-            <ul>          
-                <li><Link className={styles.linkColor} exact="true" to="/" >Home</Link></li>
-                <li><Link className={styles.linkColor} to="/contact" >Contact</Link></li>
-                <li><Link className={styles.linkColor} to="/login" >Login</Link></li>
+            <ul>     
+                {/* link component is rendered as <a></a> and dose not need role="link" */}     
+                <li><Link aria-label="go to the home page" className={styles.linkColor} exact="true" to="/" >Home</Link></li>
+                <li><Link aria-label="go to the contact page" className={styles.linkColor} to="/contact" >Contact</Link></li>
+                <li><Link aria-label="got to the login page" className={styles.linkColor} to="/login" >Login</Link></li>
             </ul>  
         </nav>
     );

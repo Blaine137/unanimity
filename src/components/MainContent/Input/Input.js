@@ -6,18 +6,10 @@ let oldTime = null;
 const Input = props => {
     let [userMessage, setUserMessage] = useState('');
 
-    /*
-        make aria label dynamic
-    */
-    const handleEmoji = (event, emojiObject) => {
-        console.log(emojiObject.originalUnified);
-        props.newMessage(`<span role="img" aria-label="sheep">${emojiObject.Unified}</span> `);
-    }
     return(
-        <div className={ styles.inputContainer }>
-           
+        <div className={ styles.inputContainer }> 
             <textarea 
-                aria-label="Type a messages and press enter to send." 
+                aria-label="Type a messages and press enter to send. You can also send emoji." 
                 spellCheck="true" 
                 placeholder="Press Enter to send Message" 
                 maxLength="1999"

@@ -43,17 +43,17 @@ const AccountSettings = props => {
 		} else {
 			return (
 				<>		
-					<button className={styles.settingOptions} onClick={ () => setShowUpdateUsername(true) }>Update Username</button>
-					<button className={styles.settingOptions} onClick={ () => setShowUpdatePwd(true) }>Update Password</button>
+					<button aria-label="open up a form where you can update your username" className={styles.settingOptions} onClick={ () => setShowUpdateUsername(true) }>Update Username</button>
+					<button aria-label="open up a form where you can update your password" className={styles.settingOptions} onClick={ () => setShowUpdatePwd(true) }>Update Password</button>
 				</>
 			);
 		}
 	}
 	
 	return(
-		<div className={ styles.container }> 
+		<div role="menu" className={ styles.container }> 
 			{showBackBtn()}
-			<button className={ styles.closeSettings } onClick={ () => props.setShowSettings(false) }>&times;</button>
+			<button aria-label="close account settings menu" className={ styles.closeSettings } onClick={ () => props.setShowSettings(false) }>&times;</button>
 			<h3 style={ { display: "inline" } }>Account settings</h3>
 			{setAccountSettingsBody()}
 		</div>

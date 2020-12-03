@@ -49,6 +49,7 @@ class Sidebar extends Component {
                     className={ styles.addContainer }
                     aria-label="Add a chatroom button"
                     role="button"   
+                    aria-haspopup="true"
                 >
                     <div className={ styles.addButton }></div>
                 </div>
@@ -66,7 +67,7 @@ class Sidebar extends Component {
                     <div className={ styles.closeMiddle }></div>
                     <div className={ styles.closeBottom }></div>
                 </div>
-                <div className={ styles.usersContainer }>
+                <div role="menu" aria-label="list of all chatroom's that you are in and can send messages in." className={ styles.usersContainer }>
                     { this.state.sidebarDisplay }
                 </div>                          
             </Fragment>
@@ -75,22 +76,23 @@ class Sidebar extends Component {
         if(this.props.showSidebar) {
             //set css to show the sidebar
             sidebar=(
-                <div 
+                <aside 
                     className={ styles.sidebarContainer } 
                     style={ { transform: 'translateX( 0% )' } } 
                 >  
                     { sidebarInner }
-                </div>
+                </aside >
             );
         } else {
             //set the css to hide the sidebar by moving it left 100%
             sidebar=(
-                <div 
+                <aside  
                     className={ styles.sidebarContainer } 
                     style={ { transform: 'translateX(-100%)' } } 
+                    aria-hidden="true"
                 >
                       { sidebarInner }      
-                </div>
+                </aside>
             );
         };
         return sidebar;
@@ -100,7 +102,7 @@ class Sidebar extends Component {
     addChatRoomToSidebar = (recipientsName, chatRoomsArray, currentChatRoomID) => {
         let newDisplay=[...this.state.sidebarDisplay];
         newDisplay.push((
-             <div key={ key } className={ styles.users }>
+             <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={ key } className={ styles.users }>
                 <div 
                     tabIndex="0" 
                     className={ styles.deleteContainer } 
@@ -109,7 +111,7 @@ class Sidebar extends Component {
                         if(e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
                     }}
                     role="button"
-                    aria-label="Delete Chatroom Button"
+                    aria-label={`Delete Chatroom Button for ${recipientsName}`}
                 >
                     <div className={ styles.deleteTop } ></div>
                     <div className={ styles.deleteBottom }></div>
@@ -126,6 +128,8 @@ class Sidebar extends Component {
                             this.props.setCurrentChatRoomID(currentChatRoomID);  
                         }
                     } }
+                    role="button"
+                    aria-label={`click here to open the chatroom with ${recipientsName}`}
                 > 
                     { recipientsName } 
                 </h3>

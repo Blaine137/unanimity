@@ -9,6 +9,14 @@ html {
     min-height: 100vh;
     padding: 1rem;  
 }
+.backgroundImage {
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: 95vw;
+    background-attachment: fixed;
+    background-position: 50% 98%;
+    background-image: url( /backgroundsmall.png ); 
+}
 .wrapper p { 
     font-size: .75rem;
     margin: auto;
@@ -114,4 +122,9 @@ img {
         max-width: 500px;
         max-height: 550px;
     }
+    .backgroundImage { background-image: url( /backgroundmedium.png ); }
+}
+//desktop
+@media only screen and ( min-width: 1000px ) {
+    .backgroundImage { background-image: url( /backgroundlarge.png ); }
 }

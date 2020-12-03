@@ -13,13 +13,14 @@ const alert = props => {
                 <span 
                     className={ styles.alertClose } 
                     tabIndex="0" 
-                    aria-label="Close alert message." 
+                    role="button"
+                    aria-label="Close Unanimity alert message." 
                     onClick={ () => { props.alertClose(); } } 
                     onKeyDown={ e => { if(e.key === 'Enter') { this.props.alertClose(); } } }
                 > 
                     &times; 
                 </span>
-                <span className={ styles.alertMessage }>{ sanitizedMessage }</span>
+                <span role="alert" aria-label="Alert message from unanimity about some error." className={ styles.alertMessage }>{ sanitizedMessage }</span>
             </div>
         );
     };

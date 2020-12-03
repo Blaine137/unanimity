@@ -70,6 +70,7 @@ const UpdatePwdForm = props => {
 				id="oldPassword" 
 				name="oldPassword" 
 				placeholder="Enter your current password"
+				aria-label="Enter your current password"
 				onChange={ e => setOldPassword(e.target.value) }
 			/>
 			<label htmlFor="newPassword">New Password</label>
@@ -79,6 +80,7 @@ const UpdatePwdForm = props => {
 				id="newPassword" 
 				name="newPassword" 
 				placeholder="Enter your new password"
+				aria-label="Enter your new password"
 				onChange={ e => setNewPassword(e.target.value) }
 			/>
 			<label htmlFor="confirmNewPassword">Confirm New Password</label>
@@ -88,10 +90,11 @@ const UpdatePwdForm = props => {
 				id="confirmNewPassword" 
 				name="confirmNewPassword" 
 				placeholder="Please confirm your new password"
+				aria-label="Please confirm your new password"
 				onChange={ e => setConfirmNewPassword(e.target.value) }
 			/>
-			<span>{pwdError}</span>
-			<button className={ styles.submit }>Submit</button>
+			<span role="alert" aria-label="Errors for entered data in the password form will display here">{pwdError}</span>
+			<button aria-label="Click to proceed updating your password" className={ styles.submit }>Submit</button>
 		</form>	
 	);
 }

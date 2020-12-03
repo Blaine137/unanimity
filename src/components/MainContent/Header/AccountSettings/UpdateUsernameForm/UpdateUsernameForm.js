@@ -60,6 +60,7 @@ const UpdateUsernameForm = props => {
 					id="newUsername" 
 					name="newUsername" 
 					placeholder="Enter your new username"
+					aria-label="Enter your new username"
 					onChange={ e => setNewUsername(e.target.value) }
 				/>
 				<label htmlFor="confirmUsername">Confirm Username</label>
@@ -69,19 +70,21 @@ const UpdateUsernameForm = props => {
 					id="confirmUsername" 
 					name="confirmUsername" 
 					placeholder="Confirm your new username"
+					aria-label="confirm your new username"
 					onChange={ e => setConfirmUsername(e.target.value) }
 				/>
-                <label htmlFor="newUsername">Password</label>
+                <label htmlFor="password">Password</label>
 				<input
 					className={ styles.input } 
 					type="password" 
 					id="password" 
 					name="password" 
 					placeholder="Enter your password"
+					aria-label="enter your password for your account"
 					onChange={ e => setPassword(e.target.value) }
 				/>
-				<span>{errors}</span>
-				<button className={ styles.submit }>Submit</button>	
+				<span role="alert" aria-label="Errors with your form data will be displayed here.">{errors}</span>
+				<button aria-label="Click to proceeding updating your account username." className={ styles.submit }>Submit</button>	
 			</form>	
 		</div>
 	);
