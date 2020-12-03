@@ -5,6 +5,7 @@ import axios from '../../../../../axios';
 
 const UpdateUsernameForm = props => {
 	let [newUsername, setNewUsername] = useState('');
+	let [confirmUsername, setConfirmUsername] = useState('');
     let [errors, setErrors] = useState('');
 	let [password, setPassword] = useState('');
 
@@ -18,30 +19,33 @@ const UpdateUsernameForm = props => {
             let oldUsername = await  axios.get('users/u' + props.authUID + '.json')
             .catch(err => console.log('username error: ', err));
             let updatedUsername = {...oldUsername.data};
-            updatedUsername.userName = newUsername.toLowerCase();
-            updatedUsername.userName = DOMPurify.sanitize(updatedUsername.userName);
-            updatedUsername.userName.replace(/[^\w]/g,'');
-            sanitizedUsername = updatedUsername.userName;
-            axios.put('users/u' + props.authUID + '.json', updatedUsername)
-            .then(res => {
-                console.log('username successfully changed!!')
-                props.setShowSettings(false);
-            })
-			.catch(err => console.log('username did not change: ', err));
 			
-            //change username in userIDByUsername
-            const userIDByUsername = await axios.get('userIDByUsername.json');
-            let updatedUserIDByUsername = {...userIDByUsername.data};
-            delete updatedUserIDByUsername[props.authUsername];
-            //add the new name with props.authUID as value
-            updatedUserIDByUsername[sanitizedUsername] = props.authUID;
-            
-            axios.put('userIDByUsername.json', updatedUserIDByUsername)
-            .then(res => props.setShowSettings(false))
-            .catch(err => console.log('did not update userid db: ', err));
+			if(newUsername == confirmUsername){
+				updatedUsername.userName = newUsername.toLowerCase();
+				updatedUsername.userName = DOMPurify.sanitize(updatedUsername.userName);
+				updatedUsername.userName.replace(/[^\w]/g,'');
+				sanitizedUsername = updatedUsername.userName;
+				axios.put('users/u' + props.authUID + '.json', updatedUsername)
+				.then(res => {
+					console.log('username successfully changed!!')
+					props.setShowSettings(false);
+				})
+				.catch(err => console.log('username did not change: ', err));
+
+				//change username in userIDByUsername
+				const userIDByUsername = await axios.get('userIDByUsername.json');
+				let updatedUserIDByUsername = {...userIDByUsername.data};
+				delete updatedUserIDByUsername[props.authUsername];
+				//add the new name with props.authUID as value
+				updatedUserIDByUsername[sanitizedUsername] = props.authUID;
+				
+				axios.put('userIDByUsername.json', updatedUserIDByUsername)
+				.then(res => props.setShowSettings(false))
+				.catch(err => console.log('did not update userid db: ', err));
+			}
 
         } else {
-            setErrors('Your password was incorrect.');
+            setErrors('Your password or new username was incorrect.');
 		}	
     }
     
@@ -57,6 +61,15 @@ const UpdateUsernameForm = props => {
 					name="newUsername" 
 					placeholder="Enter your new username"
 					onChange={ e => setNewUsername(e.target.value) }
+				/>
+				<label htmlFor="confirmUsername">Confirm Username</label>
+				<input
+					className={ styles.input } 
+					type="text" 
+					id="confirmUsername" 
+					name="confirmUsername" 
+					placeholder="Confirm your new username"
+					onChange={ e => setConfirmUsername(e.target.value) }
 				/>
                 <label htmlFor="newUsername">Password</label>
 				<input
