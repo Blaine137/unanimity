@@ -21,6 +21,7 @@ const Input = props => {
                 spellCheck="true" 
                 placeholder="Press Enter to send Message" 
                 maxLength="1999"
+                placeholder="Enter your message. Use our emojis by :smile:"
                 className={ styles.input }
                 onChange={ e => {
                     setUserMessage(DOMPurify.sanitize(e.target.value));
