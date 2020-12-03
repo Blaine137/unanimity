@@ -33,21 +33,24 @@ const Header = props => {
     const toggleOptions = () => {
         if(openOptions === true) {
             setOptions(
-                <ul className={ styles.optionsMenu }>
-                    <li>
+                <ul role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
+                    <li role="menuitem">
                         <span>Theme: </span>
-                        <Switch className={styles.switch} checked={lightTheme} onChange={() => { setLightTheme(!lightTheme);  setOptions(null)}} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} />   
+                        <Switch aria-label="Switch to change theme color of Unanimity" className={styles.switch} checked={lightTheme} onChange={() => { setLightTheme(!lightTheme);  setOptions(null)}} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} />   
                     </li>
                     <li 
                         tabIndex="0" 
+                        role="button"
+                        aria-label="Logout of unanimity"
                         style={ { color: '#f44336' } } 
                         onClick={ () => { props.logout(true) }  } 
                         onKeyDown={ e => { if(e.key === 'Enter') { props.logout(true); } } }
                     >
                         Logout
                     </li>
-                    <li>
+                    <li role="menuitem">
                         <a
+                        aria-label="click this link to go to account settings"
                         onClick={() => { setShowSettings(!showSettings); setOptions(null); }}
                         >Account Settings</a>
                     </li>                       
@@ -118,6 +121,7 @@ const Header = props => {
                     onClick={ () => toggleOptions() }
                     onKeyDown={ e => { if(e.key === 'Enter') { toggleOptions(); } } }
                     aria-label="Open options menu button"
+                    aria-haspopup="true"
                     role="button"
                 >
                     <div className={ styles.circle1 }></div>

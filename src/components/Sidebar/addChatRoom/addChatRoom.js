@@ -32,9 +32,10 @@ const addChatRoom = props => {
 						id="newChatRoomName" 
 						name="newChatRoomName" 
 						className={styles.input}
-						placeholder="Press enter to submit!"
+						aria-label="Enter the username of the recipient you would like to add a chatroom with."
+						placeholder="enter user name of recipient!"
 					/>
-					<input type="submit" value="Add Chatroom" className={ styles.submit}/>
+					<input aria-label="add chatroom with this user" type="submit" value="Add Chatroom" className={ styles.submit}/>
 				</fieldset>
 			</form>
         </div>

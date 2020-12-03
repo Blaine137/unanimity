@@ -23,8 +23,8 @@ let ContactForm = props => {
                     <label htmlFor="Email" >Your Email Address</label>
                     <input aria-label="Email Text input" type="Email" id="Email" name="Email" className={ styles.input } required/> 
                     <label htmlFor="Comments">How may we help you?</label>
-                    <textarea aria-label="Enter your comment here." id="Comment" name="Comment" rows="12" placeholder="Enter your comment here." required></textarea>
-                    <input aria-label="Submit contact form button" type="submit" value="Submit" className={ styles.submit } onClick={ e => {
+                    <textarea aria-label="Enter your comment here for unanimity contact form." id="Comment" name="Comment" rows="12" placeholder="Enter your comment here." required></textarea>
+                    <input aria-label="Submit contact form to Unanimity" type="submit" value="Submit" className={ styles.submit } onClick={ e => {
                             // sanitize and check for vailid email format. then alert the user with appropriate info
                             e.preventDefault();
                             let email = document.getElementById('Email').value;

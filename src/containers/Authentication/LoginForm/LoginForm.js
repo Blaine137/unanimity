@@ -3,7 +3,7 @@ import styles from './LoginForm.module.scss';
 
 const LoginForm = props => {
     return(
-        <div className={ styles.wrapper }>
+        <main className={`${styles.wrapper} ${styles.backgroundImage}`}>
             <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
             <form className={ styles.form }>
                 <fieldset>
@@ -33,7 +33,7 @@ const LoginForm = props => {
                 </fieldset>
             </form>
             <p>This Project's Database is public so that people can see how the project works!</p>
-        </div>    
+        </main>    
     );
 };
 
