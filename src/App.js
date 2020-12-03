@@ -5,6 +5,7 @@ import './fonts/Jost-VariableFont_ital,wght.ttf';
 import './fonts/Montserrat-Regular.ttf';
 import Landing from './components/landing/Landing';
 import ContactForm from './components/ContactForm/ContactForm';
+import FAQ from './components/FAQ/FAQ';
 import { connect } from 'react-redux';
 import { setLanding, setContactForm } from './redux/actions';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
@@ -35,6 +36,9 @@ class App extends Component {
 						</Route> 
 						<Route path='/login'>
 							<Authentication/>
+						</Route>
+						<Route path='/help'>
+							<FAQ/>
 						</Route>						                             
 						<Redirect to='/'/>
 					</Switch>  				

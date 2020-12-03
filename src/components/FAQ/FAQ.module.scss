@@ -1,0 +1,21 @@
+.question{
+    margin-top: 2rem;
+    margin-right: 8rem;
+    font-weight: bold;
+    width: 50%;
+}
+
+.answer{
+    width: 50%;
+    text-align: left;
+}
+
+.answer li{
+    display: list-item;
+    list-style: disc;
+    margin: 2rem 0 2rem 0;
+}
+
+.answer li:hover{
+    transform: none !important;
+}
