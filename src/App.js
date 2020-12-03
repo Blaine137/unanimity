@@ -37,7 +37,7 @@ class App extends Component {
 						<Route path='/login'>
 							<Authentication/>
 						</Route>
-						<Route path='/help'>
+						<Route path='/FAQ'>
 							<FAQ/>
 						</Route>						                             
 						<Redirect to='/'/>

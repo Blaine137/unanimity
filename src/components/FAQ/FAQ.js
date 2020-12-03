@@ -20,6 +20,10 @@ const FAQ = props => {
                     <dd>Simply type out a colon ":" followed by the emoji name you would like to use followed by another colon ":". Example ":smile:". <a href="https://github.com/tommoor/react-emoji-render/blob/HEAD/data/aliases.js" target="_blank" rel="noopener">View all emojis!</a></dd>
                     <dt className={styles.question}>How do I change the color scheme?</dt>
                     <dd>Once logged in, in the top right corner click on the three dots. This will open a option menu, where their will be a option titled theme. Click the switch beside theme to change the color scheme. </dd>
+                    <dt className={styles.question}>How do I change my username?</dt>
+                    <dd>Login and click on the options button (three dots) in the top right corner. Click on "update username" to enter your new username, however, you must enter your current password!</dd>
+                    <dt className={styles.question}>How do I change my password?</dt>
+                    <dd>Login and click on the options button (three dots) in the top right corner. Click on "update password" to enter your current password and your new password twice to confirm it!</dd>
                 </dl>
             </main>
         </>
