@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from '../AccountSettings.module.scss';
 import DOMPurify from 'dompurify';
 import axios from '../../../../../axios';
+import { motion } from "framer-motion";
 
 const UpdateUsernameForm = props => {
 	let [newUsername, setNewUsername] = useState('');
@@ -51,41 +52,51 @@ const UpdateUsernameForm = props => {
     
 	return(
 		<div className={ styles.container }> 
-			<form onSubmit={ handleUsernameSubmit } className={ styles.form }>
-				<legend>Update Your Username</legend>
-				<label htmlFor="newUsername">New Username</label>
-				<input
-					className={ styles.input } 
-					type="text" 
-					id="newUsername" 
-					name="newUsername" 
-					placeholder="Enter your new username"
-					aria-label="Enter your new username"
-					onChange={ e => setNewUsername(e.target.value) }
-				/>
-				<label htmlFor="confirmUsername">Confirm Username</label>
-				<input
-					className={ styles.input } 
-					type="text" 
-					id="confirmUsername" 
-					name="confirmUsername" 
-					placeholder="Confirm your new username"
-					aria-label="confirm your new username"
-					onChange={ e => setConfirmUsername(e.target.value) }
-				/>
-                <label htmlFor="password">Password</label>
-				<input
-					className={ styles.input } 
-					type="password" 
-					id="password" 
-					name="password" 
-					placeholder="Enter your password"
-					aria-label="enter your password for your account"
-					onChange={ e => setPassword(e.target.value) }
-				/>
-				<span role="alert" aria-label="Errors with your form data will be displayed here.">{errors}</span>
-				<button aria-label="Click to proceeding updating your account username." className={ styles.submit }>Submit</button>	
-			</form>	
+			<motion.div initial="hidden" animate="visible" variants={{
+				hidden: {
+					opacity: 0
+				},
+				visible: {
+					opacity: 1,
+					scale: 1
+				}
+			}}>
+				<form onSubmit={ handleUsernameSubmit } className={ styles.form }>
+					<legend>Update Your Username</legend>
+					<label htmlFor="newUsername">New Username</label>
+					<input
+						className={ styles.input } 
+						type="text" 
+						id="newUsername" 
+						name="newUsername" 
+						placeholder="Enter your new username"
+						aria-label="Enter your new username"
+						onChange={ e => setNewUsername(e.target.value) }
+					/>
+					<label htmlFor="confirmUsername">Confirm Username</label>
+					<input
+						className={ styles.input } 
+						type="text" 
+						id="confirmUsername" 
+						name="confirmUsername" 
+						placeholder="Confirm your new username"
+						aria-label="confirm your new username"
+						onChange={ e => setConfirmUsername(e.target.value) }
+					/>
+					<label htmlFor="password">Password</label>
+					<input
+						className={ styles.input } 
+						type="password" 
+						id="password" 
+						name="password" 
+						placeholder="Enter your password"
+						aria-label="enter your password for your account"
+						onChange={ e => setPassword(e.target.value) }
+					/>
+					<span role="alert" aria-label="Errors with your form data will be displayed here.">{errors}</span>
+					<button aria-label="Click to proceeding updating your account username." className={ styles.submit }>Submit</button>	
+				</form>	
+			</motion.div>	
 		</div>
 	);
 }
