@@ -9,6 +9,7 @@ import FAQ from './components/FAQ/FAQ';
 import { connect } from 'react-redux';
 import { setLanding, setContactForm } from './redux/actions';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 
 const mapStateToProps = state => {
   return {
@@ -24,21 +25,55 @@ const mapDispatchToProps = {
 
 class App extends Component {
 	render() {
+
+		/* ANIMATION STYLES FOR FRAMER MOTION */
+		const pageVariants = {
+			initial: {
+			  opacity: 0,
+			  x: "-20vw",
+			  scale: 0.8
+			},
+			in: {
+			  opacity: 1,
+			  x: 0,
+			  scale: 1
+			},
+			out: {
+			  opacity: 0,
+			  x: "100vw",
+			  scale: 1.2
+			}
+		  };
+		  
+		  const pageTransition = {
+			type: "tween",
+			ease: "anticipate",
+			duration: 0.5
+		  };
+
 		return (
 			<div className="App">
 				<BrowserRouter>
 					<Switch>
 						<Route exact path='/'>
-							<Landing />
+							<AnimatePresence>
+								<Landing pageVariants={pageVariants} pageTransition={pageTransition}/>
+							</AnimatePresence>
 						</Route>
 						<Route path='/contact'>
-							<ContactForm />
+							<AnimatePresence>
+								<ContactForm pageVariants={pageVariants} pageTransition={pageTransition}/>
+							</AnimatePresence>
 						</Route> 
 						<Route path='/login'>
-							<Authentication/>
+							<AnimatePresence>
+								<Authentication pageVariants={pageVariants} pageTransition={pageTransition}/>
+							</AnimatePresence>
 						</Route>
 						<Route path='/FAQ'>
-							<FAQ/>
+							<AnimatePresence>
+								<FAQ pageVariants={pageVariants} pageTransition={pageTransition}/>
+							</AnimatePresence>
 						</Route>						                             
 						<Redirect to='/'/>
 					</Switch>  				
