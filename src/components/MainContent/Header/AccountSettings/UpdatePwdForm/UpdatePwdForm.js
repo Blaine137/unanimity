@@ -3,6 +3,7 @@ import DOMPurify from 'dompurify';
 import styles from '../AccountSettings.module.scss';
 import axios from '../../../../../axios';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
+import { motion } from "framer-motion";
 
 const UpdatePwdForm = props => {
 	let [oldPassword, setOldPassword] = useState('');
@@ -60,42 +61,52 @@ const UpdatePwdForm = props => {
 	}
 
 	return(
-		<form onSubmit={ handlePwdSubmit } className={ styles.form }>
-			<legend>Update Your Password</legend>
-			<span>{pwdError}</span>
-			<label htmlFor="oldPassword">Current Password</label>
-			<input 
-				className={ styles.input }
-				type="password" 
-				id="oldPassword" 
-				name="oldPassword" 
-				placeholder="Enter your current password"
-				aria-label="Enter your current password"
-				onChange={ e => setOldPassword(e.target.value) }
-			/>
-			<label htmlFor="newPassword">New Password</label>
-			<input
-				className={ styles.input } 
-				type="password" 
-				id="newPassword" 
-				name="newPassword" 
-				placeholder="Enter your new password"
-				aria-label="Enter your new password"
-				onChange={ e => setNewPassword(e.target.value) }
-			/>
-			<label htmlFor="confirmNewPassword">Confirm New Password</label>
-			<input
-				className={ styles.input } 
-				type="password" 
-				id="confirmNewPassword" 
-				name="confirmNewPassword" 
-				placeholder="Please confirm your new password"
-				aria-label="Please confirm your new password"
-				onChange={ e => setConfirmNewPassword(e.target.value) }
-			/>
-			<span role="alert" aria-label="Errors for entered data in the password form will display here">{pwdError}</span>
-			<button aria-label="Click to proceed updating your password" className={ styles.submit }>Submit</button>
-		</form>	
+		<motion.div initial="hidden" animate="visible" variants={{
+			hidden: {
+				opacity: 0
+			},
+			visible: {
+				opacity: 1,
+				scale: 1
+			}
+		}}>
+			<form onSubmit={ handlePwdSubmit } className={ styles.form }>
+				<legend>Update Your Password</legend>
+				<span>{pwdError}</span>
+				<label htmlFor="oldPassword">Current Password</label>
+				<input 
+					className={ styles.input }
+					type="password" 
+					id="oldPassword" 
+					name="oldPassword" 
+					placeholder="Enter your current password"
+					aria-label="Enter your current password"
+					onChange={ e => setOldPassword(e.target.value) }
+				/>
+				<label htmlFor="newPassword">New Password</label>
+				<input
+					className={ styles.input } 
+					type="password" 
+					id="newPassword" 
+					name="newPassword" 
+					placeholder="Enter your new password"
+					aria-label="Enter your new password"
+					onChange={ e => setNewPassword(e.target.value) }
+				/>
+				<label htmlFor="confirmNewPassword">Confirm New Password</label>
+				<input
+					className={ styles.input } 
+					type="password" 
+					id="confirmNewPassword" 
+					name="confirmNewPassword" 
+					placeholder="Please confirm your new password"
+					aria-label="Please confirm your new password"
+					onChange={ e => setConfirmNewPassword(e.target.value) }
+				/>
+				<span role="alert" aria-label="Errors for entered data in the password form will display here">{pwdError}</span>
+				<button aria-label="Click to proceed updating your password" className={ styles.submit }>Submit</button>
+			</form>
+		</motion.div>
 	);
 }
 

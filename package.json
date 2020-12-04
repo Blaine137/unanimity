@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "dompurify": "^2.0.10",
+    "framer-motion": "^2.9.5",
     "googleapis": "^50.0.0",
     "password-hash": "^1.2.2",
     "react": "^16.13.0",

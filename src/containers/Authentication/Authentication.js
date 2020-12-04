@@ -8,6 +8,7 @@ import * as passwordHash from 'password-hash'; //import npm pass https://www.npm
 import { connect } from 'react-redux';
 import { setAuthentication, setUserId, setUsername, setNotification } from '../../redux/actions';
 import Nav from '../../components/Nav/Nav';
+import { motion } from 'framer-motion';
 
 let messenger = null; //messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
  
@@ -186,18 +187,37 @@ let Authentication = props => {
     
     const ifAuthenticated = () => {
         if(props.authenticated) {
-            messenger =  <Messenger/>;
+            messenger = <motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={props.pageVariants}
+            transition={props.pageTransition}> 
+                <Messenger/> 
+            </motion.div>;
         } else {
-            messenger = <main><Nav/><LoginForm checkName={ checkName } checkForNewUser={ checkForNewUser}/></main>;              
+            messenger = <main>
+                            <motion.div
+                                initial="initial"
+                                animate="in"
+                                exit="out"
+                                variants={props.pageVariants}
+                                transition={props.pageTransition}>
+                                <Nav/>
+                                <LoginForm checkName={ checkName } checkForNewUser={ checkForNewUser}/>
+                            </motion.div>
+                        </main>;              
         }
     }
     ifAuthenticated();
+
+    
     
     return(
         <Fragment>                                 
-            { props.notification }
-            { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
-            { messenger }
+                { props.notification }
+                { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
+                { messenger }
         </Fragment>
     );
 };
