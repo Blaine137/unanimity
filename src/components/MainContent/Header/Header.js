@@ -4,7 +4,7 @@ import Switch from 'react-switch';
 import AccountSettings from './AccountSettings/AccountSettings';
 
 const Header = props => {
-    const [openOptions, setOpenOptions] = useState(false);
+    const [openOptions, setOpenOptions] = useState(true);
     const [options, setOptions] = useState(null);
     const [lightTheme, setLightTheme] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
@@ -30,7 +30,7 @@ const Header = props => {
     }
     
     //shows & hides the options menu. triggered by the three dots in the top right of the header
-    const toggleOptions = () => {
+    const toggleOptions =  () => {
         if(openOptions === true) {
             setOptions(
                 <ul role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
