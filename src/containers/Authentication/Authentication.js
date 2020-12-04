@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
 import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
@@ -35,6 +35,30 @@ let Authentication = props => {
         props.setUsername(null);
     }, []);
 
+    const [formSubmissions, setFormSubmissions] = useState(1);
+    const [waitTime, setWaitTime] = useState(null);
+    
+    //if the user has submitted the form more than three times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
+    //returns true if they should be allowed to submit the form. returns false if they are spamming the form.
+    const throttleFormSpam = () => {
+        setFormSubmissions(formSubmissions + 1);
+        if(formSubmissions >= 3) {      
+            if( waitTime === null ) {                                      
+                setWaitTime(Date.now());                         
+            }                       
+            let currentTime = Date.now();                      
+            if(currentTime >= (waitTime + 10000)) {                               
+                    setWaitTime(currentTime);                                       
+                    return true;  
+            } else {
+                props.setNotification([<Alert alertMessage="you must wait ten seconds before resubmitting the form." alertClose={ closeNotification }/>]);
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
     const checkForNewUser = async (event, newUser, newPassword) => {    
         event.preventDefault();
         let newUserValue = newUser.value;
@@ -48,29 +72,31 @@ let Authentication = props => {
         newUserID = DOMPurify.sanitize(newUserID);
         newUserID = newUserID.replace(/[^\w]/g,'');
         
-        //username a valid length
-        if(newUserValue.length > 10 || newPasswordValue.length > 20) {
-            props.setNotification([<Alert alertMessage="Username must be less than 10 characters and password must be less than 20." alertClose={ closeNotification }/>]);
-         } else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5) {
-            props.setNotification([<Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ closeNotification }/>])
-         } else {
-            let getUserId = async () => {
-                try {
-                    let resID = await axios.get('userIDByUsername/nextUserID.json');
-                    newUserID = resID.data;
-                    //try to get the username they are wanting to register as
-                    let resName = await axios.get('userIDByUsername/' + newUserValue + '.json');
-                    if(!resName.data) {
-                        //create user if the username is not taken
-                        setNewUser(newUserValue, newPasswordValue, newUserID); 
-                    } else {
-                        props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ closeNotification }/>]);
+        if(throttleFormSpam()) {
+            //username a valid length
+            if(newUserValue.length > 10 || newPasswordValue.length > 20) {
+                props.setNotification([<Alert alertMessage="Username must be less than 10 characters and password must be less than 20." alertClose={ closeNotification }/>]);
+            } else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5) {
+                props.setNotification([<Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ closeNotification }/>])
+            } else {
+                let getUserId = async () => {
+                    try {
+                        let resID = await axios.get('userIDByUsername/nextUserID.json');
+                        newUserID = resID.data;
+                        //try to get the username they are wanting to register as
+                        let resName = await axios.get('userIDByUsername/' + newUserValue + '.json');
+                        if(!resName.data) {
+                            //create user if the username is not taken
+                            setNewUser(newUserValue, newPasswordValue, newUserID); 
+                        } else {
+                            props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ closeNotification }/>]);
+                        }
+                    } catch(error) {
+                        return 300;
                     }
-                } catch(error) {
-                    return 300;
                 }
+                getUserId();
             }
-            getUserId();
         }
     }
 
@@ -112,14 +138,12 @@ let Authentication = props => {
         //-----end of adds user to userIDByUsername-----
 
         //-----start add to usersChatRooms in DB-----
-
             //ucr stands for UserChatRoom
             let newUCR = {
                 chatRooms: [],
                 userID: newUserID
             }
             axios.put('usersChatRooms/ucr' + newUserID + '.json', newUCR);
-
         //-----end of add to usersChatRooms in DB-----
 
         //inform user that account was created
@@ -129,6 +153,7 @@ let Authentication = props => {
     }
     
     const checkName = async (authValues, userNameElement, passwordElement) => {
+        if(authValues) { authValues.preventDefault(); }
         let username = userNameElement.value || userNameElement;
         let password = passwordElement.value || passwordElement;
         let userID = null;
@@ -137,8 +162,7 @@ let Authentication = props => {
         password = DOMPurify.sanitize(password);
         password = password.replace(/[^\w^!?$]/g,'');
 
-        if(authValues) { authValues.preventDefault(); }
-        if(username) {
+        if(username && throttleFormSpam()) {
             //make usernames non-caseSensitive
             username = username.toLowerCase();
             //get userId by username 
@@ -202,7 +226,8 @@ let Authentication = props => {
                                 animate="in"
                                 exit="out"
                                 variants={props.pageVariants}
-                                transition={props.pageTransition}>
+                                transition={props.pageTransition}
+                            >
                                 <Nav/>
                                 <LoginForm checkName={ checkName } checkForNewUser={ checkForNewUser}/>
                             </motion.div>
@@ -211,8 +236,6 @@ let Authentication = props => {
     }
     ifAuthenticated();
 
-    
-    
     return(
         <Fragment>                                 
                 { props.notification }
