@@ -15,7 +15,7 @@ html {
     background-size: 95vw;
     background-attachment: fixed;
     background-position: 50% 98%;
-    background-image: url( /backgroundsmall.png ); 
+    background-image: url(../../../images/backgroundsmall.png ); 
 }
 .wrapper p { 
     font-size: .75rem;
@@ -122,9 +122,9 @@ img {
         max-width: 500px;
         max-height: 550px;
     }
-    .backgroundImage { background-image: url( /backgroundmedium.png ); }
+    .backgroundImage { background-image: url( ../../../images/backgroundmedium.png ); }
 }
 //desktop
 @media only screen and ( min-width: 1000px ) {
-    .backgroundImage { background-image: url( /backgroundlarge.png ); }
+    .backgroundImage { background-image: url( ../../../images/backgroundlarge.png ); }
 }

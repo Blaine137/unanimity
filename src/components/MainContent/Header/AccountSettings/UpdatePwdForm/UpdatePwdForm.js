@@ -14,9 +14,9 @@ const UpdatePwdForm = props => {
 	//adds new password to database for authenticated user
 	const updatePwd = async () => {
 		let newHashedPassword = passwordHash.generate(newPassword);
-		//Cant not set pwd field to string because axios requires to pass object. So we have to pass the entire user object with the updated pwd.
+		//Cant not set pwd field to string because firebase requires to pass object. So we have to pass the entire user object with the updated pwd property.
 		let oldUser = await axios.get('users/u' + props.authUID + '.json')
-		.catch(err => console.log(err));
+		.catch(err => setPwdError(`${pwdError} Failed to update Password: ${err}`));
 		let updatedUser = {...oldUser.data};
 		updatedUser.password = newHashedPassword;
 		axios.put('users/u' + props.authUID + '.json', updatedUser)
@@ -39,7 +39,7 @@ const UpdatePwdForm = props => {
 		}
 	}
 
-	//calls checkPwd if correct then updates db to new pwd for auth user
+	//validated password length. Then calls checkPwd if correct then calls updatePwd.
 	const handlePwdSubmit = async e => {
 		e.preventDefault();
 		setPwdError('');
