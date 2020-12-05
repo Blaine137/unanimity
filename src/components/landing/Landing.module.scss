@@ -4,7 +4,7 @@
     background-size: 95vw;
     background-attachment: fixed;
     background-position: 50% 98%;
-    background-image: url( /backgroundsmall.png ); 
+    background-image: url( ../../images/backgroundsmall.png ); 
 }
 .landinglogo {
     max-height: 10vh;
@@ -42,13 +42,13 @@ h1 {
 }
 //tablet
 @media only screen and ( min-width: 700px ) {
-    .backgroundImage { background-image: url( /backgroundmedium.png ); }
+    .backgroundImage { background-image: url( ../../images/backgroundmedium.png ); }
     .header { font-size: 1.8rem; }
     .chatButton{max-width: 600px;}
 }
 //desktop
 @media only screen and ( min-width: 1000px ) {
-    .backgroundImage { background-image: url( /backgroundlarge.png ); }
+    .backgroundImage { background-image: url( ../../images/backgroundlarge.png ); }
     .header { font-size: 2.5rem; }
     .subtext {
         width: 30vw;

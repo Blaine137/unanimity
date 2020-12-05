@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import styles from './Sidebar.module.scss';
 import axios from '../../axios';
 import AddChatRoomPopUp from './addChatRoom/addChatRoom';
-
 //set at this scope so that no two keys would equal the same value
 let key = 0;
 let addedChatRoomsName = [];

@@ -10,7 +10,7 @@ const UpdateUsernameForm = props => {
     let [errors, setErrors] = useState('');
 	let [password, setPassword] = useState('');
 
-	//calls checkUsername if correct then updates db to new username for auth user
+	//call check password function from props. If the password is correct it updated the database with new username.
 	const handleUsernameSubmit = async e => {
         e.preventDefault();
         let sanitizedUsername;
@@ -18,10 +18,10 @@ const UpdateUsernameForm = props => {
         if(passwordCorrect) {      
             //change username in users db
             let oldUsername = await  axios.get('users/u' + props.authUID + '.json')
-            .catch(err => console.log('username error: ', err));
+            .catch(err => setErrors(`Failed to update username: ${err}`));
             let updatedUsername = {...oldUsername.data};
 			
-			if(newUsername == confirmUsername){
+			if(newUsername == confirmUsername) {
 				updatedUsername.userName = newUsername.toLowerCase();
 				updatedUsername.userName = DOMPurify.sanitize(updatedUsername.userName);
 				updatedUsername.userName.replace(/[^\w]/g,'');
@@ -31,7 +31,7 @@ const UpdateUsernameForm = props => {
 					console.log('username successfully changed!!')
 					props.setShowSettings(false);
 				})
-				.catch(err => console.log('username did not change: ', err));
+				.catch(err => setErrors(`Failed to update username in the database: ${err}`));
 
 				//change username in userIDByUsername
 				const userIDByUsername = await axios.get('userIDByUsername.json');
@@ -42,11 +42,10 @@ const UpdateUsernameForm = props => {
 				
 				axios.put('userIDByUsername.json', updatedUserIDByUsername)
 				.then(res => props.setShowSettings(false))
-				.catch(err => console.log('did not update userid db: ', err));
+				.catch(err => setErrors(`Failed to update username by userID in the database: ${err}`));
 			}
-
         } else {
-            setErrors('Your password or new username was incorrect.');
+            setErrors('Your password was incorrect.');
 		}	
     }
     
