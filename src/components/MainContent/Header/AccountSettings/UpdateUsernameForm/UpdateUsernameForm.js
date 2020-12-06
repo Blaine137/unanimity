@@ -21,7 +21,7 @@ const UpdateUsernameForm = props => {
             .catch(err => setErrors(`Failed to update username: ${err}`));
             let updatedUsername = {...oldUsername.data};
 			
-			if(newUsername == confirmUsername) {
+			if(newUsername === confirmUsername) {
 				updatedUsername.userName = newUsername.toLowerCase();
 				updatedUsername.userName = DOMPurify.sanitize(updatedUsername.userName);
 				updatedUsername.userName.replace(/[^\w]/g,'');

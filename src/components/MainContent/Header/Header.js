@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import styles from './Header.module.scss';
 import Switch from 'react-switch';
 import AccountSettings from './AccountSettings/AccountSettings';
@@ -48,11 +48,10 @@ const Header = props => {
                     >
                         Logout
                     </li>
-                    <li role="menuitem">
-                        <a
+                    <li role="menuitem"
                         aria-label="click this link to go to account settings"
-                        onClick={() => { setShowSettings(!showSettings); setOptions(null); }}
-                        >Account Settings</a>
+                        onClick={() => { setShowSettings(!showSettings); setOptions(null); }}>
+                        Account Settings
                     </li>                       
                 </ul>
             );          

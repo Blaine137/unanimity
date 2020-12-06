@@ -24,7 +24,7 @@ const FAQ = props => {
                         <dt className={styles.question}>How do I send a message?</dt>
                         <dd>Once logged in, click on a chatroom of your choice, then click in the white box on the bottom of the screen. Type your message then press the enter key on the keyboard!</dd>
                         <dt className={styles.question}>How do I send an emoji in a message?</dt>
-                        <dd>Simply type out a colon ":" followed by the emoji name you would like to use followed by another colon ":". Example ":smile:". <a href="https://github.com/tommoor/react-emoji-render/blob/HEAD/data/aliases.js" target="_blank" rel="noopener">View all emojis!</a></dd>
+                        <dd>Simply type out a colon ":" followed by the emoji name you would like to use followed by another colon ":". Example ":smile:". <a href="https://github.com/tommoor/react-emoji-render/blob/HEAD/data/aliases.js" target="_blank" rel="noreferrer">View all emojis!</a></dd>
                         <dt className={styles.question}>How do I change the color scheme?</dt>
                         <dd>Once logged in, in the top right corner click on the three dots. This will open a option menu, where their will be a option titled theme. Click the switch beside theme to change the color scheme. </dd>
                         <dt className={styles.question}>How do I change my username?</dt>
