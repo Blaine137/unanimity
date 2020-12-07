@@ -1,5 +1,5 @@
 .backgroundImage {
-    min-height: 100vh;
+    min-height: 90vh;
     background-repeat: no-repeat;
     background-size: 95vw;
     background-attachment: fixed;
@@ -12,14 +12,22 @@
     margin: 10vh 0 15vh 0;
 }
 .header {
-    margin: 0 .25rem 1rem .25rem;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid var(--dark-action); /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
     font-size: 1.4rem; 
+    animation: 
+    typing 3.5s steps(40, end),
+    blink-caret .75s step-end infinite;
+    animation-delay: .5s;
+
 }
 .subtext {  
     color: 	var(--off-text);
     margin: auto;
     height: 10vh;
-    font-size: .9rem;   
+    font-size: .9rem;  
 }
 h1 {
     color: var(--main-text);
@@ -40,6 +48,20 @@ h1 {
         transition: all ease-in-out .25s;
     }
 }
+
+/* The typing effect */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+from, to { border-color: transparent }
+50% { border-color: var(--dark-action); }
+}
+
+
 //tablet
 @media only screen and ( min-width: 700px ) {
     .backgroundImage { background-image: url( ../../images/backgroundmedium.png ); }
