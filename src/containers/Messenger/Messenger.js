@@ -119,7 +119,7 @@ const Messenger = props => {
             });
             authenticaedUserMessageCombined = [...Object.values(authenticaedUserMessageOld)];
             authenticaedUserMessageCombined[nextMsgNum] = DOMPurify.sanitize(newMessage);
-            authenticaedUserMessageCombined[nextMsgNum] = authenticaedUserMessageCombined[nextMsgNum].replace(/[^\w\s!?$:&,\-\(\)]/g,'');
+            authenticaedUserMessageCombined[nextMsgNum] = authenticaedUserMessageCombined[nextMsgNum].replace(/[^\w\s!?$:&,\-()]/g,''); //still need to look into regex, this one does not allow periods
             nextMsgNum++; 
             messageChatRoom.forEach(property => {
                 if(property[0] === ("u" + props.userId)) {
