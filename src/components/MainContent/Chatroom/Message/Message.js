@@ -12,7 +12,7 @@ const message = props => {
     }
 
     let sanitizedMessage = props.currentMessage;
-    sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$&:,\-\(\)]/g,'');
+    sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$&.:,\-\(\)]/g,'');
     sanitizedMessage = DOMPurify.sanitize(sanitizedMessage);
     let sanitizedName = props.senderName;
     sanitizedName = sanitizedName.replace(/[^\w\s!?$]/g, '');
