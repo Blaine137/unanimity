@@ -3,6 +3,9 @@ import Nav from '../Nav/Nav';
 import styles from './FAQ.module.scss';
 import {motion} from 'framer-motion';
 
+/*
+User interface component that displays hard coded answers to common questions.
+*/
 const FAQ = props => {
     return(
         <>

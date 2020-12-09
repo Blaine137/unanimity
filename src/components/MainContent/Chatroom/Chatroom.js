@@ -1,9 +1,14 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Message from './Message/Message';
 import styles from './Chatroom.module.scss';
 //used for auto scroll to bottom of the messages
 let prevHeight;
 
+/*
+Parent container component that handles logic for displaying messages in order with the senders name.
+Dose not handle logic for Emojis. The Message component calls a component that dose this.
+This component passes the senders name and message to the Message component for styling. Then displays them.
+*/
 const Chatroom = props => {
     //auto scrolls down the div. dose it on every reload of the component
     useEffect(() => {

@@ -3,6 +3,10 @@ import styles from './Message.module.scss';
 import DOMPurify from 'dompurify';
 import Emoji from "react-emoji-render";
 
+/*
+User interface component that sanitizes the message and senders name and displays it.
+This component calls and Emoji component that will convert any :emojiName: syntax to emojis. Example :smile:
+*/
 const message = props => {
     var messageStyle = null;
     if(props.isSender) {
@@ -12,9 +16,11 @@ const message = props => {
     }
 
     let sanitizedMessage = props.currentMessage;
+    //only allows letters, numbers and ! ? $ & . : , - ( )
     sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$&.:,\-\(\)]/g,'');
     sanitizedMessage = DOMPurify.sanitize(sanitizedMessage);
     let sanitizedName = props.senderName;
+    //only allows letters, numbers and ! ? $
     sanitizedName = sanitizedName.replace(/[^\w\s!?$]/g, '');
     sanitizedName = DOMPurify.sanitize(sanitizedName);
     

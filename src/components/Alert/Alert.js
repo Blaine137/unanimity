@@ -2,6 +2,10 @@ import React, { Fragment } from 'react';
 import styles from './Alert.module.scss';
 import DOMPurify from 'dompurify';
 
+/*
+User interface component that shows a red Alert with custom message at top of the app.
+Takes in from props alert Message and a function to close the alert.
+*/
 const alert = props => {
     let alertDisplay = null;
     let sanitizedMessage = null;
