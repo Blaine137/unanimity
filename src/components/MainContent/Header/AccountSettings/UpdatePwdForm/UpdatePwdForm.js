@@ -16,7 +16,7 @@ const UpdatePwdForm = props => {
 		let newHashedPassword = passwordHash.generate(newPassword);
 		//Cant not set pwd field to string because firebase requires to pass object. So we have to pass the entire user object with the updated pwd property.
 		let oldUser = await axios.get('users/u' + props.authUID + '.json')
-		.catch(err => setPwdError(`${pwdError} Failed to update Password: ${err}`));
+		.catch(err => props.updateNotification(`${pwdError} Failed to update Password: ${err}`));
 		let updatedUser = {...oldUser.data};
 		updatedUser.password = newHashedPassword;
 		axios.put('users/u' + props.authUID + '.json', updatedUser)
@@ -27,7 +27,7 @@ const UpdatePwdForm = props => {
 				props.updateNotification('Password successfully changed!')
 			}
 		})
-		.catch(err => setPwdError(`${pwdError} Failed to update Password: ${err}`));	
+		.catch(err => props.updateNotification(`${pwdError} Failed to update Password: ${err}`));	
 	}
 
 	//makes sure new password and confirmed pwd fields are the same
@@ -35,7 +35,7 @@ const UpdatePwdForm = props => {
 		if(newPassword === confirmNewPassword) {
 			return true;
 		} else {
-			setPwdError(`${pwdError} Passwords do not match.`);
+			props.updateNotification('Passwords do not match.');
 			return false;
 		}
 	}
@@ -54,10 +54,10 @@ const UpdatePwdForm = props => {
 					updatePwd();
 				}
 			} else {
-				setPwdError(`${pwdError} Incorrect current password.`);
+				props.updateNotification('Incorrect current password.');
 			}
 		} else {
-			setPwdError(`${pwdError} Password must be at least five characters long.`);
+			props.updateNotification('Password must be at least five characters long.');
 		}
 	}
 

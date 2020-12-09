@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from '../AccountSettings.module.scss';
 import DOMPurify from 'dompurify';
 import axios from '../../../../../axios';
+import {setNotification} from '../../../../../redux/actions'
 import { motion } from "framer-motion";
 
 const UpdateUsernameForm = props => {
@@ -18,17 +19,17 @@ const UpdateUsernameForm = props => {
         if(passwordCorrect) {      
             //change username in users db
             let oldUsername = await  axios.get('users/u' + props.authUID + '.json')
-            .catch(err => setErrors(`Failed to update username: ${err}`));
+            .catch(err => props.updateNotification('Failed to update username'));
             let updatedUsername = {...oldUsername.data};
 			
-			if(props.authUsername.toLowerCase() === confirmUsername.toLowerCase()) {
+			if(newUsername === confirmUsername) {
 				updatedUsername.userName = newUsername.toLowerCase();
 				updatedUsername.userName = DOMPurify.sanitize(updatedUsername.userName);
 				updatedUsername.userName.replace(/[^\w]/g,'');
 				sanitizedUsername = updatedUsername.userName;
 				axios.put('users/u' + props.authUID + '.json', updatedUsername)
 				.then(res => {
-					console.log('username successfully changed!!')
+					props.updateNotification('username successfully changed!!')
 					props.setShowSettings(false);
 				})
 				.catch(err => props.updateNotification(`Failed to update username in the database: ${err}`));
