@@ -37,9 +37,16 @@ const AccountSettings = props => {
 
 	const setAccountSettingsBody = () => {
 		if(showUpdateUsername) {	
-			return <UpdateUsernameForm checkPwd={ checkPwd } authUsername={ props.authUsername } setShowSettings={ props.setShowSettings } authUID={ props.authUID }/>;
+			return <UpdateUsernameForm checkPwd={ checkPwd } 
+									   authUsername={ props.authUsername } 
+									   setShowSettings={ props.setShowSettings } 
+									   authUID={ props.authUID } 
+									   updateNotification={props.setNoticication}/>;
 		} else if(showUpdatePwd) {
-			return <UpdatePwdForm checkPwd={ checkPwd } setShowSettings={ props.setShowSettings } authUID={ props.authUID }/>;		
+			return <UpdatePwdForm checkPwd={ checkPwd } 
+								  setShowSettings={ props.setShowSettings } 
+								  authUID={ props.authUID }
+								  updateNotification={props.setNoticication}/>;		
 		} else {
 			return (
 				<>		

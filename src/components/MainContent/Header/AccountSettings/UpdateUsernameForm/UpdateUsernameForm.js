@@ -21,7 +21,7 @@ const UpdateUsernameForm = props => {
             .catch(err => setErrors(`Failed to update username: ${err}`));
             let updatedUsername = {...oldUsername.data};
 			
-			if(newUsername === confirmUsername) {
+			if(props.authUsername.toLowerCase() === confirmUsername.toLowerCase()) {
 				updatedUsername.userName = newUsername.toLowerCase();
 				updatedUsername.userName = DOMPurify.sanitize(updatedUsername.userName);
 				updatedUsername.userName.replace(/[^\w]/g,'');
@@ -31,7 +31,7 @@ const UpdateUsernameForm = props => {
 					console.log('username successfully changed!!')
 					props.setShowSettings(false);
 				})
-				.catch(err => setErrors(`Failed to update username in the database: ${err}`));
+				.catch(err => props.updateNotification(`Failed to update username in the database: ${err}`));
 
 				//change username in userIDByUsername
 				const userIDByUsername = await axios.get('userIDByUsername.json');
@@ -41,11 +41,11 @@ const UpdateUsernameForm = props => {
 				updatedUserIDByUsername[sanitizedUsername] = props.authUID;
 				
 				axios.put('userIDByUsername.json', updatedUserIDByUsername)
-				.then(res => props.setShowSettings(false))
-				.catch(err => setErrors(`Failed to update username by userID in the database: ${err}`));
+				.then(res => {props.setShowSettings(false); props.updateNotification('Changed username successfully!')})
+				.catch(err => props.updateNotification(`Failed to update username by userID in the database: ${err}`));
 			}
         } else {
-            setErrors('Your password was incorrect.');
+            props.updateNotification('Your password was incorrect.');
 		}	
     }
     

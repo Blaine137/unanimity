@@ -13,6 +13,7 @@ const mainContent = props => {
                 logout={ props.setAuth }
                 authUID={ props.authUID }
                 authUsername={ props.authUsername }
+                setShowNotification={ props.showAlert }
             />
             <ChatRoom 
                 currentChatRoom={ props.currentChatRoom } 
