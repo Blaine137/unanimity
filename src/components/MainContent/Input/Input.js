@@ -11,7 +11,6 @@ const Input = props => {
             <textarea 
                 aria-label="Type a messages and press enter to send. You can also send emoji." 
                 spellCheck="true" 
-                placeholder="Press Enter to send Message" 
                 maxLength="1999"
                 placeholder="Enter your message. Use our emojis by :smile:"
                 className={ styles.input }
