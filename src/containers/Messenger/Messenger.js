@@ -470,7 +470,7 @@ const Messenger = props => {
     }
     return(
         <Fragment>
-            { props.notification }
+            {/* { props.notification } commenting this out fixed the double notifications issue - there is already a notification in authentication */}
             <div className={ styles.layout }>
                 <div className={ styles.sidebarGrid } style={ sidebarInlineStyles }>
                     <Sidebar usersChatRoomsID={ sidebarusersChatRoomsID }

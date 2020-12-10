@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import styles from '../AccountSettings.module.scss';
 import DOMPurify from 'dompurify';
 import axios from '../../../../../axios';
-import {setNotification} from '../../../../../redux/actions'
 import { motion } from "framer-motion";
 
 const UpdateUsernameForm = props => {
 	let [newUsername, setNewUsername] = useState('');
 	let [confirmUsername, setConfirmUsername] = useState('');
-    let [errors, setErrors] = useState('');
 	let [password, setPassword] = useState('');
 
 	//call check password function from props. If the password is correct it updated the database with new username.
@@ -93,7 +91,7 @@ const UpdateUsernameForm = props => {
 						aria-label="enter your password for your account"
 						onChange={ e => setPassword(e.target.value) }
 					/>
-					<span role="alert" aria-label="Errors with your form data will be displayed here.">{errors}</span>
+					{/* <span role="alert" aria-label="Errors with your form data will be displayed here.">{errors}</span> */}
 					<button aria-label="Click to proceeding updating your account username." className={ styles.submit }>Submit</button>	
 				</form>	
 			</motion.div>	
