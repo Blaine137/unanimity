@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
 import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
@@ -29,11 +29,11 @@ const mapDispatchToProps = {
 };
 
 let Authentication = props => {
-    useEffect(() => {
-        props.setAuthentication(false);
-        props.setUserId(null);
-        props.setUsername(null);
-    }, []);
+    // useEffect(() => {
+    //     props.setAuthentication(false);
+    //     props.setUserId(null);
+    //     props.setUsername(null);
+    // }, []);
 
     const [formSubmissions, setFormSubmissions] = useState(1);
     const [waitTime, setWaitTime] = useState(null);
