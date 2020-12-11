@@ -53,11 +53,11 @@ const Messenger = props => {
 
     const closeNotification = () => props.setNotification(null);
 
-    const handleNotification = message => {
+    const handleNotification = (message, success) => {
         let sanitizedMessage = DOMPurify.sanitize(message);
         //only allows words, spaces, !, ?, $
         sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
-        let alertComponent=<Alert alertMessage={ sanitizedMessage } alertClose={ closeNotification }/>;
+        let alertComponent=<Alert alertMessage={ sanitizedMessage } alertClose={ closeNotification } successBoolean={success}/>;
         props.setNotification(alertComponent);
     }
 
@@ -470,7 +470,6 @@ const Messenger = props => {
     }
     return(
         <Fragment>
-            {/* { props.notification } commenting this out fixed the double notifications issue - there is already a notification in authentication */}
             <div className={ styles.layout }>
                 <div className={ styles.sidebarGrid } style={ sidebarInlineStyles }>
                     <Sidebar usersChatRoomsID={ sidebarusersChatRoomsID }

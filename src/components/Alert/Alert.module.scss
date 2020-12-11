@@ -1,5 +1,10 @@
-.alertContainer {
+.alertContainerNegative {
     background-color: var(--negative-action);
+    min-height: 2rem;
+    max-height: 25vh;
+}
+.alertContainerSuccess {
+    background-color: var(--positive-action);
     min-height: 2rem;
     max-height: 25vh;
 }
