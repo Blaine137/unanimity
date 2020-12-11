@@ -29,7 +29,7 @@ const UpdateUsernameForm = props => {
 				sanitizedUsername = updatedUsername.userName;
 				axios.put('users/u' + props.authUID + '.json', updatedUsername)
 				.then(res => {
-					props.updateNotification('username successfully changed!!')
+					props.updateNotification('username successfully changed!!', true)
 					props.setShowSettings(false);
 				})
 				.catch(err => props.updateNotification(`Failed to update username in the database: ${err}`));
@@ -42,7 +42,7 @@ const UpdateUsernameForm = props => {
 				updatedUserIDByUsername[sanitizedUsername] = props.authUID;
 
 				axios.put('userIDByUsername.json', updatedUserIDByUsername)
-				.then(res => {props.setShowSettings(false); props.updateNotification('Changed username successfully!')})
+				.then(res => {props.setShowSettings(false); props.updateNotification('Changed username successfully!', true)})
 				.catch(err => props.updateNotification(`Failed to update username by userID in the database: ${err}`));
 			}
         } else {

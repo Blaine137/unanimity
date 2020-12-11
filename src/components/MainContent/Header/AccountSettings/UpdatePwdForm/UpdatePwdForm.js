@@ -28,7 +28,7 @@ const UpdatePwdForm = props => {
 			if(res) {
 				console.log('changed password!!!');
 				props.setShowSettings(false);
-				props.updateNotification('Password successfully changed!')
+				props.updateNotification('Password successfully changed!', true)
 			}
 		})
 		.catch(err => props.updateNotification(`${pwdError} Failed to update Password: ${err}`));	

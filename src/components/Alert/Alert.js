@@ -12,21 +12,39 @@ const alert = props => {
     if(props.alertMessage && props.alertClose) {
         sanitizedMessage = DOMPurify.sanitize(props.alertMessage);
         sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
-        alertDisplay =  (
-            <div className={ styles.alertContainer } >                          
-                <span 
-                    className={ styles.alertClose } 
-                    tabIndex="0" 
-                    role="button"
-                    aria-label="Close Unanimity alert message." 
-                    onClick={ () => { props.alertClose(); } } 
-                    onKeyDown={ e => { if(e.key === 'Enter') { this.props.alertClose(); } } }
-                > 
-                    &times; 
-                </span>
-                <span role="alert" aria-label="Alert message from unanimity about some error." className={ styles.alertMessage }>{ sanitizedMessage }</span>
-            </div>
-        );
+        if(props.successBoolean === true){
+            alertDisplay =  (
+                <div className={ styles.alertContainerSuccess } >                          
+                    <span 
+                        className={ styles.alertClose } 
+                        tabIndex="0" 
+                        role="button"
+                        aria-label="Close Unanimity alert message." 
+                        onClick={ () => { props.alertClose(); } } 
+                        onKeyDown={ e => { if(e.key === 'Enter') { this.props.alertClose(); } } }
+                    > 
+                        &times; 
+                    </span>
+                    <span role="alert" aria-label="Alert message from unanimity about some error." className={ styles.alertMessage }>{ sanitizedMessage }</span>
+                </div>
+            );
+        }else{
+            alertDisplay =  (
+                <div className={ styles.alertContainerNegative } >                          
+                    <span 
+                        className={ styles.alertClose } 
+                        tabIndex="0" 
+                        role="button"
+                        aria-label="Close Unanimity alert message." 
+                        onClick={ () => { props.alertClose(); } } 
+                        onKeyDown={ e => { if(e.key === 'Enter') { this.props.alertClose(); } } }
+                    > 
+                        &times; 
+                    </span>
+                    <span role="alert" aria-label="Alert message from unanimity about some error." className={ styles.alertMessage }>{ sanitizedMessage }</span>
+                </div>
+            );
+        }
     };
     return (
         <Fragment>
