@@ -6,6 +6,12 @@ import * as passwordHash from 'password-hash'; //import npm pass https://www.npm
 import DOMPurify from 'dompurify';
 import axios from '../../../../axios';
 
+/*
+This component is opened from the option menu and is loaded where the chatroom would be. This is a parent component that
+shows a list of settings to users and is responsible for show/hiding child components like updatePwdForm and UpdateUsernameForm.
+
+ps. This component is currently loaded into the header and not the chatroom section and is just styled to look like it is in the chatroom.
+*/
 const AccountSettings = props => {
 	const [showUpdatePwd, setShowUpdatePwd] = useState(false);
 	const [showUpdateUsername, setShowUpdateUsername] = useState(false);
@@ -41,12 +47,12 @@ const AccountSettings = props => {
 									   authUsername={ props.authUsername } 
 									   setShowSettings={ props.setShowSettings } 
 									   authUID={ props.authUID } 
-									   updateNotification={props.setNoticication}/>;
+									   updateNotification={props.setNotification}/>;
 		} else if(showUpdatePwd) {
 			return <UpdatePwdForm checkPwd={ checkPwd } 
 								  setShowSettings={ props.setShowSettings } 
 								  authUID={ props.authUID }
-								  updateNotification={props.setNoticication}/>;		
+								  updateNotification={props.setNotification}/>;		
 		} else {
 			return (
 				<>		

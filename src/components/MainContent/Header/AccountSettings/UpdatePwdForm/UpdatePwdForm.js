@@ -5,6 +5,10 @@ import axios from '../../../../../axios';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import { motion } from "framer-motion";
 
+/*
+Child component of account settings. Is a form that takes in a new password to update too and the current password.
+Handles updating the database to the new password.
+*/
 const UpdatePwdForm = props => {
 	let [oldPassword, setOldPassword] = useState('');
 	let [newPassword, setNewPassword] = useState('');

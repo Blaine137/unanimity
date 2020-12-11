@@ -3,7 +3,10 @@ import styles from '../AccountSettings.module.scss';
 import DOMPurify from 'dompurify';
 import axios from '../../../../../axios';
 import { motion } from "framer-motion";
-
+/*
+Child component of account settings. Is a form that takes a new username to update too and the password. 
+Handles logic for updating the username in the database. 
+*/
 const UpdateUsernameForm = props => {
 	let [newUsername, setNewUsername] = useState('');
 	let [confirmUsername, setConfirmUsername] = useState('');
@@ -18,8 +21,7 @@ const UpdateUsernameForm = props => {
             //change username in users db
             let oldUsername = await  axios.get('users/u' + props.authUID + '.json')
             .catch(err => props.updateNotification('Failed to update username'));
-            let updatedUsername = {...oldUsername.data};
-			
+            let updatedUsername = {...oldUsername.data};		
 			if(newUsername === confirmUsername) {
 				updatedUsername.userName = newUsername.toLowerCase();
 				updatedUsername.userName = DOMPurify.sanitize(updatedUsername.userName);
@@ -38,7 +40,7 @@ const UpdateUsernameForm = props => {
 				delete updatedUserIDByUsername[props.authUsername];
 				//add the new name with props.authUID as value
 				updatedUserIDByUsername[sanitizedUsername] = props.authUID;
-				
+
 				axios.put('userIDByUsername.json', updatedUserIDByUsername)
 				.then(res => {props.setShowSettings(false); props.updateNotification('Changed username successfully!')})
 				.catch(err => props.updateNotification(`Failed to update username by userID in the database: ${err}`));
@@ -91,7 +93,6 @@ const UpdateUsernameForm = props => {
 						aria-label="enter your password for your account"
 						onChange={ e => setPassword(e.target.value) }
 					/>
-					{/* <span role="alert" aria-label="Errors with your form data will be displayed here.">{errors}</span> */}
 					<button aria-label="Click to proceeding updating your account username." className={ styles.submit }>Submit</button>	
 				</form>	
 			</motion.div>	

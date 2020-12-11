@@ -3,6 +3,11 @@ import styles from './Header.module.scss';
 import Switch from 'react-switch';
 import AccountSettings from './AccountSettings/AccountSettings';
 
+/*
+User interface component that is located above the chatroom. this component displays the burger(sidebar opener), current Chat room name, and the toggle options opener. It contains logics for showing/hiding the sidebar and the option menu.
+
+Currently the option menu is located inside this component however we plan on abstracting this to it's own component.
+*/
 const Header = props => {
     const [openOptions, setOpenOptions] = useState(true);
     const [options, setOptions] = useState(null);
@@ -103,11 +108,13 @@ const Header = props => {
 
     const showSettingsMenu = () => {
         if(showSettings) {
-            return <AccountSettings setShowSettings={setShowSettings} 
-                                    authUID={ props.authUID } 
-                                    showSettings={showSettings} 
-                                    authUsername={props.authUsername}
-                                    setNoticication={props.setShowNotification}/>;
+            return <AccountSettings 
+                        setShowSettings={setShowSettings} 
+                        authUID={ props.authUID } 
+                        showSettings={showSettings} 
+                        authUsername={props.authUsername}
+                        setNotification={props.setShowNotification}
+                    />;
         }
     }
 
