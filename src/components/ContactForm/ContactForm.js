@@ -12,7 +12,8 @@ const mapStateToProps = state => ({ notification: state.messenger.notification }
 const mapDispatchToProps = { setNotification };
 
 /*
-User form that takes in contact information, validates the email address, then alerts the user how to fix their data or that they will be receiving an email shortly. Their currently is no logic that sends the email.
+User form that takes in contact information, validates the email address, then alerts the user how to 
+fix their data or that they will be receiving an email shortly. Currently there is no logic that sends the email.
 */
 let ContactForm = props => {
     let closeNotification = () => props.setNotification(null);      

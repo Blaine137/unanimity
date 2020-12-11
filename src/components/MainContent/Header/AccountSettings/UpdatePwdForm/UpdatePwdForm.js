@@ -6,7 +6,7 @@ import * as passwordHash from 'password-hash'; //import npm pass https://www.npm
 import { motion } from "framer-motion";
 
 /*
-Child component of account settings. Is a form that takes in a new password to update too and the current password.
+Child component of account settings. Is a form that takes in the current password and a new password to update .
 Handles updating the database to the new password.
 */
 const UpdatePwdForm = props => {

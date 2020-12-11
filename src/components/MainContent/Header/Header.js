@@ -4,7 +4,9 @@ import Switch from 'react-switch';
 import AccountSettings from './AccountSettings/AccountSettings';
 
 /*
-User interface component that is located above the chatroom. this component displays the burger(sidebar opener), current Chat room name, and the toggle options opener. It contains logics for showing/hiding the sidebar and the option menu.
+User interface component that is located above the chatroom. 
+this component displays the burger button, current Chat room name, 
+and the toggle options button. It contains logics for showing/hiding the sidebar and the option menu.
 
 Currently the option menu is located inside this component however we plan on abstracting this to it's own component.
 */

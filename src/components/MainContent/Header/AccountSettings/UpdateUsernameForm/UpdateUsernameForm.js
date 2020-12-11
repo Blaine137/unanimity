@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
 import axios from '../../../../../axios';
 import { motion } from "framer-motion";
 /*
-Child component of account settings. Is a form that takes a new username to update too and the password. 
+Child component of account settings. Is a form that takes the current password and the new username to update . 
 Handles logic for updating the username in the database. 
 */
 const UpdateUsernameForm = props => {
