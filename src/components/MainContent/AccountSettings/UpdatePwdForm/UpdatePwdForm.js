@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DOMPurify from 'dompurify';
 import styles from '../AccountSettings.module.scss';
-import axios from '../../../../../axios';
+import axios from '../../../../axios';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import { motion } from "framer-motion";
 

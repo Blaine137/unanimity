@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from '../AccountSettings.module.scss';
 import DOMPurify from 'dompurify';
-import axios from '../../../../../axios';
+import axios from '../../../../axios';
 import { motion } from "framer-motion";
 /*
 Child component of account settings. Is a form that takes the current password and the new username to update . 

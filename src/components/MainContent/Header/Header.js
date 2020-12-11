@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import styles from './Header.module.scss';
 import Switch from 'react-switch';
-import AccountSettings from './AccountSettings/AccountSettings';
+
 
 /*
 User interface component that is located above the chatroom. 
@@ -14,7 +14,7 @@ const Header = props => {
     const [openOptions, setOpenOptions] = useState(true);
     const [options, setOptions] = useState(null);
     const [lightTheme, setLightTheme] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
+    
 
     const toggleTheme = () => {
         if(lightTheme) {
@@ -57,7 +57,7 @@ const Header = props => {
                     </li>
                     <li role="menuitem"
                         aria-label="click this link to go to account settings"
-                        onClick={() => { setShowSettings(!showSettings); setOptions(null); }}>
+                        onClick={() => { props.setShowSettings(!props.showSettings); setOptions(null); }}>
                         Account Settings
                     </li>                       
                 </ul>
@@ -108,17 +108,7 @@ const Header = props => {
         }
     }
 
-    const showSettingsMenu = () => {
-        if(showSettings) {
-            return <AccountSettings 
-                        setShowSettings={setShowSettings} 
-                        authUID={ props.authUID } 
-                        showSettings={showSettings} 
-                        authUsername={props.authUsername}
-                        setNotification={props.setShowNotification}
-                    />;
-        }
-    }
+    
 
     toggleTheme();
     let burger = toggleBurger();   
@@ -142,7 +132,6 @@ const Header = props => {
                 </div>     
             </header>
             { options }  
-            { showSettingsMenu() }
         </Fragment>
     );
 }
