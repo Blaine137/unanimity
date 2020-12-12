@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from '../AccountSettings.module.scss';
 import DOMPurify from 'dompurify';
-import axios from '../../../../../axios';
+import axios from '../../../../axios';
 import { motion } from "framer-motion";
 /*
 Child component of account settings. Is a form that takes the current password and the new username to update . 
@@ -51,7 +51,6 @@ const UpdateUsernameForm = props => {
     }
     
 	return(
-		<div className={ styles.container }> 
 			<motion.div initial="hidden" animate="visible" variants={{
 				hidden: {
 					opacity: 0
@@ -95,8 +94,7 @@ const UpdateUsernameForm = props => {
 					/>
 					<button aria-label="Click to proceeding updating your account username." className={ styles.submit }>Submit</button>	
 				</form>	
-			</motion.div>	
-		</div>
+			</motion.div>
 	);
 }
 

@@ -1,15 +1,21 @@
-
 .container {
     overflow: scroll;
     height: 100vh; 
 }
 .closeSettings {
+    color: var(--dark-action);
     background-color: transparent;
     border: none;
     font-size: 1.75rem;
     display: inline;
+    margin-right: .75rem;
+    &:focus, &:hover{
+        cursor: pointer;
+        transform: scale( 1.2 );
+        color: var(--positive-action);  
+        transition: all ease-in-out .25s;
+    }
 }
-
 .settingOptions{
     display: block;
     margin: .5rem auto;
@@ -26,6 +32,7 @@
         color: var(--dark-action);
         background-color: var(--positive-action);  
         transition: all ease-in-out .25s;
+        cursor: pointer;
     }
 }
 .form {
@@ -45,7 +52,7 @@
 }
 fieldset { border: none; }
 legend {
-    padding-bottom: 3rem;
+    padding-bottom: 1.5rem;
     text-align: left;
 }
 .input {
@@ -56,14 +63,14 @@ legend {
     color: var(--dark-action);
     border: none;
     border-bottom: 2px solid var(--dark-action);
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     transition: all ease-in-out;
     transition-duration: .25s;
     &:focus { transform: scale(1.2); }
 }
 label {
     display: block;
-    margin-bottom: 1rem;;
+    margin-bottom: .5rem;;
 }
 .submit {
     position: relative;
@@ -71,12 +78,11 @@ label {
     background-color: var(--dark-action);
     color: var(--light-accent-bg);
     border: none;  
-    height: 3rem;
+    height: 2.5rem;
     width: 50%;
     min-width: 6rem;
     border-radius: 3rem;
     font-weight: 700;
-    margin-bottom: 2rem;
     &:hover {
         color: var(--dark-action);
         background-color: var(--positive-action); 
@@ -85,15 +91,12 @@ label {
 }
 /* phablet and up */
 @media only screen and (min-width: 600px) {
-    .form { padding: 3rem; }
+    .form { 
+        padding: 2rem;
+        max-width: 500px;
+    }
     .submit {
         width: 40%;
         left: 0;
-    }
-}
-/*tablets and larger*/
-@media only screen and (min-width: 700px) { 
-    .form {
-        max-width: 500px;
     }
 }

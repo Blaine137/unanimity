@@ -4,7 +4,7 @@ import UpdatePwdForm from './UpdatePwdForm/UpdatePwdForm';
 import UpdateUsernameForm from './UpdateUsernameForm/UpdateUsernameForm';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import DOMPurify from 'dompurify';
-import axios from '../../../../axios';
+import axios from '../../../axios';
 
 /*
 This component is opened from the option menu and is loaded where the chatroom would be. This is a parent component that
@@ -47,12 +47,12 @@ const AccountSettings = props => {
 									   authUsername={ props.authUsername } 
 									   setShowSettings={ props.setShowSettings } 
 									   authUID={ props.authUID } 
-									   updateNotification={props.setNotification}/>;
+									   updateNotification={props.setShowNotification}/>;
 		} else if(showUpdatePwd) {
 			return <UpdatePwdForm checkPwd={ checkPwd } 
 								  setShowSettings={ props.setShowSettings } 
 								  authUID={ props.authUID }
-								  updateNotification={props.setNotification}/>;		
+								  updateNotification={props.setShowNotification}/>;		
 		} else {
 			return (
 				<>		
