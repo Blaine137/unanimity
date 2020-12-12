@@ -3,10 +3,18 @@
     height: 100vh; 
 }
 .closeSettings {
+    color: var(--dark-action);
     background-color: transparent;
     border: none;
     font-size: 1.75rem;
     display: inline;
+    margin-right: .75rem;
+    &:focus, &:hover{
+        cursor: pointer;
+        transform: scale( 1.2 );
+        color: var(--positive-action);  
+        transition: all ease-in-out .25s;
+    }
 }
 .settingOptions{
     display: block;
@@ -24,6 +32,7 @@
         color: var(--dark-action);
         background-color: var(--positive-action);  
         transition: all ease-in-out .25s;
+        cursor: pointer;
     }
 }
 .form {

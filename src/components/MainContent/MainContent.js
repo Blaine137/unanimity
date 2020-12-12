@@ -20,24 +20,12 @@ const MainContent = props => {
         }
     }
 
-    let header;
     let body;
     let input;
     if(showSettings){
-        header = null;
         body = showSettingsMenu();
         input = null;
     }else{
-        header = <Header 
-                    currentChatRoomName={ props.currentChatRoomName }
-                    toggleSidebar={ props.toggleSidebar }
-                    showSidebar={ props.showSidebar }
-                    logout={ props.setAuth }
-                    authUID={ props.authUID }
-                    authUsername={ props.authUsername }
-                    setShowSettings={setShowSettings}
-                    showSettings={showSettings}/>;
-
         body = <ChatRoom 
                 currentChatRoom={ props.currentChatRoom } 
                 recipientName={ props.currentChatRoomName } 
@@ -49,9 +37,17 @@ const MainContent = props => {
 
     return(
        <Fragment>
-            {header}
+            <Header 
+                    currentChatRoomName={ props.currentChatRoomName }
+                    toggleSidebar={ props.toggleSidebar }
+                    showSidebar={ props.showSidebar }
+                    logout={ props.setAuth }
+                    authUID={ props.authUID }
+                    authUsername={ props.authUsername }
+                    setShowSettings={setShowSettings}
+                    showSettings={showSettings}/>
             {body}
-            {input} 
+            {input}
        </Fragment>
     );
 };
