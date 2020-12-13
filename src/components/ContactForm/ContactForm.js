@@ -23,7 +23,7 @@ let ContactForm = props => {
     function sendEmail(e){
         e.preventDefault();
 
-        emailjs.sendForm('contact_service', 'UnanimityContactTemplate', e.target, 'user_aaSkiLFIoRQuHKUSx1hvK')
+        emailjs.sendForm('contact_service', 'UnanimityContactTemplate', e.target, 'user_aaSkiLFIoRQuHKUSx1hvK') //@params - serviceID templateID templateParams userID
           .then((result) => {
               console.log(result.text);
               let message = "Thank you for contacting Unanimity, your form will be reviewed within 24 hours with emailjs!";
