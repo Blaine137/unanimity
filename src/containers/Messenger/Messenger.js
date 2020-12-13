@@ -4,8 +4,7 @@ import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
 import DOMPurify from 'dompurify';
-import Alert from '../../components/Alert/Alert';
-import { setAuthentication, setUserId, setUsername, setShowSidebar, setCurrentChatRoomID, setCurrentChatRoom, setCurrentChatRoomName, setUsersChatRoomsID, setNotification } from '../../redux/actions';
+import { setAuthentication, setUserId, setUsername, setShowSidebar, setCurrentChatRoomID, setCurrentChatRoom, setCurrentChatRoomName, setUsersChatRoomsID } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -17,8 +16,7 @@ const mapStateToProps = state => {
         currentChatRoomID: state.messenger.currentChatRoomID,
         currentChatRoom: state.messenger.currentChatRoom,
         usersChatRoomsID: state.messenger.usersChatRoomsID,
-        currentChatRoomName: state.messenger.currentChatRoomName,
-        notification: state.messenger.notification,
+        currentChatRoomName: state.messenger.currentChatRoomName
     };
 };
 
@@ -30,8 +28,7 @@ const mapDispatchToProps = {
     setCurrentChatRoomID,
     setCurrentChatRoom,
     setCurrentChatRoomName,
-    setUsersChatRoomsID,
-    setNotification
+    setUsersChatRoomsID
 };
 
 const Messenger = props => {
@@ -51,16 +48,6 @@ const Messenger = props => {
         };
     });
 
-    const closeNotification = () => props.setNotification(null);
-
-    const handleNotification = (message, success) => {
-        let sanitizedMessage = DOMPurify.sanitize(message);
-        //only allows words, spaces, !, ?, $
-        sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
-        let alertComponent=<Alert alertMessage={ sanitizedMessage } alertClose={ closeNotification } successBoolean={success}/>;
-        props.setNotification(alertComponent);
-    }
-
     //check that the user is logged in and if passed true for logout logs the user out
     const handleAuthentication = logout => {
         //on login make sure all required values are set. If one value is not set force logout.
@@ -77,6 +64,7 @@ const Messenger = props => {
             props.setUserId(null);
             props.setUsername(null);
             props.setUsersChatRoomsID(null);
+            props.handleNotification('user successfully logged out!', true)
         }
     }
 
@@ -227,18 +215,18 @@ const Messenger = props => {
                         if(newChatRoomID) {
                             axios.put('chatRooms/' + newChatRoomID + '.json', newChatRoomObject).catch(
                                 error => {
-                                    props.setNotification([<Alert alertMessage = "failed to add chat room to data base. Please try agin." alertClose = { closeNotification }/>]);   
+                                    props.handleNotification("failed to add chat room to data base. Please try agin.", null);   
                                 }
                             );
                             updatedChatRoomID = parseInt(newChatRoomID);
                             //increment the ID to find the Id after newID
                             updatedChatRoomID++;
                             axios.put('chatRooms/nextChatRoomID.json', updatedChatRoomID).catch(
-                                error => { console.log("failed to update the nextChatRoomID in the DB ", error); }
+                                error => { props.handleNotification("failed to update the nextChatRoomID in the DB ", null); }
                             );
                         }
                         else {      
-                            props.setNotification([<Alert alertMessage="Could not determine the chat room id. Please try agin." alertClose={ closeNotification }/>]);
+                            props.handleNotification("Could not determine the chat room id. Please try agin.", null);
                         }
                         //--------- end create the chatroom in chatRooms ---------
 
@@ -254,10 +242,12 @@ const Messenger = props => {
                                     updatedAuthUserChatRoomsID = e.data;
                                     updatedAuthUserChatRoomsID.push(newChatRoomID);
                                     let chatRooms = updatedAuthUserChatRoomsID;
-                                    axios.put('usersChatRooms/ucr' + props.userId + '.json', { chatRooms }).catch(
+                                    axios.put('usersChatRooms/ucr' + props.userId + '.json', { chatRooms })
+                                    .then(res => props.handleNotification('Chatroom successfully added!', true))
+                                    .catch(
                                         error => {
                                             let errorMessage = "Error. failed to update Authenticated usersChatRooms " + DOMPurify.sanitize(error);
-                                            props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification } />]);
+                                            props.handleNotification(errorMessage, null);
                                         }
                                     ); 
                                 }
@@ -270,7 +260,7 @@ const Messenger = props => {
                             axios.put('usersChatRooms/ucr' + props.userId + '.json', { chatRooms }).catch(
                                 error => {                              
                                     let errorMessage = "Error. failed to update Authenticated usersChatRooms " + DOMPurify.sanitize(error); 
-                                    props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification }/>]);
+                                    props.handleNotification(errorMessage, null);
                                 }
                             );
                         }
@@ -292,7 +282,7 @@ const Messenger = props => {
                                 ).catch(
                                     error => {                                     
                                         let errorMessage = "Error. failed to update Recipient usersChatRooms " + DOMPurify.sanitize(error);
-                                        props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification }/>]);
+                                        props.handleNotification(errorMessage, null);
                                     }
                                 );
                             } 
@@ -308,7 +298,7 @@ const Messenger = props => {
                         axios.put('chatRoomsUsers/cru' + newChatRoomID + '.json', newChatRoomUsersObject).catch(
                             error => {
                                 let errorMessage = "Error. Failed to add ChatRoom to ChatRoomUsers " + DOMPurify.sanitize(error); 
-                                props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification }/>]);
+                                props.handleNotification(errorMessage, null);
                             }
                         );
                         // --------- end of update chatRoomUsers ---------
@@ -317,7 +307,7 @@ const Messenger = props => {
                     //if error occurred in axios get nextChatRoomID from chatRooms/nextChatRoomID.json
                     error => {
                         let errorMessage = "Error occurred while trying to set ChatRoomID. Please try agin. " + DOMPurify.sanitize(error); 
-                        props.setNotification([<Alert alertMessage={ errorMessage } alertClose={ closeNotification }/>]);
+                        props.handleNotification(errorMessage, null);
                     }
                 );
             }
@@ -330,7 +320,7 @@ const Messenger = props => {
                 response => {
                     recipentID = response.data;
                     if(recipentID === null) {     
-                        props.setNotification([<Alert alertMessage = "User not found! 308" alertClose = { closeNotification } />]);
+                        props.handleNotification("User not found! 308", null);
                     }
 
                     // --------- Check to see if auth user already has a chatroom with recipent ---------
@@ -347,7 +337,7 @@ const Messenger = props => {
                                             for(let i = 0; i < Object.values(chatRoomUsers.data.users).length; i++) {
                                                 let userID = chatRoomUsers.data.users[i];
                                                 if(recipentID === userID) {             
-                                                    props.setNotification([<Alert alertMessage="You already have a chatroom with this user." alertClose={ closeNotification }/>]);
+                                                    props.handleNotification("You already have a chatroom with this user.", null);
                                                     hasChatRoomWithRecipent = true;
                                                     break;
                                                 }
@@ -367,11 +357,11 @@ const Messenger = props => {
                 }
             ).catch(
                 error => {
-                    props.setNotification([<Alert alertMessage="User not found! 366" alertClose={ closeNotification }/>]);
+                    props.handleNotification("User not found! 366", null);
                 }
             );
         } else {
-            props.setNotification([<Alert alertMessage="Recipent\'s name is required and can\'t be your own name!" alertClose={ closeNotification }/>]);
+            props.handleNotification("Recipent\'s name is required and cannot be your own name!", null);
         }
         // --------- end of check recipent name ---------
     }
@@ -391,6 +381,7 @@ const Messenger = props => {
                         // -------- start remove the chatRoom from the ChatRoomUsers --------
                         //deletes data by setting it equal to an empty object. firebase then automatically removes empty objects
                         axios.put('chatRoomsUsers/cru' + removeChatRoomID + '.json', empty).then(() => {
+                            props.handleNotification('chatroom successfully removed!', true)
                             if(props.currentChatRoomID === removeChatRoomID) {
                                 //set the current chatroom to Unanimity instead of the chatroom that dose not exist
                                 props.setCurrentChatRoomName('Unanimity');
@@ -443,12 +434,12 @@ const Messenger = props => {
                 }
             ).catch(
                  error => {
-                    props.setNotification([<Alert alertMessage="Could not find Chatroom that you requested to be removed." alertClose={ closeNotification }/>]);
+                    props.handleNotification("Could not find Chatroom that you requested to be removed.", null);
                 }
             );
         }
         else {
-            console.log("removeChatRoomID was null in removeChatRoom function. function was canceled.");
+            props.handleNotification("removeChatRoomID was null in removeChatRoom function. function was canceled.", null);
         }
     }
 
@@ -479,6 +470,7 @@ const Messenger = props => {
                         addChatRoom={ newChatRoom }
                         deleteChatRoom={ removeChatRoom }
                         toggleSidebar={ handleShowSidebar }
+                        handleNotification={props.handleNotification}
                     />
                 </div>
                 <div className={ styles.mainContentGrid } style={ mainContentInlineStyles }>
@@ -491,7 +483,7 @@ const Messenger = props => {
                         toggleSidebar={ handleShowSidebar }
                         showSidebar={ props.showSidebar }
                         setAuth={ handleAuthentication }
-                        showAlert={ handleNotification }                    
+                        showAlert={ props.handleNotification }                    
                     />
                 </div> 
             </div>
