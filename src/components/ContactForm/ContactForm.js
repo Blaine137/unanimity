@@ -1,24 +1,16 @@
 import React from 'react';
 import styles from './ContactForm.module.scss';
 import Alert from '../Alert/Alert';
-import DOMPurify from 'dompurify';
-import { connect } from 'react-redux';
-import { setNotification } from '../../redux/actions';
 import Nav from '../Nav/Nav.js';
 import {motion} from 'framer-motion';
 import emailjs from 'emailjs-com';
 
 
-const mapStateToProps = state => ({ notification: state.messenger.notification });
-
-const mapDispatchToProps = { setNotification };
 
 /*
 User form that takes in contact information, validates the email address, then alerts the user how to fix their data or that they will be receiving an email shortly. Their currently is no logic that sends the email.
 */
 let ContactForm = props => {
-
-    let closeNotification = () => props.setNotification(null);
     
     function sendEmail(e){
         e.preventDefault();
@@ -27,7 +19,7 @@ let ContactForm = props => {
           .then((result) => {
               console.log(result.text);
               let message = "Thank you for contacting Unanimity, your form will be reviewed within 24 hours with emailjs!";
-              props.setNotification([<Alert alertMessage={ message } alertClose={ closeNotification }/>]);
+              props.handleNotification(message, true);
           }, (error) => {
               console.log(error.text);
           });
@@ -60,4 +52,4 @@ let ContactForm = props => {
     );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+export default ContactForm;

@@ -6,7 +6,7 @@ import DOMPurify from 'dompurify';
 import Alert from '../../components/Alert/Alert';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import { connect } from 'react-redux';
-import { setAuthentication, setUserId, setUsername, setNotification } from '../../redux/actions';
+import { setAuthentication, setUserId, setUsername } from '../../redux/actions';
 import Nav from '../../components/Nav/Nav';
 import { motion } from 'framer-motion';
 
@@ -16,16 +16,14 @@ const mapStateToProps = state => {
     return {
         authenticated: state.authentication.authenticated,
         userId: state.authentication.userId,
-        username: state.authentication.username,
-        notification: state.messenger.notification,
+        username: state.authentication.username
     };
 };
 
 const mapDispatchToProps = {
     setAuthentication,
     setUserId,
-    setUsername,
-    setNotification
+    setUsername
 };
 
 let Authentication = props => {
@@ -51,7 +49,7 @@ let Authentication = props => {
                     setWaitTime(currentTime);                                       
                     return true;  
             } else {
-                props.setNotification([<Alert alertMessage="you must wait ten seconds before resubmitting the form." alertClose={ closeNotification }/>]);
+                props.handleNotification("you must wait ten seconds before resubmitting the form.", null);
                 return false;
             }
         } else {
@@ -75,9 +73,9 @@ let Authentication = props => {
         if(throttleFormSpam()) {
             //username a valid length
             if(newUserValue.length > 10 || newPasswordValue.length > 20) {
-                props.setNotification([<Alert alertMessage="Username must be less than 10 characters and password must be less than 20." alertClose={ closeNotification }/>]);
+                props.handleNotification("Username must be less than 10 characters and password must be less than 20.", null);
             } else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5) {
-                props.setNotification([<Alert alertMessage="Username and password must be 5 characters long and only contain alphabetical and numerical values." alertClose={ closeNotification }/>])
+                props.handleNotification("Username and password must be 5 characters long and only contain alphabetical and numerical values.", null)
             } else {
                 let getUserId = async () => {
                     try {
@@ -89,7 +87,7 @@ let Authentication = props => {
                             //create user if the username is not taken
                             setNewUser(newUserValue, newPasswordValue, newUserID); 
                         } else {
-                            props.setNotification([<Alert alertMessage="Username is already taken!" alertClose={ closeNotification }/>]);
+                            props.handleNotification("Username is already taken!", null);
                         }
                     } catch(error) {
                         return 300;
@@ -149,7 +147,7 @@ let Authentication = props => {
         //inform user that account was created
         let accountMessage = DOMPurify.sanitize("Your account has been created! Username: '" + newUser + "'");
         accountMessage = accountMessage.replace(/[^\w\s!?$]/g,'');
-        props.setNotification([<Alert alertMessage={ accountMessage } alertClose={ closeNotification }/>]);
+        props.handleNotification(accountMessage, true);
     }
     
     const checkName = async (authValues, userNameElement, passwordElement) => {
@@ -170,7 +168,7 @@ let Authentication = props => {
                 userID = await axios.get('userIDByUsername/' + username + '.json');
                 userID = userID.data;
                 if(!userID) {
-                    props.setNotification([<Alert alertMessage="Incorrect username or password." alertClose={ closeNotification }/>]);
+                    props.handleNotification("Incorrect username or password.", null);
                 } else {
                     //now that we know the username is exist and we have the userID for that username check the password
                     if(password) { checkPwdForUserID(username, userID, password); }
@@ -200,15 +198,13 @@ let Authentication = props => {
                 props.setUserId(null);
                 props.setUsername(null);
                 props.setAuthentication(false);
-                props.setNotification([<Alert alertMessage="Incorrect username or password." alertClose={ closeNotification }/>]);
+                props.handleNotification("Incorrect username or password.", null);
             }
         } catch {
             return 300;
         }  
     }
-
-    const closeNotification = () => props.setNotification(null);
-    
+  
     const ifAuthenticated = () => {
         if(props.authenticated) {
             messenger = <motion.div
@@ -217,7 +213,7 @@ let Authentication = props => {
             exit="out"
             variants={props.pageVariants}
             transition={props.pageTransition}> 
-                <Messenger/> 
+                <Messenger handleNotification={props.handleNotification}/> 
             </motion.div>;
         } else {
             messenger = <main>
@@ -238,7 +234,6 @@ let Authentication = props => {
 
     return(
         <Fragment>                                 
-                { props.notification }
                 { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen*/}
                 { messenger }
         </Fragment>

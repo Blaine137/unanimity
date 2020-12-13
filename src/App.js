@@ -7,23 +7,38 @@ import Landing from './components/landing/Landing';
 import ContactForm from './components/ContactForm/ContactForm';
 import FAQ from './components/FAQ/FAQ';
 import { connect } from 'react-redux';
-import { setLanding, setContactForm } from './redux/actions';
+import { setLanding, setContactForm, setNotification } from './redux/actions';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import Alert from './components/Alert/Alert';
+import DOMPurify from 'dompurify';
 
 const mapStateToProps = state => {
   return {
       landing: state.setLanding.landing,
-      contactForm: state.setContact.contactForm
+	  contactForm: state.setContact.contactForm,
+	  notification: state.messenger.notification
   }
 }
 
 const mapDispatchToProps = {
   setLanding: landingStatus => setLanding(landingStatus),
   setContactForm: contactStatus => setContactForm(contactStatus),
+  setNotification: notification => setNotification(notification)
 }
 
 class App extends Component {
+
+
+	handleNotification = (message, success) => {
+		const closeNotification = () => this.props.setNotification(null);
+        let sanitizedMessage = DOMPurify.sanitize(message);
+        //only allows words, spaces, !, ?, $
+        sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
+        let alertComponent=<Alert alertMessage={ sanitizedMessage } alertClose={ closeNotification } successBoolean={success}/>;
+        this.props.setNotification(alertComponent);
+    }
+
 	render() {
 
 		/* ANIMATION STYLES FOR FRAMER MOTION */
@@ -53,6 +68,7 @@ class App extends Component {
 
 		return (
 			<div className="App">
+				{this.props.notification}
 				<BrowserRouter>
 					<Switch>
 						<Route exact path='/'>
@@ -62,12 +78,12 @@ class App extends Component {
 						</Route>
 						<Route path='/contact'>
 							<AnimatePresence>
-								<ContactForm pageVariants={pageVariants} pageTransition={pageTransition}/>
+								<ContactForm pageVariants={pageVariants} pageTransition={pageTransition} handleNotification={this.handleNotification}/>
 							</AnimatePresence>
 						</Route> 
 						<Route path='/login'>
 							<AnimatePresence>
-								<Authentication pageVariants={pageVariants} pageTransition={pageTransition}/>
+								<Authentication pageVariants={pageVariants} pageTransition={pageTransition} handleNotification={this.handleNotification}/>
 							</AnimatePresence>
 						</Route>
 						<Route path='/FAQ'>
