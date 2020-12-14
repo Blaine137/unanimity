@@ -8,10 +8,11 @@ import emailjs from 'emailjs-com';
 
 
 /*
-User form that takes in contact information, validates the email address, then alerts the user how to fix their data or that they will be receiving an email shortly. Their currently is no logic that sends the email.
+User form that takes in contact information, validates the email address, then alerts the user how to fix their data or a email will be sent to Blaine's email
 */
 let ContactForm = props => {
     
+        //a function that takes the event as a parameter. sendEmail first prevents the page from reloading, then sends a email to Blaine's email. Next the event resets the form.
     function sendEmail(e){
         e.preventDefault();
 
