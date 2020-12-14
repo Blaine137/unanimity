@@ -3,7 +3,6 @@ import Messenger from '../Messenger/Messenger';
 import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
 import DOMPurify from 'dompurify';
-import Alert from '../../components/Alert/Alert';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import { connect } from 'react-redux';
 import { setAuthentication, setUserId, setUsername } from '../../redux/actions';
@@ -49,7 +48,7 @@ let Authentication = props => {
                     setWaitTime(currentTime);                                       
                     return true;  
             } else {
-                props.handleNotification("you must wait ten seconds before resubmitting the form.", null);
+                props.ShowHideCustomAlert("you must wait ten seconds before resubmitting the form.", null);
                 return false;
             }
         } else {
@@ -73,9 +72,9 @@ let Authentication = props => {
         if(throttleFormSpam()) {
             //username a valid length
             if(newUserValue.length > 10 || newPasswordValue.length > 20) {
-                props.handleNotification("Username must be less than 10 characters and password must be less than 20.", null);
+                props.ShowHideCustomAlert("Username must be less than 10 characters and password must be less than 20.", null);
             } else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5) {
-                props.handleNotification("Username and password must be 5 characters long and only contain alphabetical and numerical values.", null)
+                props.ShowHideCustomAlert("Username and password must be 5 characters long and only contain alphabetical and numerical values.", null)
             } else {
                 let getUserId = async () => {
                     try {
@@ -87,7 +86,7 @@ let Authentication = props => {
                             //create user if the username is not taken
                             setNewUser(newUserValue, newPasswordValue, newUserID); 
                         } else {
-                            props.handleNotification("Username is already taken!", null);
+                            props.ShowHideCustomAlert("Username is already taken!", null);
                         }
                     } catch(error) {
                         return 300;
@@ -147,7 +146,7 @@ let Authentication = props => {
         //inform user that account was created
         let accountMessage = DOMPurify.sanitize("Your account has been created! Username: '" + newUser + "'");
         accountMessage = accountMessage.replace(/[^\w\s!?$]/g,'');
-        props.handleNotification(accountMessage, true);
+        props.ShowHideCustomAlert(accountMessage, true);
     }
     
     const checkName = async (authValues, userNameElement, passwordElement) => {
@@ -168,7 +167,7 @@ let Authentication = props => {
                 userID = await axios.get('userIDByUsername/' + username + '.json');
                 userID = userID.data;
                 if(!userID) {
-                    props.handleNotification("Incorrect username or password.", null);
+                    props.ShowHideCustomAlert("Incorrect username or password.", null);
                 } else {
                     //now that we know the username is exist and we have the userID for that username check the password
                     if(password) { checkPwdForUserID(username, userID, password); }
@@ -198,7 +197,7 @@ let Authentication = props => {
                 props.setUserId(null);
                 props.setUsername(null);
                 props.setAuthentication(false);
-                props.handleNotification("Incorrect username or password.", null);
+                props.ShowHideCustomAlert("Incorrect username or password.", null);
             }
         } catch {
             return 300;
@@ -211,9 +210,9 @@ let Authentication = props => {
             initial="initial"
             animate="in"
             exit="out"
-            variants={props.pageVariants}
+            variants={props.pageAnimationVariants}
             transition={props.pageTransition}> 
-                <Messenger handleNotification={props.handleNotification}/> 
+                <Messenger handleNotification={props.ShowHideCustomAlert}/> 
             </motion.div>;
         } else {
             messenger = <main>
@@ -221,7 +220,7 @@ let Authentication = props => {
                                 initial="initial"
                                 animate="in"
                                 exit="out"
-                                variants={props.pageVariants}
+                                variants={props.pageAnimationVariants}
                                 transition={props.pageTransition}
                             >
                                 <Nav/>

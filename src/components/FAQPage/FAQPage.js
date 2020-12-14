@@ -1,22 +1,23 @@
 import React from 'react';
 import Nav from '../Nav/Nav';
-import styles from './FAQ.module.scss';
-import {motion} from 'framer-motion';
+import styles from './FAQPage.module.scss';
+import { motion } from 'framer-motion';
 
 /*
 User interface component that displays hard coded answers to common questions.
 */
-const FAQ = props => {
+const FAQPage = props => {
     return(
         <>
             <Nav/>
             <main>
                 <motion.div
-                initial="initial"
-                animate="in"
-                exit="out"
-                variants={props.pageVariants}
-                transition={props.pageTransition}>
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={props.pageAnimationVariants}
+                    transition={props.pageTransition}
+                >
                     <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
                     <h1>Frequently asked questions</h1>
                     <dl>
@@ -41,4 +42,4 @@ const FAQ = props => {
     );
 };
 
-export default FAQ;
+export default FAQPage;
