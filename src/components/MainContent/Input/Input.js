@@ -3,6 +3,10 @@ import styles from './Input.module.scss';
 import DOMPurify from 'dompurify';
 let oldTime = null;
 
+/*
+Child component of MainContent. Is a textarea where users enter their message to send.
+Throttles message send rate to prevent spam.
+*/
 const Input = props => {
     let [userMessage, setUserMessage] = useState('');
 

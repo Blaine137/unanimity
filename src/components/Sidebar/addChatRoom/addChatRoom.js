@@ -2,6 +2,11 @@ import React from "react";
 import styles from "./addChatRoom.module.scss";
 import DOMPurify from 'dompurify';
 
+/*
+child component of sidebar.
+Form that takes in the name of the user they would like to start chatting with. 
+on Submit it closes out of itself and calls a function from props to create the chatroom.
+*/
 const addChatRoom = props => {
 	return(
 		<div className={ styles.popUpContainer }>                                  

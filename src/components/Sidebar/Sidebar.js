@@ -6,6 +6,10 @@ import AddChatRoomPopUp from './addChatRoom/addChatRoom';
 let key = 0;
 let addedChatRoomsName = [];
 
+/*
+    handles opening and closing the sidebar and showing/hiding the add chatroom pop up.
+    Has the logic to get the authenticated user's chatroom's and display them inside of sidebar.
+*/
 class Sidebar extends Component {
     state = {
         showAddChatRoomPopUp: false,

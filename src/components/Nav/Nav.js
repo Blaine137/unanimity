@@ -3,6 +3,11 @@ import './Nav.module.scss';
 import { Link } from 'react-router-dom';
 import styles from './Nav.module.scss';
 
+/*
+user interface component that is just a navigate with react router links. 
+Displayed on the Home, Contact, Login, and FQA page. Is not shown once logged in
+or on login page.
+*/
 const nav = props => {
     return(
         <nav>

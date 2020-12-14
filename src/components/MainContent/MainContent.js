@@ -4,6 +4,10 @@ import ChatRoom from './Chatroom/Chatroom';
 import AccountSettings from './AccountSettings/AccountSettings';
 import Input from './Input/Input';
 
+/*
+    Parent component for Header, ChatRoom, Input, and AccountSettings.
+    show AccountSettings hide everything else and vise versa.
+*/
 const MainContent = props => {
     const [showSettings, setShowSettings] = useState(false);
 
@@ -22,30 +26,31 @@ const MainContent = props => {
 
     let body;
     let input;
-    if(showSettings){
+    if(showSettings) {
         body = showSettingsMenu();
         input = null;
-    }else{
+    } else {
         body = <ChatRoom 
                 currentChatRoom={ props.currentChatRoom } 
                 recipientName={ props.currentChatRoomName } 
                 authUsername={ props.authUsername} 
-                authUID={ props.authUID }/>;
-
+                authUID={ props.authUID }
+                />;
         input = <Input newMessage={ props.newMessage } currentChatRoomName={ props.currentChatRoomName } showAlert={ props.showAlert }/>;
     }
 
     return(
        <Fragment>
             <Header 
-                    currentChatRoomName={ props.currentChatRoomName }
-                    toggleSidebar={ props.toggleSidebar }
-                    showSidebar={ props.showSidebar }
-                    logout={ props.setAuth }
-                    authUID={ props.authUID }
-                    authUsername={ props.authUsername }
-                    setShowSettings={setShowSettings}
-                    showSettings={showSettings}/>
+                currentChatRoomName={ props.currentChatRoomName }
+                toggleSidebar={ props.toggleSidebar }
+                showSidebar={ props.showSidebar }
+                logout={ props.setAuth }
+                authUID={ props.authUID }
+                authUsername={ props.authUsername }
+                setShowSettings={setShowSettings}
+                showSettings={showSettings}
+            />
             {body}
             {input}
        </Fragment>
