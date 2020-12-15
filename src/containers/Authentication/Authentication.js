@@ -74,8 +74,8 @@ let Authentication = props => {
             //username a valid length
             if(newUserValue.length > 10 || newPasswordValue.length > 20) {
                 props.handleNotification("Username must be less than 10 characters and password must be less than 20.", null);
-            } else if(!newUserValue || !newPasswordValue || newUserValue < 5 || newPasswordValue < 5) {
-                props.handleNotification("Username and password must be 5 characters long and only contain alphabetical and numerical values.", null)
+            } else if(!newUserValue || !newPasswordValue || newUserValue.length < 5 || newPasswordValue.length < 5) {
+                props.handleNotification("Username and password must be 5 characters long.", null)
             } else {
                 let getUserId = async () => {
                     try {
