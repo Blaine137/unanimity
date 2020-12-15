@@ -43,16 +43,20 @@ const AccountSettings = props => {
 
 	const setAccountSettingsBody = () => {
 		if(showUpdateUsername) {	
-			return <UpdateUsernameForm checkPwd={ checkPwd } 
-									   authUsername={ props.authUsername } 
-									   setShowSettings={ props.setShowSettings } 
-									   authUID={ props.authUID } 
-									   updateNotification={props.setShowNotification}/>;
+			return <UpdateUsernameForm 
+						checkPwd={ checkPwd } 
+						authUsername={ props.authUsername } 
+						setAreSettingsShowing={ props.setAreSettingsShowing} 
+						authUID={ props.authUID } 
+						showHideCustomAlert={props.showHideCustomAlert}
+					/>;
 		} else if(showUpdatePwd) {
-			return <UpdatePwdForm checkPwd={ checkPwd } 
-								  setShowSettings={ props.setShowSettings } 
-								  authUID={ props.authUID }
-								  updateNotification={props.setShowNotification}/>;		
+			return <UpdatePwdForm 
+						checkPwd={ checkPwd } 
+						setAreSettingsShowing={ props.setAreSettingsShowing } 
+						authUID={ props.authUID }
+						showHideCustomAlert={props.showHideCustomAlert}
+					/>;		
 		} else {
 			return (
 				<>		
@@ -66,7 +70,7 @@ const AccountSettings = props => {
 	return(
 		<div role="menu" className={ styles.container }> 
 			{showBackBtn()}
-			<button aria-label="close account settings menu" className={ styles.closeSettings } onClick={ () => props.setShowSettings(false) }>&times;</button>
+			<button aria-label="close account settings menu" className={ styles.closeSettings } onClick={ () => props.setAreSettingsShowing(false) }>&times;</button>
 			<h3 style={ { display: "inline" } }>Account settings</h3>
 			{setAccountSettingsBody()}
 		</div>

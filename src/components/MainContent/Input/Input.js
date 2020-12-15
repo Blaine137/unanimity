@@ -34,10 +34,10 @@ const Input = props => {
                                     props.newMessage(userMessage);
                                     e.target.value = ''; //makes the input box empty once newMessage gets the input                            
                             } else {
-                                props.showAlert(" Please wait two seconds before sending another message! ");
+                                props.showHideCustomAlert(" Please wait two seconds before sending another message! ");
                             }
                         } else {
-                            props.showAlert(' Please select a chatroom before sending a message! ');                           
+                            props.showHideCustomAlert(' Please select a chatroom before sending a message! ');                           
                         }
                     }
                 }}             

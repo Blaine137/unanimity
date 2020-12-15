@@ -28,7 +28,7 @@ const mapDispatchToProps = {
 }
 
 class App extends Component {
-	ShowHideCustomAlert = (message, success) => {
+	showHideCustomAlert = (message, success) => {
 		const closeNotification = () => this.props.setNotification(null);
         let sanitizedAlertMessage = DOMPurify.sanitize(message);
         //only allows words, spaces, !, ?, $
@@ -75,12 +75,12 @@ class App extends Component {
 						</Route>
 						<Route path='/contact'>
 							<AnimatePresence>
-								<ContactForm pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} ShowHideCustomAlert={this.ShowHideCustomAlert}/>
+								<ContactForm pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
 							</AnimatePresence>
 						</Route> 
 						<Route path='/login'>
 							<AnimatePresence>
-								<Authentication pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} ShowHideCustomAlert={this.ShowHideCustomAlert}/>
+								<Authentication pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
 							</AnimatePresence>
 						</Route>
 						<Route path='/FAQ'>

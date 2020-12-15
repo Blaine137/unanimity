@@ -15,7 +15,7 @@ let ContactForm = props => {
         .then((result) => {
             //console.log(result.text);
             let alertMessage = "Thank you for contacting Unanimity, your form will be reviewed within 24 hours with emailjs!";
-            props.ShowHideCustomAlert(alertMessage, true);
+            props.showHideCustomAlert(alertMessage, true);
         }, (error) => {
             console.log(error.text);
         });

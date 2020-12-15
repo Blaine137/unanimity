@@ -20,7 +20,7 @@ const UpdateUsernameForm = props => {
         if(passwordCorrect) {      
             //change username in users db
             let oldUsername = await  axios.get('users/u' + props.authUID + '.json')
-            .catch(err => props.updateNotification('Failed to update username'));
+            .catch(err => props.showHideCustomAlert('Failed to update username'));
             let updatedUsername = {...oldUsername.data};		
 			if(newUsername === confirmUsername) {
 				updatedUsername.userName = newUsername.toLowerCase();
@@ -29,10 +29,10 @@ const UpdateUsernameForm = props => {
 				sanitizedUsername = updatedUsername.userName;
 				axios.put('users/u' + props.authUID + '.json', updatedUsername)
 				.then(res => {
-					props.updateNotification('username successfully changed!!', true)
-					props.setShowSettings(false);
+					props.showHideCustomAlert('username successfully changed!!', true)
+					props.setAreSettingsShowing(false);
 				})
-				.catch(err => props.updateNotification(`Failed to update username in the database: ${err}`));
+				.catch(err => props.showHideCustomAlert(`Failed to update username in the database: ${err}`));
 
 				//change username in userIDByUsername
 				const userIDByUsername = await axios.get('userIDByUsername.json');
@@ -42,11 +42,11 @@ const UpdateUsernameForm = props => {
 				updatedUserIDByUsername[sanitizedUsername] = props.authUID;
 
 				axios.put('userIDByUsername.json', updatedUserIDByUsername)
-				.then(res => {props.setShowSettings(false); props.updateNotification('Changed username successfully!', true)})
-				.catch(err => props.updateNotification(`Failed to update username by userID in the database: ${err}`));
+				.then(res => {props.setAreSettingsShowing(false); props.showHideCustomAlert('Changed username successfully!', true)})
+				.catch(err => props.showHideCustomAlert(`Failed to update username by userID in the database: ${err}`));
 			}
         } else {
-            props.updateNotification('Your password was incorrect.');
+            props.showHideCustomAlert('Your password was incorrect.');
 		}	
     }
     

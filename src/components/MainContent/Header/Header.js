@@ -15,7 +15,6 @@ const Header = props => {
     const [options, setOptions] = useState(null);
     const [lightTheme, setLightTheme] = useState(false);
     
-
     const toggleTheme = () => {
         if(lightTheme) {
             document.documentElement.style.setProperty("--main-bg","#585d63");
@@ -57,7 +56,7 @@ const Header = props => {
                     </li>
                     <li role="menuitem"
                         aria-label="click this link to go to account settings"
-                        onClick={() => { props.setShowSettings(!props.showSettings); setOptions(null); }}>
+                        onClick={() => { props.setAreSettingsShowing(!props.areSettingsShowing); setOptions(null); }}>
                         Account Settings
                     </li>                       
                 </ul>
