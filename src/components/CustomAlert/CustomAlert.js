@@ -11,7 +11,7 @@ const CustomAlert = props => {
     sanitizedAlertMessage = DOMPurify.sanitize(props.alertMessage);
     sanitizedAlertMessage = sanitizedAlertMessage.replace(/[^\w\s!?$]/g,'');   
     return (
-        <div className={ `${props.getSuccessBoolean ? styles.alertContainerSuccess : styles.alertContainerNegative}` } >                          
+        <div className={ `${props.isSuccess ? styles.alertContainerSuccess : styles.alertContainerNegative}` } >                          
             <span 
                 className={ styles.alertClose } 
                 tabIndex="0" 
