@@ -33,7 +33,7 @@ class App extends Component {
         let sanitizedAlertMessage = DOMPurify.sanitize(message);
         //only allows words, spaces, !, ?, $
         sanitizedAlertMessage = sanitizedAlertMessage.replace(/[^\w\s!?$]/g,'');
-        let alertComponent = <CustomAlert alertMessage={ sanitizedAlertMessage } alertClose={ closeNotification } useSuccessStyles={success}/>;
+        let alertComponent = <CustomAlert alertMessage={ sanitizedAlertMessage } alertClose={ closeNotification } getSuccessBoolean={success}/>;
         this.props.setNotification(alertComponent);
     }
 
