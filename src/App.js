@@ -3,14 +3,14 @@ import './App.scss';
 import Authentication from './containers/Authentication/Authentication';
 import './fonts/Jost-VariableFont_ital,wght.ttf';
 import './fonts/Montserrat-Regular.ttf';
-import Landing from './components/landing/Landing';
+import LandingPage from './components/landingPage/LandingPage';
 import ContactForm from './components/ContactForm/ContactForm';
-import FAQ from './components/FAQ/FAQ';
+import FAQPage from './components/FAQPage/FAQPage';
 import { connect } from 'react-redux';
 import { setLanding, setContactForm, setNotification } from './redux/actions';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import Alert from './components/Alert/Alert';
+import CustomAlert from './components/CustomAlert/CustomAlert';
 import DOMPurify from 'dompurify';
 
 const mapStateToProps = state => {
@@ -28,21 +28,18 @@ const mapDispatchToProps = {
 }
 
 class App extends Component {
-
-
-	handleNotification = (message, success) => {
+	showHideCustomAlert = (message, success) => {
 		const closeNotification = () => this.props.setNotification(null);
-        let sanitizedMessage = DOMPurify.sanitize(message);
+        let sanitizedAlertMessage = DOMPurify.sanitize(message);
         //only allows words, spaces, !, ?, $
-        sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$]/g,'');
-        let alertComponent=<Alert alertMessage={ sanitizedMessage } alertClose={ closeNotification } successBoolean={success}/>;
+        sanitizedAlertMessage = sanitizedAlertMessage.replace(/[^\w\s!?$]/g,'');
+        let alertComponent = <CustomAlert alertMessage={ sanitizedAlertMessage } alertClose={ closeNotification } isSuccess={success}/>;
         this.props.setNotification(alertComponent);
     }
 
 	render() {
-
-		/* ANIMATION STYLES FOR FRAMER MOTION */
-		const pageVariants = {
+		/* Animation styles for Framer Motion */
+		const pageAnimationVariants = {
 			initial: {
 			  opacity: 0,
 			  x: "-20vw",
@@ -73,22 +70,22 @@ class App extends Component {
 					<Switch>
 						<Route exact path='/'>
 							<AnimatePresence>
-								<Landing pageVariants={pageVariants} pageTransition={pageTransition}/>
+								<LandingPage pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition}/>
 							</AnimatePresence>
 						</Route>
 						<Route path='/contact'>
 							<AnimatePresence>
-								<ContactForm pageVariants={pageVariants} pageTransition={pageTransition} handleNotification={this.handleNotification}/>
+								<ContactForm pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
 							</AnimatePresence>
 						</Route> 
 						<Route path='/login'>
 							<AnimatePresence>
-								<Authentication pageVariants={pageVariants} pageTransition={pageTransition} handleNotification={this.handleNotification}/>
+								<Authentication pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
 							</AnimatePresence>
 						</Route>
 						<Route path='/FAQ'>
 							<AnimatePresence>
-								<FAQ pageVariants={pageVariants} pageTransition={pageTransition}/>
+								<FAQPage pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition}/>
 							</AnimatePresence>
 						</Route>						                             
 						<Redirect to='/'/>

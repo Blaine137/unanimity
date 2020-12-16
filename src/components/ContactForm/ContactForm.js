@@ -1,44 +1,41 @@
 import React from 'react';
 import styles from './ContactForm.module.scss';
-import Alert from '../Alert/Alert';
 import Nav from '../Nav/Nav.js';
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
 import emailjs from 'emailjs-com';
 
-
-
 /*
-User form that takes in contact information, validates the email address, then alerts the user how to fix their data or a email will be sent to Blaine's email
+User form that takes in contact information, notifies the user, and sends the email.
 */
 let ContactForm = props => {
-    
-        //a function that takes the event as a parameter. sendEmail first prevents the page from reloading, then sends a email to Blaine's email. Next the event resets the form.
-    function sendEmail(e){
-        e.preventDefault();
+    function sendEmail(e) {
 
-        emailjs.sendForm('contact_service', 'UnanimityContactTemplate', e.target, 'user_aaSkiLFIoRQuHKUSx1hvK') //@params - serviceID templateID templateParams userID
-          .then((result) => {
-              console.log(result.text);
-              let message = "Thank you for contacting Unanimity, your form will be reviewed within 24 hours with emailjs!";
-              props.handleNotification(message, true);
-          }, (error) => {
-              console.log(error.text);
-          });
-          e.target.reset();
+        e.preventDefault();
+        //@params - serviceID templateID templateParams userID
+        emailjs.sendForm('contact_service', 'UnanimityContactTemplate', e.target, 'user_aaSkiLFIoRQuHKUSx1hvK')
+        .then((result) => {
+            //console.log(result.text);
+            let alertMessage = "Thank you for contacting Unanimity, your form will be reviewed within 24 hours with emailjs!";
+            props.showHideCustomAlert(alertMessage, true);
+        }, (error) => {
+            console.log(error.text);
+        });
+        e.target.reset();
     }
 
     return(     
-        <main >
+        <main>
             <motion.div
-             initial="initial"
-             animate="in"
-             exit="out"
-             variants={props.pageVariants}
-             transition={props.pageTransition}>
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={ props.pageAnimationVariants }
+                transition={ props.pageTransition }
+            >
                 { props.notification }
-                <Nav />
+                <Nav/>
                 <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>                         
-                <form className={ styles.form } onSubmit={sendEmail}> 
+                <form className={ styles.form } onSubmit={ sendEmail }> 
                     <fieldset>
                         <legend>Let's get to know each other!</legend>                                 
                         <label htmlFor="Email" >Your Email Address</label>

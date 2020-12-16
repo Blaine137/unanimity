@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Input.module.scss';
 import DOMPurify from 'dompurify';
-let oldTime = null;
+let lastMessageSentTime = null;
 
 /*
 Child component of MainContent. Is a textarea where users enter their message to send.
@@ -24,20 +24,22 @@ const Input = props => {
                 onKeyDown={ e => {
                     if(e.key === 'Enter') {
                         if(props.currentChatRoomName && props.currentChatRoomName !== 'Unanimity') {
-                            if( oldTime === null ) {                                      
-                                oldTime = Date.now();
-                                oldTime -= 50000;                           
+                            //if user has not sent a message yet, don't throttle message send rate.
+                            if( lastMessageSentTime === null ) {                                      
+                                lastMessageSentTime = Date.now();
+                                lastMessageSentTime -= 50000;                           
                             }                       
                             let currentTime = Date.now();                           
-                            if(currentTime >= (oldTime + 2000)) {                               
-                                    oldTime = currentTime;                                       
+                            if(currentTime >= (lastMessageSentTime + 2000)) {                               
+                                    lastMessageSentTime = currentTime;                                       
                                     props.newMessage(userMessage);
-                                    e.target.value = ''; //makes the input box empty once newMessage gets the input                            
+                                    //makes the input box empty once newMessage gets the input   
+                                    e.target.value = '';                          
                             } else {
-                                props.showAlert(" Please wait two seconds before sending another message! ");
+                                props.showHideCustomAlert(" Please wait two seconds before sending another message! ");
                             }
                         } else {
-                            props.showAlert(' Please select a chatroom before sending a message! ');                           
+                            props.showHideCustomAlert(' Please select a chatroom before sending a message! ');                           
                         }
                     }
                 }}             

@@ -31,10 +31,10 @@ export const authenticationReducer = (state = { authenticated: false, userId: nu
     }
 };
 
-export const messengerReducer = (state = { showSidebar: true, currentChatRoomID: null, currentChatRoom: null, usersChatRoomsID: [], currentChatRoomName: 'Unanimity', notification: null }, action) => {
+export const messengerReducer = (state = { isSidebarOpen: true, currentChatRoomID: null, currentChatRoom: null, usersChatRoomsID: [], currentChatRoomName: 'Unanimity', notification: null }, action) => {
     switch(action.type) {
-        case actionsTypes.SET_SHOWSIDEBAR:
-            return { ...state, showSidebar: action.payload };
+        case actionsTypes.SET_ISSIDEBAROPEN:
+            return { ...state, isSidebarOpen: action.payload };
         case actionsTypes.SET_CURRENTCHATROOMID:
             return { ...state, currentChatRoomID: action.payload };
         case actionsTypes.SET_CURRENTCHATROOM:

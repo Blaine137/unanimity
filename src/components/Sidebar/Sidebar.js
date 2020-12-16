@@ -76,7 +76,7 @@ class Sidebar extends Component {
             </Fragment>
         );
         let sidebar = null;
-        if(this.props.showSidebar) {
+        if(this.props.isSidebarOpen) {
             //set css to show the sidebar
             sidebar=(
                 <aside 

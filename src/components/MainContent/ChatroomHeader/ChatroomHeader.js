@@ -1,23 +1,19 @@
 import React, { Fragment, useState } from 'react';
-import styles from './Header.module.scss';
+import styles from './ChatroomHeader.module.scss';
 import Switch from 'react-switch';
-
 
 /*
 User interface component that is located above the chatroom. 
 this component displays the burger button, current Chat room name, 
 and the toggle options button. It contains logics for showing/hiding the sidebar and the option menu.
-
-Currently the option menu is located inside this component however we plan on abstracting this to it's own component.
 */
-const Header = props => {
-    const [openOptions, setOpenOptions] = useState(true);
-    const [options, setOptions] = useState(null);
-    const [lightTheme, setLightTheme] = useState(false);
+const ChatroomHeader = props => {
+    const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(true);
+    const [optionsMenuElemnets, setOptionsMenuElements] = useState(null);
+    const [isAppLightTheme, setIsAppLightTheme] = useState(false);
     
-
-    const toggleTheme = () => {
-        if(lightTheme) {
+    const toggleAppTheme = () => {
+        if(isAppLightTheme) {
             document.documentElement.style.setProperty("--main-bg","#585d63");
             document.documentElement.style.setProperty("--main-text","white");
             document.documentElement.style.setProperty("--off-text","#f6f6f6");
@@ -37,13 +33,22 @@ const Header = props => {
     }
     
     //shows & hides the options menu. triggered by the three dots in the top right of the header
-    const toggleOptions =  () => {
-        if(openOptions === true) {
-            setOptions(
+    const toggleOptionsMenu =  () => {
+        if(isOptionsMenuOpen === true) {
+            setOptionsMenuElements(
                 <ul role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
                     <li role="menuitem">
                         <span>Theme: </span>
-                        <Switch aria-label="Switch to change theme color of Unanimity" className={styles.switch} checked={lightTheme} onChange={() => { setLightTheme(!lightTheme);  setOptions(null)}} activeBoxShadow='0 0 2px 3px #365F88' onColor="#05386B" uncheckedIcon={false} checkedIcon={false} />   
+                        <Switch 
+                            aria-label="Switch to change theme color of Unanimity" 
+                            className={styles.switch} 
+                            checked={isAppLightTheme} 
+                            onChange={() => { setIsAppLightTheme(!isAppLightTheme);  setOptionsMenuElements(null)}} 
+                            activeBoxShadow='0 0 2px 3px #365F88' 
+                            onColor="#05386B" 
+                            uncheckedIcon={false} 
+                            checkedIcon={false} 
+                        />   
                     </li>
                     <li 
                         tabIndex="0" 
@@ -57,23 +62,24 @@ const Header = props => {
                     </li>
                     <li role="menuitem"
                         aria-label="click this link to go to account settings"
-                        onClick={() => { props.setShowSettings(!props.showSettings); setOptions(null); }}>
+                        onClick={() => { props.setAreSettingsShowing(!props.areSettingsShowing); setOptionsMenuElements(null); }}
+                    >
                         Account Settings
                     </li>                       
                 </ul>
             );          
         } else {
-            setOptions(null);
+            setOptionsMenuElements(null);
         }
-        setOpenOptions(!openOptions);
+        setIsOptionsMenuOpen(!isOptionsMenuOpen);
     }
 
    /*
         changes the sidebar opener between a x and a burger( the three lines ) 
         dose not cause the sidebar to open and close. sidebar open and close is handled in messenger.js
     */
-    const toggleBurger = () => {
-        if( props.showSidebar ) {
+    const toggleSidebarButtonStyles = () => {
+        if(props.isSidebarOpen) {
             //make the burger button a X
             return(
                 <div 
@@ -108,10 +114,8 @@ const Header = props => {
         }
     }
 
-    
-
-    toggleTheme();
-    let burger = toggleBurger();   
+    toggleAppTheme();
+    let burger = toggleSidebarButtonStyles();   
     return(
         <Fragment>
             <header className={ styles.header }>              
@@ -120,8 +124,8 @@ const Header = props => {
                 <div 
                     tabIndex="0" 
                     className={ styles.options } 
-                    onClick={ () => toggleOptions() }
-                    onKeyDown={ e => { if(e.key === 'Enter') { toggleOptions(); } } }
+                    onClick={ () => toggleOptionsMenu() }
+                    onKeyDown={ e => { if(e.key === 'Enter') { toggleOptionsMenu(); } } }
                     aria-label="Open options menu button"
                     aria-haspopup="true"
                     role="button"
@@ -131,9 +135,9 @@ const Header = props => {
                     <div className={ styles.circle3 }></div>
                 </div>     
             </header>
-            { options }  
+            { optionsMenuElemnets }  
         </Fragment>
     );
 }
 
-export default Header;
+export default ChatroomHeader;

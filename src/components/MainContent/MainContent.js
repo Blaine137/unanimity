@@ -1,55 +1,48 @@
 import React, {useState, Fragment } from 'react';
-import Header from './Header/Header';
+import ChatroomHeader from './ChatroomHeader/ChatroomHeader';
 import ChatRoom from './Chatroom/Chatroom';
 import AccountSettings from './AccountSettings/AccountSettings';
 import Input from './Input/Input';
 
 /*
-    Parent component for Header, ChatRoom, Input, and AccountSettings.
-    show AccountSettings hide everything else and vise versa.
+Parent component for Header, ChatRoom, Input, and AccountSettings.
 */
 const MainContent = props => {
-    const [showSettings, setShowSettings] = useState(false);
+    const [areSettingsShowing, setAreSettingsShowing,] = useState(false);
+    //default to the chatroom
+    let body = <ChatRoom 
+                    currentChatRoom={ props.currentChatRoom } 
+                    recipientName={ props.currentChatRoomName } 
+                    authUsername={ props.authUsername} 
+                    authUID={ props.authUID }
+                />;
+    let input = <Input newMessage={ props.newMessage } currentChatRoomName={ props.currentChatRoomName } showHideCustomAlert={ props.showHideCustomAlert }/>;
 
+    //sets body to account settings if user has opened the settings and sets input to null.
     const showSettingsMenu = () => {
-        if(showSettings) {
-            return <AccountSettings 
-                        setShowSettings={setShowSettings} 
+        if(areSettingsShowing) {
+            body = <AccountSettings 
                         authUID={ props.authUID } 
-                        showSettings={showSettings} 
+                        setAreSettingsShowing={setAreSettingsShowing} 
                         authUsername={props.authUsername}
-                        setShowNotification={ props.showAlert }
-                        
+                        showHideCustomAlert={ props.showHideCustomAlert }                     
                     />;
+            input = null;
         }
     }
 
-    let body;
-    let input;
-    if(showSettings) {
-        body = showSettingsMenu();
-        input = null;
-    } else {
-        body = <ChatRoom 
-                currentChatRoom={ props.currentChatRoom } 
-                recipientName={ props.currentChatRoomName } 
-                authUsername={ props.authUsername} 
-                authUID={ props.authUID }
-                />;
-        input = <Input newMessage={ props.newMessage } currentChatRoomName={ props.currentChatRoomName } showAlert={ props.showAlert }/>;
-    }
-
+    showSettingsMenu();
     return(
        <Fragment>
-            <Header 
+            <ChatroomHeader 
                 currentChatRoomName={ props.currentChatRoomName }
                 toggleSidebar={ props.toggleSidebar }
-                showSidebar={ props.showSidebar }
+                isSidebarOpen={ props.isSidebarOpen }
                 logout={ props.setAuth }
                 authUID={ props.authUID }
                 authUsername={ props.authUsername }
-                setShowSettings={setShowSettings}
-                showSettings={showSettings}
+                setAreSettingsShowing={setAreSettingsShowing}
+                areSettingsShowing={areSettingsShowing}
             />
             {body}
             {input}
