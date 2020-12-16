@@ -9,6 +9,7 @@ User form that takes in contact information, notifies the user, and sends the em
 */
 let ContactForm = props => {
     function sendEmail(e) {
+
         e.preventDefault();
         //@params - serviceID templateID templateParams userID
         emailjs.sendForm('contact_service', 'UnanimityContactTemplate', e.target, 'user_aaSkiLFIoRQuHKUSx1hvK')
