@@ -3,7 +3,7 @@ export const SET_CONTACTFORM = 'SET_CONTACTFORM';
 export const SET_AUTHENTICATION = 'SET_AUTHENTICATION';
 export const SET_USER_ID = 'SET_USER_ID';
 export const SET_USERNAME = 'SET_USERNAME';
-export const SET_SHOWSIDEBAR = 'SET_SHOWSIDEBAR';
+export const SET_ISSIDEBAROPEN = 'SET_ISSIDEBAROPEN';
 export const SET_CURRENTCHATROOMID = 'SET_CURRENTCHATROOMID';
 export const SET_CURRENTCHATROOM = 'SET_CURRENTCHATROOM';
 export const SET_CURRENTCHATROOMNAME = 'SET_CURRENTCHATROOMNAME';
@@ -35,9 +35,9 @@ export const setUsername = username => ({
     payload: username
 });
 
-export const setShowSidebar = showSidebar => ({
-    type: SET_SHOWSIDEBAR,
-    payload: showSidebar
+export const setIsSidebarOpen = isSidebarOpen => ({
+    type: SET_ISSIDEBAROPEN,
+    payload: isSidebarOpen
 });
 
 export const setCurrentChatRoomID = currentChatRoomID => ({

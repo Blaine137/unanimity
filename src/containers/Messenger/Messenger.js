@@ -4,7 +4,7 @@ import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
 import DOMPurify from 'dompurify';
-import { setAuthentication, setUserId, setUsername, setShowSidebar, setCurrentChatRoomID, setCurrentChatRoom, setCurrentChatRoomName, setUsersChatRoomsID } from '../../redux/actions';
+import { setAuthentication, setUserId, setUsername, setIsSidebarOpen, setCurrentChatRoomID, setCurrentChatRoom, setCurrentChatRoomName, setUsersChatRoomsID } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -12,7 +12,7 @@ const mapStateToProps = state => {
         authenticated: state.authentication.authenticated,
         userId: state.authentication.userId,
         username: state.authentication.username,
-        showSidebar: state.messenger.showSidebar,
+        isSidebarOpen: state.messenger.isSidebarOpen,
         currentChatRoomID: state.messenger.currentChatRoomID,
         currentChatRoom: state.messenger.currentChatRoom,
         usersChatRoomsID: state.messenger.usersChatRoomsID,
@@ -24,7 +24,7 @@ const mapDispatchToProps = {
     setAuthentication,
     setUserId,
     setUsername,
-    setShowSidebar,
+    setIsSidebarOpen,
     setCurrentChatRoomID,
     setCurrentChatRoom,
     setCurrentChatRoomName,
@@ -72,18 +72,18 @@ const Messenger = props => {
     const handleShowSidebar = closeOnly => {
         //the x in the sidebar for mobile was clicked then close only == true
         if(closeOnly === true) {
-            props.setShowSidebar(false);
+            props.setIsSidebarOpen(false);
             //wait for animiation to complete.
             setTimeout(() => setSideStyles({ display: 'none'}), 1000);
         } else {
-            if(props.showSidebar) {
-                props.setShowSidebar(false);
+            if(props.isSidebarOpen) {
+                props.setIsSidebarOpen(false);
                 //wait for animiation to complete.
                 setTimeout(() => setSideStyles({ display: 'none'}), 1000);
             } else {
                 setSideStyles({ display: 'block'})
                 //wait for the animation
-                setTimeout(() => props.setShowSidebar(true), 150);
+                setTimeout(() => props.setIsSidebarOpen(true), 150);
             }
         }
     }
@@ -445,7 +445,7 @@ const Messenger = props => {
 
     let mainContentInlineStyles = {}; 
     //sidebar closed make main content (the chatRoom area) expand entire width
-    if(!props.showSidebar) {
+    if(!props.isSidebarOpen) {
         mainContentInlineStyles = {
             transform: 'translateX( -20vw )',
             width: '100vw',
@@ -466,7 +466,7 @@ const Messenger = props => {
                     <Sidebar usersChatRoomsID={ sidebarusersChatRoomsID }
                         userID={ props.userId }
                         setCurrentChatRoomID = { handleCurrentChatRoom }
-                        showSidebar={ props.showSidebar }
+                        isSidebarOpen={ props.isSidebarOpen }
                         addChatRoom={ newChatRoom }
                         deleteChatRoom={ removeChatRoom }
                         toggleSidebar={ handleShowSidebar }
@@ -480,7 +480,7 @@ const Messenger = props => {
                         authUsername={ props.username }
                         authUID={ props.userId }
                         toggleSidebar={ handleShowSidebar }
-                        showSidebar={ props.showSidebar }
+                        isSidebarOpen={ props.isSidebarOpen }
                         setAuth={ handleAuthentication }
                         showHideCustomAlert={ props.showHideCustomAlert }                    
                     />

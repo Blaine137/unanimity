@@ -1,5 +1,5 @@
 import React, {useState, Fragment } from 'react';
-import Header from './Header/Header';
+import ChatroomHeader from './ChatroomHeader/ChatroomHeader';
 import ChatRoom from './Chatroom/Chatroom';
 import AccountSettings from './AccountSettings/AccountSettings';
 import Input from './Input/Input';
@@ -34,10 +34,10 @@ const MainContent = props => {
     showSettingsMenu();
     return(
        <Fragment>
-            <Header 
+            <ChatroomHeader 
                 currentChatRoomName={ props.currentChatRoomName }
                 toggleSidebar={ props.toggleSidebar }
-                showSidebar={ props.showSidebar }
+                isSidebarOpen={ props.isSidebarOpen }
                 logout={ props.setAuth }
                 authUID={ props.authUID }
                 authUsername={ props.authUsername }
