@@ -32,20 +32,20 @@ let Authentication = props => {
     //     props.setUsername(null);
     // }, []);
 
-    const [formSubmissions, setFormSubmissions] = useState(1);
-    const [waitTime, setWaitTime] = useState(null);
+    const [formSubmissionCount, setFormSubmissionCount] = useState(1);
+    const [formDisabledTime, setFormDisabledTime] = useState(null);
     
     //if the user has submitted the form more than three times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
     //returns true if they should be allowed to submit the form. returns false if they are spamming the form.
     const throttleFormSpam = () => {
-        setFormSubmissions(formSubmissions + 1);
-        if(formSubmissions >= 3) {      
-            if( waitTime === null ) {                                      
-                setWaitTime(Date.now());                         
+        setFormSubmissionCount(formSubmissionCount + 1);
+        if(formSubmissionCount >= 3) {      
+            if( formDisabledTime === null ) {                                      
+                setFormDisabledTime(Date.now());                         
             }                       
             let currentTime = Date.now();                      
-            if(currentTime >= (waitTime + 10000)) {                               
-                    setWaitTime(currentTime);                                       
+            if(currentTime >= (formDisabledTime + 10000)) {                               
+                setFormDisabledTime(currentTime);                                       
                     return true;  
             } else {
                 props.showHideCustomAlert("you must wait ten seconds before resubmitting the form.", null);
