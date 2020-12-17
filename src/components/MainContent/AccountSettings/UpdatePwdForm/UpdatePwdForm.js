@@ -9,18 +9,18 @@ import { motion } from "framer-motion";
 Child component of account settings. Is a form that takes in the current password and a new password to update .
 Handles updating the database to the new password.
 */
-const UpdatePwdForm = props => {
+const UpdatePasswordForm = props => {
 	let [oldPassword, setOldPassword] = useState('');
 	let [newPassword, setNewPassword] = useState('');
 	let [confirmNewPassword, setConfirmNewPassword] = useState('');
-	let [pwdError, setPwdError] = useState('');
+	let [passwordInputError, setPasswordInputError] = useState('');
 
 	//adds new password to database for authenticated user
-	const updatePwd = async () => {
+	const updatePassword = async () => {
 		let newHashedPassword = passwordHash.generate(newPassword);
 		//Cant not set pwd field to string because firebase requires to pass object. So we have to pass the entire user object with the updated pwd property.
 		let oldUser = await axios.get('users/u' + props.authUID + '.json')
-		.catch(err => props.showHideCustomAlert(`${pwdError} Failed to update Password: ${err}`));
+		.catch(err => props.showHideCustomAlert(`${passwordInputError} Failed to update Password: ${err}`));
 		let updatedUser = {...oldUser.data};
 		updatedUser.password = newHashedPassword;
 		axios.put('users/u' + props.authUID + '.json', updatedUser)
@@ -31,11 +31,11 @@ const UpdatePwdForm = props => {
 				props.showHideCustomAlert('Password successfully changed!', true)
 			}
 		})
-		.catch(err => props.showHideCustomAlert(`${pwdError} Failed to update Password: ${err}`));	
+		.catch(err => props.showHideCustomAlert(`${passwordInputError} Failed to update Password: ${err}`));	
 	}
 
 	//makes sure new password and confirmed pwd fields are the same
-	const confirmPwd = () => {
+	const confirmPassword = () => {
 		if(newPassword === confirmNewPassword) {
 			return true;
 		} else {
@@ -44,18 +44,18 @@ const UpdatePwdForm = props => {
 		}
 	}
 
-	//validated password length. Then calls checkPwd if correct then calls updatePwd.
+	//validated password length. Then calls checkPwd if correct then calls updatePassword.
 	const handlePwdSubmit = async e => {
 		e.preventDefault();
-		setPwdError('');
+		setPasswordInputError('');
 		let passwordCorrect;
 		oldPassword = await DOMPurify.sanitize(oldPassword);
 		oldPassword = await oldPassword.replace(/[^\w]/g,'');
 		if(oldPassword.length > 5 && newPassword.length > 5) {	
-			passwordCorrect = await props.checkPwd(oldPassword);
+			passwordCorrect = await props.checkPasswordInput(oldPassword);
 			if(passwordCorrect && passwordCorrect !== 300) {
-				if(confirmPwd()) {
-					updatePwd();
+				if(confirmPassword()) {
+					updatePassword();
 				}
 			} else {
 				props.showHideCustomAlert('Incorrect current password.');
@@ -77,7 +77,7 @@ const UpdatePwdForm = props => {
 		}}>
 			<form onSubmit={ handlePwdSubmit } className={ styles.form }>
 				<legend>Update Your Password</legend>
-				<span>{pwdError}</span>
+				<span>{passwordInputError}</span>
 				<label htmlFor="oldPassword">Current Password</label>
 				<input 
 					className={ styles.input }
@@ -108,11 +108,11 @@ const UpdatePwdForm = props => {
 					aria-label="Please confirm your new password"
 					onChange={ e => setConfirmNewPassword(e.target.value) }
 				/>
-				<span role="alert" aria-label="Errors for entered data in the password form will display here">{pwdError}</span>
+				<span role="alert" aria-label="Errors for entered data in the password form will display here">{passwordInputError}</span>
 				<button aria-label="Click to proceed updating your password" className={ styles.submit }>Submit</button>
 			</form>
 		</motion.div>
 	);
 }
 
-export default UpdatePwdForm;
+export default UpdatePasswordForm;

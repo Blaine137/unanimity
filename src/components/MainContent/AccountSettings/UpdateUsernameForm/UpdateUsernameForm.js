@@ -16,7 +16,7 @@ const UpdateUsernameForm = props => {
 	const handleUsernameSubmit = async e => {
         e.preventDefault();
         let sanitizedUsername;
-        let passwordCorrect = await props.checkPwd(password);
+        let passwordCorrect = await props.checkPasswordInput(password);
         if(passwordCorrect) {      
             //change username in users db
             let oldUsername = await  axios.get('users/u' + props.authUID + '.json')
