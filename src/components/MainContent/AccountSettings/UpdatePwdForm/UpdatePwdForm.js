@@ -16,7 +16,7 @@ const UpdatePasswordForm = props => {
 	let [passwordInputError, setPasswordInputError] = useState('');
 
 	//adds new password to database for authenticated user
-	const updatePassword = async () => {
+	const updatePasswordInDatabase = async () => {
 		let newHashedPassword = passwordHash.generate(newPassword);
 		//Cant not set pwd field to string because firebase requires to pass object. So we have to pass the entire user object with the updated pwd property.
 		let oldUser = await axios.get('users/u' + props.authUID + '.json')
@@ -26,7 +26,6 @@ const UpdatePasswordForm = props => {
 		axios.put('users/u' + props.authUID + '.json', updatedUser)
 		.then(res => {
 			if(res) {
-				console.log('changed password!!!');
 				props.setAreSettingsShowing(false);
 				props.showHideCustomAlert('Password successfully changed!', true)
 			}
@@ -34,34 +33,39 @@ const UpdatePasswordForm = props => {
 		.catch(err => props.showHideCustomAlert(`${passwordInputError} Failed to update Password: ${err}`));	
 	}
 
-	//makes sure new password and confirmed pwd fields are the same
-	const confirmPassword = () => {
-		if(newPassword === confirmNewPassword) {
-			return true;
+	//sanitizes and validates the new password. Then it confirms newPassword and ConfirmNewPassword are the same. Return True if it passes all checks else it returns false.
+	const validateNewPassword = async () => {
+		newPassword = await DOMPurify.sanitize(newPassword);
+		newPassword = await newPassword.replace(/[^\w]/g,'');
+		confirmNewPassword = await DOMPurify.sanitize(confirmNewPassword);
+		confirmNewPassword = await confirmNewPassword.replace(/[^\w]/g,'');
+		if(newPassword.length > 5) {	
+			if(newPassword === confirmNewPassword) {
+				return true;
+			} else {
+				props.showHideCustomAlert('Passwords do not match.');
+				return false;
+			}
 		} else {
-			props.showHideCustomAlert('Passwords do not match.');
+			props.showHideCustomAlert('New Password must be at least five characters long.');
 			return false;
 		}
 	}
 
-	//validated password length. Then calls checkPwd if correct then calls updatePassword.
-	const handlePwdSubmit = async e => {
+	//sanitize old password. Then checks the old password. If correct calls validateNewPassword. If it passes validation it then calls updatePasswordInDatabase.
+	const sanitizeAndCheckOldPassword = async e => {
 		e.preventDefault();
 		setPasswordInputError('');
 		let passwordCorrect;
 		oldPassword = await DOMPurify.sanitize(oldPassword);
 		oldPassword = await oldPassword.replace(/[^\w]/g,'');
-		if(oldPassword.length > 5 && newPassword.length > 5) {	
-			passwordCorrect = await props.checkPasswordInput(oldPassword);
-			if(passwordCorrect && passwordCorrect !== 300) {
-				if(confirmPassword()) {
-					updatePassword();
-				}
-			} else {
-				props.showHideCustomAlert('Incorrect current password.');
+		passwordCorrect = await props.checkPasswordInput(oldPassword);
+		if(passwordCorrect && passwordCorrect !== 300) {
+			if(await validateNewPassword()) {
+				updatePasswordInDatabase();
 			}
 		} else {
-			props.showHideCustomAlert('Password must be at least five characters long.');
+			props.showHideCustomAlert('Incorrect current password.');
 		}
 	}
 
@@ -75,7 +79,7 @@ const UpdatePasswordForm = props => {
 				scale: 1
 			}
 		}}>
-			<form onSubmit={ handlePwdSubmit } className={ styles.form }>
+			<form onSubmit={ sanitizeAndCheckOldPassword } className={ styles.form }>
 				<legend>Update Your Password</legend>
 				<span>{passwordInputError}</span>
 				<label htmlFor="oldPassword">Current Password</label>

@@ -7,14 +7,12 @@ import DOMPurify from 'dompurify';
 import axios from '../../../axios';
 
 /*
-This component is opened from the option menu and is loaded where the chatroom would be. This is a parent component that
+This component is opened from the option menu and is loaded where the UserMessages would be. This is a parent component that
 shows a list of settings to users and is responsible for show/hiding child components like updatePwdForm and UpdateUsernameForm.
-
-ps. This component is currently loaded into the header and not the chatroom section and is just styled to look like it is in the chatroom.
 */
 const AccountSettings = props => {
-	const [showUpdatePwdForm, setShowUpdatePwdForm] = useState(false);
-	const [showUpdateUsernameForm, setShowUpdateUsernameForm] = useState(false);
+	const [isUpdatePwdFormShowing, setIsUpdatePwdFormShowing] = useState(false);
+	const [isUpdateUsernameFormShowing, setIsUpdateUsernameFormShowing] = useState(false);
 
 	//checks if current password entered is equal to auth user pwd on db.
 	const checkPasswordInput = async checkPassword => {
@@ -31,18 +29,18 @@ const AccountSettings = props => {
 	}
 
 	const goToAccountSettingsHome = () => {
-		setShowUpdateUsernameForm(false);
-		setShowUpdatePwdForm(false);
+		setIsUpdateUsernameFormShowing(false);
+		setIsUpdatePwdFormShowing(false);
 	}
 
 	const showBackBtn = () => {
-		if( showUpdateUsernameForm || showUpdatePwdForm) {
+		if( isUpdateUsernameFormShowing || isUpdatePwdFormShowing) {
 			return <button aria-label="Go back to account settings" onClick={goToAccountSettingsHome} className={styles.closeSettings}>&larr;</button>
 		}
 	}
 
 	const showAccountSettingsForm = () => {
-		if(showUpdateUsernameForm) {	
+		if(isUpdateUsernameFormShowing) {	
 			return <UpdateUsernameForm 
 						checkPasswordInput={ checkPasswordInput } 
 						authUsername={ props.authUsername } 
@@ -50,7 +48,7 @@ const AccountSettings = props => {
 						authUID={ props.authUID } 
 						showHideCustomAlert={props.showHideCustomAlert}
 					/>;
-		} else if(showUpdatePwdForm) {
+		} else if(isUpdatePwdFormShowing) {
 			return <UpdatePasswordForm 
 						checkPasswordInput={ checkPasswordInput } 
 						setAreSettingsShowing={ props.setAreSettingsShowing } 
@@ -60,8 +58,8 @@ const AccountSettings = props => {
 		} else {
 			return (
 				<>		
-					<button aria-label="open up a form where you can update your username" className={styles.settingOptions} onClick={ () => setShowUpdateUsernameForm(true) }>Update Username</button>
-					<button aria-label="open up a form where you can update your password" className={styles.settingOptions} onClick={ () => setShowUpdatePwdForm(true) }>Update Password</button>
+					<button aria-label="open up a form where you can update your username" className={styles.settingOptions} onClick={ () => setIsUpdateUsernameFormShowing(true) }>Update Username</button>
+					<button aria-label="open up a form where you can update your password" className={styles.settingOptions} onClick={ () => setIsUpdatePwdFormShowing(true) }>Update Password</button>
 				</>
 			);
 		}
