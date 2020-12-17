@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
 import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
@@ -26,15 +26,9 @@ const mapDispatchToProps = {
 };
 
 let Authentication = props => {
-    // useEffect(() => {
-    //     props.setAuthentication(false);
-    //     props.setUserId(null);
-    //     props.setUsername(null);
-    // }, []);
-
     const [formSubmissionCount, setFormSubmissionCount] = useState(1);
     const [formDisabledTime, setFormDisabledTime] = useState(null);
-    
+
     //if the user has submitted the form more than three times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
     //returns true if they should be allowed to submit the form. returns false if they are spamming the form.
     const throttleFormSpam = () => {
@@ -84,7 +78,7 @@ let Authentication = props => {
                         let resName = await axios.get('userIDByUsername/' + newUserValue + '.json');
                         if(!resName.data) {
                             //create user if the username is not taken
-                            setNewUser(newUserValue, newPasswordValue, newUserID); 
+                            registerUser(newUserValue, newPasswordValue, newUserID); 
                         } else {
                             props.showHideCustomAlert("Username is already taken!", null);
                         }
@@ -98,7 +92,7 @@ let Authentication = props => {
     }
 
     //sets users in db
-    const setNewUser = async (newUser, newPassword, newUserID) => {
+    const registerUser = async (newUser, newPassword, newUserID) => {
         newUser = DOMPurify.sanitize(newUser);
         newUser = newUser.replace(/[^\w]/g,'');
         newPassword = DOMPurify.sanitize(newPassword);

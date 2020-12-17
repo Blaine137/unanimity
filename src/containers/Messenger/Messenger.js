@@ -463,7 +463,8 @@ const Messenger = props => {
         <Fragment>
             <div className={ styles.layout }>
                 <div className={ styles.sidebarGrid } style={ sidebarInlineStyles }>
-                    <SidebarOfConversations usersChatRoomsID={ sidebarusersChatRoomsID }
+                    <SidebarOfConversations 
+                        usersChatRoomsID={ sidebarusersChatRoomsID }
                         userID={ props.userId }
                         setCurrentChatRoomID = { handleCurrentChatRoom }
                         isSidebarOpen={ props.isSidebarOpen }

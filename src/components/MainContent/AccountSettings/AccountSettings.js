@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./AccountSettings.module.scss";
-import UpdatePasswordForm from './UpdatePwdForm/UpdatePwdForm';
+import UpdatePasswordForm from './UpdatePassworddForm/UpdatePasswordForm';
 import UpdateUsernameForm from './UpdateUsernameForm/UpdateUsernameForm';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import DOMPurify from 'dompurify';
