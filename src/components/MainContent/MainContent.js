@@ -1,8 +1,8 @@
 import React, {useState, Fragment } from 'react';
 import ChatroomHeader from './ChatroomHeader/ChatroomHeader';
-import ChatRoom from './Chatroom/Chatroom';
+import UserMessages from './UserMessages/UserMessages';
 import AccountSettings from './AccountSettings/AccountSettings';
-import Input from './Input/Input';
+import MessageInput from './MessageInput/MessageInput';
 
 /*
 Parent component for Header, ChatRoom, Input, and AccountSettings.
@@ -10,13 +10,13 @@ Parent component for Header, ChatRoom, Input, and AccountSettings.
 const MainContent = props => {
     const [areSettingsShowing, setAreSettingsShowing,] = useState(false);
     //default to the chatroom
-    let body = <ChatRoom 
+    let body = <UserMessages 
                     currentChatRoom={ props.currentChatRoom } 
                     recipientName={ props.currentChatRoomName } 
                     authUsername={ props.authUsername} 
                     authUID={ props.authUID }
                 />;
-    let input = <Input newMessage={ props.newMessage } currentChatRoomName={ props.currentChatRoomName } showHideCustomAlert={ props.showHideCustomAlert }/>;
+    let newMessageInput = <MessageInput newMessage={ props.newMessage } currentChatRoomName={ props.currentChatRoomName } showHideCustomAlert={ props.showHideCustomAlert }/>;
 
     //sets body to account settings if user has opened the settings and sets input to null.
     const showSettingsMenu = () => {
@@ -27,7 +27,7 @@ const MainContent = props => {
                         authUsername={props.authUsername}
                         showHideCustomAlert={ props.showHideCustomAlert }                     
                     />;
-            input = null;
+                    newMessageInput = null;
         }
     }
 
@@ -45,7 +45,7 @@ const MainContent = props => {
                 areSettingsShowing={areSettingsShowing}
             />
             {body}
-            {input}
+            {newMessageInput}
        </Fragment>
     );
 };
