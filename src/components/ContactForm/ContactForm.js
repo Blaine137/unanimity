@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ContactForm.module.scss';
-import Nav from '../Nav/Nav.js';
+import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks.js';
 import { motion } from 'framer-motion';
 import emailjs from 'emailjs-com';
 
@@ -33,7 +33,7 @@ let ContactForm = props => {
                 transition={ props.pageTransition }
             >
                 { props.notification }
-                <Nav/>
+                <NavigationRouterLinks />
                 <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>                         
                 <form className={ styles.form } onSubmit={ sendEmail }> 
                     <fieldset>

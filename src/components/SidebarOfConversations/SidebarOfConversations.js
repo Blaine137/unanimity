@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import styles from './Sidebar.module.scss';
+import styles from './SidebarOfConversations.module.scss';
 import axios from '../../axios';
 import AddChatRoomPopUp from './addChatRoom/addChatRoom';
 //set at this scope so that no two keys would equal the same value
@@ -7,18 +7,18 @@ let key = 0;
 let addedChatRoomsName = [];
 
 /*
-    handles opening and closing the sidebar and showing/hiding the add chatroom pop up.
-    Has the logic to get the authenticated user's chatroom's and display them inside of sidebar.
+handles opening and closing the sidebar and showing/hiding the add chatroom pop up.
+Has the logic to get the authenticated user's chatroom's and display them inside of sidebar.
 */
-class Sidebar extends Component {
+class SidebarOfConversations extends Component {
     state = {
-        showAddChatRoomPopUp: false,
-        sidebarDisplay: []    
+        isAddChatRoomPopUpShowing: false,
+        listOfConversationsToOpenOrDelete: []    
     }
    
     shouldComponentUpdate(nextProps, nextState) {
         if(nextProps.usersChatRoomsID.length !== this.props.usersChatRoomsID.length) {  
-            //if it has changed the resetTheSideBarDisplay
+            //if chatRooms/conversations have been added or deleted resetTheSideBarDisplay
             this.resetSidebarDisplay();
             return true;
         } else if(nextState !== this.state || nextProps !== this.props) {
@@ -29,88 +29,26 @@ class Sidebar extends Component {
             return false;
         }
     }
-
+     /*
+    causes the component to update and resets the sidebar. the reset is required so that when it loops through the
+    chatRoomsArray.length and this.state.listOfConversationsToOpenOrDelete.length are both starting at 0. otherwise when the number of chatroom's
+    changes(deleted or added) it wont display them properly.
+    */
     resetSidebarDisplay = () => {
-        /*
-            causes the component to update and resets the sidebar. the reset is required so that when it loops through the
-            chatRoomsArray.length and this.state.sidebarDisplay.length are both starting at 0. otherwise when the number of chatroom's
-            changes(deleted or added) it wont display them properly.
-        */
-        this.setState({ sidebarDisplay: [] });
+        this.setState({ listOfConversationsToOpenOrDelete: [] });
         addedChatRoomsName = [];
     }
 
-    showSidebar = () => {
-        let sidebarInner =  (
-            <Fragment>
-                <div
-                    onClick = { () => this.setState({ showAddChatRoomPopUp: !this.state.showAddChatRoomPopUp }) } 
-                    onKeyDown = { e => { 
-                        if(e.key === 'Enter') { this.setState({ showAddChatRoomPopUp: !this.state.showAddChatRoomPopUp }) } 
-                    } }
-                    tabIndex="0" 
-                    className={ styles.addContainer }
-                    aria-label="Add a chatroom button"
-                    role="button"   
-                    aria-haspopup="true"
-                >
-                    <div className={ styles.addButton }></div>
-                </div>
-                <div  
-                    onClick = { () => this.props.toggleSidebar() }
-                    onKeyDown = { e => { 
-                        if(e.key === 'Enter') { this.props.toggleSidebar() }
-                    } }
-                    tabIndex="0"
-                    className={ styles.burger }
-                    aria-label="Close sidebar button." 
-                    role="button" 
-                >
-                    <div className={ styles.closeTop }></div>
-                    <div className={ styles.closeMiddle }></div>
-                    <div className={ styles.closeBottom }></div>
-                </div>
-                <div role="menu" aria-label="list of all chatroom's that you are in and can send messages in." className={ styles.usersContainer }>
-                    { this.state.sidebarDisplay }
-                </div>                          
-            </Fragment>
-        );
-        let sidebar = null;
-        if(this.props.isSidebarOpen) {
-            //set css to show the sidebar
-            sidebar=(
-                <aside 
-                    className={ styles.sidebarContainer } 
-                    style={ { transform: 'translateX( 0% )' } } 
-                >  
-                    { sidebarInner }
-                </aside >
-            );
-        } else {
-            //set the css to hide the sidebar by moving it left 100%
-            sidebar=(
-                <aside  
-                    className={ styles.sidebarContainer } 
-                    style={ { transform: 'translateX(-100%)' } } 
-                    aria-hidden="true"
-                >
-                      { sidebarInner }      
-                </aside>
-            );
-        };
-        return sidebar;
-    };
-
     /* adds a single chatroom to the sidebar. This is the jsx and styles for each recipient/chatroom */
     addChatRoomToSidebar = (recipientsName, chatRoomsArray, currentChatRoomID) => {
-        let newDisplay=[...this.state.sidebarDisplay];
+        let newDisplay=[...this.state.listOfConversationsToOpenOrDelete];
         newDisplay.push((
              <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={ key } className={ styles.users }>
                 <div 
                     tabIndex="0" 
                     className={ styles.deleteContainer } 
                     onClick={ () =>  this.props.deleteChatRoom(currentChatRoomID)  }
-                    onKeyDown = { e => {
+                    onKeyDown={ e => {
                         if(e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
                     }}
                     role="button"
@@ -140,11 +78,11 @@ class Sidebar extends Component {
         ));
         key++;
         //prevents from  infinite loop
-        if(chatRoomsArray.length > this.state.sidebarDisplay.length) {       
+        if(chatRoomsArray.length > this.state.listOfConversationsToOpenOrDelete.length) {       
             //if addedchatRoomsName does not have the new chatroom name then add it.(e.data is chatroom name their trying to add)
             if(!addedChatRoomsName.includes(recipientsName)) {
                 addedChatRoomsName.push(recipientsName);
-                this.setState({ sidebarDisplay: newDisplay });
+                this.setState({ listOfConversationsToOpenOrDelete: newDisplay });
             }
         }
     };
@@ -181,13 +119,13 @@ class Sidebar extends Component {
         }
     }
 
-    togglePopUp = () => {
-        this.setState({ showAddChatRoomPopUp: !this.state.showAddChatRoomPopUp });
+    toggleIsAddChatRoomPopUpShowing = () => {
+        this.setState({ isAddChatRoomPopUpShowing: !this.state.isAddChatRoomPopUpShowing });
     }
 
     showPopUp = () => {
-        if(this.state.showAddChatRoomPopUp) {
-            return <AddChatRoomPopUp togglePopUp={ this.togglePopUp } addChatRoom={ this.props.addChatRoom }/>;
+        if(this.state.isAddChatRoomPopUpShowing) {
+            return <AddChatRoomPopUp togglePopUp={ this.toggleIsAddChatRoomPopUpShowing } addChatRoom={ this.props.addChatRoom }/>;
         }
         return null;
     }
@@ -195,12 +133,46 @@ class Sidebar extends Component {
     render() {    
         this.showAllChatRooms();     
         return(
-          <Fragment>
-            { this.showPopUp() }
-            { this.showSidebar() }                    
-          </Fragment>       
+            <Fragment>
+                { this.showPopUp() }
+                <aside 
+                    className={ styles.sidebarContainer } 
+                    style={ { transform: `translateX( ${this.props.isSidebarOpen ? '0%' : '-100%'} )` } } 
+                >  
+                    <div
+                        onClick = { () => this.setState({ isAddChatRoomPopUpShowing: !this.state.isAddChatRoomPopUpShowing }) } 
+                        onKeyDown = { e => { 
+                            if(e.key === 'Enter') { this.setState({ isAddChatRoomPopUpShowing: !this.state.isAddChatRoomPopUpShowing }) } 
+                        } }
+                        tabIndex="0" 
+                        className={ styles.addContainer }
+                        aria-label="Add a chatroom button"
+                        role="button"   
+                        aria-haspopup="true"
+                    >
+                        <div className={ styles.addButton }></div>
+                    </div>
+                    <div  
+                        onClick = { () => this.props.toggleSidebar() }
+                        onKeyDown = { e => { 
+                            if(e.key === 'Enter') { this.props.toggleSidebar() }
+                        } }
+                        tabIndex="0"
+                        className={ styles.burger }
+                        aria-label="Close sidebar button." 
+                        role="button" 
+                    >
+                        <div className={ styles.closeTop }></div>
+                        <div className={ styles.closeMiddle }></div>
+                        <div className={ styles.closeBottom }></div>
+                    </div>
+                    <div role="menu" aria-label="list of all chatroom's that you are in and can send messages in." className={ styles.usersContainer }>
+                        { this.state.listOfConversationsToOpenOrDelete }
+                    </div>                          
+                </aside >                   
+            </Fragment>       
         );
     }
 }
 
-export default Sidebar;
+export default SidebarOfConversations;

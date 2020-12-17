@@ -6,7 +6,7 @@ import DOMPurify from 'dompurify';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import { connect } from 'react-redux';
 import { setAuthentication, setUserId, setUsername } from '../../redux/actions';
-import Nav from '../../components/Nav/Nav';
+import NavigationRouterLinks from '../../components/NavigationRouterLinks/NavigationRouterLinks';
 import { motion } from 'framer-motion';
 
 let messenger = null; //messenger is either unanimity messenger(Messenger component ) or the log in page if not authenticated
@@ -223,7 +223,7 @@ let Authentication = props => {
                                 variants={props.pageAnimationVariants}
                                 transition={props.pageTransition}
                             >
-                                <Nav/>
+                                <NavigationRouterLinks />
                                 <LoginForm checkName={ checkName } checkForNewUser={ checkForNewUser}/>
                             </motion.div>
                         </main>;              

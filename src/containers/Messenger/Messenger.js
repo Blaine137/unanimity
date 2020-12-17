@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import SidebarOfConversations from '../../components/SidebarOfConversations/SidebarOfConversations';
 import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
@@ -463,7 +463,7 @@ const Messenger = props => {
         <Fragment>
             <div className={ styles.layout }>
                 <div className={ styles.sidebarGrid } style={ sidebarInlineStyles }>
-                    <Sidebar usersChatRoomsID={ sidebarusersChatRoomsID }
+                    <SidebarOfConversations usersChatRoomsID={ sidebarusersChatRoomsID }
                         userID={ props.userId }
                         setCurrentChatRoomID = { handleCurrentChatRoom }
                         isSidebarOpen={ props.isSidebarOpen }

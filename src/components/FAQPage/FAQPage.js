@@ -1,5 +1,5 @@
 import React from 'react';
-import Nav from '../Nav/Nav';
+import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks';
 import styles from './FAQPage.module.scss';
 import { motion } from 'framer-motion';
 
@@ -9,7 +9,7 @@ User interface component that displays hard coded answers to common questions.
 const FAQPage = props => {
     return(
         <>
-            <Nav/>
+            <NavigationRouterLinks />
             <main>
                 <motion.div
                     initial="initial"
