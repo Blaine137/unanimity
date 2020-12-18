@@ -132,10 +132,10 @@ let CheckIfAuthenticatedSwitch = props => {
         //-----end of add to usersChatRooms in DB-----
 
         //inform user that account was created
-        let accountMessage = DOMPurify.sanitize("Your account has been created! Username: '" + sanitizedNewUserName + "'");
-        let sanitizedAccountMessage = accountMessage.replace(/[^\w\s!?$]/g,'');
-        sanitizedAccountMessage = DOMPurify.sanitize(sanitizedAccountMessage);
-        props.showHideCustomAlert(sanitizedAccountMessage, true);
+        let accountCreatedSuccessMessage = DOMPurify.sanitize("Your account has been created! Username: '" + sanitizedNewUserName + "'");
+        let sanitizedAccountCreatedSuccessMessage = accountCreatedSuccessMessage.replace(/[^\w\s!?$]/g,'');
+        sanitizedAccountCreatedSuccessMessage = DOMPurify.sanitize(sanitizedAccountCreatedSuccessMessage);
+        props.showHideCustomAlert(sanitizedAccountCreatedSuccessMessage, true);
     }
     
     const checkUserNameForLogin = async (authValues, userNameElement, passwordElement) => {

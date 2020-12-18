@@ -55,8 +55,8 @@ const ChatroomHeader = props => {
                         role="button"
                         aria-label="Logout of unanimity"
                         style={ { color: '#f44336' } } 
-                        onClick={ () => { props.logout(true) }  } 
-                        onKeyDown={ e => { if(e.key === 'Enter') { props.logout(true); } } }
+                        onClick={ () => { props.intentionalAndForcedLogoutUser(true) }} 
+                        onKeyDown={ e => { if(e.key === 'Enter') { props.intentionalAndForcedLogoutUser(true); } } }
                     >
                         Logout
                     </li>

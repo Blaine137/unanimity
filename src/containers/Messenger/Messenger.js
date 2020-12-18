@@ -36,22 +36,23 @@ const Messenger = props => {
  
     useEffect(() => {
         //updates the chatroom every half a second so users can see new messages
-        const interval = setInterval(() => { updateChatRoom(); }, 500);
+        const intervalForUpdateChatRoom = setInterval(() => { updateChatRoom(); }, 500);
         //on load of messenger make sure the user is logged in.
-        handleAuthentication();
+        intentionalAndForcedLogoutUser();
         //get and set state with an array of all the chatroom's the authenticated user is in
         if(props.userId) { handleUsersChatRoomsID(); }
 
         return () => {
-             //removes the interval component did mount/ updateChatRoom.
-            clearInterval(interval);
+            //removes the interval component did mount/ updateChatRoom.
+            clearInterval(intervalForUpdateChatRoom);
         };
     });
 
     //check that the user is logged in and if passed true for logout logs the user out
-    const handleAuthentication = logout => {
+          
+    const intentionalAndForcedLogoutUser = isUserLoggingOut => {
         //on login make sure all required values are set. If one value is not set force logout.
-        if(logout === null || logout === undefined) {
+        if(isUserLoggingOut === null || isUserLoggingOut === undefined || isUserLoggingOut === false) {
             if(!props.username || !props.authenticated || !props.userId) {
                 props.setAuthentication(false);
                 props.setUserId(null);
@@ -64,14 +65,13 @@ const Messenger = props => {
             props.setUserId(null);
             props.setUsername(null);
             props.setUsersChatRoomsID(null);
-            props.showHideCustomAlert('user successfully logged out!', true)
         }
     }
 
     //onClick of hamburger/X. show/Hide the sidebar
-    const handleShowSidebar = closeOnly => {
+    const toggleSidebarOfConversations = closeSidebar => {
         //the x in the sidebar for mobile was clicked then close only == true
-        if(closeOnly === true) {
+        if(closeSidebar === true) {
             props.setIsSidebarOpen(false);
             //wait for animiation to complete.
             setTimeout(() => setSideStyles({ display: 'none'}), 1000);
@@ -470,7 +470,7 @@ const Messenger = props => {
                         isSidebarOpen={ props.isSidebarOpen }
                         addChatRoom={ newChatRoom }
                         deleteChatRoom={ removeChatRoom }
-                        toggleSidebar={ handleShowSidebar }
+                        toggleSidebar={ toggleSidebarOfConversations }
                     />
                 </div>
                 <main className={ styles.mainContentGrid } style={ mainContentInlineStyles }>
@@ -480,9 +480,9 @@ const Messenger = props => {
                         currentChatRoomName={ props.currentChatRoomName }
                         authUsername={ props.username }
                         authUID={ props.userId }
-                        toggleSidebar={ handleShowSidebar }
+                        toggleSidebar={ toggleSidebarOfConversations }
                         isSidebarOpen={ props.isSidebarOpen }
-                        setAuth={ handleAuthentication }
+                        intentionalAndForcedLogoutUser={ intentionalAndForcedLogoutUser }
                         showHideCustomAlert={ props.showHideCustomAlert }                    
                     />
                 </main> 
