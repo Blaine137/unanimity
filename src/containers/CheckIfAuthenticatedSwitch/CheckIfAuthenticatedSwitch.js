@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import Messenger from '../Messenger/Messenger';
 import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';

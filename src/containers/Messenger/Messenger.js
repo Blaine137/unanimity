@@ -91,35 +91,37 @@ const Messenger = props => {
     //once auth user sends message. Validates Message, add to the DB.
     const newMessage = newMessage => {
         //messageChatRoom = selected chatroom object with all the messages
-        let messageChatRoom = Object.entries(props.currentChatRoom);
-        let authenticaedUserMessageOld = [];
-        let authenticaedUserMessageCombined = [];
+        let messagesInCurrentChatRoom = Object.entries(props.currentChatRoom);
+        let oldAuthenticatedUserMessages = [];
+        let updatedAuthenticatedUserMessages = [];
         //nextMsgNum is the number of all the mesages sent by auth user and recipent plus one.
         let nextMsgNum = null;
         if(newMessage.length > 0 && newMessage.length < 2000 && props.currentChatRoom != null) {
-            Object.entries(props.currentChatRoom).forEach(user => {
+            messagesInCurrentChatRoom.forEach(user => {
                 if(user[0] === ("u" + props.userId)) {
                     //in this if user[0] is "u" + auth userID. user[1] is auth users messages
-                    authenticaedUserMessageOld = user[1] ;
+                    oldAuthenticatedUserMessages = user[1] ;
                 } else if(user[0] === "nextMsgNum") {
                     nextMsgNum = user[1];
                 }
             });
-            authenticaedUserMessageCombined = [...Object.values(authenticaedUserMessageOld)];
-            authenticaedUserMessageCombined[nextMsgNum] = DOMPurify.sanitize(newMessage);
-            authenticaedUserMessageCombined[nextMsgNum] = authenticaedUserMessageCombined[nextMsgNum].replace(/[^\w\s!?$:&.,\-()]/g,'');
+            let updatedMessagesInCurrentChatRoom = [...messagesInCurrentChatRoom];
+            updatedAuthenticatedUserMessages = [...Object.values(oldAuthenticatedUserMessages)];
+            updatedAuthenticatedUserMessages[nextMsgNum] = DOMPurify.sanitize(newMessage);
+            updatedAuthenticatedUserMessages[nextMsgNum] = updatedAuthenticatedUserMessages[nextMsgNum].replace(/[^\w\s!?$:&.,\-()]/g,'');
             nextMsgNum++; 
-            messageChatRoom.forEach(property => {
+            updatedMessagesInCurrentChatRoom.forEach(property => {
                 if(property[0] === ("u" + props.userId)) {
-                    property[1] = authenticaedUserMessageCombined;
+                    property[1] = updatedAuthenticatedUserMessages;
                 } else if(property[0] === "nextMsgNum") {
                     property[1] = nextMsgNum;
                 }
             });
-            messageChatRoom = Object.fromEntries(messageChatRoom);
-            axios.put("chatRooms/" + props.currentChatRoomID + ".json", messageChatRoom);
+            //converts the array to an object
+            updatedMessagesInCurrentChatRoom = Object.fromEntries(updatedMessagesInCurrentChatRoom); 
+            axios.put("chatRooms/" + props.currentChatRoomID + ".json", updatedMessagesInCurrentChatRoom);
             //update our current chatRoom
-            props.setCurrentChatRoom(messageChatRoom);
+            props.setCurrentChatRoom(updatedMessagesInCurrentChatRoom);
         }
     }
 
