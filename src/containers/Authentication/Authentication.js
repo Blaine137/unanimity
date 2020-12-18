@@ -50,7 +50,7 @@ let Authentication = props => {
         }
     }
 
-    const checkForNewUser = async (event, newUser, newPassword) => {    
+    const checkIfUserAlreadyExists = async (event, newUser, newPassword) => {    
         event.preventDefault();
         let newUserValue = newUser.value;
         let newPasswordValue = newPassword.value;
@@ -72,11 +72,11 @@ let Authentication = props => {
             } else {
                 let getUserId = async () => {
                     try {
-                        let resID = await axios.get('userIDByUsername/nextUserID.json');
-                        newUserID = resID.data;
+                        let nextUserID = await axios.get('userIDByUsername/nextUserID.json');
+                        newUserID = nextUserID.data;
                         //try to get the username they are wanting to register as
-                        let resName = await axios.get('userIDByUsername/' + newUserValue + '.json');
-                        if(!resName.data) {
+                        let newUserName = await axios.get('userIDByUsername/' + newUserValue + '.json');
+                        if(!newUserName.data) {
                             //create user if the username is not taken
                             registerUser(newUserValue, newPasswordValue, newUserID); 
                         } else {
@@ -164,7 +164,7 @@ let Authentication = props => {
                     props.showHideCustomAlert("Incorrect username or password.", null);
                 } else {
                     //now that we know the username is exist and we have the userID for that username check the password
-                    if(password) { checkPwdForUserID(username, userID, password); }
+                    if(password) { checkPasswordForUserID(username, userID, password); }
                 }
             } catch(error) {
                 return 300;
@@ -172,7 +172,7 @@ let Authentication = props => {
         }
     }
 
-    const checkPwdForUserID = async (checkUsername, checkUserID, checkPassword) => {
+    const checkPasswordForUserID = async (checkUsername, checkUserID, checkPassword) => {
        checkUsername = DOMPurify.sanitize(checkUsername);
        checkUsername = checkUsername.replace(/[^\w]/g,'');
        checkUserID = DOMPurify.sanitize(checkUserID);
@@ -218,7 +218,7 @@ let Authentication = props => {
                                 transition={props.pageTransition}
                             >
                                 <NavigationRouterLinks />
-                                <LoginForm checkName={ checkName } checkForNewUser={ checkForNewUser}/>
+                                <LoginForm checkName={ checkName } checkForNewUser={ checkIfUserAlreadyExists }/>
                             </motion.div>
                         </main>;              
         }
