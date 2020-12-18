@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
-import Authentication from './containers/Authentication/Authentication';
+import CheckIfAuthenticatedSwitch from './containers/CheckIfAuthenticatedSwitch/CheckIfAuthenticatedSwitch';
 import './fonts/Jost-VariableFont_ital,wght.ttf';
 import './fonts/Montserrat-Regular.ttf';
 import LandingPage from './components/landingPage/LandingPage';
@@ -80,7 +80,7 @@ class App extends Component {
 						</Route> 
 						<Route path='/login'>
 							<AnimatePresence>
-								<Authentication pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
+								<CheckIfAuthenticatedSwitch pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
 							</AnimatePresence>
 						</Route>
 						<Route path='/FAQ'>

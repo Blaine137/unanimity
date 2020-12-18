@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from "react";
 import styles from './SidebarOfConversations.module.scss';
 import axios from '../../axios';
-import AddChatRoomPopUp from './addChatRoom/addChatRoom';
-//set at this scope so that no two keys would equal the same value
-let key = 0;
-let addedChatRoomsName = [];
+import AddChatRoomPopUpForm from './addChatRoomPopUpForm/addChatRoomPopUpForm';
+let ConversationNamesAlreadyInSidebar = [];
 
 /*
 handles opening and closing the sidebar and showing/hiding the add chatroom pop up.
@@ -30,20 +28,21 @@ class SidebarOfConversations extends Component {
         }
     }
      /*
-    causes the component to update and resets the sidebar. the reset is required so that when it loops through the
-    chatRoomsArray.length and this.state.listOfConversationsToOpenOrDelete.length are both starting at 0. otherwise when the number of chatroom's
+    causes the component to update and resets the sidebar. the reset is required so that when it compares/uses
+    chatRoomsIdsArray.length and this.state.listOfConversationsToOpenOrDelete.length both start at 0. otherwise when the number of chatroom's
     changes(deleted or added) it wont display them properly.
     */
     resetSidebarDisplay = () => {
         this.setState({ listOfConversationsToOpenOrDelete: [] });
-        addedChatRoomsName = [];
+        ConversationNamesAlreadyInSidebar = [];
     }
 
-    /* adds a single chatroom to the sidebar. This is the jsx and styles for each recipient/chatroom */
-    addChatRoomToSidebar = (recipientsName, chatRoomsArray, currentChatRoomID) => {
-        let newDisplay=[...this.state.listOfConversationsToOpenOrDelete];
-        newDisplay.push((
-             <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={ key } className={ styles.users }>
+    /* adds a single chatroom to the listOfConversationsToOpenOrDelete. This is the jsx and styles for each recipient/chatroom */
+    addChatRoomToListOfConversations = (recipientsName, chatRoomsIdsArray, currentChatRoomID) => {
+        let reactKey = 0;
+        let newConversation=[...this.state.listOfConversationsToOpenOrDelete];
+        newConversation.push((
+             <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={ reactKey } className={ styles.users }>
                 <div 
                     tabIndex="0" 
                     className={ styles.deleteContainer } 
@@ -76,39 +75,37 @@ class SidebarOfConversations extends Component {
                 </h3>
             </div>
         ));
-        key++;
+        reactKey++;
         //prevents from  infinite loop
-        if(chatRoomsArray.length > this.state.listOfConversationsToOpenOrDelete.length) {       
-            //if addedchatRoomsName does not have the new chatroom name then add it.(e.data is chatroom name their trying to add)
-            if(!addedChatRoomsName.includes(recipientsName)) {
-                addedChatRoomsName.push(recipientsName);
-                this.setState({ listOfConversationsToOpenOrDelete: newDisplay });
+        if(chatRoomsIdsArray.length > this.state.listOfConversationsToOpenOrDelete.length) {       
+            if(!ConversationNamesAlreadyInSidebar.includes(recipientsName)) {
+                ConversationNamesAlreadyInSidebar.push(recipientsName);
+                this.setState({ listOfConversationsToOpenOrDelete: newConversation });
             }
         }
     };
     
     //showAllChatRooms gets the recipients name and calls addChatRoomToSidebar().
-    showAllChatRooms = () => {
+    getRecipientsNameForChatRooms = () => {
         if(this.props.usersChatRoomsID) {
             // All the chat rooms ids that the current authenticated user is in. 
-            let chatRoomIDs = { ...this.props.usersChatRoomsID }; 
-            let chatRoomsArray = Object.entries(chatRoomIDs);
-            //for each chatroom id get the chatroom information from the database
-            chatRoomsArray.forEach( async (singleChatRoomID) => {   
+            let chatRoomIds = { ...this.props.usersChatRoomsID }; 
+            let chatRoomsIdsArray = Object.entries(chatRoomIds);
+            chatRoomsIdsArray.forEach( async (singleChatRoomID) => {   
                 try {
-                    let chatroomData = await axios.get('chatRoomsUsers/cru' + singleChatRoomID[1] + '.json');
-                    if(chatroomData.data !== null) {
-                        let currentChatRoomID = singleChatRoomID[1]; 
+                    let currentChatRoomID = singleChatRoomID[1]; 
+                    let chatroomData = await axios.get('chatRoomsUsers/cru' + currentChatRoomID + '.json');
+                    if(chatroomData.data !== null) { 
                         //[1][1] navigates to userID in the response. [1][1] has the auth user id and recipients id. 
-                        let chatRoomUsersArray = Object.entries(chatroomData.data)[1][1]; 
+                        let recipientAndAuthUserIdsArray = Object.entries(chatroomData.data)[1][1]; 
                         //For each of the users in the chatroom get that recipients username                                                                    
-                        chatRoomUsersArray.forEach( async chatRoomUserID => {  
-                            if(chatRoomUserID !== this.props.userID) {                                                          
+                        recipientAndAuthUserIdsArray.forEach( async userID => {  
+                            if(userID !== this.props.userID) {                                                          
                                 //axios get username for the current chatRoom user
-                                let recipientsName = await axios.get('users/u' + chatRoomUserID + '/userName.json');
+                                let recipientsName = await axios.get('users/u' + userID + '/userName.json');
                                 recipientsName = recipientsName.data;
                                 //takes the data and puts it into jsx for display
-                                this.addChatRoomToSidebar(recipientsName, chatRoomsArray, currentChatRoomID);                              
+                                this.addChatRoomToListOfConversations(recipientsName, chatRoomsIdsArray, currentChatRoomID);                              
                             }                                                                                              
                         });                      
                     }  
@@ -123,18 +120,16 @@ class SidebarOfConversations extends Component {
         this.setState({ isAddChatRoomPopUpShowing: !this.state.isAddChatRoomPopUpShowing });
     }
 
-    showPopUp = () => {
-        if(this.state.isAddChatRoomPopUpShowing) {
-            return <AddChatRoomPopUp togglePopUp={ this.toggleIsAddChatRoomPopUpShowing } addChatRoom={ this.props.addChatRoom }/>;
-        }
-        return null;
-    }
-    
     render() {    
-        this.showAllChatRooms();     
+        this.getRecipientsNameForChatRooms();     
         return(
             <Fragment>
-                { this.showPopUp() }
+                { 
+                    this.state.isAddChatRoomPopUpShowing ? 
+                    <AddChatRoomPopUpForm toggleIsAddChatRoomPopUpShowing={ this.toggleIsAddChatRoomPopUpShowing } addChatRoom={ this.props.addChatRoom }/>
+                    :
+                    null 
+                }
                 <aside 
                     className={ styles.sidebarContainer } 
                     style={ { transform: `translateX( ${this.props.isSidebarOpen ? '0%' : '-100%'} )` } } 
