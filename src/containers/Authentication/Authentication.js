@@ -163,7 +163,7 @@ let Authentication = props => {
                 if(!userID) {
                     props.showHideCustomAlert("Incorrect username or password.", null);
                 } else {
-                    //now that we know the username is exist and we have the userID for that username check the password
+                    //now that we know the username exists and we have the userID for that username check the password
                     if(password) { checkPasswordForUserID(username, userID, password); }
                 }
             } catch(error) {
