@@ -9,7 +9,7 @@ and the toggle options button. It contains logics for showing/hiding the sidebar
 */
 const ChatroomHeader = props => {
     const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(true);
-    const [optionsMenuElemnets, setOptionsMenuElements] = useState(null);
+    const [optionsMenuElements, setOptionsMenuElements] = useState(null);
     const [isAppLightTheme, setIsAppLightTheme] = useState(false);
     
     const toggleAppTheme = () => {
@@ -55,8 +55,8 @@ const ChatroomHeader = props => {
                         role="button"
                         aria-label="Logout of unanimity"
                         style={ { color: '#f44336' } } 
-                        onClick={ () => { props.logout(true) }  } 
-                        onKeyDown={ e => { if(e.key === 'Enter') { props.logout(true); } } }
+                        onClick={ () => { props.intentionalAndForcedUserLogout(true) }} 
+                        onKeyDown={ e => { if(e.key === 'Enter') { props.intentionalAndForcedUserLogout(true); } } }
                     >
                         Logout
                     </li>
@@ -135,7 +135,7 @@ const ChatroomHeader = props => {
                     <div className={ styles.circle3 }></div>
                 </div>     
             </header>
-            { optionsMenuElemnets }  
+            { optionsMenuElements }  
         </Fragment>
     );
 }

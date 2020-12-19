@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Input.module.scss';
+import styles from './MessageInput.module.scss';
 import DOMPurify from 'dompurify';
 let lastMessageSentTime = null;
 
@@ -7,7 +7,7 @@ let lastMessageSentTime = null;
 Child component of MainContent. Is a textarea where users enter their message to send.
 Throttles message send rate to prevent spam.
 */
-const Input = props => {
+const MessageInput = props => {
     let [userMessage, setUserMessage] = useState('');
 
     return(
@@ -49,4 +49,4 @@ const Input = props => {
     );
 }
 
-export default Input;
+export default MessageInput;

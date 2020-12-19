@@ -9,7 +9,7 @@ This component calls and Emoji component that will convert any :emojiName: synta
 */
 const message = props => {
     var messageStyle = null;
-    if(props.isSender) {
+    if(props.isMessageSender) {
         messageStyle = styles.senderMessage;
     } else {
         messageStyle = styles.recieverMessage;

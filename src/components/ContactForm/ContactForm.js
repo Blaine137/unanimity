@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ContactForm.module.scss';
-import Nav from '../Nav/Nav.js';
+import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks.js';
 import { motion } from 'framer-motion';
 import emailjs from 'emailjs-com';
 
@@ -8,19 +8,17 @@ import emailjs from 'emailjs-com';
 User form that takes in contact information, notifies the user, and sends the email.
 */
 let ContactForm = props => {
-    function sendEmail(e) {
-
-        e.preventDefault();
+    let sendEmail = event => {
+        event.preventDefault();
         //@params - serviceID templateID templateParams userID
-        emailjs.sendForm('contact_service', 'UnanimityContactTemplate', e.target, 'user_aaSkiLFIoRQuHKUSx1hvK')
-        .then((result) => {
-            //console.log(result.text);
+        emailjs.sendForm('contact_service', 'UnanimityContactTemplate', event.target, 'user_aaSkiLFIoRQuHKUSx1hvK')
+        .then(result => {
             let alertMessage = "Thank you for contacting Unanimity, your form will be reviewed within 24 hours with emailjs!";
             props.showHideCustomAlert(alertMessage, true);
         }, (error) => {
             console.log(error.text);
         });
-        e.target.reset();
+        event.target.reset();
     }
 
     return(     
@@ -33,7 +31,7 @@ let ContactForm = props => {
                 transition={ props.pageTransition }
             >
                 { props.notification }
-                <Nav/>
+                <NavigationRouterLinks />
                 <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>                         
                 <form className={ styles.form } onSubmit={ sendEmail }> 
                     <fieldset>

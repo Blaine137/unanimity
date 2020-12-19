@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import styles from './LandingPage.module.scss';
-import Nav from '../Nav/Nav.js';
+import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks.js';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -42,7 +42,7 @@ const LandingPage = props => {
 				exit="out"
 				variants={props.pageAnimationVariants}
 				transition={props.pageTransition}>
-				<Nav />
+				<NavigationRouterLinks />
 				<main className={styles.backgroundImage}>
 					<img className={ styles.landingLogo } src="../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
 					<h1 className={ styles.header }>The best way to unify with your community!</h1>

@@ -3,6 +3,7 @@ import styles from '../AccountSettings.module.scss';
 import DOMPurify from 'dompurify';
 import axios from '../../../../axios';
 import { motion } from "framer-motion";
+
 /*
 Child component of account settings. Is a form that takes the current password and the new username to update . 
 Handles logic for updating the username in the database. 
@@ -12,42 +13,49 @@ const UpdateUsernameForm = props => {
 	let [confirmUsername, setConfirmUsername] = useState('');
 	let [password, setPassword] = useState('');
 
-	//call check password function from props. If the password is correct it updated the database with new username.
-	const handleUsernameSubmit = async e => {
-        e.preventDefault();
-        let sanitizedUsername;
-        let passwordCorrect = await props.checkPwd(password);
-        if(passwordCorrect) {      
-            //change username in users db
-            let oldUsername = await  axios.get('users/u' + props.authUID + '.json')
-            .catch(err => props.showHideCustomAlert('Failed to update username'));
-            let updatedUsername = {...oldUsername.data};		
-			if(newUsername === confirmUsername) {
-				updatedUsername.userName = newUsername.toLowerCase();
-				updatedUsername.userName = DOMPurify.sanitize(updatedUsername.userName);
-				updatedUsername.userName.replace(/[^\w]/g,'');
-				sanitizedUsername = updatedUsername.userName;
-				axios.put('users/u' + props.authUID + '.json', updatedUsername)
-				.then(res => {
-					props.showHideCustomAlert('username successfully changed!!', true)
-					props.setAreSettingsShowing(false);
-				})
-				.catch(err => props.showHideCustomAlert(`Failed to update username in the database: ${err}`));
-
-				//change username in userIDByUsername
-				const userIDByUsername = await axios.get('userIDByUsername.json');
-				let updatedUserIDByUsername = {...userIDByUsername.data};
-				delete updatedUserIDByUsername[props.authUsername];
-				//add the new name with props.authUID as value
-				updatedUserIDByUsername[sanitizedUsername] = props.authUID;
-
-				axios.put('userIDByUsername.json', updatedUserIDByUsername)
-				.then(res => {props.setAreSettingsShowing(false); props.showHideCustomAlert('Changed username successfully!', true)})
-				.catch(err => props.showHideCustomAlert(`Failed to update username by userID in the database: ${err}`));
-			}
-        } else {
-            props.showHideCustomAlert('Your password was incorrect.');
+	//makes sure password is correct. If password is correct then it calls UpdateUsernameInDatabase.
+	const checkPassword = async e => {
+		e.preventDefault();
+        let isPasswordCorrect = await props.checkPasswordInput(password);
+        if(isPasswordCorrect) {  
+			validateSanitizeAndUpdateUsernameInDatabase();
+		} else {
+			props.showHideCustomAlert('Your password was incorrect.');
 		}	
+	}
+
+	//confirms that newUsername and confirmUsername equal the same. Then sanitizes newUsername. Then Updated the database.
+	const validateSanitizeAndUpdateUsernameInDatabase = async() => {
+		let sanitizedUsername;
+		//change username in users db
+		let oldUserDataObject = await axios.get('users/u' + props.authUID + '.json')
+		.catch(err => props.showHideCustomAlert('Failed to update username'));
+		let updatedUserObject = {...oldUserDataObject.data};		
+		if(newUsername === confirmUsername) {
+			updatedUserObject.userName = newUsername.toLowerCase();
+			updatedUserObject.userName = DOMPurify.sanitize(updatedUserObject.userName);
+			updatedUserObject.userName.replace(/[^\w]/g,'');
+			sanitizedUsername = updatedUserObject.userName;
+			axios.put('users/u' + props.authUID + '.json', updatedUserObject)
+			.then(res => {
+				props.showHideCustomAlert('username successfully changed!!', true)
+				props.setAreSettingsShowing(false);
+			})
+			.catch(err => props.showHideCustomAlert(`Failed to update username in the database: ${err}`));
+
+			//change username in userIDByUsername
+			const userIDByUsername = await axios.get('userIDByUsername.json');
+			let updatedUserIDByUsername = {...userIDByUsername.data};
+			delete updatedUserIDByUsername[props.authUsername];
+			//add the new name with props.authUID as value
+			updatedUserIDByUsername[sanitizedUsername] = props.authUID;
+
+			axios.put('userIDByUsername.json', updatedUserIDByUsername)
+			.then(res => {props.setAreSettingsShowing(false); props.showHideCustomAlert('Changed username successfully!', true)})
+			.catch(err => props.showHideCustomAlert(`Failed to update username by userID in the database: ${err}`));
+		} else {
+			props.showHideCustomAlert('User names do not match.');
+		}
     }
     
 	return(
@@ -60,7 +68,7 @@ const UpdateUsernameForm = props => {
 					scale: 1
 				}
 			}}>
-				<form onSubmit={ handleUsernameSubmit } className={ styles.form }>
+				<form onSubmit={ checkPassword } className={ styles.form }>
 					<legend>Update Your Username</legend>
 					<label htmlFor="newUsername">New Username</label>
 					<input

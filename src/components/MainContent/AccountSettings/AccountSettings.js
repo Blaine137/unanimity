@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 import styles from "./AccountSettings.module.scss";
-import UpdatePwdForm from './UpdatePwdForm/UpdatePwdForm';
+import UpdatePasswordForm from './UpdatePassworddForm/UpdatePasswordForm';
 import UpdateUsernameForm from './UpdateUsernameForm/UpdateUsernameForm';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import DOMPurify from 'dompurify';
 import axios from '../../../axios';
 
 /*
-This component is opened from the option menu and is loaded where the chatroom would be. This is a parent component that
+This component is opened from the option menu and is loaded where the UserMessages would be. This is a parent component that
 shows a list of settings to users and is responsible for show/hiding child components like updatePwdForm and UpdateUsernameForm.
-
-ps. This component is currently loaded into the header and not the chatroom section and is just styled to look like it is in the chatroom.
 */
 const AccountSettings = props => {
-	const [showUpdatePwd, setShowUpdatePwd] = useState(false);
-	const [showUpdateUsername, setShowUpdateUsername] = useState(false);
+	const [isUpdatePwdFormShowing, setIsUpdatePwdFormShowing] = useState(false);
+	const [isUpdateUsernameFormShowing, setIsUpdateUsernameFormShowing] = useState(false);
 
 	//checks if current password entered is equal to auth user pwd on db.
-	const checkPwd = async checkPassword => {
+	const checkPasswordInput = async checkPassword => {
 		checkPassword = DOMPurify.sanitize(checkPassword);
 		checkPassword = checkPassword.replace(/[^\w^!?$]/g,'');
 		 try {
@@ -31,28 +29,28 @@ const AccountSettings = props => {
 	}
 
 	const goToAccountSettingsHome = () => {
-		setShowUpdateUsername(false);
-		setShowUpdatePwd(false);
+		setIsUpdateUsernameFormShowing(false);
+		setIsUpdatePwdFormShowing(false);
 	}
 
 	const showBackBtn = () => {
-		if( showUpdateUsername || showUpdatePwd) {
+		if( isUpdateUsernameFormShowing || isUpdatePwdFormShowing) {
 			return <button aria-label="Go back to account settings" onClick={goToAccountSettingsHome} className={styles.closeSettings}>&larr;</button>
 		}
 	}
 
-	const setAccountSettingsBody = () => {
-		if(showUpdateUsername) {	
+	const showAccountSettingsForm = () => {
+		if(isUpdateUsernameFormShowing) {	
 			return <UpdateUsernameForm 
-						checkPwd={ checkPwd } 
+						checkPasswordInput={ checkPasswordInput } 
 						authUsername={ props.authUsername } 
 						setAreSettingsShowing={ props.setAreSettingsShowing} 
 						authUID={ props.authUID } 
 						showHideCustomAlert={props.showHideCustomAlert}
 					/>;
-		} else if(showUpdatePwd) {
-			return <UpdatePwdForm 
-						checkPwd={ checkPwd } 
+		} else if(isUpdatePwdFormShowing) {
+			return <UpdatePasswordForm 
+						checkPasswordInput={ checkPasswordInput } 
 						setAreSettingsShowing={ props.setAreSettingsShowing } 
 						authUID={ props.authUID }
 						showHideCustomAlert={props.showHideCustomAlert}
@@ -60,8 +58,8 @@ const AccountSettings = props => {
 		} else {
 			return (
 				<>		
-					<button aria-label="open up a form where you can update your username" className={styles.settingOptions} onClick={ () => setShowUpdateUsername(true) }>Update Username</button>
-					<button aria-label="open up a form where you can update your password" className={styles.settingOptions} onClick={ () => setShowUpdatePwd(true) }>Update Password</button>
+					<button aria-label="open up a form where you can update your username" className={styles.settingOptions} onClick={ () => setIsUpdateUsernameFormShowing(true) }>Update Username</button>
+					<button aria-label="open up a form where you can update your password" className={styles.settingOptions} onClick={ () => setIsUpdatePwdFormShowing(true) }>Update Password</button>
 				</>
 			);
 		}
@@ -72,7 +70,7 @@ const AccountSettings = props => {
 			{showBackBtn()}
 			<button aria-label="close account settings menu" className={ styles.closeSettings } onClick={ () => props.setAreSettingsShowing(false) }>&times;</button>
 			<h3 style={ { display: "inline" } }>Account settings</h3>
-			{setAccountSettingsBody()}
+			{showAccountSettingsForm()}
 		</div>
 	);
 }

@@ -1,20 +1,20 @@
 import React from "react";
-import styles from "./addChatRoom.module.scss";
+import styles from "./addChatRoomPopUpForm.module.scss";
 import DOMPurify from 'dompurify';
 
 /*
-child component of sidebar.
+child component of sidebarOfConversations.
 Form that takes in the name of the user they would like to start chatting with. 
 on Submit it closes out of itself and calls a function from props to create the chatroom.
 */
-const addChatRoom = props => {
+const addChatRoomPopUpForm = props => {
 	return(
 		<div className={ styles.popUpContainer }>                                  
 			<form 
 				onSubmit={ e => {
 						props.addChatRoom( e , DOMPurify.sanitize(document.getElementById( 'newChatRoomName' ).value) ) 
 						//on submit of popup close the popup
-						props.togglePopUp();
+						props.toggleIsAddChatRoomPopUpShowing();
 				}}
 				className={ styles.form } 
 			>               
@@ -23,8 +23,8 @@ const addChatRoom = props => {
 					aria-label="Close Add ChatRoom pop up button."   
 					className={ styles.closeBurger }
 					role="button"
-					onClick={ () => props.togglePopUp() } 
-					onKeyDown={ e => { if(e.key === 'Enter') { props.togglePopUp(); } } }
+					onClick={ () => props.toggleIsAddChatRoomPopUpShowing() } 
+					onKeyDown={ e => { if(e.key === 'Enter') { props.toggleIsAddChatRoomPopUpShowing(); } } }
 				>
 					<div className={ styles.closeTop } ></div>
 					<div className={ styles.closeBottom }></div>
@@ -47,4 +47,4 @@ const addChatRoom = props => {
 	);
 }
 
-export default addChatRoom;
+export default addChatRoomPopUpForm;

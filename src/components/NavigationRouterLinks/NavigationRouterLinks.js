@@ -1,14 +1,13 @@
 import React from 'react';
-import './Nav.module.scss';
+import './NavigationRouterLinks.module.scss';
 import { Link } from 'react-router-dom';
-import styles from './Nav.module.scss';
+import styles from './NavigationRouterLinks.module.scss';
 
 /*
-user interface component that is just a navigate with react router links. 
-Displayed on the Home, Contact, Login, and FQA page. Is not shown once logged in
-or on login page.
+user interface component that navigates with react router links. 
+Displayed on the Home, Contact, Login, and FQA page. Is not shown once logged in.
 */
-const nav = props => {
+const NavigationRouterLinks = props => {
     return(
         <nav>
             <ul>     
@@ -22,4 +21,4 @@ const nav = props => {
     );
 };
 
-export default nav;
+export default NavigationRouterLinks;
