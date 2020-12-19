@@ -40,7 +40,7 @@ const Messenger = props => {
         //on load of messenger make sure the user is logged in.
         intentionalAndForcedLogoutUser();
         //get and set state with an array of all the chatroom's the authenticated user is in
-        if(props.userId) { handleUsersChatRoomsID(); }
+        if(props.userId) { getChatRoomIDsForAuthenticatedUser(); }
 
         return () => {
             //removes the interval component did mount/ updateChatRoom.
@@ -128,22 +128,22 @@ const Messenger = props => {
     /* checks for new messages/new chatrooms from other users */
     const updateChatRoom = () => {
         if(props.currentChatRoomID && props.currentChatRoom !== 'Unanimity') {
-            let oldID = props.currentChatRoomID;
+            let oldCurrentChatRoomID = props.currentChatRoomID;
             //get the messages for the current chatroom        
-            axios.get('chatRooms/' + oldID + '.json').then(newChatRoom => {  
+            axios.get('chatRooms/' + oldCurrentChatRoomID + '.json').then(newChatRoom => {  
                 //convert object to string the see if strings equal to see if we need to update 
-                if(JSON.stringify(props.currentChatRoom) !== JSON.stringify(newChatRoom.data) && oldID === props.currentChatRoomID) {
+                if(JSON.stringify(props.currentChatRoom) !== JSON.stringify(newChatRoom.data) && oldCurrentChatRoomID === props.currentChatRoomID) {
                     props.setCurrentChatRoom(newChatRoom.data);
                 }
             });
         }
         //check for new chatroom's in the db
-        handleUsersChatRoomsID();
+        getChatRoomIDsForAuthenticatedUser();
         if(props.authenticated === false) { props.authLogout(); }
     }
 
     //gets array of chatRoomsID auth user is in. if its different then our current UsersChatRoomsID then update state. called by mount and update
-    const handleUsersChatRoomsID = () => {
+    const getChatRoomIDsForAuthenticatedUser = () => {
         if(props.userId) {
             axios.get('usersChatRooms/ucr' + props.userId + '/chatRooms.json').then(
                 newUsersChatRoomsID => {
@@ -157,13 +157,13 @@ const Messenger = props => {
     }
 
     //gets selected chatRoom users(cru). gets name of recipient. then sets currentChatRoomName to recipients name. called by setCurrentChatRoom
-    const handleCurrentChatRoomName = ChatRoomID => {   
+    const getCurrentChatRoomName = ChatRoomID => {   
         if(ChatRoomID) {
             axios.get('chatRoomsUsers/cru' + ChatRoomID + '/users.json').then(
                 e => {
                     if(e.data) {
-                        let authUserIndex = e.data.indexOf(props.userId);
-                        e.data.splice(authUserIndex, 1);                    
+                        let authenticatedUserIndex = e.data.indexOf(props.userId);
+                        e.data.splice(authenticatedUserIndex, 1);                    
                         axios.get('users/u' + e.data[0] + '/userName.json').then(e => {
                             props.setCurrentChatRoomName(e.data);
                         });                   
@@ -177,8 +177,8 @@ const Messenger = props => {
     }
 
     //called by sidebar on click of a chatroom. calls functions to set chatRoom name and set state for CurrentChatRoomID and CurrentChatRoom
-    const handleCurrentChatRoom = setChatRoomID => { 
-        handleCurrentChatRoomName(setChatRoomID);
+    const getCurrentChatRoom = setChatRoomID => { 
+        getCurrentChatRoomName(setChatRoomID);
         axios.get('chatRooms/' + setChatRoomID + '/.json').then(
             chatRoomMsg => {  
                 props.setCurrentChatRoomID(setChatRoomID);       
@@ -240,7 +240,7 @@ const Messenger = props => {
                             //gets latest data. this prevents from add chatroom adding chatroom references to deleted chatroom
                             axios.get('usersChatRooms/ucr' + props.userId + '/chatRooms.json').then(
                                 e => {
-                                    handleUsersChatRoomsID();
+                                    getChatRoomIDsForAuthenticatedUser();
                                     updatedAuthUserChatRoomsID = e.data;
                                     updatedAuthUserChatRoomsID.push(newChatRoomID);
                                     let chatRooms = updatedAuthUserChatRoomsID;
@@ -279,7 +279,7 @@ const Messenger = props => {
                                 axios.put('usersChatRooms/ucr' + recipentID + '.json', { chatRooms }).then(
                                     () => {
                                         //auth and recipent have new chatroom so update auth user sidebar with new chatroom 
-                                        handleUsersChatRoomsID();     
+                                        getChatRoomIDsForAuthenticatedUser();     
                                     }
                                 ).catch(
                                     error => {                                     
@@ -372,7 +372,7 @@ const Messenger = props => {
         //will equal all the users ID that are in the chatroom and need the chatroom id removed from userChatRooms
         let removeChatRoomUsers = [];
         //index of the chatRoom we need to remove from userChatRoom ( ucr )
-        let ucrIndex = null;
+        let userChatRoomIndex = null;
         let empty = {};
         if(removeChatRoomID !== null) {
             //get the chatRoomUsers ID so that we can use it to remove the chatRoom from usersChatRoom.
@@ -399,16 +399,16 @@ const Messenger = props => {
                                 axios.get('usersChatRooms/ucr' + user + '/chatRooms.json').then(
                                     userChatRoomIds => {                                  
                                         userChatRoomIds.data = Object.values(userChatRoomIds.data);                                   
-                                        ucrIndex = userChatRoomIds.data.indexOf(removeChatRoomID);                                  
+                                        userChatRoomIndex = userChatRoomIds.data.indexOf(removeChatRoomID);                                  
                                         //0 is a valid index but zero equals false by default 
-                                        if(ucrIndex || ucrIndex === 0) {                                 
-                                            userChatRoomIds.data.splice(ucrIndex, 1);                                     
+                                        if(userChatRoomIndex || userChatRoomIndex === 0) {                                 
+                                            userChatRoomIds.data.splice(userChatRoomIndex, 1);                                     
                                             if(Object.values(userChatRoomIds.data).length === 0) {                                               
                                                 //User has only one chatroom. db requires object to be passed. cant not pass null so we pass empty object. which firebase auto deletes          
                                                 axios.put('usersChatRooms/ucr' + user + '/chatRooms.json', empty).then(
                                                     () => {
                                                         //causes sidebar to update
-                                                        handleUsersChatRoomsID(); 
+                                                        getChatRoomIDsForAuthenticatedUser(); 
                                                     }
                                                 ).catch(error => { console.log(error); });
                                             } else {                                      
@@ -416,7 +416,7 @@ const Messenger = props => {
                                                 axios.put('usersChatRooms/ucr' + user + '.json', { chatRooms }).then(
                                                     () => {
                                                         //causes sidebar to update
-                                                        handleUsersChatRoomsID();
+                                                        getChatRoomIDsForAuthenticatedUser();
                                                     }
                                                 ).catch(error => { console.log(error); });
                                             }
@@ -468,7 +468,7 @@ const Messenger = props => {
                     <SidebarOfConversations 
                         usersChatRoomsID={ sidebarusersChatRoomsID }
                         userID={ props.userId }
-                        setCurrentChatRoomID = { handleCurrentChatRoom }
+                        setCurrentChatRoomID = { getCurrentChatRoom }
                         isSidebarOpen={ props.isSidebarOpen }
                         addChatRoom={ newChatRoom }
                         deleteChatRoom={ removeChatRoom }
