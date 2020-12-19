@@ -8,19 +8,17 @@ import emailjs from 'emailjs-com';
 User form that takes in contact information, notifies the user, and sends the email.
 */
 let ContactForm = props => {
-    function sendEmail(e) {
-
-        e.preventDefault();
+    let sendEmail = event => {
+        event.preventDefault();
         //@params - serviceID templateID templateParams userID
-        emailjs.sendForm('contact_service', 'UnanimityContactTemplate', e.target, 'user_aaSkiLFIoRQuHKUSx1hvK')
-        .then((result) => {
-            //console.log(result.text);
+        emailjs.sendForm('contact_service', 'UnanimityContactTemplate', event.target, 'user_aaSkiLFIoRQuHKUSx1hvK')
+        .then(result => {
             let alertMessage = "Thank you for contacting Unanimity, your form will be reviewed within 24 hours with emailjs!";
             props.showHideCustomAlert(alertMessage, true);
         }, (error) => {
             console.log(error.text);
         });
-        e.target.reset();
+        event.target.reset();
     }
 
     return(     

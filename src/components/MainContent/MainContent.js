@@ -38,7 +38,7 @@ const MainContent = props => {
                 currentChatRoomName={ props.currentChatRoomName }
                 toggleSidebar={ props.toggleSidebar }
                 isSidebarOpen={ props.isSidebarOpen }
-                intentionalAndForcedLogoutUser={ props.intentionalAndForcedLogoutUser }
+                intentionalAndForcedUserLogout={ props.intentionalAndForcedUserLogout }
                 authUID={ props.authUID }
                 authUsername={ props.authUsername }
                 setAreSettingsShowing={setAreSettingsShowing}

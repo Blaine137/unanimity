@@ -3,6 +3,7 @@ import styles from './SidebarOfConversations.module.scss';
 import axios from '../../axios';
 import AddChatRoomPopUpForm from './addChatRoomPopUpForm/addChatRoomPopUpForm';
 let ConversationNamesAlreadyInSidebar = [];
+let reactKey = 0;
 
 /*
 handles opening and closing the sidebar and showing/hiding the add chatroom pop up.
@@ -39,7 +40,6 @@ class SidebarOfConversations extends Component {
 
     /* adds a single chatroom to the listOfConversationsToOpenOrDelete. This is the jsx and styles for each recipient/chatroom */
     addChatRoomToListOfConversations = (recipientsName, chatRoomsIdsArray, currentChatRoomID) => {
-        let reactKey = 0;
         let newConversation=[...this.state.listOfConversationsToOpenOrDelete];
         newConversation.push((
              <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={ reactKey } className={ styles.users }>
@@ -89,9 +89,9 @@ class SidebarOfConversations extends Component {
     getRecipientsNameForChatRooms = () => {
         if(this.props.usersChatRoomsID) {
             // All the chat rooms ids that the current authenticated user is in. 
-            let chatRoomIds = { ...this.props.usersChatRoomsID }; 
-            let chatRoomsIdsArray = Object.entries(chatRoomIds);
-            chatRoomsIdsArray.forEach( async (singleChatRoomID) => {   
+            let chatRoomIDs = { ...this.props.usersChatRoomsID }; 
+            let chatRoomsIDsArray = Object.entries(chatRoomIDs);
+            chatRoomsIDsArray.forEach( async (singleChatRoomID) => {   
                 try {
                     let currentChatRoomID = singleChatRoomID[1]; 
                     let chatroomData = await axios.get('chatRoomsUsers/cru' + currentChatRoomID + '.json');
@@ -105,7 +105,7 @@ class SidebarOfConversations extends Component {
                                 let recipientsName = await axios.get('users/u' + userID + '/userName.json');
                                 recipientsName = recipientsName.data;
                                 //takes the data and puts it into jsx for display
-                                this.addChatRoomToListOfConversations(recipientsName, chatRoomsIdsArray, currentChatRoomID);                              
+                                this.addChatRoomToListOfConversations(recipientsName, chatRoomsIDsArray, currentChatRoomID);                              
                             }                                                                                              
                         });                      
                     }  
