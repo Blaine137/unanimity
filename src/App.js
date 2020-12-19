@@ -15,15 +15,11 @@ import DOMPurify from 'dompurify';
 
 const mapStateToProps = state => {
   return {
-      landing: state.setLanding.landing,
-	  contactForm: state.setContact.contactForm,
 	  notification: state.messenger.notification
   }
 }
 
 const mapDispatchToProps = {
-  setLanding: landingStatus => setLanding(landingStatus),
-  setContactForm: contactStatus => setContactForm(contactStatus),
   setNotification: notification => setNotification(notification)
 }
 
