@@ -5,22 +5,22 @@ import axios from '../../axios';
 import DOMPurify from 'dompurify';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import { connect } from 'react-redux';
-import { setAuthentication, setUserId, setUsername } from '../../redux/actions';
+import { setAuthentication, setAuthenticatedUserID, setAuthenticatedUsername } from '../../redux/actions';
 import NavigationRouterLinks from '../../components/NavigationRouterLinks/NavigationRouterLinks';
 import { motion } from 'framer-motion';
  
 const mapStateToProps = state => {
     return {
-        authenticated: state.authentication.authenticated,
-        userId: state.authentication.userId,
-        username: state.authentication.username
+        isAuthenticated: state.authentication.isAuthenticated,
+        authenticatedUserID: state.authentication.authenticatedUserID,
+        authenticatedUsername: state.authentication.authenticatedUsername
     };
 };
 
 const mapDispatchToProps = {
     setAuthentication,
-    setUserId,
-    setUsername
+    setAuthenticatedUserID,
+    setAuthenticatedUsername
 };
 
 let CheckIfAuthenticatedSwitch = props => {
@@ -178,13 +178,13 @@ let CheckIfAuthenticatedSwitch = props => {
             let hashedPassword = await axios.get('users/u' + sanitizedUserID + '/password.json');
             hashedPassword = hashedPassword.data;
             if(passwordHash.verify(sanitizedPassword, hashedPassword)) {    
-                props.setUserId(sanitizedUserID);
-                props.setUsername(sanitizedUsername); 
+                props.setAuthenticatedUserID(sanitizedUserID);
+                props.setAuthenticatedUsername(sanitizedUsername); 
                 setTimeout(() => { props.setAuthentication(true); }, 200);                           
             } else {
                 //pwd was wrong so set authenticated to false to make sure it failed. and set username and userID to null
-                props.setUserId(null);
-                props.setUsername(null);
+                props.setAuthenticatedUserID(null);
+                props.setAuthenticatedUsername(null);
                 props.setAuthentication(false);
                 props.showHideCustomAlert("Incorrect username or password.", null);
             }
@@ -195,9 +195,9 @@ let CheckIfAuthenticatedSwitch = props => {
     }
   
     const ShowLoginFormOrMessenger = () => {
-        if(props.authenticated) {
+        if(props.isAuthenticated) {
             //messenger has its own <main></main>
-           return <Messenger showHideCustomAlert={props.showHideCustomAlert}/>                   
+           return <Messenger showHideCustomAlert={props.showHideCustomAlert} />                   
         } else {
             return( <main>
                         <NavigationRouterLinks />
