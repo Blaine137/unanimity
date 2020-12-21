@@ -4,14 +4,11 @@ import MainContent from '../../components/MainContent/MainContent';
 import axios from '../../axios'; //custom axios instance with DB base Url added
 import styles from './Messenger.module.scss';
 import DOMPurify from 'dompurify';
-import { setAuthentication, setAuthenticatedUserID, setAuthenticatedUsername, setIsSidebarOpen, setCurrentChatRoomID, setCurrentChatRoom, setCurrentChatRoomName, setUsersChatRoomsID } from '../../redux/actions';
+import { setIsSidebarOpen, setCurrentChatRoomID, setCurrentChatRoom, setCurrentChatRoomName, setUsersChatRoomsID } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.authentication.isAuthenticated,
-        authenticatedUserID: state.authentication.authenticatedUserID,
-        authenticatedUsername: state.authentication.authenticatedUsername,
         isSidebarOpen: state.messenger.isSidebarOpen,
         currentChatRoomID: state.messenger.currentChatRoomID,
         currentChatRoom: state.messenger.currentChatRoom,
@@ -21,9 +18,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    setAuthentication,
-    setAuthenticatedUserID,
-    setAuthenticatedUsername,
     setIsSidebarOpen,
     setCurrentChatRoomID,
     setCurrentChatRoom,

@@ -197,7 +197,13 @@ let CheckIfAuthenticatedSwitch = props => {
     const ShowLoginFormOrMessenger = () => {
         if(props.isAuthenticated) {
             //messenger has its own <main></main>
-           return <Messenger showHideCustomAlert={props.showHideCustomAlert} />                   
+           return <Messenger showHideCustomAlert={props.showHideCustomAlert}
+                             isAuthenticated={props.isAuthenticated}
+                             setAuthentication={props.setAuthentication}
+                             authenticatedUserID={props.authenticatedUserID}
+                             setAuthenticatedUserID={props.setAuthenticatedUserID}
+                             authenticatedUsername={props.authenticatedUsername}
+                             setAuthenticatedUsername={props.setAuthenticatedUsername} />                   
         } else {
             return( <main>
                         <NavigationRouterLinks />
