@@ -1,13 +1,13 @@
 import * as actionsTypes from './actions';
 
-export const authenticationReducer = (state = { authenticated: false, userId: null, username: null }, action) => {
+export const authenticationReducer = (state = { authenticated: false, authenticatedUserID: null, authenticatedUsername: null }, action) => {
     switch(action.type) {
         case actionsTypes.SET_AUTHENTICATION:
             return { ...state, authenticated: action.payload };
-        case actionsTypes.SET_USER_ID:
-            return { ...state, userId: action.payload }
-        case actionsTypes.SET_USERNAME:
-            return { ...state, username: action.payload }
+        case actionsTypes.SET_AUTHENTICATED_USER_ID:
+            return { ...state, authenticatedUserID: action.payload }
+        case actionsTypes.SET_AUTHENTICATED_USERNAME:
+            return { ...state, authenticatedUsername: action.payload }
         default: 
             return state;
     }
