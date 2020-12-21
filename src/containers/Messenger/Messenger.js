@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-        authenticated: state.authentication.authenticated,
+        isAuthenticated: state.authentication.isAuthenticated,
         authenticatedUserID: state.authentication.authenticatedUserID,
         authenticatedUsername: state.authentication.authenticatedUsername,
         isSidebarOpen: state.messenger.isSidebarOpen,
@@ -52,7 +52,7 @@ const Messenger = props => {
     const intentionalAndForcedUserLogout = isUserLoggingOut => {
         if(isUserLoggingOut === null || isUserLoggingOut === undefined || isUserLoggingOut === false) {
             //on login make sure all required values are set. If one value is not set force logout.
-            if(!props.authenticatedUsername || !props.authenticated || !props.authenticatedUserID) {
+            if(!props.authenticatedUsername || !props.isAuthenticated || !props.authenticatedUserID) {
                 props.setAuthentication(false);
                 props.setAuthenticatedUserID(null);
                 props.setAuthenticatedUsername(null);
@@ -141,7 +141,7 @@ const Messenger = props => {
         }
         //check for new chatroom's in the db
         getChatRoomIDsForAuthenticatedUser();
-        if(props.authenticated === false) { props.authLogout(); }
+        if(props.isAuthenticated === false) { props.authLogout(); }
     }
 
     //gets array of chatRoomsID auth user is in. if its different then our current UsersChatRoomsID then update state. called by mount and update

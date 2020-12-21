@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
  
 const mapStateToProps = state => {
     return {
-        authenticated: state.authentication.authenticated,
+        isAuthenticated: state.authentication.isAuthenticated,
         authenticatedUserID: state.authentication.authenticatedUserID,
         authenticatedUsername: state.authentication.authenticatedUsername
     };
@@ -195,7 +195,7 @@ let CheckIfAuthenticatedSwitch = props => {
     }
   
     const ShowLoginFormOrMessenger = () => {
-        if(props.authenticated) {
+        if(props.isAuthenticated) {
             //messenger has its own <main></main>
            return <Messenger showHideCustomAlert={props.showHideCustomAlert} />                   
         } else {
