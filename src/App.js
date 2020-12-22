@@ -7,11 +7,13 @@ import LandingPage from './components/landingPage/LandingPage';
 import ContactForm from './components/ContactForm/ContactForm';
 import FAQPage from './components/FAQPage/FAQPage';
 import { connect } from 'react-redux';
-import { setLanding, setContactForm, setNotification } from './redux/actions';
+import { setNotification } from './redux/actions';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import CustomAlert from './components/CustomAlert/CustomAlert';
 import DOMPurify from 'dompurify';
+import { ThemeProvider } from '@material-ui/core/styles';
+import Theme from './Theme';
 
 const mapStateToProps = state => {
   return {
@@ -60,34 +62,36 @@ class App extends Component {
 		  };
 
 		return (
-			<div className="App">
-				{this.props.notification}
-				<BrowserRouter>
-					<Switch>
-						<Route exact path='/'>
-							<AnimatePresence>
-								<LandingPage pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition}/>
-							</AnimatePresence>
-						</Route>
-						<Route path='/contact'>
-							<AnimatePresence>
-								<ContactForm pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
-							</AnimatePresence>
-						</Route> 
-						<Route path='/login'>
-							<AnimatePresence>
-								<CheckIfAuthenticatedSwitch pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
-							</AnimatePresence>
-						</Route>
-						<Route path='/FAQ'>
-							<AnimatePresence>
-								<FAQPage pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition}/>
-							</AnimatePresence>
-						</Route>						                             
-						<Redirect to='/'/>
-					</Switch>  				
-				</BrowserRouter>
-			</div>
+			<ThemeProvider theme={Theme}>
+				<div className="App">
+					{this.props.notification}
+					<BrowserRouter>
+						<Switch>
+							<Route exact path='/'>
+								<AnimatePresence>
+									<LandingPage pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition}/>
+								</AnimatePresence>
+							</Route>
+							<Route path='/contact'>
+								<AnimatePresence>
+									<ContactForm pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
+								</AnimatePresence>
+							</Route> 
+							<Route path='/login'>
+								<AnimatePresence>
+									<CheckIfAuthenticatedSwitch pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
+								</AnimatePresence>
+							</Route>
+							<Route path='/FAQ'>
+								<AnimatePresence>
+									<FAQPage pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition}/>
+								</AnimatePresence>
+							</Route>						                             
+							<Redirect to='/'/>
+						</Switch>  				
+					</BrowserRouter>
+				</div>
+			</ThemeProvider>
 		);
 	};
 };

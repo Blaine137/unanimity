@@ -3,6 +3,8 @@ import styles from './LandingPage.module.scss';
 import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks.js';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Button, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles'; 
 
 /*
 	User interface component that displays an animated landing page and shows the navigation component.
@@ -34,6 +36,14 @@ const LandingPage = props => {
 		delay: 3.8
 	};
 
+	const useStyles = makeStyles({
+		chatLink: {
+		  color: 'white',
+		},
+	  });
+
+	  const classes = useStyles();
+
 	return (       
 		<Fragment>
 			<motion.div
@@ -45,7 +55,12 @@ const LandingPage = props => {
 				<NavigationRouterLinks />
 				<main className={styles.backgroundImage}>
 					<img className={ styles.landingLogo } src="../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
-					<h1 className={ styles.header }>The best way to unify with your community!</h1>
+					<Typography 
+						className={ styles.header }
+						variant="h4"
+						>
+							The best way to unify with your community!
+					</Typography>
 					<motion.p 
 						className={ styles.subtext }
 						initial="initial" 
@@ -55,9 +70,14 @@ const LandingPage = props => {
 					>
 						Unanimity, instant communication that connects you to anyone.
 					</motion.p>          
-					<button type="button" aria-label="Button that takes you to login page for Unanimity instant messenger."className={ styles.chatButton }>
-						<Link aria-label="Link that goes to login page" className={ styles.chatButton } to="/login">Start Chatting</Link>
-					</button>       
+					<Button type="button" 
+							aria-label="Button that takes you to login page for Unanimity instant messenger." 
+							variant="contained" 
+							color="primary"
+							size="large" 
+						>
+						<Link aria-label="Link that goes to login page" className={classes.chatLink}  to="/login">Start Chatting</Link>
+					</Button>       
 				</main>
 			</motion.div>
 		</Fragment>    
