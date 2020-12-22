@@ -4,7 +4,6 @@ import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLink
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles'; 
 
 /*
 	User interface component that displays an animated landing page and shows the navigation component.
@@ -36,47 +35,41 @@ const LandingPage = props => {
 		delay: 3.8
 	};
 
-	const useStyles = makeStyles({
-		chatLink: {
-		  color: 'white',
-		},
-	  });
-
-	  const classes = useStyles();
-
 	return (       
 		<Fragment>
 			<motion.div
 				initial="initial"
 				animate="in"
 				exit="out"
-				variants={props.pageAnimationVariants}
-				transition={props.pageTransition}>
+				variants={ props.pageAnimationVariants }
+				transition={ props.pageTransition }
+			>
 				<NavigationRouterLinks />
-				<main className={styles.backgroundImage}>
+				<main className={ styles.backgroundImage }>
 					<img className={ styles.landingLogo } src="../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
 					<Typography 
-						className={ styles.header }
+						className={ styles.typingAnimation }
 						variant="h4"
-						>
+					>
 							The best way to unify with your community!
 					</Typography>
-					<motion.p 
-						className={ styles.subtext }
+					<motion.p 					
 						initial="initial" 
 						animate="in" 
-						variants={paragraphAnimationVariants}
-						transition={paragraphTransition}
+						variants={ paragraphAnimationVariants }
+						transition={ paragraphTransition }
+						style={{color: 'var(--off-text)'}}
 					>
-						Unanimity, instant communication that connects you to anyone.
+						<Typography variants="subtitle1"> Unanimity, instant communication that connects you to anyone.</Typography>
 					</motion.p>          
-					<Button type="button" 
-							aria-label="Button that takes you to login page for Unanimity instant messenger." 
-							variant="contained" 
-							color="primary"
-							size="large" 
-						>
-						<Link aria-label="Link that goes to login page" className={classes.chatLink}  to="/login">Start Chatting</Link>
+					<Button 
+						type="button" 
+						aria-label="Button that takes you to login page for Unanimity instant messenger." 
+						variant="contained" 
+						color="primary"
+						size="large" 
+					>
+						<Link style={{color: 'var(--main-bg)'}}  aria-label="Link that goes to login page"  to="/login">Start Chatting</Link>
 					</Button>       
 				</main>
 			</motion.div>
