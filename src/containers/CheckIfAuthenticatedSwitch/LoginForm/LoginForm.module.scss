@@ -56,10 +56,8 @@ legend {
         transform: scale(1.1);
     }
 }
-
-
 .register {
-    margin-left: .5rem;
+    float: right;
 }
 img {
    width: 100%;
@@ -69,11 +67,7 @@ img {
 /* phablet and up */
 @media only screen and (min-width: 600px){
     .form { padding: 3rem; }
-    .register {
-        left: 0;
-        
-        float: right;
-    }
+   
     .submit {
         width: 40%;
         left: 0;

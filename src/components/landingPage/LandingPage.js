@@ -49,10 +49,10 @@ const LandingPage = props => {
 					<img className={ styles.landingLogo } src="../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
 					<Typography 
 						className={ styles.typingAnimation }
-						variant="h4"
+						variant="h1"
 					>
 							The best way to unify with your community!
-					</Typography>
+					</Typography>							
 					<motion.p 					
 						initial="initial" 
 						animate="in" 
@@ -60,7 +60,7 @@ const LandingPage = props => {
 						transition={ paragraphTransition }
 						style={{color: 'var(--off-text)'}}
 					>
-						<Typography variants="subtitle1"> Unanimity, instant communication that connects you to anyone.</Typography>
+					<Typography variants="subtitle1"> Unanimity, instant communication that connects you to anyone.</Typography>
 					</motion.p>          
 					<Button 
 						type="button" 

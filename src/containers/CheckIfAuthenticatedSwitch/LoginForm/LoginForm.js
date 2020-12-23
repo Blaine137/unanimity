@@ -33,19 +33,23 @@ const LoginForm = props => {
                         onClick={ e => { 
                             props.checkName(e , document.getElementById('userNameID'), document.getElementById('passwordID')) 
                         } }
-                    >Log in</Button>
+                    >
+                        Log in
+                    </Button>
                     <Button 
-                    aria-label="Register For Account button"
-                    type="submit" 
-                    value="Register" 
-                    color="primary"
-                    variant="contained"
-                    size="large"
-                    className={styles.register} 
-                    onClick={ e => {
-                        props.checkForNewUser(e, document.getElementById('userNameID'), document.getElementById('passwordID')) 
-                    } }  
-                    >Register</Button> 
+                        aria-label="Register For Account button"
+                        type="submit" 
+                        value="Register" 
+                        color="primary"
+                        variant="contained"
+                        size="large"
+                        className={styles.register} 
+                        onClick={ e => {
+                            props.checkForNewUser(e, document.getElementById('userNameID'), document.getElementById('passwordID')) 
+                        } }  
+                    >
+                        Register
+                    </Button> 
                 </fieldset>
             </form>
             <p>This Project's Database is public so that people can see how the project works!</p>
