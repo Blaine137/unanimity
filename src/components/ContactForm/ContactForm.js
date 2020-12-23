@@ -38,10 +38,20 @@ let ContactForm = props => {
                     <legend>Let's get to know each other!</legend>       
                     <FormControl fullWidth={true} variant="outlined" margin="normal">
                         <InputLabel htmlFor="Email">Your Email Address</InputLabel>
-                        <OutlinedInput id="Email" inputProps={{ 'aria-label': 'Enter you email to be contacted at.', 'type': 'Email', 'name': 'Email', 'required': 'true'}} label="Your Email Address" />          
+                        <OutlinedInput id="Email" 
+                                       inputProps={{ 'aria-label': 'Enter you email to be contacted at.', 'type': 'Email', 'name': 'Email', 'required': 'true'}} 
+                                       label="Your Email Address"
+                         />          
                     </FormControl>                                                
                     <FormControl fullWidth={true} margin="normal">            
-                        <TextField aria-label="Enter your comment here for unanimity contact form." id="outlined-basic" label="How may we Help You?" variant="outlined" id="Comment" name="Comment" multiline />
+                        <TextField 
+                            aria-label="Enter your comment here for unanimity contact form." 
+                            id="outlined-basic" label="How may we Help You?" 
+                            variant="outlined" 
+                            id="Comment"
+                             name="Comment" 
+                             multiline 
+                        />
                     </FormControl>
                     <Button 
 						type="submit" 

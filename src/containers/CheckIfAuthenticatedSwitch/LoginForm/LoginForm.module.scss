@@ -24,7 +24,7 @@ html {
 .form { 
     display: block;
     text-align: left;
-    margin: 1rem auto;
+    margin: .5rem auto;
     padding: 1rem;
     background-color: var(--light-accent-bg);
     width: 80vw;
@@ -56,45 +56,10 @@ legend {
         transform: scale(1.1);
     }
 }
-label {
-    display: block;
-    margin-bottom: 1rem;;
-}
-.submit {
-    position: relative;
-    left: 25%;
-    background-color: var(--dark-action);
-    color: var(--light-accent-bg);
-    border: none;  
-    height: 3rem;
-    width: 50%;
-    min-width: 3.5rem;
-    border-radius: 3rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    &:focus, &:hover {
-        color: var(--dark-action);
-        background-color: var(--positive-action); 
-        transition: all .5s;   
-    }
-}
+
+
 .register {
-    position: relative;
-    left: 25%;
-    background-color: var(--dark-action);
-    color: var(--light-accent-bg);
-    border: none;
-    display: block;
-    height: 3rem;
-    width: 50%;
-    min-width: 3.5rem;
-    border-radius: 3rem;
-    font-weight: 700;
-    &:hover, &:focus {
-        color: var(--dark-action);
-        background-color: var(--positive-action);
-        transition: all .5s; 
-    }
+    margin-left: .5rem;
 }
 img {
    width: 100%;
@@ -106,7 +71,7 @@ img {
     .form { padding: 3rem; }
     .register {
         left: 0;
-        width: 40%;
+        
         float: right;
     }
     .submit {

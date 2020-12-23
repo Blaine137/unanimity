@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './LoginForm.module.scss';
+import { FormControl, InputLabel, OutlinedInput, Button } from '@material-ui/core';
 
 const LoginForm = props => {
     return(
@@ -8,28 +9,43 @@ const LoginForm = props => {
             <form className={ styles.form }>
                 <fieldset>
                     <legend>Unanimity Messenger Login</legend>
-                    <label htmlFor="userNameID" >Username</label>
-                    <input type="text" id="userNameID" name="userNameID" className={ styles.input } aria-label="User Name Text Input field" required/>    
-                    <label htmlFor="passwordID" >Password</label>
-                    <input aria-label="Password Text input field" type="password" id="passwordID" name="passwordID" className={ styles.input } required/>
-                    <input 
+                    <FormControl fullWidth={true} variant="outlined" margin="normal">
+                        <InputLabel htmlFor="userNameID">Username</InputLabel>
+                        <OutlinedInput id="userNameID" 
+                                    inputProps={{ 'aria-label': 'Username text input field', 'type': 'text', 'name': 'userNameID', 'required': 'true'}} 
+                                    label="Username"
+                            />    
+                    </FormControl>    
+                    <FormControl fullWidth={true} variant="outlined" margin="normal">
+                        <InputLabel htmlFor="passwordID">Password</InputLabel>
+                        <OutlinedInput id="passwordID" 
+                                    inputProps={{ 'aria-label': 'password text input field', 'type': 'password', 'name': 'passwordID', 'required': 'true'}} 
+                                    label="Password"
+                            />    
+                    </FormControl> 
+                    <Button 
                         aria-label="Submit Login information button" 
                         type="submit" 
                         value="Log in" 
-                        className={ styles.submit } 
+                        color="primary"
+                        variant="contained"
+                        size="large"
                         onClick={ e => { 
                             props.checkName(e , document.getElementById('userNameID'), document.getElementById('passwordID')) 
                         } }
-                    />
-                    <input 
+                    >Log in</Button>
+                    <Button 
                     aria-label="Register For Account button"
                     type="submit" 
                     value="Register" 
-                    className={ styles.register } 
+                    color="primary"
+                    variant="contained"
+                    size="large"
+                    className={styles.register} 
                     onClick={ e => {
                         props.checkForNewUser(e, document.getElementById('userNameID'), document.getElementById('passwordID')) 
                     } }  
-                    /> 
+                    >Register</Button> 
                 </fieldset>
             </form>
             <p>This Project's Database is public so that people can see how the project works!</p>
