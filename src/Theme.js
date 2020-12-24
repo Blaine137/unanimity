@@ -39,7 +39,10 @@ Theme.typography.h5 = {
 
 //more typography 
 Theme.typography.subtitle1 = {
-  fontSize: 'calc(1rem + 1.25vmin)',
+  fontSize: 'calc(1rem + 1vmin)',
+  margin: '1rem .5rem',
+  fontWeight: 'normal',
+  color: '#313639'
 }
 Theme.typography.body1 = {
   fontSize: 'calc(.75rem + .5vmin)',
