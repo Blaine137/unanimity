@@ -8,7 +8,9 @@
 }
 .addChatroom {
   float: left;
-  
+  &:hover{
+    transform: scale(1.2);
+  }
 }
 .addButton {
     height: 6px;

@@ -46,19 +46,18 @@ class SidebarOfConversations extends Component {
         let newConversation=[...this.state.listOfConversationsToOpenOrDelete];
         newConversation.push((
              <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={ reactKey } className={ styles.users }>
-                <div 
-                    tabIndex="0" 
-                    className={ styles.deleteContainer } 
-                    onClick={ () =>  this.props.deleteChatRoom(currentChatRoomID)  }
-                    onKeyDown={ e => {
-                        if(e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
-                    }}
-                    role="button"
-                    aria-label={`Delete Chatroom Button for ${recipientsName}`}
-                >
-                    <div className={ styles.deleteTop } ></div>
-                    <div className={ styles.deleteBottom }></div>
-                </div>
+                <IconButton
+                        tabIndex="0"  
+                        onClick={ () =>  this.props.deleteChatRoom(currentChatRoomID)  }
+                        onKeyDown={ e => {
+                            if(e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
+                        }}          
+                        aria-label="Delete a chatroom button"
+                        size="small"
+                        className={styles.addChatroom}
+                    >
+                        <CloseIcon color="primary"/>
+                    </IconButton >
                 <h3 
                     tabIndex="0"  
                     onClick={() => {

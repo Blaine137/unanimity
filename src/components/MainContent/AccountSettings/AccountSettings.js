@@ -5,6 +5,9 @@ import UpdateUsernameForm from './UpdateUsernameForm/UpdateUsernameForm';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import DOMPurify from 'dompurify';
 import axios from '../../../axios';
+import { Button, IconButton, Grid, Typography } from '@material-ui/core';
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import CloseIcon from '@material-ui/icons/Close';
 
 /*
 This component is opened from the option menu and is loaded where the UserMessages would be. This is a parent component that
@@ -35,7 +38,14 @@ const AccountSettings = props => {
 
 	const showBackBtn = () => {
 		if( isUpdateUsernameFormShowing || isUpdatePwdFormShowing) {
-			return <button aria-label="Go back to account settings" onClick={goToAccountSettingsHome} className={styles.closeSettings}>&larr;</button>
+			return <IconButton 
+				aria-label="Go back to account settings" 
+				onClick={goToAccountSettingsHome} 
+				className={styles.closeSettings}
+				color="primary"
+				>
+					<KeyboardBackspaceIcon/>
+				</IconButton>
 		}
 	}
 
@@ -58,8 +68,28 @@ const AccountSettings = props => {
 		} else {
 			return (
 				<>		
-					<button aria-label="open up a form where you can update your username" className={styles.settingOptions} onClick={ () => setIsUpdateUsernameFormShowing(true) }>Update Username</button>
-					<button aria-label="open up a form where you can update your password" className={styles.settingOptions} onClick={ () => setIsUpdatePwdFormShowing(true) }>Update Password</button>
+					<Grid container spacing={2}>
+						<Grid item xs={12} justify="space-between">
+							<Button 
+								aria-label="open up a form where you can update your username" 
+								onClick={ () => setIsUpdateUsernameFormShowing(true) }
+								variant="contained"
+								color="primary"
+							>
+									Update Username
+							</Button>
+						</Grid>
+						<Grid item xs={12} justify="space-around">
+							<Button 
+								aria-label="open up a form where you can update your password" 
+								onClick={ () => setIsUpdatePwdFormShowing(true) }
+								variant="contained"
+								color="primary"
+							>
+									Update Password
+							</Button>
+						</Grid>
+					</Grid>
 				</>
 			);
 		}
@@ -68,8 +98,19 @@ const AccountSettings = props => {
 	return(
 		<div role="menu" className={ styles.container }> 
 			{showBackBtn()}
-			<button aria-label="close account settings menu" className={ styles.closeSettings } onClick={ () => props.setAreSettingsShowing(false) }>&times;</button>
-			<h3 style={ { display: "inline" } }>Account settings</h3>
+			<IconButton 
+				aria-label="close account settings menu" 
+				className={ styles.closeSettings } 
+				onClick={ () => props.setAreSettingsShowing(false) }
+				color="primary"
+			>
+					<CloseIcon/>
+			</IconButton>
+			<Typography 
+					variant="h6"
+					style={{display: 'inline'}}>
+				Account settings
+			</Typography>
 			{showAccountSettingsForm()}
 		</div>
 	);
