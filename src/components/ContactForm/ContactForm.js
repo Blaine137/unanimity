@@ -3,7 +3,7 @@ import styles from './ContactForm.module.scss';
 import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks.js';
 import { motion } from 'framer-motion';
 import emailjs from 'emailjs-com';
-import { FormControl, InputLabel, TextField, OutlinedInput, Button } from '@material-ui/core';
+import { FormControl, InputLabel, TextField, OutlinedInput, Grid, Button } from '@material-ui/core';
 
 /*
 User form that takes in contact information, notifies the user, and sends the email.
@@ -53,15 +53,22 @@ let ContactForm = props => {
                              multiline 
                         />
                     </FormControl>
-                    <Button 
-						type="submit" 
-						aria-label="Button that takes you to login page for Unanimity instant messenger." 
-						variant="contained" 
-						color="primary"
-                        size="large" 
-					>
-						Submit  
-					</Button>                                           
+                    <FormControl fullWidth margin="normal">
+                        <Grid container>
+                            <Grid item xs={12} md={4} lg={3}>
+                                <Button 
+                                    type="submit" 
+                                    aria-label="Button that takes you to login page for Unanimity instant messenger." 
+                                    variant="contained" 
+                                    color="primary"
+                                    size="large"
+                                    fullWidth 
+                                >
+                                    Submit  
+                                </Button>    
+                            </Grid>    
+                        </Grid>    
+                    </FormControl>                                           
                 </form> 
             </motion.div>                     
         </main>
