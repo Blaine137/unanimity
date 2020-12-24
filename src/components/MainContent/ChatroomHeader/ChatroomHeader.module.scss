@@ -54,61 +54,23 @@
   transition: transform .5s ease-in-out;  
 }
 .header {
-    font-weight: bold;
-    width: inherit;
-    height: 3.25rem;
-    max-height: 3.25rem;
-    padding: 1rem;
-    position: relative;
-    background-color: var(--dark-accent-bg);    
-    h3 {
-      color: var(--dark-action);
-      display: inline;
-      text-transform: capitalize;
-    } 
+  height: 3.25rem;
+  max-height: 3.25rem;
+  padding: 1rem;
+  position: relative;
+  background-color: var(--dark-accent-bg);    
+  h5 { display: inline; } 
 }
-.circle1, .circle2, .circle3 {
-  margin-top: 3px;
-  background-color: var(--dark-action);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-/*three dot options opener*/
 .options {
   float: right;
-  cursor: pointer;
-  padding: 0 1rem;
 }
 .optionsMenu {
-  animation: optionMenuFade;
-  animation-duration: .25s;
   width: 250px;
   max-width: 90vw;
   background-color: var(--light-accent-bg);
-  border: 1px solid var(--dark-accent-bg); 
   border-radius: .5rem;
   z-index: 1;
-  position: absolute;
-  /*height of header*/
+  position: absolute !important;
   top: 3.25rem;
   right: 0;
-  margin: 0;
-  padding: .25rem;
-  list-style-type: none;
-  li {
-    width: 80%;
-    margin: .25rem auto;
-    padding: .25rem;
-    border-bottom: 2px solid var(--dark-accent-bg);
-    color: var(--dark-action); 
-    display: block;
-    cursor: pointer;
-  }
-}
-
-
-@keyframes optionMenuFade {
-  from { opacity: .05; }
-  to { opacity: 1; }
 }

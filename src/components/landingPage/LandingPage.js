@@ -69,7 +69,7 @@ const LandingPage = props => {
 						color="primary"
 						size="large" 
 					>
-						<Link style={{color: 'var(--main-bg)'}}  aria-label="Link that goes to login page"  to="/login">Start Chatting</Link>
+						<Link style={{color: 'var(--main-bg)',  textDecoration: 'none'}}  aria-label="Link that goes to login page"  to="/login">Start Chatting</Link>
 					</Button>       
 				</main>
 			</motion.div>

@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import styles from './ChatroomHeader.module.scss';
-import Switch from 'react-switch';
-
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { IconButton, Typography, List, ListItem, ListItemText, FormControlLabel, Switch } from '@material-ui/core';
 /*
 User interface component that is located above the chatroom. 
 this component displays the burger button, current Chat room name, 
@@ -36,21 +36,23 @@ const ChatroomHeader = props => {
     const toggleOptionsMenu =  () => {
         if(isOptionsMenuOpen === true) {
             setOptionsMenuElements(
-                <ul role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
-                    <li role="menuitem">
-                        <span>Theme: </span>
-                        <Switch 
-                            aria-label="Switch to change theme color of Unanimity" 
-                            className={styles.switch} 
-                            checked={isAppLightTheme} 
-                            onChange={() => { setIsAppLightTheme(!isAppLightTheme);  setOptionsMenuElements(null)}} 
-                            activeBoxShadow='0 0 2px 3px #365F88' 
-                            onColor="#05386B" 
-                            uncheckedIcon={false} 
-                            checkedIcon={false} 
-                        />   
-                    </li>
-                    <li 
+                <List role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
+                    <ListItem role="menuitem">
+                        <FormControlLabel
+                            label="Theme"
+                            labelPlacement="start"
+                            control={
+                                <Switch
+                                    aria-label="Switch to change theme color of Unanimity" 
+                                    checked={isAppLightTheme}
+                                    onChange={() => { setIsAppLightTheme(!isAppLightTheme);  setOptionsMenuElements(null)}}
+                                    name="themColor"
+                                    color="primary"
+                                />
+                            }                           
+                        />                          
+                    </ListItem>
+                    <ListItem 
                         tabIndex="0" 
                         role="button"
                         aria-label="Logout of unanimity"
@@ -58,15 +60,15 @@ const ChatroomHeader = props => {
                         onClick={ () => { props.intentionalAndForcedUserLogout(true) }} 
                         onKeyDown={ e => { if(e.key === 'Enter') { props.intentionalAndForcedUserLogout(true); } } }
                     >
-                        Logout
-                    </li>
-                    <li role="menuitem"
+                        <ListItemText>Logout</ListItemText>
+                    </ListItem>
+                    <ListItem role="menuitem"
                         aria-label="click this link to go to account settings"
                         onClick={() => { props.setAreSettingsShowing(!props.areSettingsShowing); setOptionsMenuElements(null); }}
                     >
-                        Account Settings
-                    </li>                       
-                </ul>
+                        <ListItemText>Account Settings</ListItemText>
+                    </ListItem>                       
+                </List>
             );          
         } else {
             setOptionsMenuElements(null);
@@ -120,20 +122,17 @@ const ChatroomHeader = props => {
         <Fragment>
             <header className={ styles.header }>              
                 { burger }
-                <h3>{ props.currentChatRoomName }</h3>
-                <div 
+                <Typography variant="h5">{ props.currentChatRoomName }</Typography>
+                <IconButton
                     tabIndex="0" 
                     className={ styles.options } 
-                    onClick={ () => toggleOptionsMenu() }
-                    onKeyDown={ e => { if(e.key === 'Enter') { toggleOptionsMenu(); } } }
+                    onClick={ () => toggleOptionsMenu() }           
                     aria-label="Open options menu button"
                     aria-haspopup="true"
-                    role="button"
+                    size="medium"
                 >
-                    <div className={ styles.circle1 }></div>
-                    <div className={ styles.circle2 }></div>
-                    <div className={ styles.circle3 }></div>
-                </div>     
+                    <MoreVertIcon color="primary"/>
+                </IconButton >     
             </header>
             { optionsMenuElements }  
         </Fragment>
