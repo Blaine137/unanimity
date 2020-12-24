@@ -1,61 +1,11 @@
-.burger {
-  cursor: pointer;
+.menu {
   float: left;
-  transform: scale(.8);
-}
-.close {
-  float: left;
-  margin-top: .5rem;
-  transform: scale(.8);
-  &:hover { cursor: pointer; }
-}
-.closeTop {
-  height: 5px;
-  width: 50px;
-  background-color: var(--dark-action);
-  transform: rotate(45deg);
-  transition: transform .5s ease-in-out;
-}
-.closeMiddle {
-  height: 5px;
-  width: 50px;
-  background-color: var(--dark-action);
-  display: none;
-  transition: transform .5s ease-in-out;
-}
-.closeBottom {
-  height: 5px;
-  width: 50px;
-  background-color: var(--light-action);
-  transform-origin: 40% 0;
-  transform: rotate(-45deg);
-  transition: transform .5s ease-in-out;
-}
-.openTop {
-  height: 5px;
-  width: 50px;
-  background-color: var(--dark-action);
-  margin-bottom: 5px;
-  transform: rotate(0deg);
-  transition: transform .5s ease-in-out;
-}
-.openMiddle {
-  height: 5px;
-  width: 50px;
-  margin-bottom: 5px;
-  background-color: var(--dark-action);
-  transition: transform .5s ease-in;
-}
-.openBottom {
-  height: 5px;
-  width: 50px;
-  background-color: var(--dark-action);
-  transform: rotate(0deg);
-  transition: transform .5s ease-in-out;  
+  svg {
+    font-size: calc(1.25rem + 2vmin);
+  } 
 }
 .header {
-  height: 3.25rem;
-  max-height: 3.25rem;
+  height: calc(3.25rem + 2vmin);;
   padding: 1rem;
   position: relative;
   background-color: var(--dark-accent-bg);    
@@ -63,6 +13,9 @@
 }
 .options {
   float: right;
+  svg {
+    font-size: calc(1.25rem + 2vmin);
+  }
 }
 .optionsMenu {
   width: 250px;

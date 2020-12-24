@@ -1,6 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import styles from './ChatroomHeader.module.scss';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
 import { IconButton, Typography, List, ListItem, ListItemText, FormControlLabel, Switch } from '@material-ui/core';
 /*
 User interface component that is located above the chatroom. 
@@ -84,34 +86,30 @@ const ChatroomHeader = props => {
         if(props.isSidebarOpen) {
             //make the burger button a X
             return(
-                <div 
-                    tabIndex="0" 
-                    onClick={ () => { props.toggleSidebar(); } } 
-                    onKeyDown={ e => { if(e.key === 'Enter') { props.toggleSidebar(); } } }
-                    className={ styles.close }
-                    aria-label=" Close Sidebar button"
-                    role="button"                      
+                <IconButton
+                    tabIndex="0"  
+                    onClick={ () => props.toggleSidebar() }           
+                    aria-label="Open options menu button"
+                    aria-haspopup="true"
+                    size="small"
+                    className={styles.menu}
                 >
-                    <div className={ styles.closeTop }></div>
-                    <div className={ styles.closeMiddle }></div>
-                    <div className={ styles.closeBottom }></div>                      
-                </div>
+                    <CloseIcon color="primary"/>
+                </IconButton >
             );
         } else {
             //sidebar is closed show the burger (three lines) to open it.
             return(
-                <div 
-                    tabIndex="0"
-                    onClick={ () => { props.toggleSidebar( ); } } 
-                    onKeyDown={e => { if(e.key === 'Enter') { props.toggleSidebar(); } } }
-                    className={ styles.burger }  
-                    aria-label="Open Sidebar button"
-                    role="button"
+                <IconButton
+                    tabIndex="0"  
+                    onClick={ () => props.toggleSidebar() }           
+                    aria-label="Open options menu button"
+                    aria-haspopup="true"
+                    size="small"
+                    className={styles.menu}
                 >
-                    <div className={ styles.openTop }></div>
-                    <div className={ styles.openMiddle }></div>
-                    <div className={ styles.openBottom }></div>          
-                </div>
+                    <MenuIcon color="primary"/>
+                </IconButton >
             );
         }
     }
@@ -129,7 +127,7 @@ const ChatroomHeader = props => {
                     onClick={ () => toggleOptionsMenu() }           
                     aria-label="Open options menu button"
                     aria-haspopup="true"
-                    size="medium"
+                    size="small"
                 >
                     <MoreVertIcon color="primary"/>
                 </IconButton >     

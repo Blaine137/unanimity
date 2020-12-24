@@ -6,17 +6,9 @@
     position: relative;
     transition: all 1s ease-in-out;
 }
-.addContainer {
-    position: absolute;
-    top: 20px;
-    left: 5%;
-    height: 30px;
-    width: 25px;
-    &:hover { 
-      cursor: pointer; 
-      transform: scale( 1.2 );
-      transition: all ease-in-out .25s;
-    }
+.addChatroom {
+  float: left;
+  
 }
 .addButton {
     height: 6px;

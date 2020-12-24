@@ -2,6 +2,9 @@ import React, { Component, Fragment } from "react";
 import styles from './SidebarOfConversations.module.scss';
 import axios from '../../axios';
 import AddChatRoomPopUpForm from './addChatRoomPopUpForm/addChatRoomPopUpForm';
+import { IconButton } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
 let ConversationNamesAlreadyInSidebar = [];
 let reactKey = 0;
 
@@ -134,19 +137,19 @@ class SidebarOfConversations extends Component {
                     className={ styles.sidebarContainer } 
                     style={ { transform: `translateX( ${this.props.isSidebarOpen ? '0%' : '-100%'} )` } } 
                 >  
-                    <div
+                    <IconButton
+                        tabIndex="0"  
                         onClick = { () => this.setState({ isAddChatRoomPopUpShowing: !this.state.isAddChatRoomPopUpShowing }) } 
                         onKeyDown = { e => { 
                             if(e.key === 'Enter') { this.setState({ isAddChatRoomPopUpShowing: !this.state.isAddChatRoomPopUpShowing }) } 
-                        } }
-                        tabIndex="0" 
-                        className={ styles.addContainer }
+                        } }          
                         aria-label="Add a chatroom button"
-                        role="button"   
                         aria-haspopup="true"
+                        size="small"
+                        className={styles.addChatroom}
                     >
-                        <div className={ styles.addButton }></div>
-                    </div>
+                        <AddIcon color="primary"/>
+                    </IconButton >
                     <div  
                         onClick = { () => this.props.toggleSidebar() }
                         onKeyDown = { e => { 
