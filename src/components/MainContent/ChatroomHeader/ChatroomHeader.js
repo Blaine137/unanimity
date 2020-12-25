@@ -39,7 +39,8 @@ const ChatroomHeader = props => {
         if(isOptionsMenuOpen === true) {
             setOptionsMenuElements(
                 <List role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
-                    <ListItem role="menuitem">
+                    {/* The switch has padding that we can't remove. So to make all the ListItems have equal space we added space to all ListItem except this one. */}
+                    <ListItem role="menuitem" style={{padding: 0, margin: 0}} >
                         <FormControlLabel
                             label="Theme"
                             labelPlacement="start"
@@ -50,21 +51,21 @@ const ChatroomHeader = props => {
                                     onChange={() => { setIsAppLightTheme(!isAppLightTheme);  setOptionsMenuElements(null)}}
                                     name="themColor"
                                     color="primary"
+                                    margin="dense"
                                 />
-                            }                           
+                            }                                                 
                         />                          
                     </ListItem>
                     <ListItem 
                         tabIndex="0" 
                         role="button"
                         aria-label="Logout of unanimity"
-                        style={ { color: '#f44336' } } 
                         onClick={ () => { props.intentionalAndForcedUserLogout(true) }} 
-                        onKeyDown={ e => { if(e.key === 'Enter') { props.intentionalAndForcedUserLogout(true); } } }
                     >
                         <ListItemText>Logout</ListItemText>
                     </ListItem>
-                    <ListItem role="menuitem"
+                    <ListItem 
+                        role="menuitem"
                         aria-label="click this link to go to account settings"
                         onClick={() => { props.setAreSettingsShowing(!props.areSettingsShowing); setOptionsMenuElements(null); }}
                     >
