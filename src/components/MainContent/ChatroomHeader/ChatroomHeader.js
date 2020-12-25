@@ -3,7 +3,7 @@ import styles from './ChatroomHeader.module.scss';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Typography, List, ListItem, ListItemText, FormControlLabel, Switch } from '@material-ui/core';
+import { IconButton, Typography, List, ListItem, ListItemText, FormControlLabel, Switch, Grid } from '@material-ui/core';
 /*
 User interface component that is located above the chatroom. 
 this component displays the burger button, current Chat room name, 
@@ -119,21 +119,29 @@ const ChatroomHeader = props => {
     let burger = toggleSidebarButtonStyles();   
     return(
         <Fragment>
-            <header className={ styles.header }>              
-                { burger }
-                <Typography variant="h5">{ props.currentChatRoomName }</Typography>
-                <IconButton
-                    tabIndex="0" 
-                    className={ styles.options } 
-                    onClick={ () => toggleOptionsMenu() }           
-                    aria-label="Open options menu button"
-                    aria-haspopup="true"
-                    size="small"
-                >
-                    <MoreVertIcon color="primary"/>
-                </IconButton >     
-            </header>
-            { optionsMenuElements }  
+            <header className={ styles.header }>
+            <Grid container justify="flex-start"  alignItems="center" >
+                <Grid item xs={2} justify="flex-start">            
+                        { burger }  
+                </Grid>
+                <Grid item xs={8} alignContent="center">
+                    <Typography variant="h5">{ props.currentChatRoomName }</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                        <IconButton
+                            tabIndex="0" 
+                            className={ styles.options } 
+                            onClick={ () => toggleOptionsMenu() }           
+                            aria-label="Open options menu button"
+                            aria-haspopup="true"
+                            size="small"
+                        >
+                            <MoreVertIcon color="primary"/>
+                        </IconButton >  
+                </Grid>    
+            </Grid> 
+            </header> 
+            { optionsMenuElements } 
         </Fragment>
     );
 }
