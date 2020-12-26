@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./addChatRoomPopUpForm.module.scss";
 import DOMPurify from 'dompurify';
+import { FormControl, InputLabel, OutlinedInput, IconButton, Button } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 /*
 child component of sidebarOfConversations.
@@ -31,16 +33,23 @@ const addChatRoomPopUpForm = props => {
 				</div>
 				<legend>Add a Chatroom.</legend>
 				<fieldset>
-					<label htmlFor="newChatRoomName">Recipient's Username</label>
-					<input 
-						type="text" 
-						id="newChatRoomName" 
-						name="newChatRoomName" 
-						className={styles.input}
-						aria-label="Enter the username of the recipient you would like to add a chatroom with."
-						placeholder="enter user name of recipient!"
-					/>
-					<input aria-label="add chatroom with this user" type="submit" value="Add Chatroom" className={ styles.submit}/>
+					<FormControl fullWidth={true} variant="outlined" margin="normal">
+						<InputLabel htmlFor="newChatRoomName">Recipient's Username</InputLabel>
+						<OutlinedInput id="newChatRoomName" 
+										inputProps={{ 'aria-label': 'Enter the username of the recipient you would like to add a chatroom with', 'type': 'text', 'name': 'newChatRoomName', 'required': 'true'}} 
+										label="Recipient's Username"
+							/>          
+                    </FormControl> 
+					<Button 
+						type="submit" 
+						aria-label="add chatroom with this user" 
+						variant="contained" 
+						color="primary"
+						size="large"
+						fullWidth 
+					>
+						Add Chatroom 
+					</Button>
 				</fieldset>
 			</form>
         </div>
