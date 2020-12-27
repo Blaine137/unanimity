@@ -12,14 +12,14 @@ const LoginForm = props => {
                     <FormControl fullWidth={true} variant="outlined" margin="normal">
                         <InputLabel htmlFor="userNameID">Username</InputLabel>
                         <OutlinedInput id="userNameID" 
-                                    inputProps={{ 'aria-label': 'Username text input field', 'type': 'text', 'name': 'userNameID', 'required': 'true'}} 
+                                    inputProps={{ 'aria-label': 'Username text input field', 'type': 'text', 'name': 'userNameID', 'required': true}} 
                                     label="Username"
                             />    
                     </FormControl>    
                     <FormControl fullWidth={true} variant="outlined" margin="normal">
                         <InputLabel htmlFor="passwordID">Password</InputLabel>
                         <OutlinedInput id="passwordID" 
-                                    inputProps={{ 'aria-label': 'password text input field', 'type': 'password', 'name': 'passwordID', 'required': 'true'}} 
+                                    inputProps={{ 'aria-label': 'password text input field', 'type': 'password', 'name': 'passwordID', 'required': true}} 
                                     label="Password"
                             />    
                     </FormControl> 

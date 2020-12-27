@@ -2,7 +2,7 @@ import React from 'react';
 import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks';
 import styles from './FAQPage.module.scss';
 import { motion } from 'framer-motion';
-import { Typography, ListItem } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 /*
 User interface component that displays hard coded answers to common questions.

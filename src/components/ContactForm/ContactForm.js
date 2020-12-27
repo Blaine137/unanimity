@@ -39,7 +39,7 @@ let ContactForm = props => {
                     <FormControl fullWidth={true} variant="outlined" margin="normal">
                         <InputLabel htmlFor="Email">Your Email Address</InputLabel>
                         <OutlinedInput id="Email" 
-                                       inputProps={{ 'aria-label': 'Enter you email to be contacted at.', 'type': 'Email', 'name': 'Email', 'required': 'true'}} 
+                                       inputProps={{ 'aria-label': 'Enter you email to be contacted at.', 'type': 'Email', 'name': 'Email', 'required': true}} 
                                        label="Your Email Address"
                          />          
                     </FormControl>                                                

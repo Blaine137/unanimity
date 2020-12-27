@@ -90,8 +90,7 @@ const ChatroomHeader = props => {
                 <IconButton
                     tabIndex="0"  
                     onClick={ () => props.toggleSidebar() }           
-                    aria-label="Open options menu button"
-                    aria-haspopup="true"
+                    aria-label="Close sidebar"
                     size="small"
                     className={styles.menu}
                 >
@@ -104,8 +103,7 @@ const ChatroomHeader = props => {
                 <IconButton
                     tabIndex="0"  
                     onClick={ () => props.toggleSidebar() }           
-                    aria-label="Open options menu button"
-                    aria-haspopup="true"
+                    aria-label="Open sidebar"
                     size="small"
                     className={styles.menu}
                 >

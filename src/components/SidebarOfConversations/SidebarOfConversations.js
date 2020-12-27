@@ -52,7 +52,7 @@ class SidebarOfConversations extends Component {
                         onKeyDown={ e => {
                             if(e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
                         }}          
-                        aria-label="Delete a chatroom button"
+                        aria-label={`Delete ${recipientsName} chatroom button`}
                         size="small"
                         className={styles.addChatroom}
                     >
@@ -149,20 +149,15 @@ class SidebarOfConversations extends Component {
                     >
                         <AddIcon color="primary"/>
                     </IconButton >
-                    <div  
-                        onClick = { () => this.props.toggleSidebar() }
-                        onKeyDown = { e => { 
-                            if(e.key === 'Enter') { this.props.toggleSidebar() }
-                        } }
-                        tabIndex="0"
-                        className={ styles.burger }
-                        aria-label="Close sidebar button." 
-                        role="button" 
+                    <IconButton
+                        tabIndex="0"  
+                        onClick={ () => this.props.toggleSidebar() }           
+                        aria-label="Close sidebar"
+                        size="small"
+                        className={styles.mobileCloseSidebar}
                     >
-                        <div className={ styles.closeTop }></div>
-                        <div className={ styles.closeMiddle }></div>
-                        <div className={ styles.closeBottom }></div>
-                    </div>
+                        <CloseIcon color="primary"/>
+                    </IconButton >
                     <div role="menu" aria-label="list of all chatroom's that you are in and can send messages in." className={ styles.usersContainer }>
                         { this.state.listOfConversationsToOpenOrDelete }
                     </div>                          

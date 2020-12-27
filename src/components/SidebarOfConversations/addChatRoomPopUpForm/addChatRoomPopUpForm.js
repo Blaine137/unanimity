@@ -19,38 +19,34 @@ const addChatRoomPopUpForm = props => {
 						props.toggleIsAddChatRoomPopUpShowing();
 				}}
 				className={ styles.form } 
-			>               
-				<div 
-					tabIndex="0" 
-					aria-label="Close Add ChatRoom pop up button."   
-					className={ styles.closeBurger }
-					role="button"
-					onClick={ () => props.toggleIsAddChatRoomPopUpShowing() } 
-					onKeyDown={ e => { if(e.key === 'Enter') { props.toggleIsAddChatRoomPopUpShowing(); } } }
+			>               				
+				<IconButton
+                    tabIndex="0"  
+                    onClick={ () => props.toggleIsAddChatRoomPopUpShowing() }          
+                    aria-label="Close add chat room pop up"
+                    size="small"
+                	className={styles.closeAddChatroomPopUp}
+                >
+                    <CloseIcon color="primary"/>
+                </IconButton >
+				<legend>Add a Chatroom.</legend>			
+				<FormControl fullWidth={true} variant="outlined" margin="normal">
+					<InputLabel htmlFor="newChatRoomName">Recipient's Username</InputLabel>
+					<OutlinedInput id="newChatRoomName" 
+									inputProps={{ 'aria-label': 'Enter the username of the recipient you would like to add a chatroom with', 'type': 'text', 'name': 'newChatRoomName', 'required': true}} 
+									label="Recipient's Username"
+						/>          
+				</FormControl> 
+				<Button 
+					type="submit" 
+					aria-label="add chatroom with this user" 
+					variant="contained" 
+					color="primary"
+					size="large"
+					fullWidth 
 				>
-					<div className={ styles.closeTop } ></div>
-					<div className={ styles.closeBottom }></div>
-				</div>
-				<legend>Add a Chatroom.</legend>
-				<fieldset>
-					<FormControl fullWidth={true} variant="outlined" margin="normal">
-						<InputLabel htmlFor="newChatRoomName">Recipient's Username</InputLabel>
-						<OutlinedInput id="newChatRoomName" 
-										inputProps={{ 'aria-label': 'Enter the username of the recipient you would like to add a chatroom with', 'type': 'text', 'name': 'newChatRoomName', 'required': 'true'}} 
-										label="Recipient's Username"
-							/>          
-                    </FormControl> 
-					<Button 
-						type="submit" 
-						aria-label="add chatroom with this user" 
-						variant="contained" 
-						color="primary"
-						size="large"
-						fullWidth 
-					>
-						Add Chatroom 
-					</Button>
-				</fieldset>
+					Add Chatroom 
+				</Button>		
 			</form>
         </div>
 	);

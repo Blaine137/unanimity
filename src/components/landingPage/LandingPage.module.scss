@@ -11,12 +11,11 @@
     width: 100%;
     margin: 10vh 0 15vh 0;
 }
-
 //tablet
-@media only screen and ( min-width: 700px ) {
+@media only screen and (min-width: 700px) {
     .backgroundImage { background-image: url( ../../images/backgroundmedium.png ); }
 }
 //desktop
-@media only screen and ( min-width: 1000px ) {
+@media only screen and (min-width: 1000px) {
     .backgroundImage { background-image: url( ../../images/backgroundlarge.png ); }
 }

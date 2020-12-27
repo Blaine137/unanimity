@@ -1,8 +1,6 @@
 .menu {
   float: left;
-  svg {
-    font-size: calc(1.25rem + 2vmin);
-  } 
+  svg { font-size: calc(1.25rem + 2vmin); } 
 }
 .header {
   height: calc(3.25rem + 2vmin);
@@ -13,9 +11,7 @@
 }
 .options {
   float: right;
-  svg {
-    font-size: calc(1.25rem + 2vmin);
-  }
+  svg { font-size: calc(1.25rem + 2vmin); }
 }
 .optionsMenu {
   width: 250px;
@@ -31,8 +27,8 @@
     margin-bottom: 1rem;
     display: block !important;
   }
-  //cancels li hover effect
   li:hover {
+    //cancels li hover effect
     font-size: 1rem;
     cursor: pointer;
   }

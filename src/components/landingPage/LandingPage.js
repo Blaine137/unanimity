@@ -21,9 +21,7 @@ const LandingPage = props => {
 				<NavigationRouterLinks />
 				<main className={ styles.backgroundImage }>
 					<img className={ styles.landingLogo } src="../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
-					<Typography 
-						variant="h1"
-					>
+					<Typography variant="h1">
 							The best way to unify with your community!
 					</Typography>							
 					<Typography variant="subtitle1">

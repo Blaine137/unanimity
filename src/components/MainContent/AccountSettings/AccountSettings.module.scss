@@ -10,6 +10,10 @@
         
     }
 }
+/** 
+* CSS for form components inside of AccountSettings is here so that we
+* only had to write them in one location.
+*/
 .settingOptions{
     display: block;
     margin: .5rem auto;
