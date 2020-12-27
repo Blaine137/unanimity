@@ -43,6 +43,7 @@ const AccountSettings = props => {
 				onClick={goToAccountSettingsHome} 
 				className={styles.closeSettings}
 				color="primary"
+				style={{float: 'right'}}
 				>
 					<KeyboardBackspaceIcon/>
 				</IconButton>
@@ -97,20 +98,27 @@ const AccountSettings = props => {
 	
 	return(
 		<div role="menu" className={ styles.container }> 
-			{showBackBtn()}
-			<IconButton 
-				aria-label="close account settings menu" 
-				className={ styles.closeSettings } 
-				onClick={ () => props.setAreSettingsShowing(false) }
-				color="primary"
-			>
-					<CloseIcon/>
-			</IconButton>
-			<Typography 
-					variant="h6"
-					style={{display: 'inline'}}>
-				Account settings
-			</Typography>
+			<Grid container justify="center" alignItems="center">
+				<Grid item xs={6}>
+					{showBackBtn()}
+					<IconButton 
+						aria-label="close account settings menu" 
+						className={ styles.closeSettings } 
+						onClick={ () => props.setAreSettingsShowing(false) }
+						color="primary"
+						style={{float: "right"}}
+					>
+							<CloseIcon/>
+					</IconButton>
+				</Grid>
+				<Grid item xs={6}>
+					<Typography 
+							variant="h6"
+							style={{display: 'inline', float: "left"}}>
+						Account settings
+					</Typography>
+				</Grid>
+			</Grid>
 			{showAccountSettingsForm()}
 		</div>
 	);
