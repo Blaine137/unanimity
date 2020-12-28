@@ -118,11 +118,11 @@ const ChatroomHeader = props => {
     return(
         <Fragment>
             <header className={ styles.header }>
-            <Grid container justify="flex-start"  alignItems="center" >
-                <Grid item xs={2} justify="flex-start">            
+            <Grid container justify="flex-start" alignContent="center"  alignItems="center" >
+                <Grid item xs={2}>            
                         { burger }  
                 </Grid>
-                <Grid item xs={8} alignContent="center">
+                <Grid item xs={8}>
                     <Typography variant="h5">{ props.currentChatRoomName }</Typography>
                 </Grid>
                 <Grid item xs={2}>
