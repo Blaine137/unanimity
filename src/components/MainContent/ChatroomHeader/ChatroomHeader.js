@@ -3,7 +3,8 @@ import styles from './ChatroomHeader.module.scss';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Typography, List, ListItem, ListItemText, FormControlLabel, Switch, Grid } from '@material-ui/core';
+import { IconButton, Typography, Grid } from '@material-ui/core';
+import HeaderOptionMenu from './HeaderOptionMenu/HeaderOptionMenu';
 /*
 User interface component that is located above the chatroom. 
 this component displays the burger button, current Chat room name, 
@@ -38,40 +39,14 @@ const ChatroomHeader = props => {
     const toggleOptionsMenu =  () => {
         if(isOptionsMenuOpen === true) {
             setOptionsMenuElements(
-                <List role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
-                    {/* The switch has padding that we can't remove. So to make all the ListItems have equal space we added space to all ListItem except this one. */}
-                    <ListItem role="menuitem" style={{padding: 0, margin: 0}} >
-                        <FormControlLabel
-                            label="Theme"
-                            labelPlacement="start"
-                            control={
-                                <Switch
-                                    aria-label="Switch to change theme color of Unanimity" 
-                                    checked={isAppLightTheme}
-                                    onChange={() => { setIsAppLightTheme(!isAppLightTheme);  setOptionsMenuElements(null)}}
-                                    name="themColor"
-                                    color="primary"
-                                    margin="dense"
-                                />
-                            }                                                 
-                        />                          
-                    </ListItem>
-                    <ListItem 
-                        tabIndex="0" 
-                        role="button"
-                        aria-label="Logout of unanimity"
-                        onClick={ () => { props.intentionalAndForcedUserLogout(true) }} 
-                    >
-                        <ListItemText>Logout</ListItemText>
-                    </ListItem>
-                    <ListItem 
-                        role="menuitem"
-                        aria-label="click this link to go to account settings"
-                        onClick={() => { props.setAreSettingsShowing(!props.areSettingsShowing); setOptionsMenuElements(null); }}
-                    >
-                        <ListItemText>Account Settings</ListItemText>
-                    </ListItem>                       
-                </List>
+                <HeaderOptionMenu 
+                    styles={styles.optionsMenu} 
+                    isAppLightTheme={isAppLightTheme}
+                    setIsAppLightTheme={setIsAppLightTheme}
+                    setOptionsMenuElements={setOptionsMenuElements}
+                    setAreSettingsShowing={props.setAreSettingsShowing}
+                    intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
+                />
             );          
         } else {
             setOptionsMenuElements(null);

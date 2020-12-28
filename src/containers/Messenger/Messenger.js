@@ -82,21 +82,25 @@ const Messenger = props => {
     }
 
     //once auth user sends message. Validates Message, add to the DB.
-    const newMessage = newMessage => {
+    const newMessage = async newMessage => {
         //messageChatRoom = selected chatroom object with all the messages
         let messagesInCurrentChatRoom = Object.entries(props.currentChatRoom);
         let oldAuthenticatedUserMessages = [];
         let updatedAuthenticatedUserMessages = [];
-        //nextMsgNum is the number of all the messages sent by auth user and recipient plus one.
-        let nextMsgNum = null;
+        let nextMsgNum;
+        try {
+            //nextMsgNum is the number of all the messages sent by auth user and recipient plus one.
+            nextMsgNum = await axios.get('chatRooms/' + props.currentChatRoomID + '/nextMsgNum.json');
+            nextMsgNum = nextMsgNum.data;
+        } catch(error) { console.log(error)}
+
+        // 'chatRooms/' + props.currentChatRoomID + '/nextMsgNum.json'
         if(newMessage.length > 0 && newMessage.length < 2000 && props.currentChatRoom != null) {
             //gets old messages not included the new message they are trying to send
             messagesInCurrentChatRoom.forEach(user => {
                 if(user[0] === ("u" + props.authenticatedUserID)) {
                     //in this if user[0] is "u" + auth userID. user[1] is auth users messages
                     oldAuthenticatedUserMessages = user[1] ;
-                } else if(user[0] === "nextMsgNum") {
-                    nextMsgNum = user[1];
                 }
             });
             ///adds new message to old message array
