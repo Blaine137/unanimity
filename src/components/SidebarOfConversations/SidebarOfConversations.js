@@ -2,6 +2,9 @@ import React, { Component, Fragment } from "react";
 import styles from './SidebarOfConversations.module.scss';
 import axios from '../../axios';
 import AddChatRoomPopUpForm from './addChatRoomPopUpForm/addChatRoomPopUpForm';
+import { IconButton } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
 let ConversationNamesAlreadyInSidebar = [];
 let reactKey = 0;
 
@@ -43,19 +46,18 @@ class SidebarOfConversations extends Component {
         let newConversation=[...this.state.listOfConversationsToOpenOrDelete];
         newConversation.push((
              <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={ reactKey } className={ styles.users }>
-                <div 
-                    tabIndex="0" 
-                    className={ styles.deleteContainer } 
-                    onClick={ () =>  this.props.deleteChatRoom(currentChatRoomID)  }
-                    onKeyDown={ e => {
-                        if(e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
-                    }}
-                    role="button"
-                    aria-label={`Delete Chatroom Button for ${recipientsName}`}
-                >
-                    <div className={ styles.deleteTop } ></div>
-                    <div className={ styles.deleteBottom }></div>
-                </div>
+                <IconButton
+                        tabIndex="0"  
+                        onClick={ () =>  this.props.deleteChatRoom(currentChatRoomID)  }
+                        onKeyDown={ e => {
+                            if(e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
+                        }}          
+                        aria-label={`Delete ${recipientsName} chatroom button`}
+                        size="small"
+                        className={styles.addChatroom}
+                    >
+                        <CloseIcon color="primary"/>
+                    </IconButton >
                 <h3 
                     tabIndex="0"  
                     onClick={() => {
@@ -134,33 +136,28 @@ class SidebarOfConversations extends Component {
                     className={ styles.sidebarContainer } 
                     style={ { transform: `translateX( ${this.props.isSidebarOpen ? '0%' : '-100%'} )` } } 
                 >  
-                    <div
+                    <IconButton
+                        tabIndex="0"  
                         onClick = { () => this.setState({ isAddChatRoomPopUpShowing: !this.state.isAddChatRoomPopUpShowing }) } 
                         onKeyDown = { e => { 
                             if(e.key === 'Enter') { this.setState({ isAddChatRoomPopUpShowing: !this.state.isAddChatRoomPopUpShowing }) } 
-                        } }
-                        tabIndex="0" 
-                        className={ styles.addContainer }
+                        } }          
                         aria-label="Add a chatroom button"
-                        role="button"   
                         aria-haspopup="true"
+                        size="small"
+                        className={styles.addChatroom}
                     >
-                        <div className={ styles.addButton }></div>
-                    </div>
-                    <div  
-                        onClick = { () => this.props.toggleSidebar() }
-                        onKeyDown = { e => { 
-                            if(e.key === 'Enter') { this.props.toggleSidebar() }
-                        } }
-                        tabIndex="0"
-                        className={ styles.burger }
-                        aria-label="Close sidebar button." 
-                        role="button" 
+                        <AddIcon color="primary"/>
+                    </IconButton >
+                    <IconButton
+                        tabIndex="0"  
+                        onClick={ () => this.props.toggleSidebar() }           
+                        aria-label="Close sidebar"
+                        size="small"
+                        className={styles.mobileCloseSidebar}
                     >
-                        <div className={ styles.closeTop }></div>
-                        <div className={ styles.closeMiddle }></div>
-                        <div className={ styles.closeBottom }></div>
-                    </div>
+                        <CloseIcon color="primary"/>
+                    </IconButton >
                     <div role="menu" aria-label="list of all chatroom's that you are in and can send messages in." className={ styles.usersContainer }>
                         { this.state.listOfConversationsToOpenOrDelete }
                     </div>                          

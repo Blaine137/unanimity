@@ -11,69 +11,11 @@
     width: 100%;
     margin: 10vh 0 15vh 0;
 }
-.header {
-    overflow: hidden; /* Ensures the content is not revealed until the animation */
-    border-right: .15em solid var(--dark-action); /* The typwriter cursor */
-    white-space: nowrap; /* Keeps the content on a single line */
-    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-    font-size: 1.4rem; 
-    animation: 
-    typing 3.5s steps(40, end),
-    blink-caret .75s step-end infinite;
-    animation-delay: .5s;
-
-}
-.subtext {  
-    color: 	var(--off-text);
-    margin: auto;
-    height: 10vh;
-    font-size: .9rem;  
-}
-h1 {
-    color: var(--main-text);
-}
-.chatButton {
-    margin: 15vh 0 10vh 0;
-    background-color: var(--dark-action);
-    text-decoration: none;
-    color: var(--main-bg);
-    padding: 0 1.8rem;
-    max-width: 400px;
-    height: 7vh;
-    border-radius: 1rem;
-    border: none;
-    font-size: 1rem;
-    &:focus, &:hover {   
-        transform: scale( 1.2 );
-        transition: all ease-in-out .25s;
-    }
-}
-
-/* The typing effect */
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
-  
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-from, to { border-color: transparent }
-50% { border-color: var(--dark-action); }
-}
-
-
 //tablet
-@media only screen and ( min-width: 700px ) {
+@media only screen and (min-width: 700px) {
     .backgroundImage { background-image: url( ../../images/backgroundmedium.png ); }
-    .header { font-size: 1.8rem; }
-    .chatButton{max-width: 600px;}
 }
 //desktop
-@media only screen and ( min-width: 1000px ) {
+@media only screen and (min-width: 1000px) {
     .backgroundImage { background-image: url( ../../images/backgroundlarge.png ); }
-    .header { font-size: 2.5rem; }
-    .subtext {
-        width: 30vw;
-        font-size: 1rem;  
-    }
 }

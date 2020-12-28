@@ -60,7 +60,7 @@ const UserMessages = props => {
         }
     }
     
-    let displayedMessages=[<p className={ styles.introMsg } key="-10">Please select a chatroom.</p>];
+    let displayedMessages=[<p key="-10">Please select a chatroom.</p>];
     getUserNamesForMessages();
     return(
         <main className={ styles.container } id='scrolldown'>

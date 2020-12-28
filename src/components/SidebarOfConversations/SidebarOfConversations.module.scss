@@ -6,32 +6,11 @@
     position: relative;
     transition: all 1s ease-in-out;
 }
-.addContainer {
-    position: absolute;
-    top: 20px;
-    left: 5%;
-    height: 30px;
-    width: 25px;
-    &:hover { 
-      cursor: pointer; 
-      transform: scale( 1.2 );
-      transition: all ease-in-out .25s;
-    }
-}
-.addButton {
-    height: 6px;
-    width: 100%;
-    background: var(--positive-action);
-    border: none;
-    &::after {
-        content: '';
-        height: 6px;
-        width: 100%;
-        transform: rotate(90deg);
-        border: 1px solid var(--positive-action);
-        background-color: var(--positive-action);
-        display: block;
-    }
+.addChatroom {
+  float: left;
+  &:hover{
+    transform: scale(1.2);
+  }
 }
 .usersContainer { margin: 2rem 0 0 0; }
 .users {
@@ -43,63 +22,12 @@
         cursor: grab;
     }       
 }
-/*burger is the closing x for mobile that is located in the sidebar. on mobile the sidebar is wider.*/
-.burger, .closeBurger {
-    position: absolute;
-    top: 10px;
-    /* 80 percent over minus the width of the x. this prevents from half the x being cut off the screen */
-    left: calc(80% - 50px);
-    width: 50px;
-    cursor: pointer;
-    padding: 1rem;
-    margin-top: auto;
-    margin-bottom: auto;
-    display: inline-block;
-  }
-  .closeTop {
-    height: 5px;
-    width: 50px;
-    background-color: var(--dark-action);
-    transform: rotate(45deg);
-    transition: transform .5s ease-in-out;
-  }
-  .closeBottom {
-    height: 5px;
-    width: 50px;
-    background-color: var(--light-action);
-    transform-origin: 40% 0;
-    transform: rotate(-45deg);
-    transition: transform .5s ease-in-out;
-  }
-  /* delete stuff is the x that allows you to delete a chatroom in the sidebar*/
-  .deleteContainer {
-    padding-top: .5rem;
-    float: left;
-    width: 30px;
-    height: 2rem;
-    cursor: pointer;
-    &:hover{
-      transform: scale( 1.2 );
-      transition: all ease-in-out .25s;
-    }
-  }
-  .deleteTop {
-    height: 2px;
-    width: 20px;
-    background-color: var(--off-text);
-    transform: rotate(45deg);
-    transition: transform .5s ease-in-out;
-  }
-  .deleteBottom {   
-    height: 2px;
-    width: 20px;
-    background-color: var(--off-text);
-    transform-origin: 40% 0;
-    transform: rotate(-45deg);
-    transition: transform .5s ease-in-out;
+.mobileCloseSidebar {
+  float: right;
+  svg { font-size: calc(1.25rem + 2vmin); } 
 }
 /*For desktop*/
 @media only screen and (min-width: 900px) {
-    .burger { display: none; }
+    .mobileCloseSidebar {display: none !important;}
     .sidebarContainer { width: 20.5vw; }
 }

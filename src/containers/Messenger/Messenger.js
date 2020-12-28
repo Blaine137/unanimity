@@ -326,9 +326,10 @@ const Messenger = props => {
                                 //for the current chatRoom get the users in that chatroom
                                 axios.get('chatRoomsUsers/cru' + chatRoomID + '.json').then(
                                     chatRoomUsers => {
-                                        if(chatRoomUsers) {
+                                        if(chatRoomUsers.data) {
                                             let hasChatRoomWithRecipient = false;
                                             // see if auth user has a chatroom with recipient already
+                                            console.log(chatRoomUsers.data)
                                             for(let i = 0; i < Object.values(chatRoomUsers.data.users).length; i++) {
                                                 let userID = chatRoomUsers.data.users[i];
                                                 if(recipientID === userID) {             

@@ -4,6 +4,7 @@ import styles from '../AccountSettings.module.scss';
 import axios from '../../../../axios';
 import * as passwordHash from 'password-hash'; //import npm pass https://www.npmjs.com/package/password-hash
 import { motion } from "framer-motion";
+import { FormControl, InputLabel, OutlinedInput, Button } from '@material-ui/core';
 
 /*
 Child component of account settings. Is a form that takes in the current password and a new password to update .
@@ -82,38 +83,48 @@ const UpdatePasswordForm = props => {
 			<form onSubmit={ sanitizeAndCheckOldPassword } className={ styles.form }>
 				<legend>Update Your Password</legend>
 				<span>{passwordInputError}</span>
-				<label htmlFor="oldPassword">Current Password</label>
-				<input 
-					className={ styles.input }
-					type="password" 
-					id="oldPassword" 
-					name="oldPassword" 
-					placeholder="Enter your current password"
-					aria-label="Enter your current password"
-					onChange={ e => setOldPassword(e.target.value) }
-				/>
-				<label htmlFor="newPassword">New Password</label>
-				<input
-					className={ styles.input } 
-					type="password" 
-					id="newPassword" 
-					name="newPassword" 
-					placeholder="Enter your new password"
-					aria-label="Enter your new password"
-					onChange={ e => setNewPassword(e.target.value) }
-				/>
-				<label htmlFor="confirmNewPassword">Confirm New Password</label>
-				<input
-					className={ styles.input } 
-					type="password" 
-					id="confirmNewPassword" 
-					name="confirmNewPassword" 
-					placeholder="Please confirm your new password"
-					aria-label="Please confirm your new password"
-					onChange={ e => setConfirmNewPassword(e.target.value) }
-				/>
+				<FormControl fullWidth={true} variant="outlined" margin="normal">
+					<InputLabel htmlFor="oldPassword">
+						Old Password
+					</InputLabel>
+					<OutlinedInput 
+								id="oldPassword" 
+								inputProps={{ 'aria-label': 'Enter your current password', 'type': 'password', 'name': 'oldPassword', 'required': 'true'}} 
+								label="oldPassword"
+								onChange={ e => setOldPassword(e.target.value) }
+						/>    
+				</FormControl> 
+				<FormControl fullWidth={true} variant="outlined" margin="normal">
+					<InputLabel htmlFor="newPassword">
+						New Password
+					</InputLabel>
+					<OutlinedInput 
+								id="newPassword" 
+								inputProps={{ 'aria-label': 'Enter your new password', 'type': 'password', 'name': 'newPassword', 'required': 'true'}} 
+								label="newPassword"
+								onChange={ e => setNewPassword(e.target.value) }
+						/>    
+				</FormControl> 
+				<FormControl fullWidth={true} variant="outlined" margin="normal">
+					<InputLabel htmlFor="confirmNewPassword">
+						Confirm Password
+					</InputLabel>
+					<OutlinedInput 
+								id="confirmNewPassword" 
+								inputProps={{ 'aria-label': 'confirm your new password', 'type': 'password', 'name': 'confirmNewPassword', 'required': 'true'}} 
+								label="confirmNewPassword"
+								onChange={ e => setConfirmNewPassword(e.target.value) }
+						/>    
+				</FormControl>
 				<span role="alert" aria-label="Errors for entered data in the password form will display here">{passwordInputError}</span>
-				<button aria-label="Click to proceed updating your password" className={ styles.submit }>Submit</button>
+				<Button 
+					aria-label="Click to proceed updating your password" 
+					type="submit"
+					variant="contained"
+					color="primary"
+				>
+					Submit
+				</Button>
 			</form>
 		</motion.div>
 	);

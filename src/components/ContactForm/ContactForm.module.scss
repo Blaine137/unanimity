@@ -13,63 +13,7 @@
     border-radius: 1rem;
 }
 legend {
-    padding-bottom: 3rem;
-    font-size: 1.25rem;
-    text-align: center;
-    width: 100%;
-}
-.input {
-    font-size: 1.25rem;
-    background-color: var(--light-accent-bg);
-    display: block;
-    width: 100%;
-    color: var(--dark-action);
-    border: none;
-    border-bottom: 2px solid var(--dark-action);
-    margin-bottom: 3rem;
-    transition: all .1s ease-in-out;
-    &:focus {
-        outline: none;
-        border: 1px solid var(--dark-action);
-        border-bottom: 2px solid var(--dark-action);
-        transform: scale(1.1);
-    }
-}
-label {
-    display: block;
-    margin-bottom: 1rem;;
-}
-textarea {
-    display: block;
-    margin: 0 auto;
     padding: .5rem;
-    border-color: var(--dark-action);
-    background-color: var(--light-accent-bg);
-    color: var(--dark-action);
-    border-radius: 1rem;
-    width: 100%;
-    font-size: 1.25rem;
-    transition: all .1s ease-in-out;
-    &:focus { transform: scale(1.1); }
-}
-.submit {
-    display: block;
-    background-color: var(--dark-action);
-    color:var(--light-accent-bg);
-    border: none;  
-    height: 3rem;
-    width: 50%;
-    min-width: 3.5rem;
-    border-radius: 3rem;
-    font-weight: 700;
-    // margin-bottom: 2rem;
-    margin: 0 auto;
-    margin-top: 2rem;
-    &:focus, &:hover {
-        color: var(--dark-action);
-        background-color: var(--positive-action); 
-        transition: all .5s;   
-    }
 }
 img {
     max-height: 10vh;
@@ -79,20 +23,10 @@ img {
 /* phablet and up */
 @media only screen and (min-width: 600px) {
     .form { padding: 3rem; }
-    .register {
-        left: 0;
-        width: 40%;
-        float: right;
-    }
-    .submit {
-        width: 40%;
-        left: 0;
-    }
 }
 /*tablets and larger*/
 @media only screen and (min-width: 700px) {
     .form {
-        padding: 3rem;
         position: relative;
         max-width: 50vw;
     }

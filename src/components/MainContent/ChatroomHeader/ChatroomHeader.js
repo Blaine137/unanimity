@@ -1,7 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import styles from './ChatroomHeader.module.scss';
-import Switch from 'react-switch';
-
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
+import { IconButton, Typography, List, ListItem, ListItemText, FormControlLabel, Switch, Grid } from '@material-ui/core';
 /*
 User interface component that is located above the chatroom. 
 this component displays the burger button, current Chat room name, 
@@ -36,37 +38,40 @@ const ChatroomHeader = props => {
     const toggleOptionsMenu =  () => {
         if(isOptionsMenuOpen === true) {
             setOptionsMenuElements(
-                <ul role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
-                    <li role="menuitem">
-                        <span>Theme: </span>
-                        <Switch 
-                            aria-label="Switch to change theme color of Unanimity" 
-                            className={styles.switch} 
-                            checked={isAppLightTheme} 
-                            onChange={() => { setIsAppLightTheme(!isAppLightTheme);  setOptionsMenuElements(null)}} 
-                            activeBoxShadow='0 0 2px 3px #365F88' 
-                            onColor="#05386B" 
-                            uncheckedIcon={false} 
-                            checkedIcon={false} 
-                        />   
-                    </li>
-                    <li 
+                <List role="menu" aria-label="option menu pop out" className={ styles.optionsMenu }>
+                    {/* The switch has padding that we can't remove. So to make all the ListItems have equal space we added space to all ListItem except this one. */}
+                    <ListItem role="menuitem" style={{padding: 0, margin: 0}} >
+                        <FormControlLabel
+                            label="Theme"
+                            labelPlacement="start"
+                            control={
+                                <Switch
+                                    aria-label="Switch to change theme color of Unanimity" 
+                                    checked={isAppLightTheme}
+                                    onChange={() => { setIsAppLightTheme(!isAppLightTheme);  setOptionsMenuElements(null)}}
+                                    name="themColor"
+                                    color="primary"
+                                    margin="dense"
+                                />
+                            }                                                 
+                        />                          
+                    </ListItem>
+                    <ListItem 
                         tabIndex="0" 
                         role="button"
                         aria-label="Logout of unanimity"
-                        style={ { color: '#f44336' } } 
                         onClick={ () => { props.intentionalAndForcedUserLogout(true) }} 
-                        onKeyDown={ e => { if(e.key === 'Enter') { props.intentionalAndForcedUserLogout(true); } } }
                     >
-                        Logout
-                    </li>
-                    <li role="menuitem"
+                        <ListItemText>Logout</ListItemText>
+                    </ListItem>
+                    <ListItem 
+                        role="menuitem"
                         aria-label="click this link to go to account settings"
                         onClick={() => { props.setAreSettingsShowing(!props.areSettingsShowing); setOptionsMenuElements(null); }}
                     >
-                        Account Settings
-                    </li>                       
-                </ul>
+                        <ListItemText>Account Settings</ListItemText>
+                    </ListItem>                       
+                </List>
             );          
         } else {
             setOptionsMenuElements(null);
@@ -82,34 +87,28 @@ const ChatroomHeader = props => {
         if(props.isSidebarOpen) {
             //make the burger button a X
             return(
-                <div 
-                    tabIndex="0" 
-                    onClick={ () => { props.toggleSidebar(); } } 
-                    onKeyDown={ e => { if(e.key === 'Enter') { props.toggleSidebar(); } } }
-                    className={ styles.close }
-                    aria-label=" Close Sidebar button"
-                    role="button"                      
+                <IconButton
+                    tabIndex="0"  
+                    onClick={ () => props.toggleSidebar() }           
+                    aria-label="Close sidebar"
+                    size="small"
+                    className={styles.menu}
                 >
-                    <div className={ styles.closeTop }></div>
-                    <div className={ styles.closeMiddle }></div>
-                    <div className={ styles.closeBottom }></div>                      
-                </div>
+                    <CloseIcon color="primary"/>
+                </IconButton >
             );
         } else {
             //sidebar is closed show the burger (three lines) to open it.
             return(
-                <div 
-                    tabIndex="0"
-                    onClick={ () => { props.toggleSidebar( ); } } 
-                    onKeyDown={e => { if(e.key === 'Enter') { props.toggleSidebar(); } } }
-                    className={ styles.burger }  
-                    aria-label="Open Sidebar button"
-                    role="button"
+                <IconButton
+                    tabIndex="0"  
+                    onClick={ () => props.toggleSidebar() }           
+                    aria-label="Open sidebar"
+                    size="small"
+                    className={styles.menu}
                 >
-                    <div className={ styles.openTop }></div>
-                    <div className={ styles.openMiddle }></div>
-                    <div className={ styles.openBottom }></div>          
-                </div>
+                    <MenuIcon color="primary"/>
+                </IconButton >
             );
         }
     }
@@ -118,24 +117,29 @@ const ChatroomHeader = props => {
     let burger = toggleSidebarButtonStyles();   
     return(
         <Fragment>
-            <header className={ styles.header }>              
-                { burger }
-                <h3>{ props.currentChatRoomName }</h3>
-                <div 
-                    tabIndex="0" 
-                    className={ styles.options } 
-                    onClick={ () => toggleOptionsMenu() }
-                    onKeyDown={ e => { if(e.key === 'Enter') { toggleOptionsMenu(); } } }
-                    aria-label="Open options menu button"
-                    aria-haspopup="true"
-                    role="button"
-                >
-                    <div className={ styles.circle1 }></div>
-                    <div className={ styles.circle2 }></div>
-                    <div className={ styles.circle3 }></div>
-                </div>     
-            </header>
-            { optionsMenuElements }  
+            <header className={ styles.header }>
+            <Grid container justify="flex-start" alignContent="center"  alignItems="center" >
+                <Grid item xs={2}>            
+                        { burger }  
+                </Grid>
+                <Grid item xs={8}>
+                    <Typography variant="h5">{ props.currentChatRoomName }</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                        <IconButton
+                            tabIndex="0" 
+                            className={ styles.options } 
+                            onClick={ () => toggleOptionsMenu() }           
+                            aria-label="Open options menu button"
+                            aria-haspopup="true"
+                            size="small"
+                        >
+                            <MoreVertIcon color="primary"/>
+                        </IconButton >  
+                </Grid>    
+            </Grid> 
+            </header> 
+            { optionsMenuElements } 
         </Fragment>
     );
 }

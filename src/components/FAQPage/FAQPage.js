@@ -2,6 +2,7 @@ import React from 'react';
 import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks';
 import styles from './FAQPage.module.scss';
 import { motion } from 'framer-motion';
+import { Typography } from '@material-ui/core';
 
 /*
 User interface component that displays hard coded answers to common questions.
@@ -19,7 +20,7 @@ const FAQPage = props => {
                     transition={props.pageTransition}
                 >
                     <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
-                    <h1>Frequently asked questions</h1>
+                    <Typography variant="h1">Frequently asked questions</Typography>
                     <dl>
                         <dt className={styles.question}>How do I add a chatroom?</dt>
                         <dd>Once logged in, click on the green cross in the top left of the sidebar. Enter the username of who you want to chat with and chat away!</dd>

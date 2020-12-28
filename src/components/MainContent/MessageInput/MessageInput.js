@@ -13,7 +13,7 @@ const MessageInput = props => {
     return(
         <div className={ styles.inputContainer }> 
             <textarea 
-                aria-label="Type a messages and press enter to send. You can also send emoji." 
+                aria-label="Type a messages and press enter on the keyboard to send a message. You can also send emojis with :smile:." 
                 spellCheck="true" 
                 maxLength="1999"
                 placeholder="Enter your message. Use our emojis by :smile:"

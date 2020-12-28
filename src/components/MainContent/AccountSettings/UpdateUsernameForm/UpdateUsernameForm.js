@@ -3,6 +3,7 @@ import styles from '../AccountSettings.module.scss';
 import DOMPurify from 'dompurify';
 import axios from '../../../../axios';
 import { motion } from "framer-motion";
+import { FormControl, InputLabel, OutlinedInput, Button } from '@material-ui/core';
 
 /*
 Child component of account settings. Is a form that takes the current password and the new username to update . 
@@ -70,37 +71,41 @@ const UpdateUsernameForm = props => {
 			}}>
 				<form onSubmit={ checkPassword } className={ styles.form }>
 					<legend>Update Your Username</legend>
-					<label htmlFor="newUsername">New Username</label>
-					<input
-						className={ styles.input } 
-						type="text" 
-						id="newUsername" 
-						name="newUsername" 
-						placeholder="Enter your new username"
-						aria-label="Enter your new username"
-						onChange={ e => setNewUsername(e.target.value) }
-					/>
-					<label htmlFor="confirmUsername">Confirm Username</label>
-					<input
-						className={ styles.input } 
-						type="text" 
-						id="confirmUsername" 
-						name="confirmUsername" 
-						placeholder="Confirm your new username"
-						aria-label="confirm your new username"
-						onChange={ e => setConfirmUsername(e.target.value) }
-					/>
-					<label htmlFor="password">Password</label>
-					<input
-						className={ styles.input } 
-						type="password" 
-						id="password" 
-						name="password" 
-						placeholder="Enter your password"
-						aria-label="enter your password for your account"
-						onChange={ e => setPassword(e.target.value) }
-					/>
-					<button aria-label="Click to proceeding updating your account username." className={ styles.submit }>Submit</button>	
+					<FormControl fullWidth={true} variant="outlined" margin="normal">
+                        <InputLabel htmlFor="newUsername">New Username</InputLabel>
+						<OutlinedInput 
+									id="newUsername" 
+                                    inputProps={{ 'aria-label': 'Enter your new username', 'type': 'text', 'name': 'newUsername', 'required': 'true'}} 
+									label="newUsername"
+									onChange={ e => setNewUsername(e.target.value) }
+                            />    
+                    </FormControl> 
+					<FormControl fullWidth={true} variant="outlined" margin="normal">
+                        <InputLabel htmlFor="confirmUsername">Confirm Username</InputLabel>
+						<OutlinedInput 
+									id="confirmUsername" 
+                                    inputProps={{ 'aria-label': 'Confirm your new username', 'type': 'text', 'name': 'confirmUsername', 'required': 'true'}} 
+									label="confirmUsername"
+									onChange={ e => setConfirmUsername(e.target.value) }
+                            />    
+                    </FormControl> 
+					<FormControl fullWidth={true} variant="outlined" margin="normal">
+                        <InputLabel htmlFor="password">Password</InputLabel>
+						<OutlinedInput 
+									id="password" 
+                                    inputProps={{ 'aria-label': 'Enter the password for your account', 'type': 'password', 'name': 'password', 'required': 'true'}} 
+									label="password"
+									onChange={ e => setPassword(e.target.value) }
+                            />    
+                    </FormControl>
+					<Button 
+						aria-label="Click to proceeding updating your account username." 
+						type="submit"
+						variant="contained"
+						color="primary"
+					>
+						Submit
+					</Button>	
 				</form>	
 			</motion.div>
 	);

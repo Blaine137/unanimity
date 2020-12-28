@@ -3,6 +3,7 @@ import styles from './ContactForm.module.scss';
 import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks.js';
 import { motion } from 'framer-motion';
 import emailjs from 'emailjs-com';
+import { FormControl, InputLabel, TextField, OutlinedInput, Grid, Button } from '@material-ui/core';
 
 /*
 User form that takes in contact information, notifies the user, and sends the email.
@@ -33,15 +34,41 @@ let ContactForm = props => {
                 { props.notification }
                 <NavigationRouterLinks />
                 <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>                         
-                <form className={ styles.form } onSubmit={ sendEmail }> 
-                    <fieldset>
-                        <legend>Let's get to know each other!</legend>                                 
-                        <label htmlFor="Email" >Your Email Address</label>
-                        <input aria-label="Email Text input" type="Email" id="Email" name="Email" className={ styles.input } required /> 
-                        <label htmlFor="Comments">How may we help you?</label>
-                        <textarea aria-label="Enter your comment here for unanimity contact form." id="Comment" name="Comment" rows="12" placeholder="Enter your comment here." required></textarea>
-                        <input aria-label="Submit contact form to Unanimity" type="submit" value="Submit" className={ styles.submit } /> 
-                    </fieldset>                       
+                <form className={ styles.form } onSubmit={ sendEmail }>                 
+                    <legend>Let's get to know each other!</legend>       
+                    <FormControl fullWidth={true} variant="outlined" margin="normal">
+                        <InputLabel htmlFor="Email">Your Email Address</InputLabel>
+                        <OutlinedInput id="Email" 
+                                       inputProps={{ 'aria-label': 'Enter you email to be contacted at.', 'type': 'Email', 'name': 'Email', 'required': true}} 
+                                       label="Your Email Address"
+                         />          
+                    </FormControl>                                                
+                    <FormControl fullWidth={true} margin="normal">            
+                        <TextField 
+                            aria-label="Enter your comment here for unanimity contact form." 
+                            id="outlined-basic" label="How may we Help You?" 
+                            variant="outlined" 
+                            id="Comment"
+                             name="Comment" 
+                             multiline 
+                        />
+                    </FormControl>
+                    <FormControl fullWidth margin="normal">
+                        <Grid container>
+                            <Grid item xs={12} md={4} lg={3}>
+                                <Button 
+                                    type="submit" 
+                                    aria-label="Button that takes you to login page for Unanimity instant messenger." 
+                                    variant="contained" 
+                                    color="primary"
+                                    size="large"
+                                    fullWidth 
+                                >
+                                    Submit  
+                                </Button>    
+                            </Grid>    
+                        </Grid>    
+                    </FormControl>                                           
                 </form> 
             </motion.div>                     
         </main>

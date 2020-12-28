@@ -3,19 +3,17 @@
     height: 100vh; 
 }
 .closeSettings {
-    color: var(--dark-action);
-    background-color: transparent;
-    border: none;
-    font-size: 1.75rem;
-    display: inline;
-    margin-right: .75rem;
+    margin-left: .5rem;
     &:focus, &:hover{
         cursor: pointer;
         transform: scale( 1.2 );
-        color: var(--positive-action);  
-        transition: all ease-in-out .25s;
+        
     }
 }
+/** 
+* CSS for form components inside of AccountSettings is here so that we
+* only had to write them in one location.
+*/
 .settingOptions{
     display: block;
     margin: .5rem auto;
