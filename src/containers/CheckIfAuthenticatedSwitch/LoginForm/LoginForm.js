@@ -11,17 +11,19 @@ const LoginForm = props => {
                     <legend>Unanimity Messenger Login</legend>
                     <FormControl fullWidth={true} variant="outlined" margin="normal">
                         <InputLabel htmlFor="userNameID">Username</InputLabel>
-                        <OutlinedInput id="userNameID" 
-                                    inputProps={{ 'aria-label': 'Username text input field', 'type': 'text', 'name': 'userNameID', 'required': true}} 
-                                    label="Username"
-                            />    
+                        <OutlinedInput 
+                            id="userNameID" 
+                            inputProps={{ 'aria-label': 'Username text input field', 'type': 'text', 'name': 'userNameID', 'required': true }} 
+                            label="Username"
+                        />    
                     </FormControl>    
                     <FormControl fullWidth={true} variant="outlined" margin="normal">
                         <InputLabel htmlFor="passwordID">Password</InputLabel>
-                        <OutlinedInput id="passwordID" 
-                                    inputProps={{ 'aria-label': 'password text input field', 'type': 'password', 'name': 'passwordID', 'required': true}} 
-                                    label="Password"
-                            />    
+                        <OutlinedInput 
+                            id="passwordID" 
+                            inputProps={{ 'aria-label': 'password text input field', 'type': 'password', 'name': 'passwordID', 'required': true}} 
+                            label="Password"
+                        />    
                     </FormControl> 
                     <FormControl fullWidth={true} margin="normal">
                         <Grid container spacing={4} direction="row" alignItems="center">

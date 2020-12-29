@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Message.module.scss';
 import DOMPurify from 'dompurify';
 import Emoji from "react-emoji-render";
+import { Typography } from '@material-ui/core';
 
 /*
 User interface component that sanitizes the message and senders name and displays it.
@@ -10,9 +11,9 @@ This component calls and Emoji component that will convert any :emojiName: synta
 const message = props => {
     var messageStyle = null;
     if(props.isMessageSender) {
-        messageStyle = styles.senderMessage;
-    } else {
         messageStyle = styles.recieverMessage;
+    } else {
+        messageStyle = styles.senderMessage;
     }
 
     let sanitizedMessage = props.currentMessage;
@@ -26,7 +27,7 @@ const message = props => {
     
     return (
         <div className={ styles.messageContainer }>
-            <h3 className={ styles.userName }>{ sanitizedName }</h3>
+            <Typography variant="h5" className={ styles.userName }>{ sanitizedName }</Typography>
             <Emoji className={`${messageStyle} ${styles.message}`} text={sanitizedMessage} />
         </div>
     );

@@ -13,7 +13,7 @@ import { AnimatePresence } from 'framer-motion';
 import CustomAlert from './components/CustomAlert/CustomAlert';
 import DOMPurify from 'dompurify';
 import { ThemeProvider } from '@material-ui/core/styles';
-import Theme from './Theme';
+import { LightTheme, DarkTheme } from './Theme';
 
 const mapStateToProps = state => {
   return {
@@ -26,6 +26,14 @@ const mapDispatchToProps = {
 }
 
 class App extends Component {
+	state = {
+		isAppLightTheme: true
+	};
+
+	setIsAppLightTheme = () => {
+		this.setState({isAppLightTheme: !this.state.isAppLightTheme});
+	}
+
 	showHideCustomAlert = (message, success) => {
 		const closeNotification = () => this.props.setNotification(null);
         let sanitizedAlertMessage = DOMPurify.sanitize(message);
@@ -62,29 +70,45 @@ class App extends Component {
 		  };
 
 		return (
-			<ThemeProvider theme={Theme}>
+			<ThemeProvider theme={this.state.isAppLightTheme ? LightTheme : DarkTheme}>
 				<div className="App">
 					{this.props.notification}
 					<BrowserRouter>
 						<Switch>
 							<Route exact path='/'>
 								<AnimatePresence>
-									<LandingPage pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition}/>
+									<LandingPage 
+										pageAnimationVariants={pageAnimationVariants} 
+										pageTransition={pageTransition}
+									/>
 								</AnimatePresence>
 							</Route>
 							<Route path='/contact'>
 								<AnimatePresence>
-									<ContactForm pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
+									<ContactForm 
+										pageAnimationVariants={pageAnimationVariants} 
+										pageTransition={pageTransition} 
+										showHideCustomAlert={this.showHideCustomAlert}
+									/>
 								</AnimatePresence>
 							</Route> 
 							<Route path='/login'>
 								<AnimatePresence>
-									<CheckIfAuthenticatedSwitch pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition} showHideCustomAlert={this.showHideCustomAlert}/>
+									<CheckIfAuthenticatedSwitch 
+										pageAnimationVariants={pageAnimationVariants} 
+										pageTransition={pageTransition} 
+										showHideCustomAlert={this.showHideCustomAlert} 
+										isAppLightTheme={this.state.isAppLightTheme}
+										setIsAppLightTheme={this.setIsAppLightTheme}
+									/>
 								</AnimatePresence>
 							</Route>
 							<Route path='/FAQ'>
 								<AnimatePresence>
-									<FAQPage pageAnimationVariants={pageAnimationVariants} pageTransition={pageTransition}/>
+									<FAQPage 
+										pageAnimationVariants={pageAnimationVariants}
+										pageTransition={pageTransition}
+									/>
 								</AnimatePresence>
 							</Route>						                             
 							<Redirect to='/'/>

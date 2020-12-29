@@ -13,10 +13,10 @@ and the toggle options button. It contains logics for showing/hiding the sidebar
 const ChatroomHeader = props => {
     const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(true);
     const [optionsMenuElements, setOptionsMenuElements] = useState(null);
-    const [isAppLightTheme, setIsAppLightTheme] = useState(false);
+    
     
     const toggleAppTheme = () => {
-        if(isAppLightTheme) {
+        if(!props.isAppLightTheme) {
             document.documentElement.style.setProperty("--main-bg","#585d63");
             document.documentElement.style.setProperty("--main-text","white");
             document.documentElement.style.setProperty("--off-text","#f6f6f6");
@@ -41,8 +41,8 @@ const ChatroomHeader = props => {
             setOptionsMenuElements(
                 <HeaderOptionMenu 
                     styles={styles.optionsMenu} 
-                    isAppLightTheme={isAppLightTheme}
-                    setIsAppLightTheme={setIsAppLightTheme}
+                    isAppLightTheme={props.isAppLightTheme}
+                    setIsAppLightTheme={props.setIsAppLightTheme}
                     setOptionsMenuElements={setOptionsMenuElements}
                     setAreSettingsShowing={props.setAreSettingsShowing}
                     intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}

@@ -474,6 +474,8 @@ const Messenger = props => {
                 </div>
                 <main className={ styles.mainContentGrid } style={ mainContentInlineStyles }>
                     <MainContent 
+                        isAppLightTheme={props.isAppLightTheme}
+                        setIsAppLightTheme={props.setIsAppLightTheme}
                         newMessage={ newMessage }
                         currentChatRoom={ props.currentChatRoom }
                         currentChatRoomName={ props.currentChatRoomName }
