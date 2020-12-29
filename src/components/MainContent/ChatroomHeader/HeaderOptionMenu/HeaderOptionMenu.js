@@ -11,7 +11,7 @@ const HeaderOptionMenu = props => {
                     control={
                         <Switch
                             aria-label="Switch to change theme color of Unanimity" 
-                            checked={props.isAppLightTheme}
+                            checked={!props.isAppLightTheme}
                             onChange={() => { props.setIsAppLightTheme(!props.isAppLightTheme);  props.setOptionsMenuElements(null)}}
                             name="themColor"
                             color="primary"

@@ -43,6 +43,8 @@ const MainContent = props => {
                 authUsername={ props.authUsername }
                 setAreSettingsShowing={setAreSettingsShowing}
                 areSettingsShowing={areSettingsShowing}
+                isAppLightTheme={props.isAppLightTheme}
+                setIsAppLightTheme={props.setIsAppLightTheme}
             />
             {body}
             {newMessageInput}
