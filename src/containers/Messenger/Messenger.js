@@ -472,7 +472,7 @@ const Messenger = props => {
                         toggleSidebar={ toggleSidebarOfConversations }
                     />
                 </div>
-                <main className={ styles.mainContentGrid } style={ mainContentInlineStyles }>
+                <div className={ styles.mainContentGrid } style={ mainContentInlineStyles }>
                     <MainContent 
                         isAppLightTheme={props.isAppLightTheme}
                         setIsAppLightTheme={props.setIsAppLightTheme}
@@ -486,7 +486,7 @@ const Messenger = props => {
                         intentionalAndForcedUserLogout={ intentionalAndForcedUserLogout }
                         showHideCustomAlert={ props.showHideCustomAlert }                    
                     />
-                </main> 
+                </div> 
             </div>
         </Fragment>
     );

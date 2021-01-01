@@ -19,7 +19,7 @@ const LandingPage = props => {
 				transition={ props.pageTransition }
 			>
 				<NavigationRouterLinks />
-				<main className={ styles.backgroundImage }>
+				<div className={ styles.backgroundImage }>
 					<img className={ styles.landingLogo } src="../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words."/>
 					<Typography variant="h1">
 							The best way to unify with your community!
@@ -36,7 +36,7 @@ const LandingPage = props => {
 					>
 						<Link style={{color: 'var(--main-bg)',  textDecoration: 'none'}}  aria-label="Link that goes to login page"  to="/login">Start Chatting</Link>
 					</Button>       
-				</main>
+				</div>
 			</motion.div>
 		</Fragment>    
 	);
