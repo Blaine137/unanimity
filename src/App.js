@@ -71,7 +71,7 @@ class App extends Component {
 
 		return (
 			<ThemeProvider theme={this.state.isAppLightTheme ? LightTheme : DarkTheme}>
-				<div className="App">
+				<main className="App">
 					{this.props.notification}
 					<BrowserRouter>
 						<Switch>
@@ -114,7 +114,7 @@ class App extends Component {
 							<Redirect to='/'/>
 						</Switch>  				
 					</BrowserRouter>
-				</div>
+				</main>
 			</ThemeProvider>
 		);
 	};
