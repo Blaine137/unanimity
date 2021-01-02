@@ -22,7 +22,7 @@ const UserMessages = props => {
         }
     });
     
-    //sets displayedMessages to an array of Message components where the index are the order the messages were sent.
+    //sets displayedMessages to an array of the Message component where the index are the order the messages were sent.
     let orderMessagesForDisplay = (userMessagesObject, username) => {
         let userMessagesArray = [];
         //creates array where indexes are userMessagesObject[0](message sent number) and the value is userMessagesObject[1](the message itself)
