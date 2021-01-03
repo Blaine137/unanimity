@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './LoginForm.module.scss';
 import { FormControl, InputLabel, OutlinedInput, Grid, Button } from '@material-ui/core';
+import { GUEST_USER_CREDENTIALS } from '../../../components/constants';
 
 const LoginForm = props => {
     return(
@@ -62,6 +63,21 @@ const LoginForm = props => {
                             </Grid>    
                         </Grid>    
                     </FormControl> 
+                    <Button 
+                        aria-label="Register For Account button"
+                        type="submit" 
+                        value="Guest Login" 
+                        color="primary"
+                        variant="contained"
+                        size="small"
+                        className={styles.register}
+                        fullWidth 
+                        onClick={ e => {
+                            props.checkName(e,GUEST_USER_CREDENTIALS, GUEST_USER_CREDENTIALS) 
+                        } }  
+                    >
+                        Guest
+                    </Button>
                 </fieldset>
             </form>
             <p>This Project's Database is public so that people can see how the project works!</p>

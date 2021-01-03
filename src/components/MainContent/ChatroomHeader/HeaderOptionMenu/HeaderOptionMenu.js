@@ -1,5 +1,6 @@
 import React from 'react';
 import {List, ListItem, ListItemText, FormControlLabel, Switch} from '@material-ui/core';
+import {GUEST_USER_CREDENTIALS} from '../../../constants';
 const HeaderOptionMenu = props => {
     return(
         <List role="menu" aria-label="option menu pop out" className={ props.styles }>
@@ -28,13 +29,14 @@ const HeaderOptionMenu = props => {
             >
                 <ListItemText>Logout</ListItemText>
             </ListItem>
-            <ListItem 
-                role="menuitem"
-                aria-label="click this link to go to account settings"
-                onClick={() => { props.setAreSettingsShowing(!props.areSettingsShowing); props.setOptionsMenuElements(null); }}
-            >
-                <ListItemText>Account Settings</ListItemText>
-            </ListItem>                       
+            {props.authUsername==GUEST_USER_CREDENTIALS?null:<ListItem 
+                    role="menuitem"
+                    aria-label="click this link to go to account settings"
+                    onClick={() => { props.setAreSettingsShowing(!props.areSettingsShowing); props.setOptionsMenuElements(null); }}
+                >
+                    <ListItemText>Account Settings</ListItemText>
+                </ListItem>                  
+            }     
         </List>
     );
 };

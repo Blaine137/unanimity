@@ -41,6 +41,7 @@ const ChatroomHeader = props => {
             setOptionsMenuElements(
                 <HeaderOptionMenu 
                     styles={styles.optionsMenu} 
+                    authUsername={ props.authUsername }
                     isAppLightTheme={props.isAppLightTheme}
                     setIsAppLightTheme={props.setIsAppLightTheme}
                     setOptionsMenuElements={setOptionsMenuElements}
