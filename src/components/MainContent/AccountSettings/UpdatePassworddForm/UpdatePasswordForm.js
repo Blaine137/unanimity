@@ -36,10 +36,6 @@ const UpdatePasswordForm = props => {
 
 	//sanitizes and validates the new password. Then it confirms newPassword and ConfirmNewPassword are the same. Return True if it passes all checks else it returns false.
 	const validateNewPassword = async () => {
-		newPassword = await DOMPurify.sanitize(newPassword);
-		newPassword = await newPassword.replace(/[^\w]/g,'');
-		confirmNewPassword = await DOMPurify.sanitize(confirmNewPassword);
-		confirmNewPassword = await confirmNewPassword.replace(/[^\w]/g,'');
 		if(newPassword.length > 5) {	
 			if(newPassword === confirmNewPassword) {
 				return true;
@@ -53,15 +49,32 @@ const UpdatePasswordForm = props => {
 		}
 	}
 
-	//sanitize old password. Then checks the old password. If correct calls validateNewPassword. If it passes validation it then calls updatePasswordInDatabase.
-	const sanitizeAndCheckOldPassword = async e => {
+	/**
+	 * sanitizes all the passwords that are in the state.
+	 */
+	const sanitizePasswordInState = async () => {
+		let oldPasswordSanitized = await DOMPurify.sanitize(oldPassword);
+		oldPasswordSanitized = await oldPasswordSanitized.replace(/[^\w]/g,'');
+		await setOldPassword(oldPasswordSanitized);
+
+		let newPasswordSanitized = await DOMPurify.sanitize(newPassword);
+		newPasswordSanitized = await newPasswordSanitized.replace(/[^\w]/g,'');
+		await setNewPassword(newPasswordSanitized);
+
+		let confirmNewPasswordSanitized = await DOMPurify.sanitize(confirmNewPassword);
+		confirmNewPasswordSanitized = await confirmNewPasswordSanitized.replace(/[^\w]/g,'');
+		await setConfirmNewPassword(confirmNewPasswordSanitized);
+	}
+
+	/**
+	 * Calls all the steps needed to update the password in order
+	 */
+	const updatePasswordOrchestrator = async e => {
 		e.preventDefault();
 		setPasswordInputError('');
-		let passwordCorrect;
-		oldPassword = await DOMPurify.sanitize(oldPassword);
-		oldPassword = await oldPassword.replace(/[^\w]/g,'');
-		passwordCorrect = await props.checkPasswordInput(oldPassword);
-		if(passwordCorrect && passwordCorrect !== 300) {
+		await sanitizePasswordInState();
+		let isPasswordCorrect = await props.checkPasswordInput(oldPassword);
+		if(isPasswordCorrect && isPasswordCorrect !== 300) {
 			if(await validateNewPassword()) {
 				updatePasswordInDatabase();
 			}
@@ -80,7 +93,7 @@ const UpdatePasswordForm = props => {
 				scale: 1
 			}
 		}}>
-			<form onSubmit={ sanitizeAndCheckOldPassword } className={ styles.form }>
+			<form onSubmit={ updatePasswordOrchestrator } className={ styles.form }>
 				<legend>Update Your Password</legend>
 				<span>{passwordInputError}</span>
 				<FormControl fullWidth={true} variant="outlined" margin="normal">
