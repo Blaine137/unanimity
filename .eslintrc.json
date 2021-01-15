@@ -1,7 +1,6 @@
 {
     "env": {
-        "browser": true,
-        "es2021": true
+        "browser": true
     },
     "extends": [
         "plugin:react/recommended",
@@ -18,5 +17,10 @@
         "react"
     ],
     "rules": {
+		"react/prop-types": "off",
+		"no-unused-vars": "warn",
+		"no-console": "warn",
+		"func-names": "off",
+		"react/jsx-filename-extension": "off"
     }
 }
