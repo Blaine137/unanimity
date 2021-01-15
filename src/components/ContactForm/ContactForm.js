@@ -15,10 +15,11 @@ const ContactForm = (props) => {
     event.preventDefault();
     // @params - serviceID templateID templateParams userID
     emailjs.sendForm('contact_service', 'UnanimityContactTemplate', event.target, 'user_aaSkiLFIoRQuHKUSx1hvK')
-      .then((result) => {
+      .then(() => {
         const alertMessage = 'Thank you for contacting Unanimity, your form will be reviewed within 24 hours with emailjs!';
         props.showHideCustomAlert(alertMessage, true);
       }, (error) => {
+        // eslint-disable-next-line no-console
         console.log(error.text);
       });
     event.target.reset();
@@ -54,6 +55,7 @@ const ContactForm = (props) => {
               id="outlined-basic"
               label="How may we Help You?"
               variant="outlined"
+              // eslint-disable-next-line react/jsx-no-duplicate-props
               id="Comment"
               name="Comment"
               multiline

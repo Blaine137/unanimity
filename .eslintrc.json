@@ -14,13 +14,23 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "import",
+        "jsx-a11y",
+        "react-hooks"  
     ],
     "rules": {
 		"react/prop-types": "off",
 		"no-unused-vars": "warn",
 		"no-console": "warn",
-		"func-names": "off",
+        "func-names": "off",
+        "linebreak-style": ["error", "windows"],
+        "object-curly-newline": "warn",
+        "arrow-parens": "off",
+        "react/destructuring-assignment": "off",
+        "max-len": "off",
+        "no-param-reassign": "warn",
+        "consistent-return": "warn",
 		"react/jsx-filename-extension": "off"
     }
 }

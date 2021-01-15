@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import './App.scss';
+import DOMPurify from 'dompurify';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { AnimatePresence } from 'framer-motion';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setNotification } from './redux/actions';
 import CheckIfAuthenticatedSwitch from './containers/CheckIfAuthenticatedSwitch/CheckIfAuthenticatedSwitch';
 import './fonts/Jost-VariableFont_ital,wght.ttf';
 import './fonts/Montserrat-Regular.ttf';
 import LandingPage from './components/landingPage/LandingPage';
 import ContactForm from './components/ContactForm/ContactForm';
 import FAQPage from './components/FAQPage/FAQPage';
-import { connect } from 'react-redux';
-import { setNotification } from './redux/actions';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
 import CustomAlert from './components/CustomAlert/CustomAlert';
-import DOMPurify from 'dompurify';
-import { ThemeProvider } from '@material-ui/core/styles';
 import { LightTheme, DarkTheme } from './Theme';
 
 const mapStateToProps = state => {

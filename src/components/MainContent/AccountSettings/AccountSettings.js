@@ -23,14 +23,14 @@ const AccountSettings = (props) => {
   const checkPasswordInput = async (checkPassword) => {
     checkPassword = DOMPurify.sanitize(checkPassword);
     checkPassword = checkPassword.replace(/[^\w^!?$]/g, '');
-		 try {
-			 let hashedPassword = await axios.get(`users/u${props.authUID}/password.json`)
-			 .catch((err) => console.log(err));
-			 hashedPassword = hashedPassword.data;
-			 return passwordHash.verify(checkPassword, hashedPassword);
-		 } catch {
-			 return 300;
-		 }
+    try {
+      let hashedPassword = await axios.get(`users/u${props.authUID}/password.json`)
+        .catch((err) => console.log(err));
+      hashedPassword = hashedPassword.data;
+      return passwordHash.verify(checkPassword, hashedPassword);
+    } catch {
+      return 300;
+    }
   };
 
   const goToAccountSettingsHome = () => {

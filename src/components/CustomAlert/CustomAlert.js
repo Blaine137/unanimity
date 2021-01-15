@@ -24,7 +24,7 @@ const CustomAlert = (props) => {
         >
           <CloseIcon fontSize="inherit" />
         </IconButton>
-                  )}
+      )}
     >
       <span role="alert" aria-label="Alert message from unanimity about some error.">{ sanitizedAlertMessage }</span>
     </Alert>

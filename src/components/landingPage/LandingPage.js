@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button, Typography } from '@material-ui/core';
-import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks.js';
+import NavigationRouterLinks from '../NavigationRouterLinks/NavigationRouterLinks';
 import styles from './LandingPage.module.scss';
 
 /*
-	User interface component that displays an animated landing page and shows the navigation component.
+User interface component that displays an animated landing page and shows the navigation component.
 */
 const LandingPage = (props) => (
   <>
