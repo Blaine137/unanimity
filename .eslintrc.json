@@ -35,6 +35,9 @@
 		"no-param-reassign": "warn",
 		"consistent-return": "warn",
 		"react/jsx-filename-extension": "off",
-		"no-plusplus": "off"
+		"no-plusplus": "off",
+		"import/no-named-as-default": "warn",
+		"import/no-named-as-default-member": "warn",
+		"prefer-destructuring": "warn"
 	}
 }
