@@ -44,6 +44,64 @@ const CheckIfAuthenticatedSwitch = (props) => {
     return true;
   };
 
+  // sets users in db
+  // eslint-disable-next-line consistent-return
+  const registerUserInDatabase = async (newUser, newPassword, newUserID) => {
+    let sanitizedNewUserName = DOMPurify.sanitize(newUser);
+    sanitizedNewUserName = sanitizedNewUserName.replace(/[^\w]/g, '');
+    let sanitizedNewPassword = DOMPurify.sanitize(newPassword);
+    sanitizedNewPassword = sanitizedNewPassword.replace(/[^\w^!?$]/g, '');
+    let sanitizedNewUserID = DOMPurify.sanitize(newUserID);
+    sanitizedNewUserID = sanitizedNewUserID.replace(/[^\w!?$]/g, '');
+    const newCompleteUser = {
+      password: passwordHash.generate(sanitizedNewPassword),
+      userID: sanitizedNewUserID,
+      userName: sanitizedNewUserName,
+    };
+    // sets new users in users
+    axios.put(`users/u${sanitizedNewUserID}.json`, newCompleteUser)
+      // eslint-disable-next-line no-console
+      .catch((error) => console.log('registerUserInDatabase user/u Error', error));
+
+    // -----adds user to userIDByUsername-----
+
+    const userIDByUsername = {};
+    // set property of object name to sanitizedNewUserName and then set the value of the property to sanitizedNewUserID
+    userIDByUsername[sanitizedNewUserName] = sanitizedNewUserID;
+    // axios get old usernames and ID
+    try {
+      let oldUserIDByUsername = await axios.get('userIDByUsername.json');
+      oldUserIDByUsername = oldUserIDByUsername.data;
+      const combinedUserIDByUsername = { ...oldUserIDByUsername, ...userIDByUsername };
+      // eslint-disable-next-line radix
+      let updatedNextUserID = parseInt(sanitizedNewUserID);
+      // eslint-disable-next-line no-plusplus
+      updatedNextUserID++;
+      // sets nextUserId to correct ID
+      combinedUserIDByUsername.nextUserID = updatedNextUserID;
+      // update db to latest version
+      axios.put('userIDByUsername.json', combinedUserIDByUsername);
+    } catch (error) {
+      return 300;
+    }
+    // -----end of adds user to userIDByUsername-----
+
+    // -----start add to usersChatRooms in DB-----
+    // ucr stands for UserChatRoom
+    const newUCR = {
+      chatRooms: [],
+      userID: sanitizedNewUserID,
+    };
+    axios.put(`usersChatRooms/ucr${sanitizedNewUserID}.json`, newUCR);
+    // -----end of add to usersChatRooms in DB-----
+
+    // inform user that account was created
+    const accountCreatedSuccessMessage = DOMPurify.sanitize(`Your account has been created! Username: '${sanitizedNewUserName}'`);
+    let sanitizedAccountCreatedSuccessMessage = accountCreatedSuccessMessage.replace(/[^\w\s!?$]/g, '');
+    sanitizedAccountCreatedSuccessMessage = DOMPurify.sanitize(sanitizedAccountCreatedSuccessMessage);
+    props.showHideCustomAlert(sanitizedAccountCreatedSuccessMessage, true);
+  };
+
   const checkIfUserAlreadyExists = async (event, newUser, newPassword) => {
     event.preventDefault();
     const newUserValue = newUser.value;
@@ -80,89 +138,7 @@ const CheckIfAuthenticatedSwitch = (props) => {
     }
   };
 
-  // sets users in db
-  const registerUserInDatabase = async (newUser, newPassword, newUserID) => {
-    let sanitizedNewUserName = DOMPurify.sanitize(newUser);
-    sanitizedNewUserName = sanitizedNewUserName.replace(/[^\w]/g, '');
-    let sanitizedNewPassword = DOMPurify.sanitize(newPassword);
-    sanitizedNewPassword = sanitizedNewPassword.replace(/[^\w^!?$]/g, '');
-    let sanitizedNewUserID = DOMPurify.sanitize(newUserID);
-    sanitizedNewUserID = sanitizedNewUserID.replace(/[^\w!?$]/g, '');
-    const newCompleteUser = {
-      password: passwordHash.generate(sanitizedNewPassword),
-      userID: sanitizedNewUserID,
-      userName: sanitizedNewUserName,
-    };
-    // sets new users in users
-    axios.put(`users/u${sanitizedNewUserID}.json`, newCompleteUser)
-      .catch((error) => console.log('registerUserInDatabase user/u Error', error));
-
-    // -----adds user to userIDByUsername-----
-
-    const userIDByUsername = {};
-    // set property of object name to sanitizedNewUserName and then set the value of the property to sanitizedNewUserID
-    userIDByUsername[sanitizedNewUserName] = sanitizedNewUserID;
-    // axios get old usernames and ID
-    try {
-      let oldUserIDByUsername = await axios.get('userIDByUsername.json');
-      oldUserIDByUsername = oldUserIDByUsername.data;
-      const combinedUserIDByUsername = { ...oldUserIDByUsername, ...userIDByUsername };
-      let updatedNextUserID = parseInt(sanitizedNewUserID);
-      updatedNextUserID++;
-      // sets nextUserId to correct ID
-      combinedUserIDByUsername.nextUserID = updatedNextUserID;
-      // update db to latest version
-      axios.put('userIDByUsername.json', combinedUserIDByUsername);
-    } catch (error) {
-      return 300;
-    }
-    // -----end of adds user to userIDByUsername-----
-
-    // -----start add to usersChatRooms in DB-----
-    // ucr stands for UserChatRoom
-    const newUCR = {
-      chatRooms: [],
-      userID: sanitizedNewUserID,
-    };
-    axios.put(`usersChatRooms/ucr${sanitizedNewUserID}.json`, newUCR);
-    // -----end of add to usersChatRooms in DB-----
-
-    // inform user that account was created
-    const accountCreatedSuccessMessage = DOMPurify.sanitize(`Your account has been created! Username: '${sanitizedNewUserName}'`);
-    let sanitizedAccountCreatedSuccessMessage = accountCreatedSuccessMessage.replace(/[^\w\s!?$]/g, '');
-    sanitizedAccountCreatedSuccessMessage = DOMPurify.sanitize(sanitizedAccountCreatedSuccessMessage);
-    props.showHideCustomAlert(sanitizedAccountCreatedSuccessMessage, true);
-  };
-
-  const checkUserNameForLogin = async (authValues, userNameElement, passwordElement) => {
-    if (authValues) { authValues.preventDefault(); }
-    const username = userNameElement.value || userNameElement;
-    const password = passwordElement.value || passwordElement;
-    let userID = null;
-    let sanitizedUsername = DOMPurify.sanitize(username);
-    sanitizedUsername = sanitizedUsername.replace(/[^\w]/g, '');
-    // make usernames non-caseSensitive
-    sanitizedUsername = sanitizedUsername.toLowerCase();
-    let sanitizedPassword = DOMPurify.sanitize(password);
-    sanitizedPassword = sanitizedPassword.replace(/[^\w^!?$]/g, '');
-
-    if (sanitizedUsername && throttleLoginFormSpam()) {
-      // get userId by sanitizedUsername
-      try {
-        userID = await axios.get(`userIDByUsername/${sanitizedUsername}.json`);
-        userID = userID.data;
-        if (!userID) {
-          props.showHideCustomAlert('Incorrect username or password.', null);
-        } else {
-          // now that we know the sanitizedUsername exists and we have the userID for that sanitizedUsername check the password
-          if (sanitizedPassword) { checkPasswordForUserIDAndLogin(sanitizedUsername, userID, sanitizedPassword); }
-        }
-      } catch (error) {
-        return 300;
-      }
-    }
-  };
-
+  // eslint-disable-next-line consistent-return
   const checkPasswordForUserIDAndLogin = async (checkUsername, checkUserID, checkPassword) => {
     let sanitizedUsername = DOMPurify.sanitize(checkUsername);
     sanitizedUsername = sanitizedUsername.replace(/[^\w]/g, '');
@@ -187,6 +163,37 @@ const CheckIfAuthenticatedSwitch = (props) => {
     } catch {
       props.showHideCustomAlert('Incorrect username or password.', null);
       return 300;
+    }
+  };
+
+  // eslint-disable-next-line consistent-return
+  const checkUserNameForLogin = async (authValues, userNameElement, passwordElement) => {
+    if (authValues) { authValues.preventDefault(); }
+    const username = userNameElement.value || userNameElement;
+    const password = passwordElement.value || passwordElement;
+    let userID = null;
+    let sanitizedUsername = DOMPurify.sanitize(username);
+    sanitizedUsername = sanitizedUsername.replace(/[^\w]/g, '');
+    // make usernames non-caseSensitive
+    sanitizedUsername = sanitizedUsername.toLowerCase();
+    let sanitizedPassword = DOMPurify.sanitize(password);
+    sanitizedPassword = sanitizedPassword.replace(/[^\w^!?$]/g, '');
+
+    if (sanitizedUsername && throttleLoginFormSpam()) {
+      // get userId by sanitizedUsername
+      try {
+        userID = await axios.get(`userIDByUsername/${sanitizedUsername}.json`);
+        userID = userID.data;
+        if (!userID) {
+          props.showHideCustomAlert('Incorrect username or password.', null);
+        } else {
+          // now that we know the sanitizedUsername exists and we have the userID for that sanitizedUsername check the password
+          // eslint-disable-next-line no-lonely-if
+          if (sanitizedPassword) { checkPasswordForUserIDAndLogin(sanitizedUsername, userID, sanitizedPassword); }
+        }
+      } catch (error) {
+        return 300;
+      }
     }
   };
 

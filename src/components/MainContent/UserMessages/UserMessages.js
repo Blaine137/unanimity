@@ -10,6 +10,9 @@ Dose not handle logic for Emojis. The Message component calls a component that h
 This component passes the senders name and message to the Message component for styling. Then displays them.
 */
 const UserMessages = (props) => {
+  // eslint-disable-next-line prefer-const
+  let displayedMessages = [<p key="-10">Please select a chatroom.</p>];
+  let messageKey = 1;
   // auto scrolls down the div. dose it on every reload of the component
   useEffect(() => {
     const messengerMainContainer = document.getElementById('scrolldown');
@@ -34,7 +37,8 @@ const UserMessages = (props) => {
     }
     userMessagesArray.forEach((message, index) => {
       if (message !== null) {
-        displayedMessages[index] = (<Message isMessageSender={isMessageSender} senderName={username} currentMessage={message} key={index} />);
+        messageKey++;
+        displayedMessages[index] = (<Message isMessageSender={isMessageSender} senderName={username} currentMessage={message} key={messageKey} />);
       }
     });
   };
@@ -61,7 +65,6 @@ const UserMessages = (props) => {
     }
   };
 
-  let displayedMessages = [<p key="-10">Please select a chatroom.</p>];
   getUserNamesForMessages();
   return (
     <div className={styles.container} id="scrolldown">

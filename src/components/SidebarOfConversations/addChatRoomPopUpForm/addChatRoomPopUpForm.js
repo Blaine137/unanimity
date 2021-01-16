@@ -32,7 +32,7 @@ const addChatRoomPopUpForm = (props) => (
       </IconButton>
       <legend>Add a Chatroom.</legend>
       <FormControl fullWidth variant="outlined" margin="normal">
-        <InputLabel htmlFor="newChatRoomName">Recipient's Username</InputLabel>
+        <InputLabel htmlFor="newChatRoomName">Recipient&#39;s Username</InputLabel>
         <OutlinedInput
           id="newChatRoomName"
           inputProps={{

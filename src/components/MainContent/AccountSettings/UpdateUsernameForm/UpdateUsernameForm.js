@@ -17,10 +17,10 @@ const UpdateUsernameForm = (props) => {
   const [password, setPassword] = useState('');
 
   /**
-	 * makes sure password is correct. If password is correct.
-	 * Handles alerting user if password is wrong.
-	 * returns true if correct. returns false if wrong.
-	*/
+  * makes sure password is correct. If password is correct.
+  * Handles alerting user if password is wrong.
+  * returns true if correct. returns false if wrong.
+  */
   const checkPassword = async () => {
     const isPasswordCorrect = await props.checkPasswordInput(password);
     if (isPasswordCorrect) {
@@ -31,10 +31,10 @@ const UpdateUsernameForm = (props) => {
   };
 
   /**
-	 * See if an account is already registered with the username they are trying to change to.
-	 * Handles alerting user if username is taken.
-	 * Return true if username is not taken. Return false if username is taken
-	*/
+  * See if an account is already registered with the username they are trying to change to.
+  * Handles alerting user if username is taken.
+  * Return true if username is not taken. Return false if username is taken
+  */
   const checkIfUsernameIsTaken = async (userName) => {
     // try to get the username they are wanting to register as
     const userID = await axios.get(`userIDByUsername/${userName}.json`);
@@ -46,10 +46,10 @@ const UpdateUsernameForm = (props) => {
   };
 
   /**
-	 * Makes sure new username and confirm new username fields are the same and that the new username is the correct length.
-	 * Handles alerting user if username is invalid.
-	 * Returns true if username is valid. Returns false if username is invalid.
-	*/
+  * Makes sure new username and confirm new username fields are the same and that the new username is the correct length.
+  * Handles alerting user if username is invalid.
+  * Returns true if username is valid. Returns false if username is invalid.
+  */
   const validateNewUsername = () => {
     if (newUsername !== confirmUsername) {
       props.showHideCustomAlert('User names do not match.');
@@ -67,20 +67,22 @@ const UpdateUsernameForm = (props) => {
 
   // sanitizes the new username for security and returns the sanitized username
   const sanitizeNewUsername = (updatedUserObject) => {
+    // eslint-disable-next-line no-param-reassign
     updatedUserObject.userName = newUsername.toLowerCase();
+    // eslint-disable-next-line no-param-reassign
     updatedUserObject.userName = DOMPurify.sanitize(updatedUserObject.userName);
     updatedUserObject.userName.replace(/[^\w]/g, '');
     return updatedUserObject;
   };
 
   /**
-	 * Updates authenticated user and authenticated username in the database with the new username.
-	 * Handles alerting user if their is an error updating the database.
-	*/
+  * Updates authenticated user and authenticated username in the database with the new username.
+  * Handles alerting user if their is an error updating the database.
+  */
   const updateUsernameInDatabase = async (sanitizedUpdatedUserObject, sanitizedNewUsername) => {
     // updated auth user object in users/
     axios.put(`users/u${props.authUID}.json`, sanitizedUpdatedUserObject)
-      .then((res) => {
+      .then(() => {
         props.showHideCustomAlert('username successfully changed!!', true);
         props.setAreSettingsShowing(false);
       })
@@ -94,7 +96,7 @@ const UpdateUsernameForm = (props) => {
     updatedUserIDByUsername[sanitizedNewUsername] = props.authUID;
 
     axios.put('userIDByUsername.json', updatedUserIDByUsername)
-      .then((res) => { props.setAreSettingsShowing(false); props.showHideCustomAlert('Changed username successfully!', true); })
+      .then(() => { props.setAreSettingsShowing(false); props.showHideCustomAlert('Changed username successfully!', true); })
       .catch((err) => props.showHideCustomAlert(`Failed to update username by userID in the database: ${err}`));
   };
 
@@ -104,7 +106,7 @@ const UpdateUsernameForm = (props) => {
     if (await checkPassword()) {
       const oldUserDataObject = (
         await axios.get(`users/u${props.authUID}.json`)
-          .catch((err) => props.showHideCustomAlert('Failed to update username'))
+          .catch(() => props.showHideCustomAlert('Failed to update username'))
       );
       // sanitizes new username
       const sanitizedUpdatedUserObject = sanitizeNewUsername({ ...oldUserDataObject.data });
@@ -123,11 +125,11 @@ const UpdateUsernameForm = (props) => {
       variants={{
         hidden: {
           opacity: 0,
-			  },
+        },
         visible: {
           opacity: 1,
           scale: 1,
-			  },
+        },
       }}
     >
       <form onSubmit={updateUsernameOrchestrator} className={styles.form}>

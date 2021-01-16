@@ -30,10 +30,13 @@ const Messenger = (props) => {
 
   useEffect(() => {
     // updates the chatroom every half a second so users can see new messages
+    // eslint-disable-next-line no-use-before-define
     const intervalForUpdateChatRoom = setInterval(() => { checkForNewMessageAndChatRooms(); }, 500);
     // on load of messenger make sure the user is logged in.
+    // eslint-disable-next-line no-use-before-define
     intentionalAndForcedUserLogout();
     // get and set state with an array of all the chatroom's the authenticated user is in
+    // eslint-disable-next-line no-use-before-define
     if (props.authenticatedUserID) { getChatRoomIDsForAuthenticatedUser(); }
 
     return () => {
@@ -80,6 +83,7 @@ const Messenger = (props) => {
   };
 
   // once auth user sends message. Validates Message, add to the DB.
+  // eslint-disable-next-line no-shadow
   const newMessage = async (newMessage) => {
     // messageChatRoom = selected chatroom object with all the messages
     const messagesInCurrentChatRoom = Object.entries(props.currentChatRoom);
@@ -90,6 +94,7 @@ const Messenger = (props) => {
       // nextMsgNum is the number of all the messages sent by auth user and recipient plus one.
       nextMsgNum = await axios.get(`chatRooms/${props.currentChatRoomID}/nextMsgNum.json`);
       nextMsgNum = nextMsgNum.data;
+    // eslint-disable-next-line no-console
     } catch (error) { console.log(error); }
 
     // 'chatRooms/' + props.currentChatRoomID + '/nextMsgNum.json'
@@ -110,8 +115,10 @@ const Messenger = (props) => {
       // adds update message array with new message to the chatRoom Object that will be uploaded to firebase.
       updatedMessagesInCurrentChatRoom.forEach((property) => {
         if (property[0] === (`u${props.authenticatedUserID}`)) {
+          // eslint-disable-next-line no-param-reassign
           property[1] = updatedAuthenticatedUserMessages;
         } else if (property[0] === 'nextMsgNum') {
+          // eslint-disable-next-line no-param-reassign
           property[1] = nextMsgNum;
         }
       });
@@ -120,6 +127,20 @@ const Messenger = (props) => {
       axios.put(`chatRooms/${props.currentChatRoomID}.json`, updatedMessagesInCurrentChatRoom);
       // update our current chatRoom
       props.setCurrentChatRoom(updatedMessagesInCurrentChatRoom);
+    }
+  };
+
+  // gets array of chatRoomsID auth user is in. if its different then our current UsersChatRoomsID then update state. called by mount and update
+  const getChatRoomIDsForAuthenticatedUser = () => {
+    if (props.authenticatedUserID) {
+      axios.get(`usersChatRooms/ucr${props.authenticatedUserID}/chatRooms.json`).then(
+        (newUsersChatRoomsID) => {
+          // convert array to object. then stringify object. if strings dont eqaul chatroom has been added or delted. then update.
+          if (JSON.stringify({ ...newUsersChatRoomsID.data }) !== JSON.stringify({ ...props.usersChatRoomsID })) {
+            props.setUsersChatRoomsID(newUsersChatRoomsID.data);
+          }
+        },
+      );
     }
   };
 
@@ -140,20 +161,6 @@ const Messenger = (props) => {
     if (props.isAuthenticated === false) { props.authLogout(); }
   };
 
-  // gets array of chatRoomsID auth user is in. if its different then our current UsersChatRoomsID then update state. called by mount and update
-  const getChatRoomIDsForAuthenticatedUser = () => {
-    if (props.authenticatedUserID) {
-      axios.get(`usersChatRooms/ucr${props.authenticatedUserID}/chatRooms.json`).then(
-        (newUsersChatRoomsID) => {
-          // convert array to object. then stringify object. if strings dont eqaul chatroom has been added or delted. then update.
-          if (JSON.stringify({ ...newUsersChatRoomsID.data }) !== JSON.stringify({ ...props.usersChatRoomsID })) {
-            props.setUsersChatRoomsID(newUsersChatRoomsID.data);
-          }
-        },
-      );
-    }
-  };
-
   // gets selected chatRoom users(cru). gets name of recipient. then sets currentChatRoomName to recipients name. called by setCurrentChatRoom
   const getCurrentChatRoomName = (ChatRoomID) => {
     if (ChatRoomID) {
@@ -162,8 +169,8 @@ const Messenger = (props) => {
           if (e.data) {
             const authenticatedUserIndex = e.data.indexOf(props.authenticatedUserID);
             e.data.splice(authenticatedUserIndex, 1);
-            axios.get(`users/u${e.data[0]}/userName.json`).then((e) => {
-              props.setCurrentChatRoomName(e.data);
+            axios.get(`users/u${e.data[0]}/userName.json`).then((event) => {
+              props.setCurrentChatRoomName(event.data);
             });
           } else {
             props.setCurrentChatRoomName('Unanimity');
@@ -213,10 +220,11 @@ const Messenger = (props) => {
             newChatRoomID = nextChatRoomId.data;
             if (newChatRoomID) {
               axios.put(`chatRooms/${newChatRoomID}.json`, newChatRoomObject).catch(
-                (error) => {
+                () => {
                   props.showHideCustomAlert('failed to add chat room to data base. Please try agin.', null);
                 },
               );
+              // eslint-disable-next-line radix
               updatedChatRoomID = parseInt(newChatRoomID);
               // increment the ID to find the Id after newID
               updatedChatRoomID++;
@@ -239,7 +247,7 @@ const Messenger = (props) => {
                   updatedAuthUserChatRoomsID.push(newChatRoomID);
                   const chatRooms = updatedAuthUserChatRoomsID;
                   axios.put(`usersChatRooms/ucr${props.authenticatedUserID}.json`, { chatRooms })
-                    .then((res) => props.showHideCustomAlert('Chatroom successfully added!', true))
+                    .then(() => props.showHideCustomAlert('Chatroom successfully added!', true))
                     .catch(
                       (error) => {
                         const errorMessage = `Error. failed to update Authenticated usersChatRooms ${DOMPurify.sanitize(error)}`;
@@ -351,12 +359,12 @@ const Messenger = (props) => {
           }
         },
       ).catch(
-        (error) => {
+        () => {
           props.showHideCustomAlert('User not found! 366', null);
         },
       );
     } else {
-      props.showHideCustomAlert("Recipient\'s name is required and cannot be your own name!", null);
+      props.showHideCustomAlert("Recipient's name is required and cannot be your own name!", null);
     }
     // --------- end of check recipient name ---------
   };
@@ -381,6 +389,7 @@ const Messenger = (props) => {
                 // set the current chatroom to Unanimity instead of the chatroom that dose not exist
                 props.setCurrentChatRoomName('Unanimity');
               }
+            // eslint-disable-next-line no-console
             }).catch((e) => { console.log(`error overriding/deleting chatRoomUsers for ${removeChatRoomID}axios error: ${e}`); });
             // -------- end of remove the chatRoom from the chatRoomUsers --------
 
@@ -390,6 +399,7 @@ const Messenger = (props) => {
                 // get all of the users chatroom's for a specific user
                 axios.get(`usersChatRooms/ucr${user}/chatRooms.json`).then(
                   (userChatRoomIds) => {
+                    // eslint-disable-next-line no-param-reassign
                     userChatRoomIds.data = Object.values(userChatRoomIds.data);
                     userChatRoomIndex = userChatRoomIds.data.indexOf(removeChatRoomID);
                     // 0 is a valid index but zero equals false by default
@@ -402,6 +412,7 @@ const Messenger = (props) => {
                             // causes sidebar to update
                             getChatRoomIDsForAuthenticatedUser();
                           },
+                        // eslint-disable-next-line no-console
                         ).catch((error) => { console.log(error); });
                       } else {
                         const chatRooms = userChatRoomIds.data;
@@ -410,10 +421,12 @@ const Messenger = (props) => {
                             // causes sidebar to update
                             getChatRoomIDsForAuthenticatedUser();
                           },
+                        // eslint-disable-next-line no-console
                         ).catch((error) => { console.log(error); });
                       }
                     }
                   },
+                // eslint-disable-next-line no-console
                 ).catch((error) => console.log(error));
               });
             }

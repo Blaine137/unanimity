@@ -50,8 +50,8 @@ const UpdatePasswordForm = (props) => {
   };
 
   /**
-	 * sanitizes all the passwords that are in the state.
-	 */
+  * sanitizes all the passwords that are in the state.
+  */
   const sanitizePasswordInState = async () => {
     let oldPasswordSanitized = await DOMPurify.sanitize(oldPassword);
     oldPasswordSanitized = await oldPasswordSanitized.replace(/[^\w]/g, '');
@@ -67,8 +67,8 @@ const UpdatePasswordForm = (props) => {
   };
 
   /**
-	 * Calls all the steps needed to update the password in order
-	 */
+  * Calls all the steps needed to update the password in order
+  */
   const updatePasswordOrchestrator = async (e) => {
     e.preventDefault();
     setPasswordInputError('');
@@ -90,11 +90,11 @@ const UpdatePasswordForm = (props) => {
       variants={{
         hidden: {
           opacity: 0,
-		  },
+        },
         visible: {
           opacity: 1,
           scale: 1,
-		  },
+        },
       }}
     >
       <form onSubmit={updatePasswordOrchestrator} className={styles.form}>

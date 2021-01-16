@@ -7,7 +7,7 @@ import styles from './NavigationRouterLinks.module.scss';
 user interface component that navigates with react router links.
 Displayed on the Home, Contact, Login, and FQA page. Is not shown once logged in.
 */
-const NavigationRouterLinks = (props) => (
+const NavigationRouterLinks = () => (
   <nav>
     <List>
       <ListItem>

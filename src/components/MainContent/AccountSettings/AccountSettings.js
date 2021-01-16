@@ -8,7 +8,7 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from '../../../axios';
 import UpdateUsernameForm from './UpdateUsernameForm/UpdateUsernameForm';
-import UpdatePasswordForm from './UpdatePassworddForm/UpdatePasswordForm';
+import UpdatePasswordForm from './UpdatePasswordForm/UpdatePasswordForm';
 import styles from './AccountSettings.module.scss';
 
 /*
@@ -21,10 +21,13 @@ const AccountSettings = (props) => {
 
   // checks if current password entered is equal to auth user pwd on db.
   const checkPasswordInput = async (checkPassword) => {
+    // eslint-disable-next-line no-param-reassign
     checkPassword = DOMPurify.sanitize(checkPassword);
+    // eslint-disable-next-line no-param-reassign
     checkPassword = checkPassword.replace(/[^\w^!?$]/g, '');
     try {
       let hashedPassword = await axios.get(`users/u${props.authUID}/password.json`)
+        // eslint-disable-next-line no-console
         .catch((err) => console.log(err));
       hashedPassword = hashedPassword.data;
       return passwordHash.verify(checkPassword, hashedPassword);
@@ -38,6 +41,7 @@ const AccountSettings = (props) => {
     setIsUpdatePwdFormShowing(false);
   };
 
+  // eslint-disable-next-line consistent-return
   const showBackBtn = () => {
     if (isUpdateUsernameFormShowing || isUpdatePwdFormShowing) {
       return (

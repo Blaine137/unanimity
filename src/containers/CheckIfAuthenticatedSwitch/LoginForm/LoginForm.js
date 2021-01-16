@@ -69,7 +69,7 @@ const LoginForm = (props) => (
         </FormControl>
       </fieldset>
     </form>
-    <p>This Project's Database is public so that people can see how the project works!</p>
+    <p>This Project&#39;s Database is public so that people can see how the project works!</p>
   </main>
 );
 

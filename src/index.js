@@ -4,7 +4,7 @@ import './index.css';
 import { Provider } from 'react-redux';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { ConfigStore } from './redux/configStore';
+import ConfigStore from './redux/configStore';
 
 const store = ConfigStore;
 
