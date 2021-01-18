@@ -18,7 +18,7 @@ const message = (props) => {
 
   let sanitizedMessage = props.currentMessage;
   // only allows letters, numbers and ! ? $ & . : , - ( )
-  sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$&.:,\-\(\)]/g, '');
+  sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$&.:,\-()]/g, '');
   sanitizedMessage = DOMPurify.sanitize(sanitizedMessage);
   let sanitizedName = props.senderName;
   // only allows letters, numbers and ! ? $
