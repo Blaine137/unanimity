@@ -21,6 +21,9 @@ const LoginForm = (props) => {
     formContainer: {
       maxWidth: '50%',
     },
+    formTitle: {
+      margin: '0 auto',
+    },
     textingArtwork: {
       width: '100%',
       position: 'absolute',
@@ -46,7 +49,7 @@ const LoginForm = (props) => {
           <Container className={classes.formContainer}>
             <form>
               <fieldset>
-                <Typography variant="h1" component="legend">SIGN IN</Typography>
+                <Typography className={classes.formTitle} variant="h1" component="legend">SIGN IN</Typography>
                 <FormControl fullWidth variant="outlined" margin="normal">
                   <InputLabel htmlFor="userNameID">Username</InputLabel>
                   <OutlinedInput
