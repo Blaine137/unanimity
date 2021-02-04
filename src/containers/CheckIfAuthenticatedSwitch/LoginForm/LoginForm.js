@@ -24,6 +24,9 @@ const LoginForm = (props) => {
     formTitle: {
       margin: '0 auto',
     },
+    guestBtn: {
+      marginBottom: '1.5rem',
+    },
     textingArtwork: {
       width: '100%',
       position: 'absolute',
@@ -88,6 +91,7 @@ const LoginForm = (props) => {
                   <Divider />
                   <Typography variant="subtitle1">Or Sign In as a Guest</Typography>
                   <Button
+                    className={classes.guestBtn}
                     aria-label="Sign In as a Guest"
                     type="submit"
                     value="Guest"
