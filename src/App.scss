@@ -1,11 +1,11 @@
 :root {
 	--main-bg: white;
-	--main-text: black;
-	--off-text: #313639;
-	--light-accent-bg: #F6F6F6;
-	--dark-accent-bg: #e8e8e8;
-	--light-action: #365F88;
-	--dark-action: #05386B;
+	--main-text: rgb(26, 35, 59);
+	--off-text: rgb(108, 129, 150);
+	--light-accent-bg: rgb(243, 246, 255);
+	--dark-accent-bg: rgb(243, 246, 255);
+	--light-action: rgb(0, 0, 255);
+	--dark-action: rgb(0, 0, 255);
 	--positive-action: #5CDB95;
 	--negative-action: rgb(244, 67, 54);
 }
