@@ -5,8 +5,8 @@ import {
 import styles from './LoginForm.module.scss';
 
 const LoginForm = (props) => (
-  <main className={`${styles.wrapper} ${styles.backgroundImage}`}>
-    <img src="../../../unanimity-large-logo.svg" alt="Unanimity Messenger Logo. Harmony through words." />
+  <main className={styles.wrapper}>
+    <img src="../../../logolarge.svg" alt="Unanimity Messenger Logo. Harmony through words." />
     <form className={styles.form}>
       <fieldset>
         <legend>Unanimity Messenger Login</legend>

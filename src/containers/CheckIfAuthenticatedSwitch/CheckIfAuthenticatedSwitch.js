@@ -7,7 +7,6 @@ import Messenger from '../Messenger/Messenger';
 import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
 import { setAuthentication, setAuthenticatedUserID, setAuthenticatedUsername } from '../../redux/actions';
-import NavigationRouterLinks from '../../components/NavigationRouterLinks/NavigationRouterLinks';
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.authentication.isAuthenticated,
@@ -216,7 +215,6 @@ const CheckIfAuthenticatedSwitch = (props) => {
     }
     return (
       <main>
-        <NavigationRouterLinks />
         <LoginForm checkName={checkUserNameForLogin} checkForNewUser={checkIfUserAlreadyExists} />
       </main>
     );
@@ -232,7 +230,7 @@ const CheckIfAuthenticatedSwitch = (props) => {
         variants={props.pageAnimationVariants}
         transition={props.pageTransition}
       >
-        { ShowLoginFormOrMessenger() }
+        {ShowLoginFormOrMessenger()}
       </motion.div>
     </>
   );

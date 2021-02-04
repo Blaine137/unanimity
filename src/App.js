@@ -3,17 +3,11 @@ import './App.scss';
 import DOMPurify from 'dompurify';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { AnimatePresence } from 'framer-motion';
-import {
-  BrowserRouter, Switch, Route, Redirect,
-} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setNotification } from './redux/actions';
 import CheckIfAuthenticatedSwitch from './containers/CheckIfAuthenticatedSwitch/CheckIfAuthenticatedSwitch';
 import './fonts/Jost-VariableFont_ital,wght.ttf';
 import './fonts/Montserrat-Regular.ttf';
-import LandingPage from './components/landingPage/LandingPage';
-import ContactForm from './components/ContactForm/ContactForm';
-import FAQPage from './components/FAQPage/FAQPage';
 import CustomAlert from './components/CustomAlert/CustomAlert';
 import { LightTheme, DarkTheme } from './Theme';
 
@@ -66,47 +60,15 @@ const App = (props) => {
     <ThemeProvider theme={isAppLightTheme ? LightTheme : DarkTheme}>
       <main className="App">
         {props.notification}
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/">
-              <AnimatePresence>
-                <LandingPage
-                  pageAnimationVariants={pageAnimationVariants}
-                  pageTransition={pageTransition}
-                />
-              </AnimatePresence>
-            </Route>
-            <Route path="/contact">
-              <AnimatePresence>
-                <ContactForm
-                  pageAnimationVariants={pageAnimationVariants}
-                  pageTransition={pageTransition}
-                  showHideCustomAlert={showHideCustomAlert}
-                />
-              </AnimatePresence>
-            </Route>
-            <Route path="/login">
-              <AnimatePresence>
-                <CheckIfAuthenticatedSwitch
-                  pageAnimationVariants={pageAnimationVariants}
-                  pageTransition={pageTransition}
-                  showHideCustomAlert={showHideCustomAlert}
-                  isAppLightTheme={isAppLightTheme}
-                  setIsAppLightTheme={toggleIsAppLightTheme}
-                />
-              </AnimatePresence>
-            </Route>
-            <Route path="/FAQ">
-              <AnimatePresence>
-                <FAQPage
-                  pageAnimationVariants={pageAnimationVariants}
-                  pageTransition={pageTransition}
-                />
-              </AnimatePresence>
-            </Route>
-            <Redirect to="/" />
-          </Switch>
-        </BrowserRouter>
+        <AnimatePresence>
+          <CheckIfAuthenticatedSwitch
+            pageAnimationVariants={pageAnimationVariants}
+            pageTransition={pageTransition}
+            showHideCustomAlert={showHideCustomAlert}
+            isAppLightTheme={isAppLightTheme}
+            setIsAppLightTheme={toggleIsAppLightTheme}
+          />
+        </AnimatePresence>
       </main>
     </ThemeProvider>
   );
