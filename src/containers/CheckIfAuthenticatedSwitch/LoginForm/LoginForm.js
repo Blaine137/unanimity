@@ -152,7 +152,7 @@ const LoginForm = (props) => {
                           size="large"
                           fullWidth
                           onClick={(e) => {
-                            console.log('guest btn clicked');
+                            props.checkName(e, 'guest', 'guest');
                           }}
                           disableElevation
                         >
