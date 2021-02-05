@@ -7,8 +7,8 @@ export const LightTheme = createMuiTheme({
       secondary: 'rgb(108, 129, 150)',
     },
     primary: {
-      main: '#FFF',
-      dark: 'rgb(243, 246, 255)',
+      light: 'rgb(243, 246, 255)',
+      main: 'rgb(26, 35, 59)',
     },
     secondary: {
       main: 'rgb(0, 0, 255)',
@@ -32,7 +32,7 @@ LightTheme.typography.h2 = {
 
 // more typography
 LightTheme.typography.subtitle1 = {
-  fontSize: '.75rem',
+  fontSize: '.90rem',
   margin: '1rem .5rem',
   fontWeight: 'normal',
   color: LightTheme.palette.text.secondary,

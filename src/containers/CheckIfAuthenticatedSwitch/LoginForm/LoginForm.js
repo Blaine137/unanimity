@@ -9,16 +9,17 @@ import {
   makeStyles,
   Typography,
   Divider,
+  Hidden,
 } from '@material-ui/core';
 
 const LoginForm = (props) => {
   const useStyles = makeStyles(theme => ({
     logo: {
-      maxWidth: '100%',
-      maxHeight: '10vh',
-      margin: '10vh 0 15vh 0',
+      maxWidth: '90%',
+      maxHeight: '5vh',
+      margin: '2vh 0',
     },
-    formHeight: {
+    formSize: {
       height: '80vh',
       maxWidth: '700px',
       maxHeight: '700px',
@@ -26,8 +27,9 @@ const LoginForm = (props) => {
     },
     formTitle: {
       textAlign: 'center',
+      padding: '0',
     },
-    secondWord: {
+    wordHighlight: {
       color: theme.palette.secondary.main,
     },
     guestBtn: {
@@ -35,6 +37,7 @@ const LoginForm = (props) => {
     },
     textingArtwork: {
       width: '100%',
+      maxHeight: '100%',
       position: 'absolute',
       bottom: '0',
       right: '0',
@@ -45,11 +48,28 @@ const LoginForm = (props) => {
     gridContainer: {
       height: '100vh',
     },
-    desktopRightColum: {
+    rightGridColum: {
       position: 'relative',
-      background: theme.palette.primary.dark,
+      background: theme.palette.primary.light,
       border: 0,
       borderRadius: '15px',
+      height: '25vh',
+    },
+    lightButton: {
+      backgroundColor: theme.palette.primary.light,
+    },
+    [theme.breakpoints.up('md')]: {
+      rightGridColum: {
+        height: '100vh',
+      },
+      logo: {
+        maxWidth: '80%',
+        maxHeight: '10vh',
+        margin: '10vh 0 15vh 0',
+      },
+      textingArtwork: {
+        maxHeight: '70%',
+      },
     },
   }));
 
@@ -57,15 +77,18 @@ const LoginForm = (props) => {
   return (
     <main>
       <Grid container justify="center" className={classes.gridContainer}>
-        <Grid item md={9}>
+        <Grid item xs={12} md={7} lg={8} xl={9}>
           <Grid container justify="center" alignItems="center" className={classes.gridFormContainer}>
             <Grid item md={10}>
+              <Hidden mdUp>
+                <img src="../../../logolarge.svg" alt="Unanimity Messenger Logo. Harmony through words." className={classes.logo} />
+              </Hidden>
               <form>
                 <fieldset>
-                  <Grid container justify="space-evenly" alignItems="center" className={classes.formHeight}>
+                  <Grid container justify="space-evenly" alignItems="center" className={classes.formSize}>
                     <Grid item xs={12}>
                       <Typography className={classes.formTitle} variant="h1" component="legend">
-                        SIGN <span className={classes.secondWord}> IN </span>
+                        SIGN <span className={classes.wordHighlight}> IN </span>
                       </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -105,14 +128,17 @@ const LoginForm = (props) => {
                           onClick={(e) => {
                             props.checkName(e, document.getElementById('userNameID'), document.getElementById('passwordID'));
                           }}
+                          disableElevation
                         >
                           SIGN IN
                         </Button>
                       </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                      <Divider />
-                      <Typography variant="subtitle1">Or Sign In as a Guest</Typography>
+                      <FormControl fullWidth margin="normal">
+                        <Divider />
+                        <Typography variant="subtitle1">Or Sign In as a Guest</Typography>
+                      </FormControl>
                     </Grid>
                     <Grid item xs={12}>
                       <FormControl fullWidth margin="normal">
@@ -128,6 +154,7 @@ const LoginForm = (props) => {
                           onClick={(e) => {
                             console.log('guest btn clicked');
                           }}
+                          disableElevation
                         >
                           GUEST SIGN IN
                         </Button>
@@ -136,18 +163,19 @@ const LoginForm = (props) => {
                     <Grid item xs={12}>
                       <FormControl fullWidth margin="normal">
                         <Button
+                          className={classes.lightButton}
                           aria-label="Register For Account button"
                           type="submit"
                           value="Register"
-                          color="primary.dark"
                           variant="contained"
                           size="large"
                           fullWidth
                           onClick={(e) => {
                             props.checkForNewUser(e, document.getElementById('userNameID'), document.getElementById('passwordID'));
                           }}
+                          disableElevation
                         >
-                          Not a Member? Sign Up
+                          Not a Member?<span className={classes.wordHighlight}>&nbsp; Sign Up</span>
                         </Button>
                       </FormControl>
                     </Grid>
@@ -157,8 +185,10 @@ const LoginForm = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={3} className={classes.desktopRightColum}>
-          <img src="../../../logolarge.svg" alt="Unanimity Messenger Logo. Harmony through words." className={classes.logo} />
+        <Grid item xs={12} md={5} lg={4} xl={3} className={classes.rightGridColum}>
+          <Hidden smDown>
+            <img src="../../../logolarge.svg" alt="Unanimity Messenger Logo. Harmony through words." className={classes.logo} />
+          </Hidden>
           <img src="../../../textingDrawing.svg" alt="Women texting on a phone" className={classes.textingArtwork} />
         </Grid>
       </Grid>
