@@ -6,8 +6,6 @@ import { AnimatePresence } from 'framer-motion';
 import { connect } from 'react-redux';
 import { setNotification } from './redux/actions';
 import CheckIfAuthenticatedSwitch from './containers/CheckIfAuthenticatedSwitch/CheckIfAuthenticatedSwitch';
-import './fonts/Jost-VariableFont_ital,wght.ttf';
-import './fonts/Montserrat-Regular.ttf';
 import CustomAlert from './components/CustomAlert/CustomAlert';
 import { LightTheme, DarkTheme } from './Theme';
 

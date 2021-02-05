@@ -1,17 +1,13 @@
 .menu {
   float: left;
-  svg { font-size: calc(1.25rem + 2vmin); } 
+  svg { font-size: 2rem; } 
 }
 .header {
-  height: calc(3.25rem + 2vmin);
-  padding: 1rem;
-  position: relative;
-  background-color: var(--dark-accent-bg);    
-  h5 { display: inline; } 
+  padding-left: 2rem;
 }
 .options {
   float: right;
-  svg { font-size: calc(1.25rem + 2vmin); }
+  svg { font-size: 2rem }
 }
 .optionsMenu {
   width: 250px;

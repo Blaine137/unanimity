@@ -1,19 +1,54 @@
 import React from 'react';
 import DOMPurify from 'dompurify';
 import Emoji from 'react-emoji-render';
-import { Typography } from '@material-ui/core';
-import styles from './Message.module.scss';
+import { Typography, makeStyles } from '@material-ui/core';
 
 /*
 User interface component that sanitizes the message and senders name and displays it.
 This component calls and Emoji component that will convert any :emojiName: syntax to emojis. Example :smile:
 */
 const message = (props) => {
+  const useStyles = makeStyles(theme => ({
+    messageContainer: {
+      display: 'block',
+      maxWidth: '100vw',
+      textAlign: 'left',
+      padding: '1.5rem 1rem',
+      margin: '.25rem 0 .25rem 0',
+    },
+    userName: {
+      margin: '0',
+      padding: '0 0 .25rem 0',
+      textTransform: 'capitalize',
+    },
+    message: {
+      display: 'inline-block',
+      padding: '.5rem 1rem',
+      lineHeight: '2rem',
+      borderRadius: '15px',
+      maxWidth: '80vw',
+      wordWrap: 'break-word',
+      margin: '0',
+    },
+    senderMessage: {
+      backgroundColor: theme.palette.background.default,
+    },
+    recieverMessage: {
+      backgroundColor: theme.palette.text.primary,
+      color: theme.palette.primary.light,
+      float: 'right',
+    },
+  }));
+  const classes = useStyles();
+
   let messageStyle = null;
+  let userNameStyles = null;
   if (props.isMessageSender) {
-    messageStyle = styles.recieverMessage;
+    messageStyle = classes.recieverMessage;
+    userNameStyles = classes.receiverTitle;
   } else {
-    messageStyle = styles.senderMessage;
+    userNameStyles = null;
+    messageStyle = classes.senderMessage;
   }
 
   let sanitizedMessage = props.currentMessage;
@@ -26,9 +61,9 @@ const message = (props) => {
   sanitizedName = DOMPurify.sanitize(sanitizedName);
 
   return (
-    <div className={styles.messageContainer}>
-      <Typography variant="h5" className={styles.userName}>{ sanitizedName }</Typography>
-      <Emoji className={`${messageStyle} ${styles.message}`} text={sanitizedMessage} />
+    <div className={classes.messageContainer}>
+      <Typography variant="subtitle2" className={classes.userName}>{sanitizedName}</Typography>
+      <Emoji className={`${messageStyle} ${classes.message}`} text={sanitizedMessage} />
     </div>
   );
 };

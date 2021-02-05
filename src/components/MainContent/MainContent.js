@@ -16,9 +16,10 @@ const MainContent = (props) => {
       recipientName={props.currentChatRoomName}
       authUsername={props.authUsername}
       authUID={props.authUID}
-    />
+    >
+      <MessageInput newMessage={props.newMessage} currentChatRoomName={props.currentChatRoomName} showHideCustomAlert={props.showHideCustomAlert} />
+    </UserMessages>
   );
-  let newMessageInput = <MessageInput newMessage={props.newMessage} currentChatRoomName={props.currentChatRoomName} showHideCustomAlert={props.showHideCustomAlert} />;
 
   // sets body to account settings if user has opened the settings and sets input to null.
   const showSettingsMenu = () => {
@@ -31,7 +32,6 @@ const MainContent = (props) => {
           showHideCustomAlert={props.showHideCustomAlert}
         />
       );
-      newMessageInput = null;
     }
   };
 
@@ -51,7 +51,6 @@ const MainContent = (props) => {
         setIsAppLightTheme={props.setIsAppLightTheme}
       />
       {body}
-      {newMessageInput}
     </>
   );
 };

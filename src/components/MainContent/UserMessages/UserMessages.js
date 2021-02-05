@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { makeStyles } from '@material-ui/core';
 import Message from './Message/Message';
-import styles from './UserMessages.module.scss';
 
 let prevScrollPosition;
 
@@ -10,6 +10,24 @@ Dose not handle logic for Emojis. The Message component calls a component that h
 This component passes the senders name and message to the Message component for styling. Then displays them.
 */
 const UserMessages = (props) => {
+  const useStyles = makeStyles(theme => ({
+    container: {
+      overflowY: 'scroll',
+      height: '90vh',
+      position: 'relative',
+      textAlign: 'center',
+      msOverflowStyle: 'none',
+      overflow: '-moz-scrollbars-none',
+      width: '100%',
+      boxSizing: 'content-box',
+      '&::-webkit-scrollbar': { display: 'none' },
+      backgroundColor: theme.palette.primary.light,
+      padding: '1rem',
+      margin: '1rem',
+    },
+  }));
+  const classes = useStyles();
+
   // eslint-disable-next-line prefer-const
   let displayedMessages = [<p key="-10">Please select a chatroom.</p>];
   let messageKey = 1;
@@ -67,8 +85,9 @@ const UserMessages = (props) => {
 
   getUserNamesForMessages();
   return (
-    <div className={styles.container} id="scrolldown">
-      { displayedMessages }
+    <div className={classes.container} id="scrolldown">
+      { displayedMessages}
+      { props.children}
     </div>
   );
 };

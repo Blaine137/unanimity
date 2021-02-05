@@ -13,6 +13,9 @@ export const LightTheme = createMuiTheme({
     secondary: {
       main: 'rgb(0, 0, 255)',
     },
+    background: {
+      default: '#FFF',
+    },
   },
   MuiTypography: {
     variantMapping: {
@@ -33,9 +36,13 @@ LightTheme.typography.h2 = {
 // more typography
 LightTheme.typography.subtitle1 = {
   fontSize: '.90rem',
-  margin: '1rem .5rem',
   fontWeight: 'normal',
   color: LightTheme.palette.text.secondary,
+};
+LightTheme.typography.subtitle2 = {
+  fontSize: '.90rem',
+  fontWeight: 'normal',
+  color: LightTheme.palette.text.primary,
 };
 LightTheme.typography.body1 = {
   fontSize: '1rem',

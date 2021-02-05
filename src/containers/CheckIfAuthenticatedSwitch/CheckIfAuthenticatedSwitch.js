@@ -24,11 +24,11 @@ const CheckIfAuthenticatedSwitch = (props) => {
   const [loginFormSubmissionCount, setLoginFormSubmissionCount] = useState(1);
   const [loginFormDisabledTime, setLoginFormDisabledTime] = useState(null);
 
-  // if the user has submitted the form more than three times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
+  // if the user has submitted the form more than eight times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
   // returns true if they should be allowed to submit the form. returns false if they are spamming the form.
   const throttleLoginFormSpam = () => {
     setLoginFormSubmissionCount(loginFormSubmissionCount + 1);
-    if (loginFormSubmissionCount >= 3) {
+    if (loginFormSubmissionCount >= 8) {
       if (loginFormDisabledTime === null) {
         setLoginFormDisabledTime(Date.now());
       }

@@ -93,10 +93,7 @@ const ChatroomHeader = (props) => {
       <header className={styles.header}>
         <Grid container justify="flex-start" alignContent="center" alignItems="center">
           <Grid item xs={2}>
-            { burger }
-          </Grid>
-          <Grid item xs={8}>
-            <Typography variant="h5">{ props.currentChatRoomName }</Typography>
+            {burger}
           </Grid>
           <Grid item xs={2}>
             <IconButton
@@ -112,7 +109,7 @@ const ChatroomHeader = (props) => {
           </Grid>
         </Grid>
       </header>
-      { optionsMenuElements }
+      { optionsMenuElements}
     </>
   );
 };
