@@ -25,6 +25,14 @@ const styles = {
     alignContent: 'center',
     margin: '3rem 2rem',
   },
+  conversationsTitle: {
+    textAlign: 'left',
+    marginLeft: '1rem',
+  },
+  chatroomName: {
+    display: 'inline-block',
+    marginLeft: '.5rem',
+  },
 };
 
 /*
@@ -67,7 +75,7 @@ class SidebarOfConversations extends Component {
     addChatRoomToListOfConversations = (recipientsName, chatRoomsIdsArray, currentChatRoomID) => {
       const newConversation = [...this.state.listOfConversationsToOpenOrDelete];
       newConversation.push((
-        <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={reactKey} className={styles.users}>
+        <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={reactKey}>
           <IconButton
             tabIndex="0"
             onClick={() => this.props.deleteChatRoom(currentChatRoomID)}
@@ -81,6 +89,7 @@ class SidebarOfConversations extends Component {
             <CloseIcon color="primary" />
           </IconButton>
           <h3
+            className={this.props.classes.chatroomName}
             tabIndex="0"
             onClick={() => {
               this.props.toggleSidebar(true);
@@ -161,6 +170,12 @@ class SidebarOfConversations extends Component {
             <div className={this.props.classes.authenticatedUserContainer}>
               <Typography variant="subtitle1">{this.props.authenticatedUsername}</Typography>
             </div>
+            <div>
+              <Typography variant="body1" className={this.props.classes.conversationsTitle}>Active Conversations</Typography>
+            </div>
+            <div role="menu" aria-label="list of all chatroom's that you are in and can send messages in.">
+              {this.state.listOfConversationsToOpenOrDelete}
+            </div>
             <IconButton
               tabIndex="0"
               onClick={() => this.setState(prevState => ({ isAddChatRoomPopUpShowing: !prevState.isAddChatRoomPopUpShowing }))}
@@ -183,9 +198,6 @@ class SidebarOfConversations extends Component {
             >
               <CloseIcon color="primary" />
             </IconButton>
-            <div role="menu" aria-label="list of all chatroom's that you are in and can send messages in." className={styles.usersContainer}>
-              { this.state.listOfConversationsToOpenOrDelete }
-            </div>
           </aside>
         </>
       );
