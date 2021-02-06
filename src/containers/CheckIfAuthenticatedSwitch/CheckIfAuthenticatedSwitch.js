@@ -43,8 +43,8 @@ const CheckIfAuthenticatedSwitch = (props) => {
     return true;
   };
 
-  // sets users in db
   // eslint-disable-next-line consistent-return
+  // sets users information in all location across the database
   const registerUserInDatabase = async (newUser, newPassword, newUserID) => {
     let sanitizedNewUserName = DOMPurify.sanitize(newUser);
     sanitizedNewUserName = sanitizedNewUserName.replace(/[^\w]/g, '');
@@ -101,6 +101,10 @@ const CheckIfAuthenticatedSwitch = (props) => {
     props.showHideCustomAlert(sanitizedAccountCreatedSuccessMessage, true);
   };
 
+  /**
+   *  See if the username has already been registered with an account
+   * If the username is available it will call the registerUserInDatabase
+   */
   const checkIfUserAlreadyExists = async (event, newUser, newPassword) => {
     event.preventDefault();
     const newUserValue = newUser.value;
@@ -138,6 +142,11 @@ const CheckIfAuthenticatedSwitch = (props) => {
   };
 
   // eslint-disable-next-line consistent-return
+  /**
+   * Compares hashed checkPassword to password on the database.
+   * If correct will set authentication value.
+   * if false will notify the user.
+   */
   const checkPasswordForUserIDAndLogin = async (checkUsername, checkUserID, checkPassword) => {
     let sanitizedUsername = DOMPurify.sanitize(checkUsername);
     sanitizedUsername = sanitizedUsername.replace(/[^\w]/g, '');
@@ -145,6 +154,7 @@ const CheckIfAuthenticatedSwitch = (props) => {
     sanitizedUserID = sanitizedUserID.replace(/[^\w]/g, '');
     let sanitizedPassword = DOMPurify.sanitize(checkPassword);
     sanitizedPassword = sanitizedPassword.replace(/[^\w^!?$]/g, '');
+
     try {
       let hashedPassword = await axios.get(`users/u${sanitizedUserID}/password.json`);
       hashedPassword = hashedPassword.data;
@@ -166,6 +176,11 @@ const CheckIfAuthenticatedSwitch = (props) => {
   };
 
   // eslint-disable-next-line consistent-return
+  /**
+   * Makes sure username exists and then get the userID for that user.
+   * Calls check password passing the username, userID, and password.
+   * if username dose not exist it will notify the user.
+   */
   const checkUserNameForLogin = async (authValues, userNameElement, passwordElement) => {
     if (authValues) { authValues.preventDefault(); }
     const username = userNameElement.value || userNameElement;
@@ -196,6 +211,10 @@ const CheckIfAuthenticatedSwitch = (props) => {
     }
   };
 
+  /**
+   * If authenticated show the messenger page.
+   * If user is not authenticated then shows the login form.
+   */
   const ShowLoginFormOrMessenger = () => {
     if (props.isAuthenticated) {
       // messenger has its own <main></main>

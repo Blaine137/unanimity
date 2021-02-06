@@ -1,7 +1,7 @@
 import React from 'react';
 import DOMPurify from 'dompurify';
 import Emoji from 'react-emoji-render';
-import { Typography, makeStyles } from '@material-ui/core';
+import { Typography, makeStyles, Grid } from '@material-ui/core';
 
 /*
 User interface component that sanitizes the message and senders name and displays it.
@@ -10,18 +10,11 @@ This component calls and Emoji component that will convert any :emojiName: synta
 const message = (props) => {
   const useStyles = makeStyles(theme => ({
     messageContainer: {
-      display: 'block',
-      maxWidth: '100vw',
+      maxWidth: '95vw',
       textAlign: 'left',
-      padding: '1.5rem 1rem',
-      margin: '.25rem 0 .25rem 0',
+      margin: '.25rem 0',
     },
-    userName: {
-      margin: '0',
-      padding: '0 0 .25rem 0',
-      textTransform: 'capitalize',
-    },
-    message: {
+    messageText: {
       display: 'inline-block',
       padding: '.5rem 1rem',
       lineHeight: '2rem',
@@ -36,22 +29,24 @@ const message = (props) => {
     receiverMessage: {
       backgroundColor: theme.palette.text.primary,
       color: theme.palette.primary.light,
-      float: 'right',
     },
     receiverTitle: {
-      float: 'right',
+      textAlign: 'right',
     },
   }));
   const classes = useStyles();
 
-  let messageStyle = null;
-  let userNameStyles = null;
+  let messageColor = null;
+  let messageAlignment = null;
+  let messageTitle = null;
+  /** Sets styles for message based on if it is the sender or receiver message */
   if (props.isMessageSender) {
-    messageStyle = classes.receiverMessage;
-    userNameStyles = classes.receiverTitle;
+    messageColor = classes.receiverMessage;
+    messageTitle = classes.receiverTitle;
+    messageAlignment = 'flex-end';
   } else {
-    userNameStyles = null;
-    messageStyle = classes.senderMessage;
+    messageAlignment = 'flex-start';
+    messageColor = classes.senderMessage;
   }
 
   let sanitizedMessage = props.currentMessage;
@@ -64,10 +59,12 @@ const message = (props) => {
   sanitizedName = DOMPurify.sanitize(sanitizedName);
 
   return (
-    <div className={classes.messageContainer}>
-      <Typography variant="subtitle2" className={userNameStyles} style={{ textTransform: 'capitalize' }}>{sanitizedName}</Typography>
-      <Emoji className={`${messageStyle} ${classes.message}`} text={sanitizedMessage} />
-    </div>
+    <Grid container justify={messageAlignment}>
+      <Grid item className={classes.messageContainer}>
+        <Typography className={messageTitle} variant="subtitle2" style={{ textTransform: 'capitalize' }}>{sanitizedName}</Typography>
+        <Emoji className={`${messageColor} ${classes.messageText}`} text={sanitizedMessage} />
+      </Grid>
+    </Grid>
   );
 };
 
