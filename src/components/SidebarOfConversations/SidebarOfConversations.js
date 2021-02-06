@@ -231,15 +231,6 @@ class SidebarOfConversations extends Component {
                   </FormControl>
                 </form>
               </div>
-              {/* <IconButton
-                tabIndex="0"
-                onClick={() => this.props.toggleSidebar()}
-                aria-label="Close sidebar"
-                size="small"
-                className={styles.mobileCloseSidebar}
-              >
-                <CloseIcon color="primary" />
-              </IconButton> */}
             </div>
           </aside>
         </>
