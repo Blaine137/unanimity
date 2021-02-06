@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 import DOMPurify from 'dompurify';
 import SendIcon from '@material-ui/icons/Send';
-import { makeStyles, Button, Grid, Hidden } from '@material-ui/core';
+import {
+  makeStyles, Button, Grid, Hidden, TextareaAutosize,
+} from '@material-ui/core';
 
 let lastMessageSentTime = null;
 
-/*
-Child component of MainContent. Is a textarea where users enter their message to send.
-Throttles message send rate to prevent spam.
+/**
+* Is a textarea where users enter their message to send.
+* Throttles message send rate to prevent spam.
 */
 const MessageInput = (props) => {
   const [userMessage, setUserMessage] = useState('');
 
   const useStyles = makeStyles(theme => ({
     inputContainer: {
-      width: 'calc(100% - 2rem)',
+      width: 'calc(100% - 3rem)',
       padding: '.5rem',
-      marginRight: '1rem',
       position: 'absolute',
       bottom: '1rem',
       left: '1rem',
@@ -27,24 +28,28 @@ const MessageInput = (props) => {
       border: `1px solid ${theme.palette.text.secondary}`,
       borderRadius: '15px',
       width: 'calc(100% - 2rem)',
-      height: '1rem',
       padding: '1rem',
-      transition: 'all .1s ease-in-out',
       fontSize: '1rem',
+      resize: 'none',
       '&:hover': { cursor: 'pointer' },
       '&:focus': {
         outline: 'none',
-        transform: 'scale(1.05)',
+        borderColor: theme.palette.text.primary,
+        '&::placeholder': {
+          color: 'transparent',
+        },
       },
+    },
+    sendButton: {
+      width: '100%',
     },
     [theme.breakpoints.up('md')]: {
       inputContainer: {
         width: 'calc(100% - 5rem)',
-        padding: '1rem',
-        marginRight: '2rem',
+        padding: '.5rem 1rem',
         position: 'absolute',
         bottom: '2rem',
-        left: '2rem',
+        left: '2.9rem',
       },
     },
   }));
@@ -53,11 +58,12 @@ const MessageInput = (props) => {
   return (
     <Grid spacing={1} container justify="center" alignItems="center" className={classes.inputContainer}>
       <Grid item xs={9} sm={10} md={11}>
-        <textarea
+        <TextareaAutosize
           aria-label="Type a messages and press enter on the keyboard to send a message. You can also send emojis with :smile:."
           spellCheck="true"
           maxLength="1999"
-          placeholder="Enter your message. Use our emojis by :smile:"
+          rows="1"
+          placeholder="Enter your message here. Use our emojis by :smile:"
           className={classes.input}
           onChange={(e) => {
             setUserMessage(DOMPurify.sanitize(e.target.value));
@@ -88,6 +94,7 @@ const MessageInput = (props) => {
       </Grid>
       <Grid item xs={3} sm={2} md={1}>
         <Button
+          className={classes.sendButton}
           aria-label="Send new message"
           type="submit"
           value="Send"

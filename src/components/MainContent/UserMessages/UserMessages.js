@@ -8,10 +8,10 @@ import HeaderOptionMenu from '../ChatroomHeader/HeaderOptionMenu/HeaderOptionMen
 
 let prevScrollPosition;
 
-/*
-Parent container component that handles logic for displaying messages in order with the senders name.
-Dose not handle logic for Emojis. The Message component calls a component that handles Emojis.
-This component passes the senders name and message to the Message component for styling. Then displays them.
+/**
+* Parent container component that handles logic for displaying messages in order with the senders name.
+* Dose not handle logic for Emojis. The Message component calls a component that handles Emojis.
+* This component passes the senders name and message to the Message component for styling. Then displays them.
 */
 const UserMessages = (props) => {
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(true);
@@ -19,18 +19,23 @@ const UserMessages = (props) => {
 
   const useStyles = makeStyles(theme => ({
     container: {
-      overflowY: 'scroll',
-      height: 'calc(100vh - 4rem)',
+      height: 'calc(100vh - 6rem)',
+      width: 'calc(100% - 6rem)',
       position: 'relative',
-      textAlign: 'center',
-      msOverflowStyle: 'none',
-      overflow: '-moz-scrollbars-none',
-      width: 'calc(100% - 4rem)',
-      '&::-webkit-scrollbar': { display: 'none' },
       backgroundColor: theme.palette.primary.light,
-      padding: '1rem',
+      padding: '2rem',
       margin: '1rem',
       borderRadius: '15px',
+    },
+    messageScroll: {
+      /** margin top is spacing for the sidebar opener */
+      marginTop: '2rem',
+      height: '90%',
+      overflowY: 'scroll',
+      msOverflowStyle: 'none',
+      scrollbarWidth: 'none',
+      overflow: '-moz-scrollbars-none',
+      '&::-webkit-scrollbar': { display: 'none' },
     },
     menu: {
       float: 'left',
@@ -42,18 +47,24 @@ const UserMessages = (props) => {
     },
     [theme.breakpoints.up('md')]: {
       container: {
-        height: 'calc(100vh - 6rem)',
-        width: 'calc(100% - 6rem)',
-        padding: '1rem',
+        height: 'calc(100vh - 8rem)',
+        width: 'calc(100% - 8rem)',
         margin: '2rem',
         borderRadius: '15px',
+      },
+    },
+    [theme.breakpoints.up('lg')]: {
+      /** remove spacing from mobile sidebar opener */
+      messageScroll: {
+        marginTop: '0',
       },
     },
   }));
   const classes = useStyles();
 
   // eslint-disable-next-line prefer-const
-  let displayedMessages = [<p key="-10">Please select a chatroom.</p>];
+  let displayedMessages = [<Message isMessageSender="true" senderName="" currentMessage=":backhand_index_pointing_left: Please select a chatroom. :left_speech_bubble:" />];
+
   let messageKey = 1;
   // auto scrolls down the div. dose it on every reload of the component
   useEffect(() => {
@@ -124,12 +135,12 @@ const UserMessages = (props) => {
   };
 
   /*
-        changes the sidebar opener between a x and a burger( the three lines )
-        dose not cause the sidebar to open and close. sidebar open and close is handled in messenger.js
-    */
+  * Changes the sidebar opener between a x and a burger( the three lines ).
+  * Dose not cause the sidebar to open and close. Sidebar open and close is handled in messenger.js
+  */
   const toggleSidebarButtonStyles = () => {
     if (props.isSidebarOpen) {
-      // make the burger button a X
+      /** Make the burger button a X */
       return (
         <IconButton
           tabIndex="0"
@@ -142,7 +153,7 @@ const UserMessages = (props) => {
         </IconButton>
       );
     }
-    // sidebar is closed show the burger (three lines) to open it.
+    /** Sidebar is closed show the burger (three lines) to open it. */
     return (
       <IconButton
         tabIndex="0"
@@ -160,7 +171,8 @@ const UserMessages = (props) => {
   // eslint-disable-next-line prefer-const
   let burger = toggleSidebarButtonStyles();
   return (
-    <div className={classes.container} id="scrolldown">
+    <div className={classes.container}>
+      {/** option menu opener */}
       <IconButton
         tabIndex="0"
         className={classes.options}
@@ -171,12 +183,16 @@ const UserMessages = (props) => {
       >
         <MoreVertIcon color="primary" />
       </IconButton>
+      {/** sidebar opener */}
       <Hidden lgUp>
         {burger}
       </Hidden>
-      { displayedMessages}
-      { props.children}
-      { optionsMenuElements}
+      {/** id is used for auto scroll down */}
+      <div className={classes.messageScroll} id="scrolldown">
+        {displayedMessages}
+        {props.children}
+        {optionsMenuElements}
+      </div>
     </div>
   );
 };

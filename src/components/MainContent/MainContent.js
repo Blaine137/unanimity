@@ -1,14 +1,15 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import UserMessages from './UserMessages/UserMessages';
 import AccountSettings from './AccountSettings/AccountSettings';
 import MessageInput from './MessageInput/MessageInput';
 
 /*
-Parent component for Header, ChatRoom, Input, and AccountSettings.
+* Parent component for Header, ChatRoom, Input, and AccountSettings.
 */
 const MainContent = (props) => {
   const [areSettingsShowing, setAreSettingsShowing] = useState(false);
-  // default to the chatroom
+
+  /** default to the chatroom */
   let body = (
     <UserMessages
       currentChatRoom={props.currentChatRoom}
@@ -25,7 +26,7 @@ const MainContent = (props) => {
     </UserMessages>
   );
 
-  // sets body to account settings if user has opened the settings and sets input to null.
+  /** sets body to account settings if user has opened the settings. */
   const showSettingsMenu = () => {
     if (areSettingsShowing) {
       body = (
