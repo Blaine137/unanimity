@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Grid, withStyles, Typography, IconButton } from '@material-ui/core';
+import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
+import DOMPurify from 'dompurify';
 import axios from '../../axios';
 import AddChatRoomPopUpForm from './addChatRoomPopUpForm/addChatRoomPopUpForm';
 import { LightTheme } from '../../Theme';
@@ -29,9 +30,32 @@ const styles = {
     textAlign: 'left',
     marginLeft: '1rem',
   },
+  chatroomContainer: {
+    margin: '2rem 0',
+  },
   chatroomName: {
     display: 'inline-block',
     marginLeft: '.5rem',
+  },
+  addChatroomContainer: {
+    marginTop: '3rem',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  addChatroomButton: {
+    backgroundColor: LightTheme.palette.secondary.main,
+    marginRight: '1rem',
+  },
+  addChatroomIcon: {
+    color: LightTheme.palette.background.default,
+    '&:hover, &:focus': {
+      color: LightTheme.palette.secondary.main,
+    },
+  },
+  addChatroomInput: {
+    border: 'none',
   },
 };
 
@@ -75,7 +99,7 @@ class SidebarOfConversations extends Component {
     addChatRoomToListOfConversations = (recipientsName, chatRoomsIdsArray, currentChatRoomID) => {
       const newConversation = [...this.state.listOfConversationsToOpenOrDelete];
       newConversation.push((
-        <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={reactKey}>
+        <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={reactKey} className={this.props.classes.chatroomContainer}>
           <IconButton
             tabIndex="0"
             onClick={() => this.props.deleteChatRoom(currentChatRoomID)}
@@ -86,7 +110,7 @@ class SidebarOfConversations extends Component {
             size="small"
             className={styles.addChatroom}
           >
-            <CloseIcon color="primary" />
+            <CloseIcon color="primary" fontSize="large" />
           </IconButton>
           <h3
             className={this.props.classes.chatroomName}
@@ -168,7 +192,7 @@ class SidebarOfConversations extends Component {
           >
             <img src="../../../logolarge.svg" alt="Unanimity Messenger Logo. Harmony through words." className={this.props.classes.logo} />
             <div className={this.props.classes.authenticatedUserContainer}>
-              <Typography variant="subtitle1">{this.props.authenticatedUsername}</Typography>
+              <Typography variant="body1">{this.props.authenticatedUsername}</Typography>
             </div>
             <div>
               <Typography variant="body1" className={this.props.classes.conversationsTitle}>Active Conversations</Typography>
@@ -176,28 +200,47 @@ class SidebarOfConversations extends Component {
             <div role="menu" aria-label="list of all chatroom's that you are in and can send messages in.">
               {this.state.listOfConversationsToOpenOrDelete}
             </div>
-            <IconButton
-              tabIndex="0"
-              onClick={() => this.setState(prevState => ({ isAddChatRoomPopUpShowing: !prevState.isAddChatRoomPopUpShowing }))}
-              onKeyDown={e => {
-                if (e.key === 'Enter') { this.setState(prevState => ({ isAddChatRoomPopUpShowing: !prevState.isAddChatRoomPopUpShowing })); }
-              }}
-              aria-label="Add a chatroom button"
-              aria-haspopup="true"
-              size="small"
-              className={styles.addChatroom}
-            >
-              <AddIcon color="primary" />
-            </IconButton>
-            <IconButton
-              tabIndex="0"
-              onClick={() => this.props.toggleSidebar()}
-              aria-label="Close sidebar"
-              size="small"
-              className={styles.mobileCloseSidebar}
-            >
-              <CloseIcon color="primary" />
-            </IconButton>
+            <div className={this.props.classes.addChatroomContainer}>
+              <div>
+                <IconButton
+                  className={this.props.classes.addChatroomButton}
+                  tabIndex="0"
+                  onClick={(e) => this.props.addChatRoom(e, DOMPurify.sanitize(document.getElementById('newChatRoomName').value))}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') { this.setState(prevState => ({ isAddChatRoomPopUpShowing: !prevState.isAddChatRoomPopUpShowing })); }
+                  }}
+                  aria-label="Add a chatroom button"
+                  aria-haspopup="true"
+                  size="small"
+                >
+                  <AddIcon className={this.props.classes.addChatroomIcon} fontSize="large" />
+                </IconButton>
+              </div>
+              <div>
+                <form>
+                  <FormControl fullWidth variant="outlined" margin="normal">
+                    <InputLabel htmlFor="newChatRoomName">Add chatroom</InputLabel>
+                    <OutlinedInput
+                      className={this.props.classes.addChatroomInput}
+                      id="newChatRoomName"
+                      inputProps={{
+                        'aria-label': 'Enter the username of the recipient you would like to add a chatroom with', type: 'text', name: 'newChatRoomName', required: true,
+                      }}
+                      label="Add chatroom"
+                    />
+                  </FormControl>
+                </form>
+              </div>
+              {/* <IconButton
+                tabIndex="0"
+                onClick={() => this.props.toggleSidebar()}
+                aria-label="Close sidebar"
+                size="small"
+                className={styles.mobileCloseSidebar}
+              >
+                <CloseIcon color="primary" />
+              </IconButton> */}
+            </div>
           </aside>
         </>
       );
