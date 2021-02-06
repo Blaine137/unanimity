@@ -208,8 +208,6 @@ const CheckIfAuthenticatedSwitch = (props) => {
           setAuthenticatedUserID={props.setAuthenticatedUserID}
           authenticatedUsername={props.authenticatedUsername}
           setAuthenticatedUsername={props.setAuthenticatedUsername}
-          isAppLightTheme={props.isAppLightTheme}
-          setIsAppLightTheme={props.setIsAppLightTheme}
         />
       );
     }

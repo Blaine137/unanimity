@@ -7,19 +7,13 @@ import { connect } from 'react-redux';
 import { setNotification } from './redux/actions';
 import CheckIfAuthenticatedSwitch from './containers/CheckIfAuthenticatedSwitch/CheckIfAuthenticatedSwitch';
 import CustomAlert from './components/CustomAlert/CustomAlert';
-import { LightTheme, DarkTheme } from './Theme';
+import { LightTheme } from './Theme';
 
 const mapStateToProps = state => ({ notification: state.messenger.notification });
 
 const mapDispatchToProps = { setNotification: notification => setNotification(notification) };
 
 const App = (props) => {
-  const [isAppLightTheme, setIsAppLightTheme] = useState(true);
-
-  const toggleIsAppLightTheme = () => {
-    setIsAppLightTheme(!isAppLightTheme);
-  };
-
   const showHideCustomAlert = (message, success) => {
     const closeNotification = () => props.setNotification(null);
     let sanitizedAlertMessage = DOMPurify.sanitize(message);
@@ -55,7 +49,7 @@ const App = (props) => {
   };
 
   return (
-    <ThemeProvider theme={isAppLightTheme ? LightTheme : DarkTheme}>
+    <ThemeProvider theme={LightTheme}>
       <main className="App">
         {props.notification}
         <AnimatePresence>
@@ -63,8 +57,6 @@ const App = (props) => {
             pageAnimationVariants={pageAnimationVariants}
             pageTransition={pageTransition}
             showHideCustomAlert={showHideCustomAlert}
-            isAppLightTheme={isAppLightTheme}
-            setIsAppLightTheme={toggleIsAppLightTheme}
           />
         </AnimatePresence>
       </main>

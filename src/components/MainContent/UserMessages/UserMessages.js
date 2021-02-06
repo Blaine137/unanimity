@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { IconButton, makeStyles, Hidden } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Message from './Message/Message';
+import HeaderOptionMenu from '../ChatroomHeader/HeaderOptionMenu/HeaderOptionMenu';
 
 let prevScrollPosition;
 
@@ -10,20 +14,32 @@ Dose not handle logic for Emojis. The Message component calls a component that h
 This component passes the senders name and message to the Message component for styling. Then displays them.
 */
 const UserMessages = (props) => {
+  const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(true);
+  const [optionsMenuElements, setOptionsMenuElements] = useState(null);
+
   const useStyles = makeStyles(theme => ({
     container: {
       overflowY: 'scroll',
-      height: '90vh',
+      height: 'calc(100vh - 6rem)',
       position: 'relative',
       textAlign: 'center',
       msOverflowStyle: 'none',
       overflow: '-moz-scrollbars-none',
-      width: '100%',
+      width: '75vw',
       boxSizing: 'content-box',
       '&::-webkit-scrollbar': { display: 'none' },
       backgroundColor: theme.palette.primary.light,
       padding: '1rem',
-      margin: '1rem',
+      margin: '2rem',
+      borderRadius: '15px',
+    },
+    menu: {
+      float: 'left',
+      svg: { fontSize: '2rem' },
+    },
+    options: {
+      float: 'right',
+      svg: { fontSize: '2rem' },
     },
   }));
   const classes = useStyles();
@@ -43,6 +59,22 @@ const UserMessages = (props) => {
       prevScrollPosition = messengerMainContainer.scrollHeight;
     }
   });
+
+  // shows & hides the options menu. triggered by the three dots in the top right of the header
+  const toggleOptionsMenu = () => {
+    if (isOptionsMenuOpen === true) {
+      setOptionsMenuElements(
+        <HeaderOptionMenu
+          setOptionsMenuElements={setOptionsMenuElements}
+          setAreSettingsShowing={props.setAreSettingsShowing}
+          intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
+        />,
+      );
+    } else {
+      setOptionsMenuElements(null);
+    }
+    setIsOptionsMenuOpen(!isOptionsMenuOpen);
+  };
 
   // sets displayedMessages to an array of the Message component where the index are the order the messages were sent.
   const orderMessagesForDisplay = (userMessagesObject, username) => {
@@ -83,11 +115,60 @@ const UserMessages = (props) => {
     }
   };
 
+  /*
+        changes the sidebar opener between a x and a burger( the three lines )
+        dose not cause the sidebar to open and close. sidebar open and close is handled in messenger.js
+    */
+  const toggleSidebarButtonStyles = () => {
+    if (props.isSidebarOpen) {
+      // make the burger button a X
+      return (
+        <IconButton
+          tabIndex="0"
+          onClick={() => props.toggleSidebar()}
+          aria-label="Close sidebar"
+          size="small"
+          className={classes.menu}
+        >
+          <CloseIcon color="primary" />
+        </IconButton>
+      );
+    }
+    // sidebar is closed show the burger (three lines) to open it.
+    return (
+      <IconButton
+        tabIndex="0"
+        onClick={() => props.toggleSidebar()}
+        aria-label="Open sidebar"
+        size="small"
+        className={classes.menu}
+      >
+        <MenuIcon color="primary" />
+      </IconButton>
+    );
+  };
+
   getUserNamesForMessages();
+  // eslint-disable-next-line prefer-const
+  let burger = toggleSidebarButtonStyles();
   return (
     <div className={classes.container} id="scrolldown">
+      <IconButton
+        tabIndex="0"
+        className={classes.options}
+        onClick={() => toggleOptionsMenu()}
+        aria-label="Open options menu button"
+        aria-haspopup="true"
+        size="small"
+      >
+        <MoreVertIcon color="primary" />
+      </IconButton>
+      <Hidden lgUp>
+        {burger}
+      </Hidden>
       { displayedMessages}
       { props.children}
+      { optionsMenuElements}
     </div>
   );
 };

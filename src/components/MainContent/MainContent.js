@@ -1,5 +1,4 @@
 import React, { useState, Fragment } from 'react';
-import ChatroomHeader from './ChatroomHeader/ChatroomHeader';
 import UserMessages from './UserMessages/UserMessages';
 import AccountSettings from './AccountSettings/AccountSettings';
 import MessageInput from './MessageInput/MessageInput';
@@ -16,6 +15,11 @@ const MainContent = (props) => {
       recipientName={props.currentChatRoomName}
       authUsername={props.authUsername}
       authUID={props.authUID}
+      toggleSidebar={props.toggleSidebar}
+      isSidebarOpen={props.isSidebarOpen}
+      intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
+      setAreSettingsShowing={setAreSettingsShowing}
+      areSettingsShowing={areSettingsShowing}
     >
       <MessageInput newMessage={props.newMessage} currentChatRoomName={props.currentChatRoomName} showHideCustomAlert={props.showHideCustomAlert} />
     </UserMessages>
@@ -38,18 +42,6 @@ const MainContent = (props) => {
   showSettingsMenu();
   return (
     <>
-      <ChatroomHeader
-        currentChatRoomName={props.currentChatRoomName}
-        toggleSidebar={props.toggleSidebar}
-        isSidebarOpen={props.isSidebarOpen}
-        intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
-        authUID={props.authUID}
-        authUsername={props.authUsername}
-        setAreSettingsShowing={setAreSettingsShowing}
-        areSettingsShowing={areSettingsShowing}
-        isAppLightTheme={props.isAppLightTheme}
-        setIsAppLightTheme={props.setIsAppLightTheme}
-      />
       {body}
     </>
   );

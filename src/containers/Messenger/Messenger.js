@@ -94,7 +94,7 @@ const Messenger = (props) => {
       // nextMsgNum is the number of all the messages sent by auth user and recipient plus one.
       nextMsgNum = await axios.get(`chatRooms/${props.currentChatRoomID}/nextMsgNum.json`);
       nextMsgNum = nextMsgNum.data;
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
     } catch (error) { console.log(error); }
 
     // 'chatRooms/' + props.currentChatRoomID + '/nextMsgNum.json'
@@ -389,7 +389,7 @@ const Messenger = (props) => {
                 // set the current chatroom to Unanimity instead of the chatroom that dose not exist
                 props.setCurrentChatRoomName('Unanimity');
               }
-            // eslint-disable-next-line no-console
+              // eslint-disable-next-line no-console
             }).catch((e) => { console.log(`error overriding/deleting chatRoomUsers for ${removeChatRoomID}axios error: ${e}`); });
             // -------- end of remove the chatRoom from the chatRoomUsers --------
 
@@ -412,7 +412,7 @@ const Messenger = (props) => {
                             // causes sidebar to update
                             getChatRoomIDsForAuthenticatedUser();
                           },
-                        // eslint-disable-next-line no-console
+                          // eslint-disable-next-line no-console
                         ).catch((error) => { console.log(error); });
                       } else {
                         const chatRooms = userChatRoomIds.data;
@@ -421,12 +421,12 @@ const Messenger = (props) => {
                             // causes sidebar to update
                             getChatRoomIDsForAuthenticatedUser();
                           },
-                        // eslint-disable-next-line no-console
+                          // eslint-disable-next-line no-console
                         ).catch((error) => { console.log(error); });
                       }
                     }
                   },
-                // eslint-disable-next-line no-console
+                  // eslint-disable-next-line no-console
                 ).catch((error) => console.log(error));
               });
             }
@@ -481,7 +481,6 @@ const Messenger = (props) => {
         </div>
         <div className={styles.mainContentGrid} style={mainContentInlineStyles}>
           <MainContent
-            isAppLightTheme={props.isAppLightTheme}
             setIsAppLightTheme={props.setIsAppLightTheme}
             newMessage={newMessage}
             currentChatRoom={props.currentChatRoom}
