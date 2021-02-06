@@ -33,9 +33,12 @@ const message = (props) => {
     senderMessage: {
       backgroundColor: theme.palette.background.default,
     },
-    recieverMessage: {
+    receiverMessage: {
       backgroundColor: theme.palette.text.primary,
       color: theme.palette.primary.light,
+      float: 'right',
+    },
+    receiverTitle: {
       float: 'right',
     },
   }));
@@ -44,7 +47,7 @@ const message = (props) => {
   let messageStyle = null;
   let userNameStyles = null;
   if (props.isMessageSender) {
-    messageStyle = classes.recieverMessage;
+    messageStyle = classes.receiverMessage;
     userNameStyles = classes.receiverTitle;
   } else {
     userNameStyles = null;
@@ -62,7 +65,7 @@ const message = (props) => {
 
   return (
     <div className={classes.messageContainer}>
-      <Typography variant="subtitle2" className={classes.userName}>{sanitizedName}</Typography>
+      <Typography variant="subtitle2" className={userNameStyles} style={{ textTransform: 'capitalize' }}>{sanitizedName}</Typography>
       <Emoji className={`${messageStyle} ${classes.message}`} text={sanitizedMessage} />
     </div>
   );

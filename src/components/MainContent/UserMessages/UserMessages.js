@@ -20,17 +20,16 @@ const UserMessages = (props) => {
   const useStyles = makeStyles(theme => ({
     container: {
       overflowY: 'scroll',
-      height: 'calc(100vh - 6rem)',
+      height: 'calc(100vh - 4rem)',
       position: 'relative',
       textAlign: 'center',
       msOverflowStyle: 'none',
       overflow: '-moz-scrollbars-none',
-      width: '75vw',
-      boxSizing: 'content-box',
+      width: 'calc(100% - 4rem)',
       '&::-webkit-scrollbar': { display: 'none' },
       backgroundColor: theme.palette.primary.light,
       padding: '1rem',
-      margin: '2rem',
+      margin: '1rem',
       borderRadius: '15px',
     },
     menu: {
@@ -40,6 +39,15 @@ const UserMessages = (props) => {
     options: {
       float: 'right',
       svg: { fontSize: '2rem' },
+    },
+    [theme.breakpoints.up('md')]: {
+      container: {
+        height: 'calc(100vh - 6rem)',
+        width: 'calc(100% - 6rem)',
+        padding: '1rem',
+        margin: '2rem',
+        borderRadius: '15px',
+      },
     },
   }));
   const classes = useStyles();

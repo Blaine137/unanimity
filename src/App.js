@@ -50,7 +50,15 @@ const App = (props) => {
 
   return (
     <ThemeProvider theme={LightTheme}>
-      <main className="App">
+      <main
+        className="App"
+        style={{
+          boxSizing: 'border-box',
+          '*, *:before, *:after': {
+            boxSizing: 'inherit',
+          },
+        }}
+      >
         {props.notification}
         <AnimatePresence>
           <CheckIfAuthenticatedSwitch
