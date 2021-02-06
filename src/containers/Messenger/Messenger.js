@@ -469,6 +469,7 @@ const Messenger = (props) => {
       <div className={styles.layout}>
         <div className={styles.sidebarGrid} style={sidebarInlineStyles}>
           <SidebarOfConversations
+            authenticatedUsername={props.authenticatedUsername}
             usersChatRoomsID={sidebarUsersChatRoomsID}
             userID={props.authenticatedUserID}
             setCurrentChatRoomID={getCurrentChatRoom}

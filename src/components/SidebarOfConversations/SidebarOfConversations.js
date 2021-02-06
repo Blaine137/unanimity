@@ -1,13 +1,31 @@
 import React, { Component, Fragment } from 'react';
-import { IconButton } from '@material-ui/core';
+import { Grid, withStyles, Typography, IconButton } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
-import styles from './SidebarOfConversations.module.scss';
 import axios from '../../axios';
 import AddChatRoomPopUpForm from './addChatRoomPopUpForm/addChatRoomPopUpForm';
+import { LightTheme } from '../../Theme';
 
 let ConversationNamesAlreadyInSidebar = [];
 let reactKey = 0;
+
+const styles = {
+  logo: {
+    maxWidth: '50%',
+    marginTop: '1rem',
+    marginLeft: '1rem',
+    marginRight: 'auto',
+    display: 'block',
+  },
+  authenticatedUserContainer: {
+    backgroundColor: LightTheme.palette.primary.light,
+    height: '15vh',
+    borderRadius: '15px',
+    display: 'grid',
+    alignContent: 'center',
+    margin: '3rem 2rem',
+  },
+};
 
 /*
 handles opening and closing the sidebar and showing/hiding the add chatroom pop up.
@@ -139,6 +157,10 @@ class SidebarOfConversations extends Component {
             className={styles.sidebarContainer}
             style={{ transform: `translateX( ${this.props.isSidebarOpen ? '0%' : '-100%'} )` }}
           >
+            <img src="../../../logolarge.svg" alt="Unanimity Messenger Logo. Harmony through words." className={this.props.classes.logo} />
+            <div className={this.props.classes.authenticatedUserContainer}>
+              <Typography variant="subtitle1">{this.props.authenticatedUsername}</Typography>
+            </div>
             <IconButton
               tabIndex="0"
               onClick={() => this.setState(prevState => ({ isAddChatRoomPopUpShowing: !prevState.isAddChatRoomPopUpShowing }))}
@@ -170,4 +192,4 @@ class SidebarOfConversations extends Component {
     }
 }
 
-export default SidebarOfConversations;
+export default withStyles(styles)(SidebarOfConversations);
