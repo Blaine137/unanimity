@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton } from '@material-ui/core';
+import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton, Hidden } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import DOMPurify from 'dompurify';
@@ -16,7 +16,11 @@ const styles = {
     marginTop: '1rem',
     marginLeft: '1rem',
     marginRight: 'auto',
-    display: 'block',
+    display: 'inline-block',
+  },
+  closeSidebarContainer: {
+    display: 'inline-flex',
+    marginLeft: '.75rem',
   },
   authenticatedUserContainer: {
     backgroundColor: LightTheme.palette.primary.light,
@@ -191,6 +195,13 @@ class SidebarOfConversations extends Component {
             style={{ transform: `translateX( ${this.props.isSidebarOpen ? '0%' : '-100%'} )` }}
           >
             <img src="../../../logolarge.svg" alt="Unanimity Messenger Logo. Harmony through words." className={this.props.classes.logo} />
+            <Hidden mdUp>
+              <span className={this.props.classes.closeSidebarContainer}>
+                <IconButton size="small" onClick={() => this.props.toggleSidebar()}>
+                  <CloseIcon />
+                </IconButton>
+              </span>
+            </Hidden>
             <div className={this.props.classes.authenticatedUserContainer}>
               <Typography variant="body1">{this.props.authenticatedUsername}</Typography>
             </div>
