@@ -8,7 +8,6 @@ import {
   Button,
   makeStyles,
   Typography,
-  Divider,
   Hidden,
 } from '@material-ui/core';
 

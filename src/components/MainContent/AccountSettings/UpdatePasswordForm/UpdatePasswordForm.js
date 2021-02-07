@@ -1,12 +1,12 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
 import DOMPurify from 'dompurify';
 import * as passwordHash from 'password-hash'; // import npm pass https://www.npmjs.com/package/password-hash
 import { motion } from 'framer-motion';
 import {
-  FormControl, InputLabel, OutlinedInput, Button,
+  FormControl, InputLabel, OutlinedInput, Button, makeStyles, Grid, Typography,
 } from '@material-ui/core';
 import axios from '../../../../axios';
-import styles from '../AccountSettings.module.scss';
 
 /*
 Child component of account settings. Is a form that takes in the current password and a new password to update .
@@ -17,6 +17,24 @@ const UpdatePasswordForm = (props) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [passwordInputError, setPasswordInputError] = useState('');
+
+  const useStyles = makeStyles(theme => ({
+    formSize: {
+      height: '80vh',
+      maxWidth: '700px',
+      maxHeight: '500px',
+      margin: 'auto',
+    },
+    formTitle: {
+      textAlign: 'center',
+      padding: '0',
+    },
+    wordHighlight: {
+      color: theme.palette.secondary.main,
+    },
+  }));
+
+  const classes = useStyles();
 
   // adds new password to database for authenticated user
   const updatePasswordInDatabase = async () => {
@@ -97,57 +115,72 @@ const UpdatePasswordForm = (props) => {
         },
       }}
     >
-      <form onSubmit={updatePasswordOrchestrator} className={styles.form}>
-        <legend>Update Your Password</legend>
-        <span>{passwordInputError}</span>
-        <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel htmlFor="oldPassword">
-            Old Password
-          </InputLabel>
-          <OutlinedInput
-            id="oldPassword"
-            inputProps={{
-              'aria-label': 'Enter your current password', type: 'password', name: 'oldPassword', required: 'true',
-            }}
-            label="oldPassword"
-            onChange={(e) => setOldPassword(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel htmlFor="newPassword">
-            New Password
-          </InputLabel>
-          <OutlinedInput
-            id="newPassword"
-            inputProps={{
-              'aria-label': 'Enter your new password', type: 'password', name: 'newPassword', required: 'true',
-            }}
-            label="newPassword"
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel htmlFor="confirmNewPassword">
-            Confirm Password
-          </InputLabel>
-          <OutlinedInput
-            id="confirmNewPassword"
-            inputProps={{
-              'aria-label': 'confirm your new password', type: 'password', name: 'confirmNewPassword', required: 'true',
-            }}
-            label="confirmNewPassword"
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
-        </FormControl>
-        <span role="alert" aria-label="Errors for entered data in the password form will display here">{passwordInputError}</span>
-        <Button
-          aria-label="Click to proceed updating your password"
-          type="submit"
-          variant="contained"
-          color="primary"
-        >
-          Submit
-        </Button>
+      <form onSubmit={updatePasswordOrchestrator}>
+        <Grid container justify="space-evenly" alignItems="center" className={classes.formSize}>
+          <Grid item xs={12}>
+            <Typography className={classes.formTitle} variant="h1" component="legend">
+              UPDATE <span className={classes.wordHighlight}> PASSWORD </span>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <span>{passwordInputError}</span>
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel htmlFor="oldPassword">
+                Old Password
+              </InputLabel>
+              <OutlinedInput
+                id="oldPassword"
+                inputProps={{
+                  'aria-label': 'Enter your current password', type: 'password', name: 'oldPassword', required: 'true',
+                }}
+                label="oldPassword"
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel htmlFor="newPassword">
+                New Password
+              </InputLabel>
+              <OutlinedInput
+                id="newPassword"
+                inputProps={{
+                  'aria-label': 'Enter your new password', type: 'password', name: 'newPassword', required: 'true',
+                }}
+                label="newPassword"
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel htmlFor="confirmNewPassword">
+                Confirm Password
+              </InputLabel>
+              <OutlinedInput
+                id="confirmNewPassword"
+                inputProps={{
+                  'aria-label': 'confirm your new password', type: 'password', name: 'confirmNewPassword', required: 'true',
+                }}
+                label="confirmNewPassword"
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <span role="alert" aria-label="Errors for entered data in the password form will display here">{passwordInputError}</span>
+            <Button
+              fullWidth
+              aria-label="Click to proceed updating your password"
+              type="submit"
+              variant="contained"
+              color="secondary"
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
       </form>
     </motion.div>
   );

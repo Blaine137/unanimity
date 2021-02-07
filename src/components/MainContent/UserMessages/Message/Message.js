@@ -21,7 +21,7 @@ const message = (props) => {
       borderRadius: '15px',
       maxWidth: '80vw',
       wordWrap: 'break-word',
-      margin: '0',
+      margin: '.25rem 0 1rem 0',
     },
     senderMessage: {
       backgroundColor: theme.palette.background.default,

@@ -26,11 +26,16 @@ const MessageInput = (props) => {
     },
     input: {
       border: `1px solid ${theme.palette.text.secondary}`,
-      borderRadius: '15px',
+      /** border radius set to 4px to match material UI inputs. */
+      borderRadius: '4px',
       width: 'calc(100% - 2rem)',
+      height: '1rem',
       padding: '1rem',
       fontSize: '1rem',
       resize: 'none',
+      '&::placeholder': {
+        textTransform: 'capitalize',
+      },
       '&:hover': { cursor: 'pointer' },
       '&:focus': {
         outline: 'none',
@@ -42,6 +47,7 @@ const MessageInput = (props) => {
     },
     sendButton: {
       width: '100%',
+      height: '3rem',
     },
     [theme.breakpoints.up('md')]: {
       inputContainer: {
@@ -57,13 +63,13 @@ const MessageInput = (props) => {
 
   return (
     <Grid spacing={1} container justify="center" alignItems="center" className={classes.inputContainer}>
-      <Grid item xs={9} sm={10} md={11}>
+      <Grid item xs={10} sm={10} md={11}>
         <TextareaAutosize
           aria-label="Type a messages and press enter on the keyboard to send a message. You can also send emojis with :smile:."
           spellCheck="true"
           maxLength="1999"
           rows="1"
-          placeholder="Enter your message here. Use our emojis by :smile:"
+          placeholder={props.currentChatRoomName === 'Unanimity' ? 'Try sending :SMILE:' : `Message ${props.currentChatRoomName}`}
           className={classes.input}
           onChange={(e) => {
             setUserMessage(DOMPurify.sanitize(e.target.value));
@@ -92,7 +98,7 @@ const MessageInput = (props) => {
           }}
         />
       </Grid>
-      <Grid item xs={3} sm={2} md={1}>
+      <Grid item xs={2} sm={2} md={1}>
         <Button
           className={classes.sendButton}
           aria-label="Send new message"

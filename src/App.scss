@@ -1,14 +1,16 @@
-:root {
-	--main-bg: white;
-	--main-text: rgb(26, 35, 59);
-	--off-text: rgb(108, 129, 150);
-	--light-accent-bg: rgb(243, 246, 255);
-	--dark-accent-bg: rgb(243, 246, 255);
-	--light-action: rgb(0, 0, 255);
-	--dark-action: rgb(0, 0, 255);
-	--positive-action: #5CDB95;
-	--negative-action: rgb(244, 67, 54);
-}
 html { font-family: sans-serif; font-weight: normal; }
 body { font-family: sans-serif; font-weight: normal; }
 .App { text-align: center; }
+/** 
+* CSS for form components inside of AccountSettings is here so that we
+* only had to write them in one location.
+*/
+fieldset { border: none; }
+legend {
+    padding-bottom: 1.5rem;
+    text-align: left;
+}
+label {
+    display: block;
+    margin-bottom: .5rem;;
+}
