@@ -17,6 +17,7 @@ const styles = {
     padding: '1rem',
     position: 'relative',
     transition: 'all 1s ease-in-out',
+    textAlign: 'left',
   },
   logo: {
     maxWidth: '50%',
@@ -37,13 +38,15 @@ const styles = {
     display: 'grid',
     alignContent: 'center',
     margin: '3rem 2rem',
+    textAlign: 'center',
+    maxWidth: '80vw',
   },
   conversationsTitle: {
     textAlign: 'left',
     marginLeft: '1rem',
   },
   chatroomContainer: {
-    margin: '2rem 0',
+    margin: '2rem 2rem',
   },
   chatroomName: {
     display: 'inline-block',
@@ -54,7 +57,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'left',
   },
   addChatroomButton: {
     backgroundColor: LightTheme.palette.secondary.main,
@@ -71,6 +74,12 @@ const styles = {
   },
   [LightTheme.breakpoints.up('lg')]: {
     sidebarContainer: { width: 'auto' },
+  },
+  [LightTheme.breakpoints.up('sm')]: {
+    authenticatedUserContainer: { maxWidth: '50vw' },
+  },
+  [LightTheme.breakpoints.up('md')]: {
+    authenticatedUserContainer: { maxWidth: '30vw' },
   },
 };
 
@@ -198,7 +207,7 @@ class SidebarOfConversations extends Component {
           <Hidden lgUp>
             <span className={this.props.classes.closeSidebarContainer}>
               <IconButton size="small" onClick={() => this.props.toggleSidebar()}>
-                <CloseIcon />
+                <CloseIcon fontSize="large" />
               </IconButton>
             </span>
           </Hidden>
