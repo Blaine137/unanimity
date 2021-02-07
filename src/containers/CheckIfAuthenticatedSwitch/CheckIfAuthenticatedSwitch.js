@@ -43,8 +43,8 @@ const CheckIfAuthenticatedSwitch = (props) => {
     return true;
   };
 
-  // eslint-disable-next-line consistent-return
   // sets users information in all location across the database
+  // eslint-disable-next-line consistent-return
   const registerUserInDatabase = async (newUser, newPassword, newUserID) => {
     let sanitizedNewUserName = DOMPurify.sanitize(newUser);
     sanitizedNewUserName = sanitizedNewUserName.replace(/[^\w]/g, '');
@@ -141,12 +141,12 @@ const CheckIfAuthenticatedSwitch = (props) => {
     }
   };
 
-  // eslint-disable-next-line consistent-return
   /**
    * Compares hashed checkPassword to password on the database.
    * If correct will set authentication value.
    * if false will notify the user.
    */
+  // eslint-disable-next-line consistent-return
   const checkPasswordForUserIDAndLogin = async (checkUsername, checkUserID, checkPassword) => {
     let sanitizedUsername = DOMPurify.sanitize(checkUsername);
     sanitizedUsername = sanitizedUsername.replace(/[^\w]/g, '');
@@ -175,12 +175,12 @@ const CheckIfAuthenticatedSwitch = (props) => {
     }
   };
 
-  // eslint-disable-next-line consistent-return
   /**
    * Makes sure username exists and then get the userID for that user.
    * Calls check password passing the username, userID, and password.
    * if username dose not exist it will notify the user.
    */
+  // eslint-disable-next-line consistent-return
   const checkUserNameForLogin = async (authValues, userNameElement, passwordElement) => {
     if (authValues) { authValues.preventDefault(); }
     const username = userNameElement.value || userNameElement;

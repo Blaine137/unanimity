@@ -55,10 +55,27 @@ const LoginForm = (props) => {
       borderRadius: '15px',
       height: '25vh',
     },
+    textDividerContainer: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    textDivider: {
+      borderBottom: `1px solid ${theme.palette.text.secondary}`,
+      width: '25%',
+    },
+    textDividerContent: {
+      width: '50%',
+    },
     lightButton: {
       backgroundColor: theme.palette.primary.light,
     },
     [theme.breakpoints.up('md')]: {
+      textDivider: {
+        width: '30%',
+      },
+      textDividerContent: {
+        width: '40%',
+      },
       rightGridColum: {
         height: '100vh',
       },
@@ -136,8 +153,11 @@ const LoginForm = (props) => {
                     </Grid>
                     <Grid item xs={12}>
                       <FormControl fullWidth margin="normal">
-                        <Divider />
-                        <Typography variant="subtitle1">Or Sign In as a Guest</Typography>
+                        <div className={classes.textDividerContainer}>
+                          <div className={classes.textDivider} />
+                          <Typography className={classes.textDividerContent} variant="subtitle1">Or Sign In as a Guest</Typography>
+                          <div className={classes.textDivider} />
+                        </div>
                       </FormControl>
                     </Grid>
                     <Grid item xs={12}>
