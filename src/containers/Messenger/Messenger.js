@@ -27,6 +27,7 @@ const mapDispatchToProps = {
 
 const Messenger = (props) => {
   const [sidebarInlineStyles, setSideStyles] = useState({ display: 'block' });
+  const [areSettingsShowing, setAreSettingsShowing] = useState(false);
 
   useEffect(() => {
     // updates the chatroom every half a second so users can see new messages
@@ -478,6 +479,7 @@ const Messenger = (props) => {
             addChatRoom={newChatRoom}
             deleteChatRoom={removeChatRoom}
             toggleSidebar={toggleSidebarOfConversations}
+            setAreSettingsShowing={setAreSettingsShowing}
           />
         </div>
         <div className={styles.mainContentGrid} style={mainContentInlineStyles}>
@@ -492,6 +494,8 @@ const Messenger = (props) => {
             isSidebarOpen={props.isSidebarOpen}
             intentionalAndForcedUserLogout={intentionalAndForcedUserLogout}
             showHideCustomAlert={props.showHideCustomAlert}
+            areSettingsShowing={areSettingsShowing}
+            setAreSettingsShowing={setAreSettingsShowing}
           />
         </div>
       </div>

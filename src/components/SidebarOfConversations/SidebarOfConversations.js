@@ -218,7 +218,7 @@ class SidebarOfConversations extends Component {
             <Typography variant="h6">
               {this.props.authenticatedUsername}
               <span>
-                <IconButton>
+                <IconButton onClick={() => this.props.setAreSettingsShowing(true)}>
                   <SettingsIcon color="secondary" />
                 </IconButton>
               </span>

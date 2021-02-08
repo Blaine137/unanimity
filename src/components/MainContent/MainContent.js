@@ -7,8 +7,6 @@ import MessageInput from './MessageInput/MessageInput';
 * Parent component for Header, ChatRoom, Input, and AccountSettings.
 */
 const MainContent = (props) => {
-  const [areSettingsShowing, setAreSettingsShowing] = useState(false);
-
   /** default to the chatroom */
   let body = (
     <UserMessages
@@ -19,8 +17,8 @@ const MainContent = (props) => {
       toggleSidebar={props.toggleSidebar}
       isSidebarOpen={props.isSidebarOpen}
       intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
-      setAreSettingsShowing={setAreSettingsShowing}
-      areSettingsShowing={areSettingsShowing}
+      setAreSettingsShowing={props.setAreSettingsShowing}
+      areSettingsShowing={props.areSettingsShowing}
     >
       <MessageInput newMessage={props.newMessage} currentChatRoomName={props.currentChatRoomName} showHideCustomAlert={props.showHideCustomAlert} />
     </UserMessages>
@@ -28,11 +26,11 @@ const MainContent = (props) => {
 
   /** sets body to account settings if user has opened the settings. */
   const showSettingsMenu = () => {
-    if (areSettingsShowing) {
+    if (props.areSettingsShowing) {
       body = (
         <AccountSettings
           authUID={props.authUID}
-          setAreSettingsShowing={setAreSettingsShowing}
+          setAreSettingsShowing={props.setAreSettingsShowing}
           authUsername={props.authUsername}
           showHideCustomAlert={props.showHideCustomAlert}
         />
