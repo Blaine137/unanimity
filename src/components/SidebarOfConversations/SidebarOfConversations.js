@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton, Hidden } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
+import SettingsIcon from '@material-ui/icons/Settings';
 import DOMPurify from 'dompurify';
 import axios from '../../axios';
 import { LightTheme } from '../../Theme';
@@ -29,7 +30,7 @@ const styles = {
   },
   closeSidebarContainer: {
     display: 'inline-flex',
-    marginLeft: '.75rem',
+    marginLeft: '1rem',
   },
   authenticatedUserContainer: {
     backgroundColor: LightTheme.palette.primary.light,
@@ -37,6 +38,7 @@ const styles = {
     borderRadius: '15px',
     display: 'grid',
     alignContent: 'center',
+    justifyContent: 'center',
     margin: '3rem 2rem',
     textAlign: 'center',
     maxWidth: '80vw',
@@ -54,6 +56,7 @@ const styles = {
   },
   addChatroomContainer: {
     marginTop: '3rem',
+    marginLeft: '1rem',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
@@ -207,12 +210,19 @@ class SidebarOfConversations extends Component {
           <Hidden lgUp>
             <span className={this.props.classes.closeSidebarContainer}>
               <IconButton size="small" onClick={() => this.props.toggleSidebar()}>
-                <CloseIcon fontSize="large" />
+                <CloseIcon fontSize="large" color="secondary" />
               </IconButton>
             </span>
           </Hidden>
           <div className={this.props.classes.authenticatedUserContainer}>
-            <Typography variant="body1">{this.props.authenticatedUsername}</Typography>
+            <Typography variant="h6">
+              {this.props.authenticatedUsername}
+              <span>
+                <IconButton>
+                  <SettingsIcon color="secondary" />
+                </IconButton>
+              </span>
+            </Typography>
           </div>
           <div>
             <Typography variant="body1" className={this.props.classes.conversationsTitle}>Active Conversations</Typography>
@@ -233,7 +243,7 @@ class SidebarOfConversations extends Component {
               </IconButton>
             </div>
             <div>
-              <form>
+              <form onSubmit={(e) => this.props.addChatRoom(e, DOMPurify.sanitize(document.getElementById('newChatRoomName').value))}>
                 <FormControl fullWidth variant="outlined" margin="normal">
                   <InputLabel htmlFor="newChatRoomName">Add chatroom</InputLabel>
                   <OutlinedInput
