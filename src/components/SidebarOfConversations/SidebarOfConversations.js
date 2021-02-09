@@ -141,7 +141,6 @@ class SidebarOfConversations extends Component {
           className={this.props.classes.chatroomName}
           tabIndex="0"
           onClick={() => {
-            console.log(window.innerWidth);
             /** if on md or smaller toggle sidebar else do not toggle sidebar */
             if (window.innerWidth < 1280) {
               this.props.toggleSidebar(true);
