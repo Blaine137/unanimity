@@ -119,7 +119,7 @@ class SidebarOfConversations extends Component {
   resetSidebarDisplay = () => {
     this.setState({ listOfConversationsToOpenOrDelete: [] });
     ConversationNamesAlreadyInSidebar = [];
-  }
+  };
 
   /* adds a single chatroom to the listOfConversationsToOpenOrDelete. This is the jsx and styles for each recipient/chatroom */
   addChatRoomToListOfConversations = (recipientsName, chatRoomsIdsArray, currentChatRoomID) => {
@@ -141,12 +141,20 @@ class SidebarOfConversations extends Component {
           className={this.props.classes.chatroomName}
           tabIndex="0"
           onClick={() => {
-            this.props.toggleSidebar(true);
+            console.log(window.innerWidth);
+            /** if on md or smaller toggle sidebar else do not toggle sidebar */
+            if (window.innerWidth < 1280) {
+              this.props.toggleSidebar(true);
+            }
+
             this.props.setCurrentChatRoomID(currentChatRoomID);
           }}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              this.props.toggleSidebar(true);
+              /** if on md or smaller toggle sidebar else do not toggle sidebar */
+              if (window.innerWidth < 1280) {
+                this.props.toggleSidebar(true);
+              }
               this.props.setCurrentChatRoomID(currentChatRoomID);
             }
           }}
@@ -196,7 +204,7 @@ class SidebarOfConversations extends Component {
         }
       });
     }
-  }
+  };
 
   render() {
     this.getRecipientsNameForChatRooms();
@@ -219,7 +227,7 @@ class SidebarOfConversations extends Component {
               {this.props.authenticatedUsername}
               <span>
                 <IconButton onClick={() => this.props.setAreSettingsShowing(true)}>
-                  <SettingsIcon color="secondary" />
+                  <SettingsIcon color={LightTheme.palette.text.primary} />
                 </IconButton>
               </span>
             </Typography>

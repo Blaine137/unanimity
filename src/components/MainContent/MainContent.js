@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import UserMessages from './UserMessages/UserMessages';
 import AccountSettings from './AccountSettings/AccountSettings';
 import MessageInput from './MessageInput/MessageInput';
