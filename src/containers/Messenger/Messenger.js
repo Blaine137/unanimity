@@ -493,7 +493,6 @@ const Messenger = (props) => {
             toggleSidebar={toggleSidebarOfConversations}
             isSidebarOpen={props.isSidebarOpen}
             intentionalAndForcedUserLogout={intentionalAndForcedUserLogout}
-            showHideCustomAlert={props.showHideCustomAlert}
             areSettingsShowing={areSettingsShowing}
             setAreSettingsShowing={setAreSettingsShowing}
           />

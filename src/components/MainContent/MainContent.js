@@ -19,7 +19,7 @@ const MainContent = (props) => {
       setAreSettingsShowing={props.setAreSettingsShowing}
       areSettingsShowing={props.areSettingsShowing}
     >
-      <MessageInput newMessage={props.newMessage} currentChatRoomName={props.currentChatRoomName} showHideCustomAlert={props.showHideCustomAlert} />
+      <MessageInput newMessage={props.newMessage} currentChatRoomName={props.currentChatRoomName} />
     </UserMessages>
   );
 
