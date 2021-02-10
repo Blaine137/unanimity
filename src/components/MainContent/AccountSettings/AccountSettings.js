@@ -72,7 +72,6 @@ const AccountSettings = (props) => {
           authUsername={props.authUsername}
           setAreSettingsShowing={props.setAreSettingsShowing}
           authUID={props.authUID}
-          showHideCustomAlert={props.showHideCustomAlert}
         />
       );
     } if (isUpdatePwdFormShowing) {
@@ -81,7 +80,6 @@ const AccountSettings = (props) => {
           checkPasswordInput={checkPasswordInput}
           setAreSettingsShowing={props.setAreSettingsShowing}
           authUID={props.authUID}
-          showHideCustomAlert={props.showHideCustomAlert}
         />
       );
     }

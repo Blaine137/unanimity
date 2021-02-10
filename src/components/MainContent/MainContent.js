@@ -31,7 +31,6 @@ const MainContent = (props) => {
           authUID={props.authUID}
           setAreSettingsShowing={props.setAreSettingsShowing}
           authUsername={props.authUsername}
-          showHideCustomAlert={props.showHideCustomAlert}
           intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
         />
       );
