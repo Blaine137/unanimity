@@ -4,6 +4,7 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
+  FormHelperText,
   Grid,
   Button,
   makeStyles,
@@ -11,6 +12,10 @@ import {
   Hidden,
 } from '@material-ui/core';
 
+/**
+ * Form component that will switch back and fourth between login in and sign up.
+ * The state and logic for form validation is in checkIfAuthenticated.
+ */
 const LoginForm = (props) => {
   const [isSignUpFormShowing, setIsSignUpFormShowing] = useState(false);
 
@@ -101,7 +106,16 @@ const LoginForm = (props) => {
               <Hidden mdUp>
                 <img src="../../../logolarge.svg" alt="Unanimity Messenger Logo. Harmony through words." className={classes.logo} />
               </Hidden>
-              <form>
+              <form
+                onChange={
+                  () => {
+                    /** If trying to sign up show realtime errors */
+                    if (isSignUpFormShowing) {
+                      props.validateSignUpValues(document.getElementById('userNameID').value, document.getElementById('passwordID').value);
+                    }
+                  }
+                }
+              >
                 <fieldset>
                   <Grid container justify="space-evenly" alignItems="center" className={classes.formSize}>
                     <Grid item xs={12}>
@@ -110,7 +124,7 @@ const LoginForm = (props) => {
                       </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                      <FormControl fullWidth variant="outlined" margin="normal">
+                      <FormControl fullWidth variant="outlined" margin="normal" error={props.isUsernameError}>
                         <InputLabel htmlFor="userNameID">Username</InputLabel>
                         <OutlinedInput
                           id="userNameID"
@@ -118,11 +132,13 @@ const LoginForm = (props) => {
                             'aria-label': 'Username text input field', type: 'text', name: 'userNameID', required: true,
                           }}
                           label="Username"
+                          aria-describedby="userNameIDError"
                         />
+                        <FormHelperText id="userNameIDError">{props.usernameErrorFeedback}</FormHelperText>
                       </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                      <FormControl fullWidth variant="outlined" margin="normal">
+                      <FormControl fullWidth variant="outlined" margin="normal" error={props.isPasswordError}>
                         <InputLabel htmlFor="passwordID">Password</InputLabel>
                         <OutlinedInput
                           id="passwordID"
@@ -130,7 +146,9 @@ const LoginForm = (props) => {
                             'aria-label': 'password text input field', type: 'password', name: 'passwordID', required: true,
                           }}
                           label="Password"
+                          aria-describedby="passwordError"
                         />
+                        <FormHelperText id="passwordError">{props.passwordErrorFeedback}</FormHelperText>
                       </FormControl>
                     </Grid>
                     <Grid item xs={12}>
