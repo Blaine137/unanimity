@@ -16,7 +16,6 @@ const MainContent = (props) => {
       authUID={props.authUID}
       toggleSidebar={props.toggleSidebar}
       isSidebarOpen={props.isSidebarOpen}
-      intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
       setAreSettingsShowing={props.setAreSettingsShowing}
       areSettingsShowing={props.areSettingsShowing}
     >
@@ -33,6 +32,7 @@ const MainContent = (props) => {
           setAreSettingsShowing={props.setAreSettingsShowing}
           authUsername={props.authUsername}
           showHideCustomAlert={props.showHideCustomAlert}
+          intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
         />
       );
     }

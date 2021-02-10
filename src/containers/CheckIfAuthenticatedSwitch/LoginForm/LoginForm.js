@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FormControl,
   InputLabel,
@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core';
 
 const LoginForm = (props) => {
+  const [isSignUpFormShowing, setIsSignUpFormShowing] = useState(false);
+
   const useStyles = makeStyles(theme => ({
     logo: {
       maxWidth: '90%',
@@ -104,7 +106,7 @@ const LoginForm = (props) => {
                   <Grid container justify="space-evenly" alignItems="center" className={classes.formSize}>
                     <Grid item xs={12}>
                       <Typography className={classes.formTitle} variant="h1" component="legend">
-                        SIGN <span className={classes.wordHighlight}> IN </span>
+                        SIGN <span className={classes.wordHighlight}>{isSignUpFormShowing ? 'UP' : 'IN'}</span>
                       </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -142,11 +144,17 @@ const LoginForm = (props) => {
                           size="large"
                           fullWidth
                           onClick={(e) => {
-                            props.checkName(e, document.getElementById('userNameID'), document.getElementById('passwordID'));
+                            if (isSignUpFormShowing) {
+                              /** sign up form is showing so sign in */
+                              props.checkForNewUser(e, document.getElementById('userNameID'), document.getElementById('passwordID'));
+                            } else {
+                              /** sign in */
+                              props.checkName(e, document.getElementById('userNameID'), document.getElementById('passwordID'));
+                            }
                           }}
                           disableElevation
                         >
-                          SIGN IN
+                          SIGN {isSignUpFormShowing ? 'UP' : 'IN'}
                         </Button>
                       </FormControl>
                     </Grid>
@@ -189,12 +197,10 @@ const LoginForm = (props) => {
                           variant="contained"
                           size="large"
                           fullWidth
-                          onClick={(e) => {
-                            props.checkForNewUser(e, document.getElementById('userNameID'), document.getElementById('passwordID'));
-                          }}
+                          onClick={(e) => { e.preventDefault(); setIsSignUpFormShowing(!isSignUpFormShowing); }}
                           disableElevation
                         >
-                          Not a Member?<span className={classes.wordHighlight}>&nbsp; Sign Up</span>
+                          {isSignUpFormShowing ? <>Have a Account? <span className={classes.wordHighlight}>&nbsp; Sign In</span></> : <>Not a Member? <span className={classes.wordHighlight}>&nbsp; Sign Up</span></>}
                         </Button>
                       </FormControl>
                     </Grid>

@@ -91,6 +91,16 @@ const AccountSettings = (props) => {
           <Grid item xs={6}>
             <Button
               fullWidth
+              className={classes.accountSettingsButton}
+              variant="contained"
+              color="secondary"
+              aria-label="Logout of unanimity"
+              onClick={() => { props.intentionalAndForcedUserLogout(true); }}
+            >
+              Logout
+            </Button>
+            <Button
+              fullWidth
               aria-label="open up a form where you can update your username"
               onClick={() => setIsUpdateUsernameFormShowing(true)}
               className={classes.accountSettingsButton}
