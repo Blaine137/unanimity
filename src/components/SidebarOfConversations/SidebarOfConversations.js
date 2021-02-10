@@ -56,7 +56,7 @@ const styles = {
   },
   addChatroomContainer: {
     marginTop: '3rem',
-    marginLeft: '1rem',
+    marginLeft: '2rem',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
