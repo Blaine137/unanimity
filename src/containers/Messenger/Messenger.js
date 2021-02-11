@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
 import { connect } from 'react-redux';
 import SidebarOfConversations from '../../components/SidebarOfConversations/SidebarOfConversations';
@@ -28,6 +28,8 @@ const mapDispatchToProps = {
 const Messenger = (props) => {
   const [sidebarInlineStyles, setSideStyles] = useState({ display: 'block' });
   const [areSettingsShowing, setAreSettingsShowing] = useState(false);
+  const [isAddChatroomErrors, setIsAddChatroomErrors] = useState(false);
+  const [addChatroomErrorFeedback, setAddChatroomErrorFeedback] = useState('');
 
   useEffect(() => {
     // updates the chatroom every half a second so users can see new messages
@@ -209,6 +211,8 @@ const Messenger = (props) => {
 
     // adds references in db for a new chatroom.
     const addChatRoomReferences = () => {
+      setIsAddChatroomErrors(false);
+      setAddChatroomErrorFeedback('');
       // if recipientID was set. the user they are trying to start a conversation with exists.
       if (recipientID !== null) {
         newChatRoomObject = { nextMsgNum: 2 };
@@ -222,7 +226,8 @@ const Messenger = (props) => {
             if (newChatRoomID) {
               axios.put(`chatRooms/${newChatRoomID}.json`, newChatRoomObject).catch(
                 () => {
-                  props.showHideCustomAlert('failed to add chat room to data base. Please try agin.', null);
+                  setIsAddChatroomErrors(true);
+                  setAddChatroomErrorFeedback('failed to add. Please try agin.', null);
                 },
               );
               // eslint-disable-next-line radix
@@ -230,10 +235,11 @@ const Messenger = (props) => {
               // increment the ID to find the Id after newID
               updatedChatRoomID++;
               axios.put('chatRooms/nextChatRoomID.json', updatedChatRoomID).catch(
-                (error) => { props.showHideCustomAlert(`failed to update the nextChatRoomID in the DB ${error}`, null); },
+                (error) => { setIsAddChatroomErrors(true); setAddChatroomErrorFeedback(`failed to update the nextChatRoomID in the DB. ${error}`, null); },
               );
             } else {
-              props.showHideCustomAlert('Could not determine the chat room id. Please try agin.', null);
+              setIsAddChatroomErrors(true);
+              setAddChatroomErrorFeedback('ChatroomId is null', null);
             }
             // --------- end create the chatroom in chatRooms ---------
 
@@ -248,11 +254,12 @@ const Messenger = (props) => {
                   updatedAuthUserChatRoomsID.push(newChatRoomID);
                   const chatRooms = updatedAuthUserChatRoomsID;
                   axios.put(`usersChatRooms/ucr${props.authenticatedUserID}.json`, { chatRooms })
-                    .then(() => props.showHideCustomAlert('Chatroom successfully added!', true))
+                    .then(() => setAddChatroomErrorFeedback('Chatroom added!'))
                     .catch(
                       (error) => {
-                        const errorMessage = `Error. failed to update Authenticated usersChatRooms ${DOMPurify.sanitize(error)}`;
-                        props.showHideCustomAlert(errorMessage, null);
+                        const errorMessage = `Failed to update Authenticated usersChatRooms. ${DOMPurify.sanitize(error)}`;
+                        setIsAddChatroomErrors(true);
+                        setAddChatroomErrorFeedback(errorMessage);
                       },
                     );
                 },
@@ -264,8 +271,9 @@ const Messenger = (props) => {
               const chatRooms = updatedAuthUserChatRoomsID;
               axios.put(`usersChatRooms/ucr${props.authenticatedUserID}.json`, { chatRooms }).catch(
                 (error) => {
-                  const errorMessage = `Error. failed to update Authenticated usersChatRooms ${DOMPurify.sanitize(error)}`;
-                  props.showHideCustomAlert(errorMessage, null);
+                  const errorMessage = `Failed to update Authenticated usersChatRooms. ${DOMPurify.sanitize(error)}`;
+                  setIsAddChatroomErrors(true);
+                  setAddChatroomErrorFeedback(errorMessage);
                 },
               );
             }
@@ -286,7 +294,7 @@ const Messenger = (props) => {
                   },
                 ).catch(
                   (error) => {
-                    const errorMessage = `Error. failed to update Recipient usersChatRooms ${DOMPurify.sanitize(error)}`;
+                    const errorMessage = `Failed to update Recipient usersChatRooms. ${DOMPurify.sanitize(error)}`;
                     props.showHideCustomAlert(errorMessage, null);
                   },
                 );
@@ -301,8 +309,9 @@ const Messenger = (props) => {
             };
             axios.put(`chatRoomsUsers/cru${newChatRoomID}.json`, newChatRoomUsersObject).catch(
               (error) => {
-                const errorMessage = `Error. Failed to add ChatRoom to ChatRoomUsers ${DOMPurify.sanitize(error)}`;
-                props.showHideCustomAlert(errorMessage, null);
+                const errorMessage = `Failed to add ChatRoom to ChatRoomUsers. ${DOMPurify.sanitize(error)}`;
+                setIsAddChatroomErrors(true);
+                setAddChatroomErrorFeedback(errorMessage);
               },
             );
             // --------- end of update chatRoomUsers ---------
@@ -310,8 +319,9 @@ const Messenger = (props) => {
         ).catch(
           // if error occurred in axios get nextChatRoomID from chatRooms/nextChatRoomID.json
           (error) => {
-            const errorMessage = `Error occurred while trying to set ChatRoomID. Please try agin. ${DOMPurify.sanitize(error)}`;
-            props.showHideCustomAlert(errorMessage, null);
+            const errorMessage = `Error occurred while trying to set ChatRoomID. ${DOMPurify.sanitize(error)}`;
+            setIsAddChatroomErrors(true);
+            setAddChatroomErrorFeedback(errorMessage);
           },
         );
       }
@@ -324,7 +334,8 @@ const Messenger = (props) => {
         (response) => {
           recipientID = response.data;
           if (recipientID === null) {
-            props.showHideCustomAlert('User not found! 308', null);
+            setIsAddChatroomErrors(true);
+            setAddChatroomErrorFeedback('User not found!');
           }
 
           // --------- Check to see if auth user already has a chatroom with recipient ---------
@@ -340,7 +351,8 @@ const Messenger = (props) => {
                       for (let i = 0; i < Object.values(chatRoomUsers.data.users).length; i++) {
                         const userID = chatRoomUsers.data.users[i];
                         if (recipientID === userID) {
-                          props.showHideCustomAlert('You already have a chatroom with this user.', null);
+                          setIsAddChatroomErrors(true);
+                          setAddChatroomErrorFeedback('Chatroom already exist', null);
                           hasChatRoomWithRecipient = true;
                           break;
                         }
@@ -361,11 +373,19 @@ const Messenger = (props) => {
         },
       ).catch(
         () => {
-          props.showHideCustomAlert('User not found! 366', null);
+          setIsAddChatroomErrors(true);
+          setAddChatroomErrorFeedback('User not found');
         },
       );
     } else {
-      props.showHideCustomAlert("Recipient's name is required and cannot be your own name!", null);
+      // eslint-disable-next-line no-lonely-if
+      if (sanitizedRecipientName === props.authenticatedUsername) {
+        setIsAddChatroomErrors(true);
+        setAddChatroomErrorFeedback('Can not add yourself');
+      } else {
+        setIsAddChatroomErrors(true);
+        setAddChatroomErrorFeedback("Recipient's name is required");
+      }
     }
     // --------- end of check recipient name ---------
   };
@@ -441,11 +461,11 @@ const Messenger = (props) => {
         },
       ).catch(
         (error) => {
-          props.showHideCustomAlert(`Could not find Chatroom that you requested to be removed. ${error}`, null);
+          setAddChatroomErrorFeedback(`Could not find Chatroom that you requested to be removed. ${error}`);
         },
       );
     } else {
-      props.showHideCustomAlert('removeChatRoomID was null in removeChatRoom function. function was canceled.', null);
+      setAddChatroomErrorFeedback('removeChatRoomID was null in removeChatRoom function. function was canceled.');
     }
   };
 
@@ -480,6 +500,8 @@ const Messenger = (props) => {
             deleteChatRoom={removeChatRoom}
             toggleSidebar={toggleSidebarOfConversations}
             setAreSettingsShowing={setAreSettingsShowing}
+            addChatroomErrorFeedback={addChatroomErrorFeedback}
+            isAddChatroomErrors={isAddChatroomErrors}
           />
         </div>
         <div className={styles.mainContentGrid} style={mainContentInlineStyles}>

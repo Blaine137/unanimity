@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton, Hidden } from '@material-ui/core';
+import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton, Hidden, FormHelperText } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -51,21 +51,18 @@ const styles = {
     margin: '2rem auto',
     maxWidth: '85%',
     textTransform: 'capitalize',
-    display: 'flex',
-    alignItems: 'center',
-    borderRadius: '5px',
-    backgroundColor: '#ececec',
+    borderRadius: '15px',
     '&:hover, &:active': {
-      backgroundColor: '#cecece',
+      backgroundColor: LightTheme.palette.primary.light,
     },
     '&:hover button, &:focus button': {
       opacity: 1,
     },
   },
   conversationCloseButton: {
-    opacity: 0,
-    margin: '0 0 0 .5rem',
-    position: 'absolute',
+    opacity: 0, // 0 opacity by default can add a transition here if you want to get fancy
+    transition: 'opacity .5s ease-in',
+    marginLeft: '1rem',
   },
   chatroomName: {
     width: '100%',
@@ -92,6 +89,12 @@ const styles = {
   },
   addChatroomInput: {
     border: 'none',
+    /** margin bottom keeps error message from going behind the input. */
+    marginBottom: '.25rem',
+  },
+  errorMessage: {
+    /** line height 0 keeps from the error message making the input and submit button unentered. */
+    lineHeight: '0',
   },
   [LightTheme.breakpoints.up('lg')]: {
     sidebarContainer: { width: 'auto' },
@@ -144,18 +147,6 @@ class SidebarOfConversations extends Component {
     const newConversation = [...this.state.listOfConversationsToOpenOrDelete];
     newConversation.push((
       <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={reactKey} className={this.props.classes.chatroomContainer}>
-        <IconButton
-          className={this.props.classes.conversationCloseButton}
-          tabIndex="0"
-          onClick={() => this.props.deleteChatRoom(currentChatRoomID)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
-          }}
-          aria-label={`Delete ${recipientsName} chatroom button`}
-          size="small"
-        >
-          <CloseIcon color="primary" fontSize="large" />
-        </IconButton>
         <h3
           className={this.props.classes.chatroomName}
           tabIndex="0"
@@ -181,6 +172,18 @@ class SidebarOfConversations extends Component {
         >
           {recipientsName}
         </h3>
+        <IconButton
+          className={this.props.classes.conversationCloseButton}
+          tabIndex="0"
+          onClick={() => this.props.deleteChatRoom(currentChatRoomID)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
+          }}
+          aria-label={`Delete ${recipientsName} chatroom button`}
+          size="small"
+        >
+          <CloseIcon color="primary" fontSize="large" />
+        </IconButton>
       </div>
     ));
     reactKey++;
@@ -270,7 +273,7 @@ class SidebarOfConversations extends Component {
             </div>
             <div>
               <form onSubmit={(e) => this.props.addChatRoom(e, DOMPurify.sanitize(document.getElementById('newChatRoomName').value))}>
-                <FormControl fullWidth variant="outlined" margin="normal">
+                <FormControl fullWidth variant="outlined" margin="normal" error={this.props.isAddChatroomErrors}>
                   <InputLabel htmlFor="newChatRoomName">Add chatroom</InputLabel>
                   <OutlinedInput
                     className={this.props.classes.addChatroomInput}
@@ -280,6 +283,7 @@ class SidebarOfConversations extends Component {
                     }}
                     label="Add chatroom"
                   />
+                  <FormHelperText id="newChatRoomName" className={this.props.classes.errorMessage}>{this.props.addChatroomErrorFeedback}</FormHelperText>
                 </FormControl>
               </form>
             </div>
