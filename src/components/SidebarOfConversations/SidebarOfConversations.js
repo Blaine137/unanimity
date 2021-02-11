@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton, Hidden } from '@material-ui/core';
+import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton, Hidden, FormHelperText } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -74,6 +74,9 @@ const styles = {
   },
   addChatroomInput: {
     border: 'none',
+  },
+  errorMessage: {
+    color: 'red',
   },
   [LightTheme.breakpoints.up('lg')]: {
     sidebarContainer: { width: 'auto' },
@@ -261,6 +264,7 @@ class SidebarOfConversations extends Component {
                     }}
                     label="Add chatroom"
                   />
+                  <FormHelperText id="newChatRoomName" className={this.props.classes.errorMessage}>{this.props.addChatroomErrorFeedback}</FormHelperText>
                 </FormControl>
               </form>
             </div>
