@@ -81,9 +81,12 @@ const styles = {
   },
   addChatroomInput: {
     border: 'none',
+    /** margin bottom keeps error message from going behind the input. */
+    marginBottom: '.25rem',
   },
   errorMessage: {
-    color: 'red',
+    /** line height 0 keeps from the error message making the input and submit button unentered. */
+    lineHeight: '0',
   },
   [LightTheme.breakpoints.up('lg')]: {
     sidebarContainer: { width: 'auto' },
@@ -262,7 +265,7 @@ class SidebarOfConversations extends Component {
             </div>
             <div>
               <form onSubmit={(e) => this.props.addChatRoom(e, DOMPurify.sanitize(document.getElementById('newChatRoomName').value))}>
-                <FormControl fullWidth variant="outlined" margin="normal">
+                <FormControl fullWidth variant="outlined" margin="normal" error={this.props.isAddChatroomErrors}>
                   <InputLabel htmlFor="newChatRoomName">Add chatroom</InputLabel>
                   <OutlinedInput
                     className={this.props.classes.addChatroomInput}
