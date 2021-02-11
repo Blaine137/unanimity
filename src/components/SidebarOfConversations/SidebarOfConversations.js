@@ -48,9 +48,14 @@ const styles = {
     marginLeft: '1rem',
   },
   chatroomContainer: {
-    margin: '2rem 2rem',
+    margin: '2rem auto',
+    maxWidth: '85%',
+    textTransform: 'capitalize',
+    borderRadius: '15px',
+    '&:hover, &:active': {
+      backgroundColor: LightTheme.palette.primary.light,
+    },
     '&:hover button, &:focus button': {
-      /* you want to check for if the container is hovered, then append the style to the button child */
       opacity: 1,
     },
   },
@@ -60,8 +65,9 @@ const styles = {
     marginLeft: '1rem',
   },
   chatroomName: {
-    display: 'inline-block',
-    marginLeft: '.5rem',
+    width: '100%',
+    textAlign: 'center',
+    margin: '.5rem auto',
   },
   addChatroomContainer: {
     marginTop: '3rem',
