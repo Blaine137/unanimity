@@ -48,11 +48,29 @@ const styles = {
     marginLeft: '1rem',
   },
   chatroomContainer: {
-    margin: '2rem 2rem',
+    margin: '2rem auto',
+    maxWidth: '85%',
+    textTransform: 'capitalize',
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: '5px',
+    backgroundColor: '#ececec',
+    '&:hover, &:active': {
+      backgroundColor: '#cecece',
+    },
+    '&:hover button, &:focus button': {
+      opacity: 1,
+    },
+  },
+  conversationCloseButton: {
+    opacity: 0,
+    margin: '0 0 0 .5rem',
+    position: 'absolute',
   },
   chatroomName: {
-    display: 'inline-block',
-    marginLeft: '.5rem',
+    width: '100%',
+    textAlign: 'center',
+    margin: '.5rem auto',
   },
   addChatroomContainer: {
     marginTop: '3rem',
@@ -127,6 +145,7 @@ class SidebarOfConversations extends Component {
     newConversation.push((
       <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={reactKey} className={this.props.classes.chatroomContainer}>
         <IconButton
+          className={this.props.classes.conversationCloseButton}
           tabIndex="0"
           onClick={() => this.props.deleteChatRoom(currentChatRoomID)}
           onKeyDown={e => {
