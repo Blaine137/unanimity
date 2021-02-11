@@ -56,6 +56,7 @@ const styles = {
   },
   conversationCloseButton: {
     opacity: 0, // 0 opacity by default can add a transition here if you want to get fancy
+    transition: 'opacity .5s ease-in',
     marginLeft: '1rem',
   },
   chatroomName: {
