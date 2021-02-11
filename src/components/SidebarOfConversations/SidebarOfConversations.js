@@ -56,6 +56,7 @@ const styles = {
   },
   conversationCloseButton: {
     opacity: 0, // 0 opacity by default can add a transition here if you want to get fancy
+    marginLeft: '1rem',
   },
   chatroomName: {
     display: 'inline-block',
@@ -139,18 +140,6 @@ class SidebarOfConversations extends Component {
     const newConversation = [...this.state.listOfConversationsToOpenOrDelete];
     newConversation.push((
       <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={reactKey} className={this.props.classes.chatroomContainer}>
-        <IconButton
-          className={this.props.classes.conversationCloseButton}
-          tabIndex="0"
-          onClick={() => this.props.deleteChatRoom(currentChatRoomID)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
-          }}
-          aria-label={`Delete ${recipientsName} chatroom button`}
-          size="small"
-        >
-          <CloseIcon color="primary" fontSize="large" />
-        </IconButton>
         <h3
           className={this.props.classes.chatroomName}
           tabIndex="0"
@@ -176,6 +165,18 @@ class SidebarOfConversations extends Component {
         >
           {recipientsName}
         </h3>
+        <IconButton
+          className={this.props.classes.conversationCloseButton}
+          tabIndex="0"
+          onClick={() => this.props.deleteChatRoom(currentChatRoomID)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') { this.props.deleteChatRoom(currentChatRoomID); }
+          }}
+          aria-label={`Delete ${recipientsName} chatroom button`}
+          size="small"
+        >
+          <CloseIcon color="primary" fontSize="large" />
+        </IconButton>
       </div>
     ));
     reactKey++;

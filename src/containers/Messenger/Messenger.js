@@ -254,7 +254,7 @@ const Messenger = (props) => {
                   updatedAuthUserChatRoomsID.push(newChatRoomID);
                   const chatRooms = updatedAuthUserChatRoomsID;
                   axios.put(`usersChatRooms/ucr${props.authenticatedUserID}.json`, { chatRooms })
-                    .then(() => props.showHideCustomAlert('Chatroom added!', true))
+                    .then(() => setAddChatroomErrorFeedback('Chatroom added!'))
                     .catch(
                       (error) => {
                         const errorMessage = `Failed to update Authenticated usersChatRooms. ${DOMPurify.sanitize(error)}`;
