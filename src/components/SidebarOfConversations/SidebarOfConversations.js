@@ -49,13 +49,6 @@ const styles = {
   },
   chatroomContainer: {
     margin: '2rem 2rem',
-    '&:hover button, &:focus button': {
-      /* you want to check for if the container is hovered, then append the style to the button child */
-      opacity: 1,
-    },
-  },
-  conversationCloseButton: {
-    opacity: 0, // 0 opacity by default can add a transition here if you want to get fancy
   },
   chatroomName: {
     display: 'inline-block',
@@ -137,7 +130,6 @@ class SidebarOfConversations extends Component {
     newConversation.push((
       <div aria-label={`options for chatroom ${recipientsName}`} role="menuitem" key={reactKey} className={this.props.classes.chatroomContainer}>
         <IconButton
-          className={this.props.classes.conversationCloseButton}
           tabIndex="0"
           onClick={() => this.props.deleteChatRoom(currentChatRoomID)}
           onKeyDown={e => {
