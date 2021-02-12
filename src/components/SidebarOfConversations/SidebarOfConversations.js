@@ -48,9 +48,9 @@ const styles = {
     marginLeft: '1rem',
   },
   chatroomContainer: {
-    margin: '2rem auto',
-    maxWidth: '85%',
+    margin: '2rem',
     textTransform: 'capitalize',
+    padding: '0 1rem',
     borderRadius: '15px',
     '&:hover, &:active': {
       backgroundColor: LightTheme.palette.primary.light,
@@ -60,14 +60,12 @@ const styles = {
     },
   },
   conversationCloseButton: {
-    opacity: 0, // 0 opacity by default can add a transition here if you want to get fancy
-    transition: 'opacity .5s ease-in',
+    opacity: 0,
+    transition: 'opacity .3s ease-in',
     marginLeft: '1rem',
   },
   chatroomName: {
-    width: '100%',
-    textAlign: 'center',
-    margin: '.5rem auto',
+    display: 'inline-block',
   },
   addChatroomContainer: {
     marginTop: '3rem',

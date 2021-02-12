@@ -9,22 +9,23 @@ This component calls and Emoji component that will convert any :emojiName: synta
 */
 const message = (props) => {
   const useStyles = makeStyles(theme => ({
-    messageContainer: {
-      maxWidth: '95vw',
-      textAlign: 'left',
-      margin: '.25rem 0',
-    },
     messageText: {
       display: 'inline-block',
       padding: '.5rem 1rem',
       lineHeight: '2rem',
       borderRadius: '15px',
-      maxWidth: '80vw',
+      maxWidth: 'calc(100% - 2rem)',
       wordWrap: 'break-word',
       margin: '.25rem 0 1rem 0',
     },
+    senderContainer: {
+      textAlign: 'left',
+    },
     senderMessage: {
       backgroundColor: theme.palette.background.default,
+    },
+    receiverContainer: {
+      textAlign: 'right',
     },
     receiverMessage: {
       backgroundColor: theme.palette.text.primary,
@@ -36,15 +37,18 @@ const message = (props) => {
   }));
   const classes = useStyles();
 
+  let messageContainer = null;
   let messageColor = null;
   let messageAlignment = null;
   let messageTitle = null;
   /** Sets styles for message based on if it is the sender or receiver message */
   if (props.isMessageSender) {
+    messageContainer = classes.receiverContainer;
     messageColor = classes.receiverMessage;
     messageTitle = classes.receiverTitle;
     messageAlignment = 'flex-end';
   } else {
+    messageContainer = classes.senderContainer;
     messageAlignment = 'flex-start';
     messageColor = classes.senderMessage;
   }
@@ -60,7 +64,7 @@ const message = (props) => {
 
   return (
     <Grid container justify={messageAlignment}>
-      <Grid item className={classes.messageContainer}>
+      <Grid item xs={10} className={messageContainer}>
         <Typography className={messageTitle} variant="subtitle2" style={{ textTransform: 'capitalize' }}>{sanitizedName}</Typography>
         <Emoji className={`${messageColor} ${classes.messageText}`} text={sanitizedMessage} />
       </Grid>
