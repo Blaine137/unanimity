@@ -1,16 +1,16 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
 import DOMPurify from 'dompurify';
-import * as passwordHash from 'password-hash'; // import npm pass https://www.npmjs.com/package/password-hash
+import * as passwordHash from 'password-hash';
 import { motion } from 'framer-motion';
 import {
   FormControl, InputLabel, OutlinedInput, Button, makeStyles, Grid, Typography, FormHelperText,
 } from '@material-ui/core';
 import axios from '../../../../axios';
 
-/*
-Child component of account settings. Is a form that takes in the current password and a new password to update .
-Handles updating the database to the new password.
+/**
+* Child component of account settings. Is a form that takes in the current password and a new password to update.
+* Handles updating the database to the new password.
 */
 const UpdatePasswordForm = (props) => {
   const [oldPassword, setOldPassword] = useState('');
@@ -36,13 +36,12 @@ const UpdatePasswordForm = (props) => {
       color: theme.palette.secondary.main,
     },
   }));
-
   const classes = useStyles();
 
-  // adds new password to database for authenticated user
+  // Adds new password to database for authenticated user
   const updatePasswordInDatabase = async () => {
     const newHashedPassword = passwordHash.generate(newPassword);
-    // Cant not set pwd field to string because firebase requires to pass object. So we have to pass the entire user object with the updated pwd property.
+    // Cant not set password field to string because firebase requires to pass object. So we have to pass the entire user object with the updated password property.
     const oldUser = await axios.get(`users/u${props.authUID}.json`)
       .catch((err) => { setIsNewPasswordError(true); setNewPasswordErrorText(`Failed to update password. ${err}`); });
     const updatedUser = { ...oldUser.data };
@@ -57,8 +56,12 @@ const UpdatePasswordForm = (props) => {
       .catch((err) => { setIsNewPasswordError(true); setNewPasswordErrorText(`Failed to update password. ${err}`); });
   };
 
-  // sanitizes and validates the new password. Then it confirms newPassword and ConfirmNewPassword are the same. Return True if it passes all checks else it returns false.
-  const validateNewPassword = async () => {
+  /**
+   *  Sanitizes and validates the new password.
+   *  Then it confirms newPassword and ConfirmNewPassword are the same.
+   *  Return True if it passes all checks else it returns false.
+  */
+  const validateAndConfirmNewPassword = async () => {
     setIsNewPasswordError(false);
     setNewPasswordErrorText('');
     if (newPassword.length < 5) {
@@ -97,16 +100,18 @@ const UpdatePasswordForm = (props) => {
   };
 
   /**
-  * Calls all the steps needed to update the password in order
+  * Calls all the steps needed to update the password in order.
   */
-  const updatePasswordOrchestrator = async (e) => {
+  const updatePasswordOrchestrator = async e => {
     e.preventDefault();
-    await sanitizePasswordInState();
+    /** reset error message */
     setIsOldPasswordError(false);
     setOldPasswordErrorText('');
+
+    await sanitizePasswordInState();
     const isPasswordCorrect = await props.checkPasswordInput(oldPassword);
     if (isPasswordCorrect && isPasswordCorrect !== 300) {
-      if (await validateNewPassword()) {
+      if (await validateAndConfirmNewPassword()) {
         updatePasswordInDatabase();
       }
     } else {
@@ -129,7 +134,7 @@ const UpdatePasswordForm = (props) => {
         },
       }}
     >
-      <form onSubmit={updatePasswordOrchestrator} onChange={validateNewPassword} onBlur={validateNewPassword}>
+      <form onSubmit={updatePasswordOrchestrator} onChange={validateAndConfirmNewPassword} onBlur={validateAndConfirmNewPassword}>
         <Grid container justify="space-evenly" alignItems="center" className={classes.formContainerSize}>
           <Grid item xs={12}>
             <Typography className={classes.formTitle} variant="h1" component="legend">
@@ -144,7 +149,7 @@ const UpdatePasswordForm = (props) => {
               <OutlinedInput
                 id="oldPassword"
                 inputProps={{
-                  'aria-label': 'Enter your current password', type: 'password', name: 'oldPassword', required: 'true',
+                  'aria-label': 'Enter your current password', type: 'password', name: 'oldPassword', required: true,
                 }}
                 label="oldPassword"
                 onChange={(e) => setOldPassword(e.target.value)}
@@ -161,7 +166,7 @@ const UpdatePasswordForm = (props) => {
               <OutlinedInput
                 id="newPassword"
                 inputProps={{
-                  'aria-label': 'Enter your new password', type: 'password', name: 'newPassword', required: 'true',
+                  'aria-label': 'Enter your new password', type: 'password', name: 'newPassword', required: true,
                 }}
                 label="newPassword"
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -178,7 +183,7 @@ const UpdatePasswordForm = (props) => {
               <OutlinedInput
                 id="confirmNewPassword"
                 inputProps={{
-                  'aria-label': 'confirm your new password', type: 'password', name: 'confirmNewPassword', required: 'true',
+                  'aria-label': 'confirm your new password', type: 'password', name: 'confirmNewPassword', required: true,
                 }}
                 label="confirmNewPassword"
                 onChange={(e) => setConfirmNewPassword(e.target.value)}

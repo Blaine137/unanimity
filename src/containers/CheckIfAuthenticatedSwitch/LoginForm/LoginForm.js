@@ -95,8 +95,8 @@ const LoginForm = (props) => {
       },
     },
   }));
-
   const classes = useStyles();
+
   return (
     <main>
       <Grid container justify="center" className={classes.gridContainer}>

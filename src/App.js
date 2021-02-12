@@ -14,6 +14,11 @@ const mapStateToProps = state => ({ notification: state.messenger.notification }
 const mapDispatchToProps = { setNotification: notification => setNotification(notification) };
 
 const App = (props) => {
+  /**
+   * Passes alert message to the custom alert component.
+   * Handles opening and closing the alert.
+   * Declared at this scope so that all components that needed it could access it.
+  */
   const showHideCustomAlert = (message, success) => {
     const closeNotification = () => props.setNotification(null);
     let sanitizedAlertMessage = DOMPurify.sanitize(message);
@@ -41,7 +46,6 @@ const App = (props) => {
       scale: 1.2,
     },
   };
-
   const pageTransition = {
     type: 'tween',
     ease: 'anticipate',

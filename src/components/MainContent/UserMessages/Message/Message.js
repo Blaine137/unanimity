@@ -3,9 +3,9 @@ import DOMPurify from 'dompurify';
 import Emoji from 'react-emoji-render';
 import { Typography, makeStyles, Grid } from '@material-ui/core';
 
-/*
-User interface component that sanitizes the message and senders name and displays it.
-This component calls and Emoji component that will convert any :emojiName: syntax to emojis. Example :smile:
+/**
+* User interface component that sanitizes the message and senders name and displays it.
+* This component calls and Emoji component that will convert any :emojiName: syntax to emojis. Example :smile:
 */
 const message = (props) => {
   const useStyles = makeStyles(theme => ({
@@ -54,11 +54,11 @@ const message = (props) => {
   }
 
   let sanitizedMessage = props.currentMessage;
-  // only allows letters, numbers and ! ? $ & . : , - ( )
+  /** only allows letters, numbers and ! ? $ & . : , - ( ) */
   sanitizedMessage = sanitizedMessage.replace(/[^\w\s!?$&.:,\-()]/g, '');
   sanitizedMessage = DOMPurify.sanitize(sanitizedMessage);
   let sanitizedName = props.senderName;
-  // only allows letters, numbers and ! ? $
+  /** only allows letters, numbers and! ? $ */
   sanitizedName = sanitizedName.replace(/[^\w\s!?$]/g, '');
   sanitizedName = DOMPurify.sanitize(sanitizedName);
 

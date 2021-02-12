@@ -8,8 +8,9 @@ import {
 let lastMessageSentTime = null;
 
 /**
-* Is a textarea where users enter their message to send.
-* Throttles message send rate to prevent spam.
+* Is a textarea where users enter their message to send and a send button.
+* Throttles message send rate to prevent spam and dose not allow messages to be sent
+* when no chatroom has been selected.
 */
 const MessageInput = (props) => {
   const [userMessage, setUserMessage] = useState('');
@@ -63,6 +64,12 @@ const MessageInput = (props) => {
   }));
   const classes = useStyles();
 
+  /**
+   * Makes sure that a chatroom has been selected and that the user
+   * has not been spamming the messages. The max message length is handled by
+   * maxLength attribute on the text area.
+   * Then calls props.newMessage() to send the message.
+   */
   const validateAndSendMessage = input => {
     if (props.currentChatRoomName && props.currentChatRoomName !== 'Unanimity') {
       // if user has not sent a message yet, don't throttle message send rate.
@@ -71,10 +78,11 @@ const MessageInput = (props) => {
         lastMessageSentTime -= 50000;
       }
       const currentTime = Date.now();
+      /** only allow user to send a message once every two seconds. */
       if (currentTime >= (lastMessageSentTime + 2000)) {
         lastMessageSentTime = currentTime;
         props.newMessage(userMessage);
-        // makes the input box empty once newMessage gets the input
+        // makes the input box empty once newMessage gets the input and clear the error
         // eslint-disable-next-line no-param-reassign
         input.target.value = '';
         setIsUserMessageError(false);

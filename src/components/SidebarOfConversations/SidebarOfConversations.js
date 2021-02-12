@@ -111,9 +111,9 @@ const styles = {
   },
 };
 
-/*
-handles opening and closing the sidebar and showing/hiding the add chatroom pop up.
-Has the logic to get the authenticated user's chatroom's and display them inside of sidebar.
+/**
+* handles opening and closing the sidebar.
+* Has the logic to get the authenticated user's chatroom's and display them inside of sidebar.
 */
 class SidebarOfConversations extends Component {
   constructor(props) {
@@ -136,10 +136,10 @@ class SidebarOfConversations extends Component {
     return false;
   }
 
-  /*
-  causes the component to update and resets the sidebar. the reset is required so that when it compares/uses
-  chatRoomsIdsArray.length and this.state.listOfConversationsToOpenOrDelete.length both start at 0. otherwise when the number of chatroom's
-  changes(deleted or added) it wont display them properly.
+  /**
+  * causes the component to update and resets the sidebar. the reset is required so that when it compares/uses
+  * chatRoomsIdsArray.length and this.state.listOfConversationsToOpenOrDelete.length both start at 0. otherwise when the number of chatroom's
+  * changes(deleted or added) it wont display them properly.
   */
   resetSidebarDisplay = () => {
     this.setState({ listOfConversationsToOpenOrDelete: [] });
@@ -200,7 +200,7 @@ class SidebarOfConversations extends Component {
     }
   };
 
-  // showAllChatRooms gets the recipients name and calls addChatRoomToSidebar().
+  /** Gets the recipients name and calls addChatRoomToSidebar(). */
   getRecipientsNameForChatRooms = () => {
     if (this.props.usersChatRoomsID) {
       // All the chat rooms ids that the current authenticated user is in.

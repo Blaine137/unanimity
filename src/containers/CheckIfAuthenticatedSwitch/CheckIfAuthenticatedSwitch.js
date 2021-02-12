@@ -1,8 +1,8 @@
 /* eslint-disable no-else-return */
 /* eslint-disable prefer-const */
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import DOMPurify from 'dompurify';
-import * as passwordHash from 'password-hash'; // import npm pass https://www.npmjs.com/package/password-hash
+import * as passwordHash from 'password-hash';
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion';
 import Messenger from '../Messenger/Messenger';
@@ -30,8 +30,10 @@ const CheckIfAuthenticatedSwitch = (props) => {
   let [isPasswordError, setIsPasswordError] = useState(false);
   let [passwordErrorFeedback, setPasswordErrorFeedback] = useState('');
 
-  // if the user has submitted the form more than ten times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
-  // returns true if they should be allowed to submit the form. returns false if they are spamming the form.
+  /**
+  * If the user has submitted the form more than ten times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
+  * Returns true if they should be allowed to submit the form. returns false if they are spamming the form.
+  */
   const throttleLoginFormSpam = () => {
     setLoginFormSubmissionCount(loginFormSubmissionCount + 1);
     if (loginFormSubmissionCount >= 10) {
@@ -52,7 +54,7 @@ const CheckIfAuthenticatedSwitch = (props) => {
     return true;
   };
 
-  // sets users information in all location across the database
+  /** sets users information in all location across the database */
   // eslint-disable-next-line consistent-return
   const registerUserInDatabase = async (newUser, newPassword, newUserID) => {
     let sanitizedNewUserName = DOMPurify.sanitize(newUser);
@@ -154,7 +156,7 @@ const CheckIfAuthenticatedSwitch = (props) => {
   };
 
   /**
-   *  See if the username has already been registered with an account
+   * See if the username has already been registered with an account
    * If the username is available it will call the registerUserInDatabase
    */
   const checkIfUserAlreadyExists = async (event, newUser, newPassword) => {
@@ -314,7 +316,6 @@ const CheckIfAuthenticatedSwitch = (props) => {
 
   return (
     <>
-      { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen */}
       <motion.div
         initial="initial"
         animate="in"
@@ -322,6 +323,7 @@ const CheckIfAuthenticatedSwitch = (props) => {
         variants={props.pageAnimationVariants}
         transition={props.pageTransition}
       >
+        { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen */}
         {ShowLoginFormOrMessenger()}
       </motion.div>
     </>

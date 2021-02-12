@@ -4,7 +4,7 @@ import AccountSettings from './AccountSettings/AccountSettings';
 import MessageInput from './MessageInput/MessageInput';
 
 /*
-* Parent component for Header, ChatRoom, Input, and AccountSettings.
+* Parent component for ChatRoom, Input, and AccountSettings.
 */
 const MainContent = (props) => {
   /** default to the chatroom */

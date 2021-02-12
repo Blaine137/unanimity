@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as passwordHash from 'password-hash'; // import npm pass https://www.npmjs.com/package/password-hash
+import * as passwordHash from 'password-hash';
 import DOMPurify from 'dompurify';
 import {
   Button, IconButton, Grid, Typography, makeStyles,
@@ -10,24 +10,23 @@ import axios from '../../../axios';
 import UpdateUsernameForm from './UpdateUsernameForm/UpdateUsernameForm';
 import UpdatePasswordForm from './UpdatePasswordForm/UpdatePasswordForm';
 
-/*
-This component is opened from the option menu and is loaded where the UserMessages would be. This is a parent component that
-shows a list of settings to users and is responsible for show/hiding child components like updatePwdForm and UpdateUsernameForm.
+/**
+* This component is opened from the option menu and is loaded where the UserMessages would be. This is a parent component that
+* shows a list of settings to users and is responsible for show/hiding child components like updatePwdForm and UpdateUsernameForm.
 */
 const AccountSettings = (props) => {
   const [isUpdatePwdFormShowing, setIsUpdatePwdFormShowing] = useState(false);
   const [isUpdateUsernameFormShowing, setIsUpdateUsernameFormShowing] = useState(false);
 
   const useStyles = makeStyles(() => ({
-    accountSettingsButton: {
+    accountSettingsMenuButton: {
       margin: '1rem',
     },
   }));
-
   const classes = useStyles();
 
-  // checks if current password entered is equal to auth user pwd on db.
-  const checkPasswordInput = async (checkPassword) => {
+  /** checks if current password entered is equal to auth user pwd on db. */
+  const checkPasswordInput = async checkPassword => {
     // eslint-disable-next-line no-param-reassign
     checkPassword = DOMPurify.sanitize(checkPassword);
     // eslint-disable-next-line no-param-reassign
@@ -43,11 +42,16 @@ const AccountSettings = (props) => {
     }
   };
 
+  /** Hides all open forms in account settings. Which then shows the account settings menu. */
   const goToAccountSettingsHome = () => {
     setIsUpdateUsernameFormShowing(false);
     setIsUpdatePwdFormShowing(false);
   };
 
+  /**
+   * If a form is open then show a back button that will take
+   * the user to the account settings menu.
+   */
   // eslint-disable-next-line consistent-return
   const showBackBtn = () => {
     if (isUpdateUsernameFormShowing || isUpdatePwdFormShowing) {
@@ -64,7 +68,11 @@ const AccountSettings = (props) => {
     }
   };
 
-  const showAccountSettingsForm = () => {
+  /**
+   * Show what is currently open.
+   * Defaults to the account settings menu.
+   */
+  const showAccountSettingsFormOrMenu = () => {
     if (isUpdateUsernameFormShowing) {
       return (
         <UpdateUsernameForm
@@ -89,7 +97,7 @@ const AccountSettings = (props) => {
           <Grid item xs={6}>
             <Button
               fullWidth
-              className={classes.accountSettingsButton}
+              className={classes.accountSettingsMenuButton}
               variant="contained"
               color="secondary"
               aria-label="Logout of unanimity"
@@ -101,7 +109,7 @@ const AccountSettings = (props) => {
               fullWidth
               aria-label="open up a form where you can update your username"
               onClick={() => setIsUpdateUsernameFormShowing(true)}
-              className={classes.accountSettingsButton}
+              className={classes.accountSettingsMenuButton}
               variant="outlined"
               color="secondary"
             >
@@ -111,7 +119,7 @@ const AccountSettings = (props) => {
               fullWidth
               aria-label="open up a form where you can update your password"
               onClick={() => setIsUpdatePwdFormShowing(true)}
-              className={classes.accountSettingsButton}
+              className={classes.accountSettingsMenuButton}
               variant="outlined"
               color="secondary"
             >
@@ -142,7 +150,7 @@ const AccountSettings = (props) => {
           Account settings
         </Typography>
       </Grid>
-      {showAccountSettingsForm()}
+      {showAccountSettingsFormOrMenu()}
     </div>
   );
 };

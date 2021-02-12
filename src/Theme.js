@@ -24,6 +24,7 @@ export const LightTheme = createMuiTheme({
     },
   },
 });
+
 // Headers
 LightTheme.typography.h1 = {
   fontSize: '2rem',

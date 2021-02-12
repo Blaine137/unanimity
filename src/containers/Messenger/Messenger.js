@@ -9,7 +9,7 @@ import {
   setIsSidebarOpen, setCurrentChatRoomID, setCurrentChatRoom, setCurrentChatRoomName, setUsersChatRoomsID,
 } from '../../redux/actions';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isSidebarOpen: state.messenger.isSidebarOpen,
   currentChatRoomID: state.messenger.currentChatRoomID,
   currentChatRoom: state.messenger.currentChatRoom,
@@ -25,7 +25,7 @@ const mapDispatchToProps = {
   setUsersChatRoomsID,
 };
 
-const Messenger = (props) => {
+const Messenger = props => {
   const [sidebarInlineStyles, setSideStyles] = useState({ display: 'block' });
   const [areSettingsShowing, setAreSettingsShowing] = useState(false);
   const [isAddChatroomErrors, setIsAddChatroomErrors] = useState(false);
@@ -194,6 +194,7 @@ const Messenger = (props) => {
     );
   };
 
+  /** Adds a new chatroom to the database */
   const newChatRoom = (event, recipientName) => {
     let sanitizedRecipientName = DOMPurify.sanitize(recipientName);
     sanitizedRecipientName = sanitizedRecipientName.replace(/[^\w^!?$]/g, '');
@@ -390,6 +391,7 @@ const Messenger = (props) => {
     // --------- end of check recipient name ---------
   };
 
+  /** Removes a chatroom from the database */
   const removeChatRoom = (removeChatRoomID) => {
     // will equal all the users ID that are in the chatroom and need the chatroom id removed from userChatRooms
     let removeChatRoomUsers = [];
@@ -478,6 +480,7 @@ const Messenger = (props) => {
       height: '100vh',
     };
   }
+
   // prevents sidebar from erroring out by returning an empty array instead of null or undefined.
   let sidebarUsersChatRoomsID;
   if (props.usersChatRoomsID !== null) {
@@ -485,6 +488,7 @@ const Messenger = (props) => {
   } else {
     sidebarUsersChatRoomsID = [];
   }
+
   return (
     <>
       <div className={styles.layout}>

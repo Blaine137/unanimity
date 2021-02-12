@@ -13,7 +13,7 @@ let prevScrollPosition;
 */
 const UserMessages = (props) => {
   const useStyles = makeStyles(theme => ({
-    container: {
+    messagesContainer: {
       height: 'calc(100vh - 6rem)',
       width: 'calc(100% - 6rem)',
       position: 'relative',
@@ -23,7 +23,7 @@ const UserMessages = (props) => {
       borderRadius: '15px',
     },
     messageScroll: {
-      /** margin top is spacing for the sidebar opener */
+      /** margin top is spacing for the sidebar opener on mobile */
       marginTop: '2rem',
       height: '90%',
       overflowY: 'scroll',
@@ -62,7 +62,7 @@ const UserMessages = (props) => {
   // eslint-disable-next-line prefer-const
   let displayedMessages = [<Message key={messageKey} isMessageSender="true" senderName="" currentMessage=":backhand_index_pointing_left: Please select a chatroom. :left_speech_bubble:" />];
 
-  // auto scrolls down the div. dose it on every reload of the component
+  // Auto scrolls down the div. Dose it on every reload of the component
   useEffect(() => {
     const messengerMainContainer = document.getElementById('scrolldown');
     // if they are all the way at the top or all the way at the bottom auto scroll down.
@@ -151,7 +151,7 @@ const UserMessages = (props) => {
   // eslint-disable-next-line prefer-const
   let burger = toggleSidebarButtonStyles();
   return (
-    <div className={classes.container}>
+    <div className={classes.messagesContainer}>
       {/** sidebar opener */}
       <Hidden lgUp>
         {burger}

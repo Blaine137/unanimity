@@ -8,7 +8,7 @@ import {
 import axios from '../../../../axios';
 
 /**
- * Child component of account settings. Is a form that takes the current password and the new username to update .
+ * Child component of account settings. Is a form that takes the current password and the new username to update.
  * Handles logic for updating the username in the database.
 */
 const UpdateUsernameForm = (props) => {
@@ -16,7 +16,6 @@ const UpdateUsernameForm = (props) => {
   const [confirmUsername, setConfirmUsername] = useState('');
   const [confirmUsernameErrorText, setConfirmUsernameErrorText] = useState('');
   const [isConfirmUsernameError, setIsConfirmUsernameError] = useState(false);
-
   const [password, setPassword] = useState('');
 
   const useStyles = makeStyles(theme => ({
@@ -171,7 +170,7 @@ const UpdateUsernameForm = (props) => {
               <OutlinedInput
                 id="newUsername"
                 inputProps={{
-                  'aria-label': 'Enter your new username', type: 'text', name: 'newUsername', required: 'true',
+                  'aria-label': 'Enter your new username', type: 'text', name: 'newUsername', required: true,
                 }}
                 label="newUsername"
                 onChange={e => { setNewUsername(e.target.value); }}
@@ -186,7 +185,7 @@ const UpdateUsernameForm = (props) => {
               <OutlinedInput
                 id="confirmUsername"
                 inputProps={{
-                  'aria-label': 'Confirm your new username', type: 'text', name: 'confirmUsername', required: 'true',
+                  'aria-label': 'Confirm your new username', type: 'text', name: 'confirmUsername', required: true,
                 }}
                 label="confirmUsername"
                 onChange={e => { setConfirmUsername(e.target.value); }}
@@ -201,7 +200,7 @@ const UpdateUsernameForm = (props) => {
               <OutlinedInput
                 id="password"
                 inputProps={{
-                  'aria-label': 'Enter the password for your account', type: 'password', name: 'password', required: 'true',
+                  'aria-label': 'Enter the password for your account', type: 'password', name: 'password', required: true,
                 }}
                 label="password"
                 onChange={(e) => setPassword(e.target.value)}
