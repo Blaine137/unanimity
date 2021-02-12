@@ -245,7 +245,7 @@ class SidebarOfConversations extends Component {
           <Hidden lgUp>
             <span className={this.props.classes.closeSidebarContainer}>
               <IconButton size="small" onClick={() => this.props.toggleSidebar()}>
-                <CloseIcon fontSize="large" color="secondary" />
+                <CloseIcon fontSize="large" color="primary" />
               </IconButton>
             </span>
           </Hidden>

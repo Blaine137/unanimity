@@ -407,7 +407,6 @@ const Messenger = props => {
             // -------- start remove the chatRoom from the ChatRoomUsers --------
             // deletes data by setting it equal to an empty object. firebase then automatically removes empty objects
             axios.put(`chatRoomsUsers/cru${removeChatRoomID}.json`, empty).then(() => {
-              props.showHideCustomAlert('chatroom successfully removed!', true);
               if (props.currentChatRoomID === removeChatRoomID) {
                 // set the current chatroom to Unanimity instead of the chatroom that dose not exist
                 props.setCurrentChatRoomName('Unanimity');
