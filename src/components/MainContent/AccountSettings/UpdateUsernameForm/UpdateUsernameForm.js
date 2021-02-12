@@ -20,7 +20,7 @@ const UpdateUsernameForm = (props) => {
   const [password, setPassword] = useState('');
 
   const useStyles = makeStyles(theme => ({
-    formSize: {
+    formContainerSize: {
       height: '80vh',
       maxWidth: '700px',
       maxHeight: '500px',
@@ -159,7 +159,7 @@ const UpdateUsernameForm = (props) => {
       }}
     >
       <form onSubmit={updateUsernameOrchestrator} onChange={validateNewUsername} onBlur={validateNewUsername}>
-        <Grid container justify="space-evenly" alignItems="center" className={classes.formSize}>
+        <Grid container justify="space-evenly" alignItems="center" className={classes.formContainerSize}>
           <Grid item xs={12}>
             <Typography className={classes.formTitle} variant="h1" component="legend">
               UPDATE <span className={classes.wordHighlight}> USERNAME </span>

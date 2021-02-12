@@ -22,7 +22,7 @@ const UpdatePasswordForm = (props) => {
   const [isNewPasswordError, setIsNewPasswordError] = useState(false);
 
   const useStyles = makeStyles(theme => ({
-    formSize: {
+    formContainerSize: {
       height: '80vh',
       maxWidth: '700px',
       maxHeight: '500px',
@@ -130,7 +130,7 @@ const UpdatePasswordForm = (props) => {
       }}
     >
       <form onSubmit={updatePasswordOrchestrator} onChange={validateNewPassword} onBlur={validateNewPassword}>
-        <Grid container justify="space-evenly" alignItems="center" className={classes.formSize}>
+        <Grid container justify="space-evenly" alignItems="center" className={classes.formContainerSize}>
           <Grid item xs={12}>
             <Typography className={classes.formTitle} variant="h1" component="legend">
               UPDATE <span className={classes.wordHighlight}> PASSWORD </span>
