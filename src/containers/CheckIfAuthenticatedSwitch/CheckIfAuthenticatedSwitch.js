@@ -1,13 +1,14 @@
-import React, { useState, Fragment } from 'react';
+/* eslint-disable no-else-return */
+/* eslint-disable prefer-const */
+import React, { useState } from 'react';
 import DOMPurify from 'dompurify';
-import * as passwordHash from 'password-hash'; // import npm pass https://www.npmjs.com/package/password-hash
+import * as passwordHash from 'password-hash';
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion';
 import Messenger from '../Messenger/Messenger';
 import LoginForm from './LoginForm/LoginForm';
 import axios from '../../axios';
 import { setAuthentication, setAuthenticatedUserID, setAuthenticatedUsername } from '../../redux/actions';
-import NavigationRouterLinks from '../../components/NavigationRouterLinks/NavigationRouterLinks';
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.authentication.isAuthenticated,
@@ -24,12 +25,18 @@ const mapDispatchToProps = {
 const CheckIfAuthenticatedSwitch = (props) => {
   const [loginFormSubmissionCount, setLoginFormSubmissionCount] = useState(1);
   const [loginFormDisabledTime, setLoginFormDisabledTime] = useState(null);
+  let [isUsernameError, setIsUsernameError] = useState(false);
+  let [usernameErrorFeedback, setUsernameErrorFeedback] = useState('');
+  let [isPasswordError, setIsPasswordError] = useState(false);
+  let [passwordErrorFeedback, setPasswordErrorFeedback] = useState('');
 
-  // if the user has submitted the form more than three times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
-  // returns true if they should be allowed to submit the form. returns false if they are spamming the form.
+  /**
+  * If the user has submitted the form more than ten times. Make them wait ten seconds to resubmit and alert them to wait ten seconds.
+  * Returns true if they should be allowed to submit the form. returns false if they are spamming the form.
+  */
   const throttleLoginFormSpam = () => {
     setLoginFormSubmissionCount(loginFormSubmissionCount + 1);
-    if (loginFormSubmissionCount >= 3) {
+    if (loginFormSubmissionCount >= 10) {
       if (loginFormDisabledTime === null) {
         setLoginFormDisabledTime(Date.now());
       }
@@ -38,13 +45,16 @@ const CheckIfAuthenticatedSwitch = (props) => {
         setLoginFormDisabledTime(currentTime);
         return true;
       }
-      props.showHideCustomAlert('you must wait ten seconds before resubmitting the form.', null);
+      setIsPasswordError(true);
+      setIsUsernameError(true);
+      setUsernameErrorFeedback('You must wait ten seconds before resubmitting the form.');
+      setPasswordErrorFeedback('You must wait ten seconds before resubmitting the form.');
       return false;
     }
     return true;
   };
 
-  // sets users in db
+  /** sets users information in all location across the database */
   // eslint-disable-next-line consistent-return
   const registerUserInDatabase = async (newUser, newPassword, newUserID) => {
     let sanitizedNewUserName = DOMPurify.sanitize(newUser);
@@ -99,9 +109,56 @@ const CheckIfAuthenticatedSwitch = (props) => {
     const accountCreatedSuccessMessage = DOMPurify.sanitize(`Your account has been created! Username: '${sanitizedNewUserName}'`);
     let sanitizedAccountCreatedSuccessMessage = accountCreatedSuccessMessage.replace(/[^\w\s!?$]/g, '');
     sanitizedAccountCreatedSuccessMessage = DOMPurify.sanitize(sanitizedAccountCreatedSuccessMessage);
-    props.showHideCustomAlert(sanitizedAccountCreatedSuccessMessage, true);
+    setIsPasswordError(false);
+    setIsUsernameError(false);
+    setUsernameErrorFeedback(sanitizedAccountCreatedSuccessMessage);
+    setPasswordErrorFeedback(sanitizedAccountCreatedSuccessMessage);
   };
 
+  /**
+   * Checks the length of the username and password field.
+   * Notifies the user if the username or password is too short or too long.
+   * The parameters taken in may or may not be sanitized.
+   */
+  const validateSignUpValues = (NewUserName, NewPassword) => {
+    /** Reset form errors */
+    setIsPasswordError(false);
+    setIsUsernameError(false);
+    setUsernameErrorFeedback('');
+    setPasswordErrorFeedback('');
+
+    /** checks username and password lengths */
+    if ((NewUserName.length > 10 && NewPassword.length > 20) || (!NewUserName && !NewPassword) || (NewUserName.length < 5 && NewPassword.length < 5)) {
+      setIsPasswordError(true);
+      setIsUsernameError(true);
+      setUsernameErrorFeedback('Username must be between five(5) and ten(10) characters.');
+      setPasswordErrorFeedback('Password must be between five(5) and twenty(20) characters.');
+      return false;
+    } else if (NewUserName.length > 10) {
+      setIsUsernameError(true);
+      setUsernameErrorFeedback('Username must be less than ten(10) characters.');
+      return false;
+    } else if (NewPassword.length > 20) {
+      setIsPasswordError(true);
+      setPasswordErrorFeedback('Password must be less than twenty(20) characters.');
+      return false;
+    } else if (NewUserName.length < 5 || !NewUserName) {
+      setIsUsernameError(true);
+      setUsernameErrorFeedback('Username must be five(5) characters long.');
+      return false;
+    } else if (NewPassword.length < 5 || !NewPassword) {
+      setIsPasswordError(true);
+      setPasswordErrorFeedback('Password must be five(5) characters long.');
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  /**
+   * See if the username has already been registered with an account
+   * If the username is available it will call the registerUserInDatabase
+   */
   const checkIfUserAlreadyExists = async (event, newUser, newPassword) => {
     event.preventDefault();
     const newUserValue = newUser.value;
@@ -114,12 +171,8 @@ const CheckIfAuthenticatedSwitch = (props) => {
     sanitizedNewPassword = sanitizedNewPassword.replace(/[^\w^!?$]/g, '');
 
     if (throttleLoginFormSpam()) {
-      // username a valid length
-      if (sanitizedNewUserName.length > 10 || sanitizedNewPassword.length > 20) {
-        props.showHideCustomAlert('Username must be less than 10 characters and password must be less than 20.', null);
-      } else if (!sanitizedNewUserName || !sanitizedNewPassword || sanitizedNewUserName.length < 5 || sanitizedNewPassword.length < 5) {
-        props.showHideCustomAlert('Username and password must be 5 characters long.', null);
-      } else {
+      /** If the data is valid */
+      if (validateSignUpValues(sanitizedNewUserName, sanitizedNewPassword)) {
         try {
           const nextUserID = await axios.get('userIDByUsername/nextUserID.json');
           newUserID = nextUserID.data;
@@ -129,15 +182,22 @@ const CheckIfAuthenticatedSwitch = (props) => {
             // create user if the username is not taken
             registerUserInDatabase(sanitizedNewUserName, sanitizedNewPassword, newUserID);
           } else {
-            props.showHideCustomAlert('Username is already taken!', null);
+            setIsUsernameError(true);
+            setUsernameErrorFeedback('Username is already taken!');
           }
         } catch (error) {
-          props.showHideCustomAlert('Failed to add username to the database. Please try agin.', null);
+          setIsUsernameError(true);
+          setUsernameErrorFeedback('Failed to add username to the database. Please try agin.');
         }
       }
     }
   };
 
+  /**
+   * Compares hashed checkPassword to password on the database.
+   * If correct will set authentication value.
+   * if false will notify the user.
+   */
   // eslint-disable-next-line consistent-return
   const checkPasswordForUserIDAndLogin = async (checkUsername, checkUserID, checkPassword) => {
     let sanitizedUsername = DOMPurify.sanitize(checkUsername);
@@ -146,10 +206,17 @@ const CheckIfAuthenticatedSwitch = (props) => {
     sanitizedUserID = sanitizedUserID.replace(/[^\w]/g, '');
     let sanitizedPassword = DOMPurify.sanitize(checkPassword);
     sanitizedPassword = sanitizedPassword.replace(/[^\w^!?$]/g, '');
+
     try {
       let hashedPassword = await axios.get(`users/u${sanitizedUserID}/password.json`);
       hashedPassword = hashedPassword.data;
       if (passwordHash.verify(sanitizedPassword, hashedPassword)) {
+        /** Set form feedback to not error */
+        setIsPasswordError(false);
+        setIsUsernameError(false);
+        setUsernameErrorFeedback('');
+        setPasswordErrorFeedback('');
+        /** Log In user */
         props.setAuthenticatedUserID(sanitizedUserID);
         props.setAuthenticatedUsername(sanitizedUsername);
         setTimeout(() => { props.setAuthentication(true); }, 200);
@@ -158,14 +225,27 @@ const CheckIfAuthenticatedSwitch = (props) => {
         props.setAuthenticatedUserID(null);
         props.setAuthenticatedUsername(null);
         props.setAuthentication(false);
-        props.showHideCustomAlert('Incorrect username or password.', null);
+        /** Update from feedback */
+        setIsPasswordError(true);
+        setIsUsernameError(true);
+        setUsernameErrorFeedback('Incorrect username or password.');
+        setPasswordErrorFeedback('Incorrect username or password.');
       }
     } catch {
-      props.showHideCustomAlert('Incorrect username or password.', null);
+      /** Update from feedback */
+      setIsPasswordError(true);
+      setIsUsernameError(true);
+      setUsernameErrorFeedback('Incorrect username or password.');
+      setPasswordErrorFeedback('Incorrect username or password.');
       return 300;
     }
   };
 
+  /**
+   * Makes sure username exists and then get the userID for that user.
+   * Calls check password passing the username, userID, and password.
+   * if username dose not exist it will notify the user.
+   */
   // eslint-disable-next-line consistent-return
   const checkUserNameForLogin = async (authValues, userNameElement, passwordElement) => {
     if (authValues) { authValues.preventDefault(); }
@@ -185,7 +265,10 @@ const CheckIfAuthenticatedSwitch = (props) => {
         userID = await axios.get(`userIDByUsername/${sanitizedUsername}.json`);
         userID = userID.data;
         if (!userID) {
-          props.showHideCustomAlert('Incorrect username or password.', null);
+          setIsPasswordError(true);
+          setIsUsernameError(true);
+          setUsernameErrorFeedback('Incorrect username or password.');
+          setPasswordErrorFeedback('Incorrect username or password.');
         } else {
           // now that we know the sanitizedUsername exists and we have the userID for that sanitizedUsername check the password
           // eslint-disable-next-line no-lonely-if
@@ -197,6 +280,10 @@ const CheckIfAuthenticatedSwitch = (props) => {
     }
   };
 
+  /**
+   * If authenticated show the messenger page.
+   * If user is not authenticated then shows the login form.
+   */
   const ShowLoginFormOrMessenger = () => {
     if (props.isAuthenticated) {
       // messenger has its own <main></main>
@@ -209,22 +296,26 @@ const CheckIfAuthenticatedSwitch = (props) => {
           setAuthenticatedUserID={props.setAuthenticatedUserID}
           authenticatedUsername={props.authenticatedUsername}
           setAuthenticatedUsername={props.setAuthenticatedUsername}
-          isAppLightTheme={props.isAppLightTheme}
-          setIsAppLightTheme={props.setIsAppLightTheme}
         />
       );
     }
     return (
       <main>
-        <NavigationRouterLinks />
-        <LoginForm checkName={checkUserNameForLogin} checkForNewUser={checkIfUserAlreadyExists} />
+        <LoginForm
+          isUsernameError={isUsernameError}
+          usernameErrorFeedback={usernameErrorFeedback}
+          isPasswordError={isPasswordError}
+          passwordErrorFeedback={passwordErrorFeedback}
+          checkName={checkUserNameForLogin}
+          checkForNewUser={checkIfUserAlreadyExists}
+          validateSignUpValues={validateSignUpValues}
+        />
       </main>
     );
   };
 
   return (
     <>
-      { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen */}
       <motion.div
         initial="initial"
         animate="in"
@@ -232,7 +323,8 @@ const CheckIfAuthenticatedSwitch = (props) => {
         variants={props.pageAnimationVariants}
         transition={props.pageTransition}
       >
-        { ShowLoginFormOrMessenger() }
+        { /* messenger is set by ifAuthenticated(). is either the Messenger component or the login screen */}
+        {ShowLoginFormOrMessenger()}
       </motion.div>
     </>
   );

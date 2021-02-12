@@ -1,20 +1,39 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
 import DOMPurify from 'dompurify';
 import { motion } from 'framer-motion';
 import {
-  FormControl, InputLabel, OutlinedInput, Button,
+  FormControl, InputLabel, OutlinedInput, Button, makeStyles, Typography, Grid, FormHelperText,
 } from '@material-ui/core';
 import axios from '../../../../axios';
-import styles from '../AccountSettings.module.scss';
 
 /**
- * Child component of account settings. Is a form that takes the current password and the new username to update .
+ * Child component of account settings. Is a form that takes the current password and the new username to update.
  * Handles logic for updating the username in the database.
 */
 const UpdateUsernameForm = (props) => {
   const [newUsername, setNewUsername] = useState('');
   const [confirmUsername, setConfirmUsername] = useState('');
+  const [confirmUsernameErrorText, setConfirmUsernameErrorText] = useState('');
+  const [isConfirmUsernameError, setIsConfirmUsernameError] = useState(false);
   const [password, setPassword] = useState('');
+
+  const useStyles = makeStyles(theme => ({
+    formContainerSize: {
+      height: '80vh',
+      maxWidth: '700px',
+      maxHeight: '500px',
+      margin: 'auto',
+    },
+    formTitle: {
+      textAlign: 'center',
+      padding: '0',
+    },
+    wordHighlight: {
+      color: theme.palette.secondary.main,
+    },
+  }));
+  const classes = useStyles();
 
   /**
   * makes sure password is correct. If password is correct.
@@ -51,15 +70,21 @@ const UpdateUsernameForm = (props) => {
   * Returns true if username is valid. Returns false if username is invalid.
   */
   const validateNewUsername = () => {
-    if (newUsername !== confirmUsername) {
-      props.showHideCustomAlert('User names do not match.');
+    setIsConfirmUsernameError(false);
+    setConfirmUsernameErrorText('');
+    if (newUsername.length > 10) {
+      setIsConfirmUsernameError(true);
+      setConfirmUsernameErrorText('Username must be less than 10 characters');
       return false;
     }
-    if (newUsername.length > 10) {
-      props.showHideCustomAlert('Username must be less than 10 characters', null);
+    if (!newUsername || newUsername.length < 5) {
+      setIsConfirmUsernameError(true);
+      setConfirmUsernameErrorText('Username must be 5 characters long.');
       return false;
-    } if (!newUsername || newUsername.length < 5) {
-      props.showHideCustomAlert('Username must be 5 characters long.', null);
+    }
+    if (newUsername !== confirmUsername) {
+      setIsConfirmUsernameError(true);
+      setConfirmUsernameErrorText('User names do not match.');
       return false;
     }
     return true;
@@ -132,49 +157,68 @@ const UpdateUsernameForm = (props) => {
         },
       }}
     >
-      <form onSubmit={updateUsernameOrchestrator} className={styles.form}>
-        <legend>Update Your Username</legend>
-        <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel htmlFor="newUsername">New Username</InputLabel>
-          <OutlinedInput
-            id="newUsername"
-            inputProps={{
-              'aria-label': 'Enter your new username', type: 'text', name: 'newUsername', required: 'true',
-            }}
-            label="newUsername"
-            onChange={(e) => setNewUsername(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel htmlFor="confirmUsername">Confirm Username</InputLabel>
-          <OutlinedInput
-            id="confirmUsername"
-            inputProps={{
-              'aria-label': 'Confirm your new username', type: 'text', name: 'confirmUsername', required: 'true',
-            }}
-            label="confirmUsername"
-            onChange={(e) => setConfirmUsername(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <OutlinedInput
-            id="password"
-            inputProps={{
-              'aria-label': 'Enter the password for your account', type: 'password', name: 'password', required: 'true',
-            }}
-            label="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </FormControl>
-        <Button
-          aria-label="Click to proceeding updating your account username."
-          type="submit"
-          variant="contained"
-          color="primary"
-        >
-          Submit
-        </Button>
+      <form onSubmit={updateUsernameOrchestrator} onChange={validateNewUsername} onBlur={validateNewUsername}>
+        <Grid container justify="space-evenly" alignItems="center" className={classes.formContainerSize}>
+          <Grid item xs={12}>
+            <Typography className={classes.formTitle} variant="h1" component="legend">
+              UPDATE <span className={classes.wordHighlight}> USERNAME </span>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined" margin="normal" error={isConfirmUsernameError}>
+              <InputLabel htmlFor="newUsername">New Username</InputLabel>
+              <OutlinedInput
+                id="newUsername"
+                inputProps={{
+                  'aria-label': 'Enter your new username', type: 'text', name: 'newUsername', required: true,
+                }}
+                label="newUsername"
+                onChange={e => { setNewUsername(e.target.value); }}
+                aria-describedby="newUsername"
+              />
+              <FormHelperText id="newUsername">{confirmUsernameErrorText}</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined" margin="normal" error={isConfirmUsernameError}>
+              <InputLabel htmlFor="confirmUsername">Confirm Username</InputLabel>
+              <OutlinedInput
+                id="confirmUsername"
+                inputProps={{
+                  'aria-label': 'Confirm your new username', type: 'text', name: 'confirmUsername', required: true,
+                }}
+                label="confirmUsername"
+                onChange={e => { setConfirmUsername(e.target.value); }}
+                aria-describedby="confirmUsername"
+              />
+              <FormHelperText id="confirmUsername">{confirmUsernameErrorText}</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <OutlinedInput
+                id="password"
+                inputProps={{
+                  'aria-label': 'Enter the password for your account', type: 'password', name: 'password', required: true,
+                }}
+                label="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              fullWidth
+              aria-label="Click to proceeding updating your account username."
+              type="submit"
+              variant="contained"
+              color="secondary"
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
       </form>
     </motion.div>
   );

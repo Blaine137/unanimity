@@ -1,57 +1,46 @@
-import React, { useState, Fragment } from 'react';
-import ChatroomHeader from './ChatroomHeader/ChatroomHeader';
+import React from 'react';
 import UserMessages from './UserMessages/UserMessages';
 import AccountSettings from './AccountSettings/AccountSettings';
 import MessageInput from './MessageInput/MessageInput';
 
 /*
-Parent component for Header, ChatRoom, Input, and AccountSettings.
+* Parent component for ChatRoom, Input, and AccountSettings.
 */
 const MainContent = (props) => {
-  const [areSettingsShowing, setAreSettingsShowing] = useState(false);
-  // default to the chatroom
+  /** default to the chatroom */
   let body = (
     <UserMessages
       currentChatRoom={props.currentChatRoom}
       recipientName={props.currentChatRoomName}
       authUsername={props.authUsername}
       authUID={props.authUID}
-    />
+      toggleSidebar={props.toggleSidebar}
+      isSidebarOpen={props.isSidebarOpen}
+      setAreSettingsShowing={props.setAreSettingsShowing}
+      areSettingsShowing={props.areSettingsShowing}
+    >
+      <MessageInput newMessage={props.newMessage} currentChatRoomName={props.currentChatRoomName} />
+    </UserMessages>
   );
-  let newMessageInput = <MessageInput newMessage={props.newMessage} currentChatRoomName={props.currentChatRoomName} showHideCustomAlert={props.showHideCustomAlert} />;
 
-  // sets body to account settings if user has opened the settings and sets input to null.
+  /** sets body to account settings if user has opened the settings. */
   const showSettingsMenu = () => {
-    if (areSettingsShowing) {
+    if (props.areSettingsShowing) {
       body = (
         <AccountSettings
           authUID={props.authUID}
-          setAreSettingsShowing={setAreSettingsShowing}
+          setAreSettingsShowing={props.setAreSettingsShowing}
           authUsername={props.authUsername}
-          showHideCustomAlert={props.showHideCustomAlert}
+          intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
         />
       );
-      newMessageInput = null;
     }
   };
 
   showSettingsMenu();
   return (
     <>
-      <ChatroomHeader
-        currentChatRoomName={props.currentChatRoomName}
-        toggleSidebar={props.toggleSidebar}
-        isSidebarOpen={props.isSidebarOpen}
-        intentionalAndForcedUserLogout={props.intentionalAndForcedUserLogout}
-        authUID={props.authUID}
-        authUsername={props.authUsername}
-        setAreSettingsShowing={setAreSettingsShowing}
-        areSettingsShowing={areSettingsShowing}
-        isAppLightTheme={props.isAppLightTheme}
-        setIsAppLightTheme={props.setIsAppLightTheme}
-      />
       {body}
-      {newMessageInput}
     </>
   );
 };

@@ -1,33 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.scss';
 import DOMPurify from 'dompurify';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { AnimatePresence } from 'framer-motion';
-import {
-  BrowserRouter, Switch, Route, Redirect,
-} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setNotification } from './redux/actions';
 import CheckIfAuthenticatedSwitch from './containers/CheckIfAuthenticatedSwitch/CheckIfAuthenticatedSwitch';
-import './fonts/Jost-VariableFont_ital,wght.ttf';
-import './fonts/Montserrat-Regular.ttf';
-import LandingPage from './components/landingPage/LandingPage';
-import ContactForm from './components/ContactForm/ContactForm';
-import FAQPage from './components/FAQPage/FAQPage';
 import CustomAlert from './components/CustomAlert/CustomAlert';
-import { LightTheme, DarkTheme } from './Theme';
+import { LightTheme } from './Theme';
 
 const mapStateToProps = state => ({ notification: state.messenger.notification });
 
 const mapDispatchToProps = { setNotification: notification => setNotification(notification) };
 
 const App = (props) => {
-  const [isAppLightTheme, setIsAppLightTheme] = useState(true);
-
-  const toggleIsAppLightTheme = () => {
-    setIsAppLightTheme(!isAppLightTheme);
-  };
-
+  /**
+   * Passes alert message to the custom alert component.
+   * Handles opening and closing the alert.
+   * Declared at this scope so that all components that needed it could access it.
+  */
   const showHideCustomAlert = (message, success) => {
     const closeNotification = () => props.setNotification(null);
     let sanitizedAlertMessage = DOMPurify.sanitize(message);
@@ -55,7 +46,6 @@ const App = (props) => {
       scale: 1.2,
     },
   };
-
   const pageTransition = {
     type: 'tween',
     ease: 'anticipate',
@@ -63,50 +53,24 @@ const App = (props) => {
   };
 
   return (
-    <ThemeProvider theme={isAppLightTheme ? LightTheme : DarkTheme}>
-      <main className="App">
+    <ThemeProvider theme={LightTheme}>
+      <main
+        className="App"
+        style={{
+          boxSizing: 'border-box',
+          '*, *:before, *:after': {
+            boxSizing: 'inherit',
+          },
+        }}
+      >
         {props.notification}
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/">
-              <AnimatePresence>
-                <LandingPage
-                  pageAnimationVariants={pageAnimationVariants}
-                  pageTransition={pageTransition}
-                />
-              </AnimatePresence>
-            </Route>
-            <Route path="/contact">
-              <AnimatePresence>
-                <ContactForm
-                  pageAnimationVariants={pageAnimationVariants}
-                  pageTransition={pageTransition}
-                  showHideCustomAlert={showHideCustomAlert}
-                />
-              </AnimatePresence>
-            </Route>
-            <Route path="/login">
-              <AnimatePresence>
-                <CheckIfAuthenticatedSwitch
-                  pageAnimationVariants={pageAnimationVariants}
-                  pageTransition={pageTransition}
-                  showHideCustomAlert={showHideCustomAlert}
-                  isAppLightTheme={isAppLightTheme}
-                  setIsAppLightTheme={toggleIsAppLightTheme}
-                />
-              </AnimatePresence>
-            </Route>
-            <Route path="/FAQ">
-              <AnimatePresence>
-                <FAQPage
-                  pageAnimationVariants={pageAnimationVariants}
-                  pageTransition={pageTransition}
-                />
-              </AnimatePresence>
-            </Route>
-            <Redirect to="/" />
-          </Switch>
-        </BrowserRouter>
+        <AnimatePresence>
+          <CheckIfAuthenticatedSwitch
+            pageAnimationVariants={pageAnimationVariants}
+            pageTransition={pageTransition}
+            showHideCustomAlert={showHideCustomAlert}
+          />
+        </AnimatePresence>
       </main>
     </ThemeProvider>
   );
