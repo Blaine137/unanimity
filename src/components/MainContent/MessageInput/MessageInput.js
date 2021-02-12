@@ -27,7 +27,7 @@ const MessageInput = (props) => {
       borderRadius: '15px',
       backgroundColor: theme.palette.background.default,
     },
-    input: {
+    textbox: {
       border: `1px solid ${theme.palette.text.secondary}`,
       /** border radius set to 4px to match material UI inputs. */
       borderRadius: '4px',
@@ -107,7 +107,7 @@ const MessageInput = (props) => {
             maxLength="1999"
             rows="1"
             placeholder={props.currentChatRoomName === 'Unanimity' ? 'Try sending :SMILE:' : `Message ${props.currentChatRoomName}`}
-            className={classes.input}
+            className={classes.textbox}
             id="input"
             onChange={(e) => {
               setUserMessage(DOMPurify.sanitize(e.target.value));

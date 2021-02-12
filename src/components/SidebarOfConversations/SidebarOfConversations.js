@@ -56,6 +56,7 @@ const styles = {
     borderRadius: '15px',
     display: 'grid',
     gridAutoFlow: 'column',
+    gridTemplateColumns: '85% 15%',
     '&:hover, &:active': {
       backgroundColor: LightTheme.palette.primary.light,
     },
@@ -67,7 +68,6 @@ const styles = {
     opacity: 1,
     transition: 'opacity .3s ease-in',
     marginLeft: '1rem',
-    justifyContent: 'end',
   },
   chatroomName: {
     display: 'inline-block',
@@ -102,6 +102,7 @@ const styles = {
   [LightTheme.breakpoints.up('lg')]: {
     sidebarContainer: { width: 'auto' },
     conversationCloseButton: { opacity: '0' },
+    chatroomContainer: { gridTemplateColumns: '55% 45%' },
   },
   [LightTheme.breakpoints.up('sm')]: {
     authenticatedUserContainer: { maxWidth: '50vw' },
