@@ -54,6 +54,8 @@ const styles = {
     textTransform: 'capitalize',
     padding: '0 1rem',
     borderRadius: '15px',
+    display: 'grid',
+    gridAutoFlow: 'column',
     '&:hover, &:active': {
       backgroundColor: LightTheme.palette.primary.light,
     },
@@ -62,9 +64,10 @@ const styles = {
     },
   },
   conversationCloseButton: {
-    opacity: 0,
+    opacity: 1,
     transition: 'opacity .3s ease-in',
     marginLeft: '1rem',
+    justifyContent: 'end',
   },
   chatroomName: {
     display: 'inline-block',
@@ -98,6 +101,7 @@ const styles = {
   },
   [LightTheme.breakpoints.up('lg')]: {
     sidebarContainer: { width: 'auto' },
+    conversationCloseButton: { opacity: '0' },
   },
   [LightTheme.breakpoints.up('sm')]: {
     authenticatedUserContainer: { maxWidth: '50vw' },
