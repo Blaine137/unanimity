@@ -75,7 +75,10 @@ const MessageInput = (props) => {
         lastMessageSentTime = currentTime;
         props.newMessage(userMessage);
         // makes the input box empty once newMessage gets the input
+        // eslint-disable-next-line no-param-reassign
         input.target.value = '';
+        setIsUserMessageError(false);
+        setUserMessageErrorText('');
       } else {
         setIsUserMessageError(true);
         setUserMessageErrorText('Please wait two seconds before sending another message!');
@@ -97,6 +100,7 @@ const MessageInput = (props) => {
             rows="1"
             placeholder={props.currentChatRoomName === 'Unanimity' ? 'Try sending :SMILE:' : `Message ${props.currentChatRoomName}`}
             className={classes.input}
+            id="input"
             onChange={(e) => {
               setUserMessage(DOMPurify.sanitize(e.target.value));
             }}
@@ -119,6 +123,9 @@ const MessageInput = (props) => {
           color="secondary"
           variant="contained"
           onClick={e => {
+            // eslint-disable-next-line prefer-const
+            let messageInput = document.getElementById('input');
+            messageInput.value = '';
             validateAndSendMessage(e);
           }}
           disableElevation

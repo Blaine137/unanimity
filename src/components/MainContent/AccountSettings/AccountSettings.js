@@ -18,7 +18,7 @@ const AccountSettings = (props) => {
   const [isUpdatePwdFormShowing, setIsUpdatePwdFormShowing] = useState(false);
   const [isUpdateUsernameFormShowing, setIsUpdateUsernameFormShowing] = useState(false);
 
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles(() => ({
     accountSettingsButton: {
       margin: '1rem',
     },

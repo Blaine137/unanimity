@@ -1,5 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import { FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton, Hidden, FormHelperText } from '@material-ui/core';
+import React, { Component } from 'react';
+import {
+  FormControl, InputLabel, OutlinedInput, withStyles, Typography, IconButton, Hidden, FormHelperText,
+} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -200,6 +202,7 @@ class SidebarOfConversations extends Component {
       // All the chat rooms ids that the current authenticated user is in.
       const chatRoomIDs = { ...this.props.usersChatRoomsID };
       const chatRoomsIDsArray = Object.entries(chatRoomIDs);
+      // eslint-disable-next-line consistent-return
       chatRoomsIDsArray.forEach(async (singleChatRoomID) => {
         try {
           const currentChatRoomID = singleChatRoomID[1];
@@ -246,7 +249,7 @@ class SidebarOfConversations extends Component {
               {this.props.authenticatedUsername}
               <span>
                 <IconButton onClick={() => this.props.setAreSettingsShowing(true)}>
-                  <SettingsIcon color={LightTheme.palette.text.primary} />
+                  <SettingsIcon />
                 </IconButton>
               </span>
             </Typography>

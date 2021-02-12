@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { IconButton, makeStyles, Hidden } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -57,10 +57,11 @@ const UserMessages = (props) => {
   }));
   const classes = useStyles();
 
-  // eslint-disable-next-line prefer-const
-  let displayedMessages = [<Message isMessageSender="true" senderName="" currentMessage=":backhand_index_pointing_left: Please select a chatroom. :left_speech_bubble:" />];
-
   let messageKey = 1;
+  /** message to be displayed when their is no chatroom selected */
+  // eslint-disable-next-line prefer-const
+  let displayedMessages = [<Message key={messageKey} isMessageSender="true" senderName="" currentMessage=":backhand_index_pointing_left: Please select a chatroom. :left_speech_bubble:" />];
+
   // auto scrolls down the div. dose it on every reload of the component
   useEffect(() => {
     const messengerMainContainer = document.getElementById('scrolldown');
