@@ -27,7 +27,7 @@
 		"func-names": "off",
 		"linebreak-style": [
 			"error",
-			"windows"
+			"unix"
 		],
 		"object-curly-newline": "warn",
 		"arrow-parens": "off",
