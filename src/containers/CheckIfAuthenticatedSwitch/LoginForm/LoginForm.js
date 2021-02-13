@@ -110,7 +110,11 @@ const LoginForm = (props) => {
                 () => {
                   /** If trying to sign up show realtime errors */
                   if (isSignUpFormShowing) {
-                    props.validateSignUpValues(document.getElementById('userNameID').value, document.getElementById('passwordID').value);
+                    props.validateSignUpValues(
+                      document.getElementById('userNameID').value,
+                      document.getElementById('passwordID').value,
+                      document.getElementById('confirmPasswordID').value,
+                    );
                   }
                 }
               }
@@ -149,6 +153,25 @@ const LoginForm = (props) => {
                       />
                       <FormHelperText id="passwordError">{props.passwordErrorFeedback}</FormHelperText>
                     </FormControl>
+                    {
+                      /** If the sign up form is showing the show the confirm password field. */
+                      isSignUpFormShowing
+                        ? (
+                          <FormControl fullWidth variant="outlined" margin="normal" error={props.isPasswordError}>
+                            <InputLabel htmlFor="confirmPasswordID">Confirm Password</InputLabel>
+                            <OutlinedInput
+                              id="confirmPasswordID"
+                              inputProps={{
+                                'aria-label': 'password text input field', type: 'password', name: 'confirmPasswordID', required: true,
+                              }}
+                              label="Password"
+                              aria-describedby="confirmPasswordError"
+                            />
+                            <FormHelperText id="confirmPasswordError">{props.passwordErrorFeedback}</FormHelperText>
+                          </FormControl>
+                        )
+                        : ''
+                    }
                   </Grid>
                   <Grid item xs={12}>
                     <FormControl fullWidth margin="normal">
@@ -163,7 +186,12 @@ const LoginForm = (props) => {
                         onClick={(e) => {
                           if (isSignUpFormShowing) {
                             /** sign up form is showing so sign in */
-                            props.checkForNewUser(e, document.getElementById('userNameID'), document.getElementById('passwordID'));
+                            props.checkForNewUser(
+                              e,
+                              document.getElementById('userNameID'),
+                              document.getElementById('passwordID'),
+                              document.getElementById('confirmPasswordID'),
+                            );
                           } else {
                             /** sign in */
                             props.checkName(e, document.getElementById('userNameID'), document.getElementById('passwordID'));

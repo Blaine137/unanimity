@@ -120,7 +120,7 @@ const CheckIfAuthenticatedSwitch = (props) => {
    * Notifies the user if the username or password is too short or too long.
    * The parameters taken in may or may not be sanitized.
    */
-  const validateSignUpValues = (NewUserName, NewPassword) => {
+  const validateSignUpValues = (newUserName, newPassword, confirmPassword) => {
     /** Reset form errors */
     setIsPasswordError(false);
     setIsUsernameError(false);
@@ -128,27 +128,31 @@ const CheckIfAuthenticatedSwitch = (props) => {
     setPasswordErrorFeedback('');
 
     /** checks username and password lengths */
-    if ((NewUserName.length > 10 && NewPassword.length > 20) || (!NewUserName && !NewPassword) || (NewUserName.length < 5 && NewPassword.length < 5)) {
+    if ((newUserName.length > 10 && newPassword.length > 20) || (!newUserName && !newPassword) || (newUserName.length < 5 && newPassword.length < 5)) {
       setIsPasswordError(true);
       setIsUsernameError(true);
       setUsernameErrorFeedback('Username must be between five(5) and ten(10) characters.');
       setPasswordErrorFeedback('Password must be between five(5) and twenty(20) characters.');
       return false;
-    } else if (NewUserName.length > 10) {
+    } else if (newUserName.length > 10) {
       setIsUsernameError(true);
       setUsernameErrorFeedback('Username must be less than ten(10) characters.');
       return false;
-    } else if (NewPassword.length > 20) {
+    } else if (newPassword.length > 20) {
       setIsPasswordError(true);
       setPasswordErrorFeedback('Password must be less than twenty(20) characters.');
       return false;
-    } else if (NewUserName.length < 5 || !NewUserName) {
+    } else if (newUserName.length < 5 || !newUserName) {
       setIsUsernameError(true);
       setUsernameErrorFeedback('Username must be five(5) characters long.');
       return false;
-    } else if (NewPassword.length < 5 || !NewPassword) {
+    } else if (newPassword.length < 5 || !newPassword) {
       setIsPasswordError(true);
       setPasswordErrorFeedback('Password must be five(5) characters long.');
+      return false;
+    } else if (newPassword !== confirmPassword) {
+      setIsPasswordError(true);
+      setPasswordErrorFeedback('Password do not match');
       return false;
     } else {
       return true;
@@ -159,20 +163,23 @@ const CheckIfAuthenticatedSwitch = (props) => {
    * See if the username has already been registered with an account
    * If the username is available it will call the registerUserInDatabase
    */
-  const checkIfUserAlreadyExists = async (event, newUser, newPassword) => {
+  const checkIfUserAlreadyExists = async (event, newUser, newPassword, confirmPassword) => {
     event.preventDefault();
     const newUserValue = newUser.value;
     const newPasswordValue = newPassword.value;
+    const confirmPasswordValue = confirmPassword.value;
     let newUserID = null;
     let sanitizedNewUserName = DOMPurify.sanitize(newUserValue);
     sanitizedNewUserName = sanitizedNewUserName.replace(/[^\w]/g, '');
     sanitizedNewUserName = sanitizedNewUserName.toLowerCase();
     let sanitizedNewPassword = DOMPurify.sanitize(newPasswordValue);
     sanitizedNewPassword = sanitizedNewPassword.replace(/[^\w^!?$]/g, '');
+    let sanitizedConfirmPassword = DOMPurify.sanitize(confirmPasswordValue);
+    sanitizedConfirmPassword = sanitizedConfirmPassword.replace(/[^\w^!?$]/g, '');
 
     if (throttleLoginFormSpam()) {
       /** If the data is valid */
-      if (validateSignUpValues(sanitizedNewUserName, sanitizedNewPassword)) {
+      if (validateSignUpValues(sanitizedNewUserName, sanitizedNewPassword, sanitizedConfirmPassword)) {
         try {
           const nextUserID = await axios.get('userIDByUsername/nextUserID.json');
           newUserID = nextUserID.data;
