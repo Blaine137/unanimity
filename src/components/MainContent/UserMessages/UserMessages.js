@@ -14,7 +14,7 @@ let prevScrollPosition;
 const UserMessages = (props) => {
   const useStyles = makeStyles(theme => ({
     messagesContainer: {
-      height: 'calc(100vh - 6rem)',
+      height: 'calc(100vh - 7rem)',
       width: 'calc(100% - 6rem)',
       position: 'relative',
       backgroundColor: theme.palette.primary.light,
