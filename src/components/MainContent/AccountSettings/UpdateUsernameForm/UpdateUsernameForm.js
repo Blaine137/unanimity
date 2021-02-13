@@ -158,67 +158,69 @@ const UpdateUsernameForm = (props) => {
       }}
     >
       <form onSubmit={updateUsernameOrchestrator} onChange={validateNewUsername} onBlur={validateNewUsername}>
-        <Grid container justify="space-evenly" alignItems="center" className={classes.formContainerSize}>
-          <Grid item xs={12}>
-            <Typography className={classes.formTitle} variant="h1" component="legend">
-              UPDATE <span className={classes.wordHighlight}> USERNAME </span>
-            </Typography>
+        <fieldset>
+          <Grid container justify="space-evenly" alignItems="center" className={classes.formContainerSize}>
+            <Grid item xs={12}>
+              <Typography className={classes.formTitle} variant="h1" component="legend">
+                UPDATE <span className={classes.wordHighlight}> USERNAME </span>
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined" margin="normal" error={isConfirmUsernameError}>
+                <InputLabel htmlFor="newUsername">New Username</InputLabel>
+                <OutlinedInput
+                  id="newUsername"
+                  inputProps={{
+                    'aria-label': 'Enter your new username', type: 'text', name: 'newUsername', required: true,
+                  }}
+                  label="newUsername"
+                  onChange={e => { setNewUsername(e.target.value); }}
+                  aria-describedby="newUsername"
+                />
+                <FormHelperText id="newUsername">{confirmUsernameErrorText}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined" margin="normal" error={isConfirmUsernameError}>
+                <InputLabel htmlFor="confirmUsername">Confirm Username</InputLabel>
+                <OutlinedInput
+                  id="confirmUsername"
+                  inputProps={{
+                    'aria-label': 'Confirm your new username', type: 'text', name: 'confirmUsername', required: true,
+                  }}
+                  label="confirmUsername"
+                  onChange={e => { setConfirmUsername(e.target.value); }}
+                  aria-describedby="confirmUsername"
+                />
+                <FormHelperText id="confirmUsername">{confirmUsernameErrorText}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <OutlinedInput
+                  id="password"
+                  inputProps={{
+                    'aria-label': 'Enter the password for your account', type: 'password', name: 'password', required: true,
+                  }}
+                  label="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                aria-label="Click to proceeding updating your account username."
+                type="submit"
+                variant="contained"
+                color="secondary"
+              >
+                Submit
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" margin="normal" error={isConfirmUsernameError}>
-              <InputLabel htmlFor="newUsername">New Username</InputLabel>
-              <OutlinedInput
-                id="newUsername"
-                inputProps={{
-                  'aria-label': 'Enter your new username', type: 'text', name: 'newUsername', required: true,
-                }}
-                label="newUsername"
-                onChange={e => { setNewUsername(e.target.value); }}
-                aria-describedby="newUsername"
-              />
-              <FormHelperText id="newUsername">{confirmUsernameErrorText}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" margin="normal" error={isConfirmUsernameError}>
-              <InputLabel htmlFor="confirmUsername">Confirm Username</InputLabel>
-              <OutlinedInput
-                id="confirmUsername"
-                inputProps={{
-                  'aria-label': 'Confirm your new username', type: 'text', name: 'confirmUsername', required: true,
-                }}
-                label="confirmUsername"
-                onChange={e => { setConfirmUsername(e.target.value); }}
-                aria-describedby="confirmUsername"
-              />
-              <FormHelperText id="confirmUsername">{confirmUsernameErrorText}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <OutlinedInput
-                id="password"
-                inputProps={{
-                  'aria-label': 'Enter the password for your account', type: 'password', name: 'password', required: true,
-                }}
-                label="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              fullWidth
-              aria-label="Click to proceeding updating your account username."
-              type="submit"
-              variant="contained"
-              color="secondary"
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Grid>
+        </fieldset>
       </form>
     </motion.div>
   );

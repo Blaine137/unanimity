@@ -135,75 +135,77 @@ const UpdatePasswordForm = (props) => {
       }}
     >
       <form onSubmit={updatePasswordOrchestrator} onChange={validateAndConfirmNewPassword} onBlur={validateAndConfirmNewPassword}>
-        <Grid container justify="space-evenly" alignItems="center" className={classes.formContainerSize}>
-          <Grid item xs={12}>
-            <Typography className={classes.formTitle} variant="h1" component="legend">
-              UPDATE <span className={classes.wordHighlight}> PASSWORD </span>
-            </Typography>
+        <fieldset>
+          <Grid container justify="space-evenly" alignItems="center" className={classes.formContainerSize}>
+            <Grid item xs={12}>
+              <Typography className={classes.formTitle} variant="h1" component="legend">
+                UPDATE <span className={classes.wordHighlight}> PASSWORD </span>
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined" margin="normal" error={isOldPasswordError}>
+                <InputLabel htmlFor="oldPassword">
+                  Old Password
+                </InputLabel>
+                <OutlinedInput
+                  id="oldPassword"
+                  inputProps={{
+                    'aria-label': 'Enter your current password', type: 'password', name: 'oldPassword', required: true,
+                  }}
+                  label="oldPassword"
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  aria-describedby="oldPasswordError"
+                />
+                <FormHelperText id="oldPasswordError">{oldPasswordErrorText}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined" margin="normal" error={isNewPasswordError}>
+                <InputLabel htmlFor="newPassword">
+                  New Password
+                </InputLabel>
+                <OutlinedInput
+                  id="newPassword"
+                  inputProps={{
+                    'aria-label': 'Enter your new password', type: 'password', name: 'newPassword', required: true,
+                  }}
+                  label="newPassword"
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  aria-describedby="newPasswordError"
+                />
+                <FormHelperText id="newPasswordError">{newPasswordErrorText}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth variant="outlined" margin="normal" error={isNewPasswordError}>
+                <InputLabel htmlFor="confirmNewPassword">
+                  Confirm Password
+                </InputLabel>
+                <OutlinedInput
+                  id="confirmNewPassword"
+                  inputProps={{
+                    'aria-label': 'confirm your new password', type: 'password', name: 'confirmNewPassword', required: true,
+                  }}
+                  label="confirmNewPassword"
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  aria-describedby="confirmNewPasswordError"
+                />
+                <FormHelperText id="confirmNewPasswordError">{newPasswordErrorText}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                aria-label="Click to proceed updating your password"
+                type="submit"
+                variant="contained"
+                color="secondary"
+              >
+                Submit
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" margin="normal" error={isOldPasswordError}>
-              <InputLabel htmlFor="oldPassword">
-                Old Password
-              </InputLabel>
-              <OutlinedInput
-                id="oldPassword"
-                inputProps={{
-                  'aria-label': 'Enter your current password', type: 'password', name: 'oldPassword', required: true,
-                }}
-                label="oldPassword"
-                onChange={(e) => setOldPassword(e.target.value)}
-                aria-describedby="oldPasswordError"
-              />
-              <FormHelperText id="oldPasswordError">{oldPasswordErrorText}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" margin="normal" error={isNewPasswordError}>
-              <InputLabel htmlFor="newPassword">
-                New Password
-              </InputLabel>
-              <OutlinedInput
-                id="newPassword"
-                inputProps={{
-                  'aria-label': 'Enter your new password', type: 'password', name: 'newPassword', required: true,
-                }}
-                label="newPassword"
-                onChange={(e) => setNewPassword(e.target.value)}
-                aria-describedby="newPasswordError"
-              />
-              <FormHelperText id="newPasswordError">{newPasswordErrorText}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined" margin="normal" error={isNewPasswordError}>
-              <InputLabel htmlFor="confirmNewPassword">
-                Confirm Password
-              </InputLabel>
-              <OutlinedInput
-                id="confirmNewPassword"
-                inputProps={{
-                  'aria-label': 'confirm your new password', type: 'password', name: 'confirmNewPassword', required: true,
-                }}
-                label="confirmNewPassword"
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                aria-describedby="confirmNewPasswordError"
-              />
-              <FormHelperText id="confirmNewPasswordError">{newPasswordErrorText}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              fullWidth
-              aria-label="Click to proceed updating your password"
-              type="submit"
-              variant="contained"
-              color="secondary"
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Grid>
+        </fieldset>
       </form>
     </motion.div>
   );

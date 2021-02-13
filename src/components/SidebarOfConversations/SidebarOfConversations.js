@@ -253,7 +253,15 @@ class SidebarOfConversations extends Component {
             <Typography variant="h6">
               {this.props.authenticatedUsername}
               <span>
-                <IconButton onClick={() => this.props.setAreSettingsShowing(true)}>
+                <IconButton
+                  onClick={() => {
+                    this.props.setAreSettingsShowing(true);
+                    /** If md screen and down then onclick of settings close the sidebar. */
+                    if (window.innerWidth < 1280) {
+                      this.props.toggleSidebar();
+                    }
+                  }}
+                >
                   <SettingsIcon />
                 </IconButton>
               </span>
